@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Activity启动流程(下) - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="接着上一篇Activity启动流程(上)继续看新的activity的启动流程">
+<meta name="keywords" content="进阶">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Activity启动流程(下)">
+<meta property="og:url" content="https://chsmy.github.io/2019/03/06/technology/Activity启动流程-下/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="接着上一篇Activity启动流程(上)继续看新的activity的启动流程">
+<meta property="og:locale" content="CHS">
+<meta property="og:updated_time" content="2019-03-06T03:14:20.502Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Activity启动流程(下)">
+<meta name="twitter:description" content="接着上一篇Activity启动流程(上)继续看新的activity的启动流程">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Activity启动流程(下)" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-image">
+        <span class="image is-7by1">
+            <img class="thumbnail" src="/gallery/technology/activity_xia.jpg" alt="Activity启动流程(下)">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-03-06T02:45:33.000Z">2019-03-06</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/技术/">技术</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    32 minutes read (About 4854 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Activity启动流程(下)
+            
+        </h1>
+        <div class="content">
+            <p>接着上一篇<a href>Activity启动流程(上)</a>继续看新的activity的启动流程</p>
+<a id="more"></a>
+<p>继续新activity的启动流程mStackSupervisor.startSpecificActivityLocked(next, true, true);<br>/frameworks/base/services/core/java/com/android/server/am/ActivityStackSupervisor.java<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">void startSpecificActivityLocked(ActivityRecord r,</span><br><span class="line">           boolean andResume, boolean checkConfig) &#123;</span><br><span class="line">       // 获取要启动activity的进程信息</span><br><span class="line">       ProcessRecord app = mService.getProcessRecordLocked(r.processName,</span><br><span class="line">               r.info.applicationInfo.uid, true);</span><br><span class="line"></span><br><span class="line">       getLaunchTimeTracker().setLaunchTime(r);</span><br><span class="line">       //判断进程是否是null</span><br><span class="line">       if (app != null &amp;&amp; app.thread != null) &#123;</span><br><span class="line">           try &#123;</span><br><span class="line">               if ((r.info.flags&amp;ActivityInfo.FLAG_MULTIPROCESS) == 0</span><br><span class="line">                       || !&quot;android&quot;.equals(r.info.packageName)) &#123;</span><br><span class="line">                   app.addPackage(r.info.packageName, r.info.applicationInfo.longVersionCode,</span><br><span class="line">                           mService.mProcessStats);</span><br><span class="line">               &#125;</span><br><span class="line">               realStartActivityLocked(r, app, andResume, checkConfig);</span><br><span class="line">               return;</span><br><span class="line">           &#125; catch (RemoteException e) &#123;</span><br><span class="line">               Slog.w(TAG, &quot;Exception when starting activity &quot;</span><br><span class="line">                       + r.intent.getComponent().flattenToShortString(), e);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line">       //如果进程是null，告诉AMS启动进程</span><br><span class="line">       mService.startProcessLocked(r.processName, r.info.applicationInfo, true, 0,</span><br><span class="line">               &quot;activity&quot;, r.intent.getComponent(), false, false, true);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面代码：判断要启动的activity的进程是否存在，如果存在就执行realStartActivityLocked方法，如果不存在就调用AMS的startProcessLocked方法创建新的进程。也就是说我们的app是否已经启动，如果启动了就执行realStartActivityLocked方法，如果没启动比如点击应手机用图标后，就执行startProcessLocked创建应用的进程。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">    final ProcessRecord startProcessLocked(String processName,</span><br><span class="line">            ApplicationInfo info, boolean knownToBeDead, int intentFlags,</span><br><span class="line">            String hostingType, ComponentName hostingName, boolean allowWhileBooting,</span><br><span class="line">            boolean isolated, boolean keepIfLarge) &#123;</span><br><span class="line">        return startProcessLocked(processName, info, knownToBeDead, intentFlags, hostingType,</span><br><span class="line">                hostingName, allowWhileBooting, isolated, 0 /* isolatedUid */, keepIfLarge,</span><br><span class="line">                null /* ABI override */, null /* entryPoint */, null /* entryPointArgs */,</span><br><span class="line">                null /* crashHandler */);</span><br><span class="line">    &#125;</span><br><span class="line">final ProcessRecord startProcessLocked(String processName, ApplicationInfo info,</span><br><span class="line">            boolean knownToBeDead, int intentFlags, String hostingType, ComponentName hostingName,</span><br><span class="line">            boolean allowWhileBooting, boolean isolated, int isolatedUid, boolean keepIfLarge,</span><br><span class="line">            String abiOverride, String entryPoint, String[] entryPointArgs, Runnable crashHandler) &#123;</span><br><span class="line">               app = getProcessRecordLocked(processName, info.uid, keepIfLarge);</span><br><span class="line">                ...</span><br><span class="line">                 final boolean success = startProcessLocked(app, hostingType, hostingNameStr, </span><br><span class="line">            abiOverride); </span><br><span class="line">                ...</span><br><span class="line">            return success ? app : null;</span><br><span class="line">            &#125;</span><br><span class="line">private final void startProcessLocked(ProcessRecord app,</span><br><span class="line">            String hostingType, String hostingNameStr) &#123;</span><br><span class="line">        startProcessLocked(app, hostingType, hostingNameStr, null /* abiOverride */);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @GuardedBy(&quot;this&quot;)</span><br><span class="line">private final boolean startProcessLocked(ProcessRecord app,</span><br><span class="line">            String hostingType, String hostingNameStr, String abiOverride) &#123;</span><br><span class="line">        return startProcessLocked(app, hostingType, hostingNameStr,</span><br><span class="line">                false /* disableHiddenApiChecks */, abiOverride);</span><br><span class="line">    &#125;</span><br><span class="line">private final boolean startProcessLocked(ProcessRecord app, String hostingType,</span><br><span class="line">            String hostingNameStr, boolean disableHiddenApiChecks, String abiOverride) &#123;</span><br><span class="line">            ......</span><br><span class="line">             final String entryPoint = &quot;android.app.ActivityThread&quot;;</span><br><span class="line">                 return startProcessLocked(hostingType, hostingNameStr, entryPoint, app, uid, gids,</span><br><span class="line">                    runtimeFlags, mountExternal, seInfo, requiredAbi, instructionSet, invokeWith,</span><br><span class="line">                    startTime);</span><br><span class="line">            &#125;</span><br><span class="line">private boolean startProcessLocked(String hostingType, String hostingNameStr, String entryPoint,</span><br><span class="line">            ProcessRecord app, int uid, int[] gids, int runtimeFlags, int mountExternal,</span><br><span class="line">            String seInfo, String requiredAbi, String instructionSet, String invokeWith,</span><br><span class="line">            long startTime) &#123;</span><br><span class="line">            //新进程的启动过程是否需要异步执行（默认值为true）</span><br><span class="line">                 if (mConstants.FLAG_PROCESS_START_ASYNC) &#123;</span><br><span class="line">                     ...</span><br><span class="line">                     final ProcessStartResult startResult = startProcess(app.hostingType, entryPoint,</span><br><span class="line">                            app, app.startUid, gids, runtimeFlags, mountExternal, app.seInfo,</span><br><span class="line">                            requiredAbi, instructionSet, invokeWith, app.startTime);</span><br><span class="line">                     synchronized (ActivityManagerService.this) &#123;</span><br><span class="line">                        handleProcessStartedLocked(app, startResult, startSeq);</span><br><span class="line">                    &#125;</span><br><span class="line">                    ...</span><br><span class="line">                 &#125;else&#123;</span><br><span class="line">                     ...</span><br><span class="line">                     final ProcessStartResult startResult = startProcess(hostingType, entryPoint, app,</span><br><span class="line">                        uid, gids, runtimeFlags, mountExternal, seInfo, requiredAbi, instructionSet,</span><br><span class="line">                        invokeWith, startTime);</span><br><span class="line">                    handleProcessStartedLocked(app, startResult.pid, startResult.usingWrapper,</span><br><span class="line">                        startSeq, false);</span><br><span class="line">                    ...</span><br><span class="line">                 &#125;</span><br><span class="line">                 return app.pid &gt; 0;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的代码经过一系列的startProcessLocked的重载方法的调用，最后调用到startProcess方法<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">private ProcessStartResult startProcess(String hostingType, String entryPoint,</span><br><span class="line">           ProcessRecord app, int uid, int[] gids, int runtimeFlags, int mountExternal,</span><br><span class="line">           String seInfo, String requiredAbi, String instructionSet, String invokeWith,</span><br><span class="line">           long startTime) &#123;</span><br><span class="line">       try &#123;</span><br><span class="line">           Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;Start proc: &quot; +</span><br><span class="line">                   app.processName);</span><br><span class="line">           checkTime(startTime, &quot;startProcess: asking zygote to start proc&quot;);</span><br><span class="line">           final ProcessStartResult startResult;</span><br><span class="line">           if (hostingType.equals(&quot;webview_service&quot;)) &#123;</span><br><span class="line">               startResult = startWebView(entryPoint,</span><br><span class="line">                       app.processName, uid, uid, gids, runtimeFlags, mountExternal,</span><br><span class="line">                       app.info.targetSdkVersion, seInfo, requiredAbi, instructionSet,</span><br><span class="line">                       app.info.dataDir, null,</span><br><span class="line">                       new String[] &#123;PROC_START_SEQ_IDENT + app.startSeq&#125;);</span><br><span class="line">           &#125; else &#123;</span><br><span class="line">               startResult = Process.start(entryPoint,</span><br><span class="line">                       app.processName, uid, uid, gids, runtimeFlags, mountExternal,</span><br><span class="line">                       app.info.targetSdkVersion, seInfo, requiredAbi, instructionSet,</span><br><span class="line">                       app.info.dataDir, invokeWith,</span><br><span class="line">                       new String[] &#123;PROC_START_SEQ_IDENT + app.startSeq&#125;);</span><br><span class="line">           &#125;</span><br><span class="line">           checkTime(startTime, &quot;startProcess: returned from zygote!&quot;);</span><br><span class="line">           return startResult;</span><br><span class="line">       &#125; finally &#123;</span><br><span class="line">           Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>hostingType代表我们是使用何种方式启动的，我们这里不是webview_service，所以走else中的方法Process.start</p>
+<p>/frameworks/base/core/java/android/os/Process.java<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public static final ProcessStartResult start(final String processClass,</span><br><span class="line">                                final String niceName,</span><br><span class="line">                                int uid, int gid, int[] gids,</span><br><span class="line">                                int runtimeFlags, int mountExternal,</span><br><span class="line">                                int targetSdkVersion,</span><br><span class="line">                                String seInfo,</span><br><span class="line">                                String abi,</span><br><span class="line">                                String instructionSet,</span><br><span class="line">                                String appDataDir,</span><br><span class="line">                                String invokeWith,</span><br><span class="line">                                String[] zygoteArgs) &#123;</span><br><span class="line">      return zygoteProcess.start(processClass, niceName, uid, gid, gids,</span><br><span class="line">                  runtimeFlags, mountExternal, targetSdkVersion, seInfo,</span><br><span class="line">                  abi, instructionSet, appDataDir, invokeWith, zygoteArgs);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>start方法通过Socket通信，把新进程的创建请求交给zygote进程处理。zygoteProcess是ZygoteProcess对象/frameworks/base/core/java/android/os/ZygoteProcess.java<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">   public final Process.ProcessStartResult start(final String processClass,</span><br><span class="line">                                                  final String niceName,</span><br><span class="line">                                                  int uid, int gid, int[] gids,</span><br><span class="line">                                                  int runtimeFlags, int mountExternal,</span><br><span class="line">                                                  int targetSdkVersion,</span><br><span class="line">                                                  String seInfo,</span><br><span class="line">                                                  String abi,</span><br><span class="line">                                                  String instructionSet,</span><br><span class="line">                                                  String appDataDir,</span><br><span class="line">                                                  String invokeWith,</span><br><span class="line">                                                  String[] zygoteArgs) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            return startViaZygote(processClass, niceName, uid, gid, gids,</span><br><span class="line">                    runtimeFlags, mountExternal, targetSdkVersion, seInfo,</span><br><span class="line">                    abi, instructionSet, appDataDir, invokeWith, false /* startChildZygote */,</span><br><span class="line">                    zygoteArgs);</span><br><span class="line">        &#125; catch (ZygoteStartFailedEx ex) &#123;</span><br><span class="line">            Log.e(LOG_TAG,</span><br><span class="line">                    &quot;Starting VM process through Zygote failed&quot;);</span><br><span class="line">            throw new RuntimeException(</span><br><span class="line">                    &quot;Starting VM process through Zygote failed&quot;, ex);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> private Process.ProcessStartResult startViaZygote(final String processClass,</span><br><span class="line">                                                      final String niceName,</span><br><span class="line">                                                      final int uid, final int gid,</span><br><span class="line">                                                      final int[] gids,</span><br><span class="line">                                                      int runtimeFlags, int mountExternal,</span><br><span class="line">                                                      int targetSdkVersion,</span><br><span class="line">                                                      String seInfo,</span><br><span class="line">                                                      String abi,</span><br><span class="line">                                                      String instructionSet,</span><br><span class="line">                                                      String appDataDir,</span><br><span class="line">                                                      String invokeWith,</span><br><span class="line">                                                      boolean startChildZygote,</span><br><span class="line">                                                      String[] extraArgs)</span><br><span class="line">                                                      throws ZygoteStartFailedEx &#123;</span><br><span class="line">                                                          synchronized(mLock) &#123;</span><br><span class="line">                ......</span><br><span class="line">                //计算并配置启动进程的各种参数，之后调用下面方法</span><br><span class="line">                //第一个参数根据abi来选择跟32位的zygote还是64位的zygote进程通信</span><br><span class="line">            return zygoteSendArgsAndGetResult(openZygoteSocketIfNeeded(abi), argsForZygote);</span><br><span class="line">        &#125;</span><br><span class="line">private static Process.ProcessStartResult zygoteSendArgsAndGetResult(</span><br><span class="line">            ZygoteState zygoteState, ArrayList&lt;String&gt; args)</span><br><span class="line">            throws ZygoteStartFailedEx &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            //如果有任何格式的参数错误尽早抛出异常</span><br><span class="line">            int sz = args.size();</span><br><span class="line">            for (int i = 0; i &lt; sz; i++) &#123;</span><br><span class="line">                if (args.get(i).indexOf(&apos;\n&apos;) &gt;= 0) &#123;</span><br><span class="line">                    throw new ZygoteStartFailedEx(&quot;embedded newlines not allowed&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            final BufferedWriter writer = zygoteState.writer;</span><br><span class="line">            final DataInputStream inputStream = zygoteState.inputStream;</span><br><span class="line"></span><br><span class="line">            writer.write(Integer.toString(args.size()));</span><br><span class="line">            writer.newLine();</span><br><span class="line"></span><br><span class="line">            for (int i = 0; i &lt; sz; i++) &#123;</span><br><span class="line">                String arg = args.get(i);</span><br><span class="line">                writer.write(arg);</span><br><span class="line">                writer.newLine();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            writer.flush();</span><br><span class="line"></span><br><span class="line">            // Should there be a timeout on this?</span><br><span class="line">            Process.ProcessStartResult result = new Process.ProcessStartResult();</span><br><span class="line"></span><br><span class="line">            result.pid = inputStream.readInt();</span><br><span class="line">            result.usingWrapper = inputStream.readBoolean();</span><br><span class="line"></span><br><span class="line">            if (result.pid &lt; 0) &#123;</span><br><span class="line">                throw new ZygoteStartFailedEx(&quot;fork() failed&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            return result;</span><br><span class="line">        &#125; catch (IOException ex) &#123;</span><br><span class="line">            zygoteState.close();</span><br><span class="line">            throw new ZygoteStartFailedEx(ex);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>到这里result.pid = inputStream.readInt() 新进程创建成功并返回该进程就有了它自己的pid，下面就是这个新的应用进程启动activity</p>
+<hr>
+<p>上面的方法我们知道了最终创建了一个新的进程并返回了新进程的pid,那么这个新的进程到底是怎么创建的呢</p>
+<p>看一下上面startViaZygote这个方法调用zygoteSendArgsAndGetResult方法传入的第一个参数openZygoteSocketIfNeeded(abi)，这里是根据不同的cpu开启socket通信。也就是说AMS是通过socket跟zygote进程通信的。</p>
+<p>看一下Process类的几个成员变量<br>/frameworks/base/core/java/android/os/Process.java<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class Process &#123;</span><br><span class="line">   ...</span><br><span class="line">    public static final String ZYGOTE_SOCKET = &quot;zygote&quot;;</span><br><span class="line"></span><br><span class="line">    public static final String SECONDARY_ZYGOTE_SOCKET = &quot;zygote_secondary&quot;;</span><br><span class="line">    ...</span><br><span class="line">    public static final ZygoteProcess zygoteProcess =</span><br><span class="line">            new ZygoteProcess(ZYGOTE_SOCKET, SECONDARY_ZYGOTE_SOCKET);</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br><span class="line"> public ZygoteProcess(LocalSocketAddress primarySocket, LocalSocketAddress secondarySocket) &#123;</span><br><span class="line">        mSocket = primarySocket;</span><br><span class="line">        mSecondarySocket = secondarySocket;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面是两个socket服务，先连接第一个连不上在连接第二个尽可能保证服务正常<br>然后看openZygoteSocketIfNeeded(abi)是怎连接socket的<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">private ZygoteState openZygoteSocketIfNeeded(String abi) throws ZygoteStartFailedEx &#123;</span><br><span class="line">    ...</span><br><span class="line">    primaryZygoteState = ZygoteState.connect(mSocket);</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    secondaryZygoteState = ZygoteState.connect(mSecondarySocket);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>ZygoteState是ZygoteProcess的一个内部类/frameworks/base/core/java/android/os/ZygoteProcess.java 看起静态连接方法<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public static ZygoteState connect(LocalSocketAddress address) throws IOException &#123;</span><br><span class="line">           DataInputStream zygoteInputStream = null;</span><br><span class="line">           BufferedWriter zygoteWriter = null;</span><br><span class="line">           final LocalSocket zygoteSocket = new LocalSocket();</span><br><span class="line"></span><br><span class="line">           try &#123;</span><br><span class="line">               zygoteSocket.connect(address);</span><br><span class="line"></span><br><span class="line">               zygoteInputStream = new DataInputStream(zygoteSocket.getInputStream());</span><br><span class="line"></span><br><span class="line">               zygoteWriter = new BufferedWriter(new OutputStreamWriter(</span><br><span class="line">                       zygoteSocket.getOutputStream()), 256);</span><br><span class="line">           &#125; catch (IOException ex) &#123;</span><br><span class="line">               try &#123;</span><br><span class="line">                   zygoteSocket.close();</span><br><span class="line">               &#125; catch (IOException ignore) &#123;</span><br><span class="line">               &#125;</span><br><span class="line"></span><br><span class="line">               throw ex;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           String abiListString = getAbiList(zygoteWriter, zygoteInputStream);</span><br><span class="line">           Log.i(&quot;Zygote&quot;, &quot;Process: zygote socket &quot; + address.getNamespace() + &quot;/&quot;</span><br><span class="line">                   + address.getName() + &quot; opened, supported ABIS: &quot; + abiListString);</span><br><span class="line"></span><br><span class="line">           return new ZygoteState(zygoteSocket, zygoteInputStream, zygoteWriter,</span><br><span class="line">                   Arrays.asList(abiListString.split(&quot;,&quot;)));</span><br></pre></td></tr></table></figure></p>
+<p>通过LocalSocket来连接zygote或者zygote_secondary进程，写出流zygoteWriter</p>
+<p>然后回到前面的zygoteSendArgsAndGetResult方法，通过写出流将要创建的信息发送给zygote进程。</p>
+<p>那zygote进程是怎么接收这个信息的呢，在Android系统中，所有的应用程序进程以及系统服务进程SystemServer都是由Zygote进程孕育（fork）出来的</p>
+<p>/frameworks/base/core/java/com/android/internal/os/ZygoteInit.java</p>
+<p>Zygote进程在启动的时候，在其main方法中会调用其forkSystemServer方法<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String argv[]) &#123;</span><br><span class="line">       ZygoteServer zygoteServer = new ZygoteServer();</span><br><span class="line">    ...</span><br><span class="line">    final Runnable caller;</span><br><span class="line">    ...</span><br><span class="line">    Runnable r = forkSystemServer(abiList, socketName, zygoteServer);</span><br><span class="line">    ...</span><br><span class="line">    caller = zygoteServer.runSelectLoop(abiList);</span><br><span class="line">     if (caller != null) &#123;</span><br><span class="line">           caller.run();</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br><span class="line">private static Runnable forkSystemServer(String abiList, String socketName,</span><br><span class="line">           ZygoteServer zygoteServer) &#123;</span><br><span class="line">               ...</span><br><span class="line">               if (pid == 0) &#123;</span><br><span class="line">           if (hasSecondZygote(abiList)) &#123;</span><br><span class="line">               waitForSecondaryZygote(socketName);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           zygoteServer.closeServerSocket();</span><br><span class="line">           return handleSystemServerProcess(parsedArgs);</span><br><span class="line">           &#125;</span><br></pre></td></tr></table></figure></p>
+<p>在创建system_sever的时候会执行waitForSecondaryZygote方法<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"> private static void waitForSecondaryZygote(String socketName) &#123;</span><br><span class="line">      String otherZygoteName = Process.ZYGOTE_SOCKET.equals(socketName) ?</span><br><span class="line">              Process.SECONDARY_ZYGOTE_SOCKET : Process.ZYGOTE_SOCKET;</span><br><span class="line">      ZygoteProcess.waitForConnectionToZygote(otherZygoteName);</span><br><span class="line">  &#125;</span><br><span class="line">/frameworks/base/core/java/android/os/ZygoteProcess.java</span><br><span class="line">public static void waitForConnectionToZygote(String socketName) &#123;</span><br><span class="line">      final LocalSocketAddress address =</span><br><span class="line">              new LocalSocketAddress(socketName, LocalSocketAddress.Namespace.RESERVED);</span><br><span class="line">      waitForConnectionToZygote(address);</span><br><span class="line">  &#125;</span><br><span class="line">  //尝试连接Zygote 进程直到超时</span><br><span class="line">public static void waitForConnectionToZygote(LocalSocketAddress address) &#123;</span><br><span class="line">      for (int n = 20; n &gt;= 0; n--) &#123;</span><br><span class="line">          try &#123;</span><br><span class="line">              final ZygoteState zs = ZygoteState.connect(address);</span><br><span class="line">              zs.close();</span><br><span class="line">              return;</span><br><span class="line">          &#125; catch (IOException ioe) &#123;&#125;</span><br><span class="line">          try &#123;</span><br><span class="line">              Thread.sleep(1000);</span><br><span class="line">          &#125; catch (InterruptedException ie) &#123;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到它也会连接到这个socket上，这样就可以跟客户端通信了，在回到上面的main方法中，<code>caller = zygoteServer.runSelectLoop(abiList)</code>caller是一个Runnable，执行它的run方法。其实就是在一个子线程中等待接收客户端发来的信息。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">Runnable runSelectLoop(String abiList) &#123;</span><br><span class="line">    ...</span><br><span class="line">   ZygoteConnection connection = peers.get(i);</span><br><span class="line">   final Runnable command = connection.processOneCommand(this);</span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br><span class="line">/frameworks/base/core/java/com/android/internal/os/ZygoteConnection.java</span><br><span class="line">Runnable processOneCommand(ZygoteServer zygoteServer) &#123;</span><br><span class="line">    ...</span><br><span class="line">     int pid = -1;</span><br><span class="line">     ...</span><br><span class="line">     //创建新进程</span><br><span class="line">     pid = Zygote.forkAndSpecialize(parsedArgs.uid, parsedArgs.gid, parsedArgs.gids,</span><br><span class="line">               parsedArgs.runtimeFlags, rlimits, parsedArgs.mountExternal, parsedArgs.seInfo,</span><br><span class="line">               parsedArgs.niceName, fdsToClose, fdsToIgnore, parsedArgs.startChildZygote,</span><br><span class="line">               parsedArgs.instructionSet, parsedArgs.appDataDir);</span><br><span class="line">   ...</span><br><span class="line">    if (pid == 0) &#123;</span><br><span class="line">               // 我们要创建activity的子进程</span><br><span class="line">               zygoteServer.setForkChild();</span><br><span class="line"></span><br><span class="line">               zygoteServer.closeServerSocket();</span><br><span class="line">               IoUtils.closeQuietly(serverPipeFd);</span><br><span class="line">               serverPipeFd = null;</span><br><span class="line"></span><br><span class="line">               return handleChildProc(parsedArgs, descriptors, childPipeFd,</span><br><span class="line">                       parsedArgs.startChildZygote);</span><br><span class="line">           &#125; else &#123;</span><br><span class="line">               // In the parent. A pid &lt; 0 indicates a failure and will be handled in</span><br><span class="line">               // handleParentProc.</span><br><span class="line">               IoUtils.closeQuietly(childPipeFd);</span><br><span class="line">               childPipeFd = null;</span><br><span class="line">               handleParentProc(pid, descriptors, serverPipeFd);</span><br><span class="line">               return null;</span><br><span class="line">           &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当pid=0的时候，就是在当前新建的进程中执行<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">private Runnable handleChildProc(Arguments parsedArgs, FileDescriptor[] descriptors,</span><br><span class="line">            FileDescriptor pipeFd, boolean isZygote) &#123;</span><br><span class="line">                ...</span><br><span class="line">                 if (parsedArgs.invokeWith != null) &#123;</span><br><span class="line">            WrapperInit.execApplication(parsedArgs.invokeWith,</span><br><span class="line">                    parsedArgs.niceName, parsedArgs.targetSdkVersion,</span><br><span class="line">                    VMRuntime.getCurrentInstructionSet(),</span><br><span class="line">                    pipeFd, parsedArgs.remainingArgs);</span><br><span class="line"></span><br><span class="line">            // Should not get here.</span><br><span class="line">            throw new IllegalStateException(&quot;WrapperInit.execApplication unexpectedly returned&quot;);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (!isZygote) &#123;//是否启动zygote的子进程这里是false</span><br><span class="line">                return ZygoteInit.zygoteInit(parsedArgs.targetSdkVersion, parsedArgs.remainingArgs,</span><br><span class="line">                        null /* classLoader */);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                return ZygoteInit.childZygoteInit(parsedArgs.targetSdkVersion,</span><br><span class="line">                        parsedArgs.remainingArgs, null /* classLoader */);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里没有传入没有传入–invoke-with，所以走else，是否启动zygote的子进程这里是false所以走ZygoteInit.zygoteInit<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static final Runnable zygoteInit(int targetSdkVersion, String[] argv, ClassLoader classLoader) &#123;</span><br><span class="line">       if (RuntimeInit.DEBUG) &#123;</span><br><span class="line">           Slog.d(RuntimeInit.TAG, &quot;RuntimeInit: Starting application from zygote&quot;);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;ZygoteInit&quot;);</span><br><span class="line">       RuntimeInit.redirectLogStreams();</span><br><span class="line"></span><br><span class="line">       RuntimeInit.commonInit();</span><br><span class="line">       ZygoteInit.nativeZygoteInit();</span><br><span class="line">       return RuntimeInit.applicationInit(targetSdkVersion, argv, classLoader);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>返回了RuntimeInit.applicationInit方法，传入sdk的版本，各种参数和类加载器classloader<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">protected static Runnable applicationInit(int targetSdkVersion, String[] argv,</span><br><span class="line">           ClassLoader classLoader) &#123;</span><br><span class="line">     </span><br><span class="line">       nativeSetExitWithoutCleanup(true);</span><br><span class="line"></span><br><span class="line">       VMRuntime.getRuntime().setTargetHeapUtilization(0.75f);</span><br><span class="line">       VMRuntime.getRuntime().setTargetSdkVersion(targetSdkVersion);</span><br><span class="line"></span><br><span class="line">       final Arguments args = new Arguments(argv);</span><br><span class="line"></span><br><span class="line">       Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);</span><br><span class="line"></span><br><span class="line">       return findStaticMain(args.startClass, args.startArgs, classLoader);</span><br><span class="line">   &#125;</span><br><span class="line"> protected static Runnable findStaticMain(String className, String[] argv,</span><br><span class="line">           ClassLoader classLoader) &#123;</span><br><span class="line">       Class&lt;?&gt; cl;</span><br><span class="line"></span><br><span class="line">       try &#123;</span><br><span class="line">           cl = Class.forName(className, true, classLoader);</span><br><span class="line">       &#125; catch (ClassNotFoundException ex) &#123;</span><br><span class="line">           throw new RuntimeException(</span><br><span class="line">                   &quot;Missing class when invoking static main &quot; + className,</span><br><span class="line">                   ex);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       Method m;</span><br><span class="line">       try &#123;</span><br><span class="line">           m = cl.getMethod(&quot;main&quot;, new Class[] &#123; String[].class &#125;);</span><br><span class="line">       &#125; catch (NoSuchMethodException ex) &#123;</span><br><span class="line">           throw new RuntimeException(</span><br><span class="line">                   &quot;Missing static main on &quot; + className, ex);</span><br><span class="line">       &#125; catch (SecurityException ex) &#123;</span><br><span class="line">           throw new RuntimeException(</span><br><span class="line">                   &quot;Problem getting static main on &quot; + className, ex);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       int modifiers = m.getModifiers();</span><br><span class="line">       if (! (Modifier.isStatic(modifiers) &amp;&amp; Modifier.isPublic(modifiers))) &#123;</span><br><span class="line">           throw new RuntimeException(</span><br><span class="line">                   &quot;Main method is not public and static on &quot; + className);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       return new MethodAndArgsCaller(m, argv);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里的className是在上面的ActivityManagerService中的startProcessLocked方法entryPoint一步一步传过来的<code>final String entryPoint = &quot;android.app.ActivityThread&quot;;</code></p>
+<p>所以这里通过反射创建了ActivityThread类并执行其main方法</p>
+<p>/frameworks/base/core/java/android/app/ActivityThread.java<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;ActivityThreadMain&quot;);</span><br><span class="line">    ...</span><br><span class="line">    //为主线程创建一个消息循环对象</span><br><span class="line">     Looper.prepareMainLooper();</span><br><span class="line">    ...</span><br><span class="line">     ActivityThread thread = new ActivityThread();</span><br><span class="line">     //绑定应用程序</span><br><span class="line">       thread.attach(false, startSeq);</span><br><span class="line">     if (sMainThreadHandler == null) &#123;</span><br><span class="line">           sMainThreadHandler = thread.getHandler();</span><br><span class="line">       &#125;</span><br><span class="line">   ...</span><br><span class="line">    Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);</span><br><span class="line">    //启动消息循环</span><br><span class="line">       Looper.loop();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建主线程的Looper对象，绑定应用程序，启动Looper<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">private void attach(boolean system, long startSeq) &#123;</span><br><span class="line">    ...</span><br><span class="line">   final IActivityManager mgr = ActivityManager.getService();</span><br><span class="line">           try &#123;</span><br><span class="line">               mgr.attachApplication(mAppThread, startSeq);</span><br><span class="line">               &#125;</span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>ActivityManager.getService()返回的是IActivityManager的binder代理对象，用于应用进程向AMS通信</p>
+<p>mgr这个代理对象通过AIDL调用AMS中的attachApplication方法，mAppThread就是需要为应用绑定的ApplicationThread对象</p>
+<p>/frameworks/base/services/core/java/com/android/server/am/ActivityManagerService.java<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">  public final void attachApplication(IApplicationThread thread, long startSeq) &#123;</span><br><span class="line">        synchronized (this) &#123;</span><br><span class="line">            int callingPid = Binder.getCallingPid();</span><br><span class="line">            final int callingUid = Binder.getCallingUid();</span><br><span class="line">            final long origId = Binder.clearCallingIdentity();</span><br><span class="line">            attachApplicationLocked(thread, callingPid, callingUid, startSeq);</span><br><span class="line">            Binder.restoreCallingIdentity(origId);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">private final boolean attachApplicationLocked(IApplicationThread thread,</span><br><span class="line">            int pid, int callingUid, long startSeq) &#123;</span><br><span class="line">     ...</span><br><span class="line">     </span><br><span class="line">     if (app.isolatedEntryPoint != null) &#123;</span><br><span class="line">                thread.runIsolatedEntryPoint(app.isolatedEntryPoint, app.isolatedEntryPointArgs);</span><br><span class="line">            &#125; else if (app.instr != null) &#123;</span><br><span class="line">                thread.bindApplication(processName, appInfo, providers,</span><br><span class="line">                        app.instr.mClass,</span><br><span class="line">                        profilerInfo, app.instr.mArguments,</span><br><span class="line">                        app.instr.mWatcher,</span><br><span class="line">                        app.instr.mUiAutomationConnection, testMode,</span><br><span class="line">                        mBinderTransactionTrackingEnabled, enableTrackAllocation,</span><br><span class="line">                        isRestrictedBackupMode || !normalMode, app.persistent,</span><br><span class="line">                        new Configuration(getGlobalConfiguration()), app.compat,</span><br><span class="line">                        getCommonServicesLocked(app.isolated),</span><br><span class="line">                        mCoreSettingsObserver.getCoreSettingsLocked(),</span><br><span class="line">                        buildSerial, isAutofillCompatEnabled);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                thread.bindApplication(processName, appInfo, providers, null, profilerInfo,</span><br><span class="line">                        null, null, null, testMode,</span><br><span class="line">                        mBinderTransactionTrackingEnabled, enableTrackAllocation,</span><br><span class="line">                        isRestrictedBackupMode || !normalMode, app.persistent,</span><br><span class="line">                        new Configuration(getGlobalConfiguration()), app.compat,</span><br><span class="line">                        getCommonServicesLocked(app.isolated),</span><br><span class="line">                        mCoreSettingsObserver.getCoreSettingsLocked(),</span><br><span class="line">                        buildSerial, isAutofillCompatEnabled);</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        ...</span><br><span class="line">        //检查当前栈顶的activity是否满足要启动的activity</span><br><span class="line">             if (normalMode) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                if (mStackSupervisor.attachApplicationLocked(app)) &#123;</span><br><span class="line">                    didSomething = true;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; catch (Exception e) &#123;</span><br><span class="line">                Slog.wtf(TAG, &quot;Exception thrown launching activities in &quot; + app, e);</span><br><span class="line">                badApp = true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ...     </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>app.isolatedEntryPoint</code>很明显我们不是一个隔离的进程，我们是为了创建activity所有走else方法，最终都会进入 thread.bindApplication</p>
+<p>thread是IApplicationThread的binder对象，也就是AMS通过AIDL调用应用进程的ApplicationThread方法。所以说AMS不直接参与Application的初始化流程，而是配置一些参数之后交给应用自己处理</p>
+<p>mStackSupervisor.attachApplicationLocked(app)检查当前栈顶的activity是否是要启动的activity</p>
+<p>先看bindApplication方法，这个就是初始化Application<br>/frameworks/base/core/java/android/app/ActivityThread.java<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public final void bindApplication(String processName, ApplicationInfo appInfo,</span><br><span class="line">                List&lt;ProviderInfo&gt; providers, ComponentName instrumentationName,</span><br><span class="line">                ProfilerInfo profilerInfo, Bundle instrumentationArgs,</span><br><span class="line">                IInstrumentationWatcher instrumentationWatcher,</span><br><span class="line">                IUiAutomationConnection instrumentationUiConnection, int debugMode,</span><br><span class="line">                boolean enableBinderTracking, boolean trackAllocation,</span><br><span class="line">                boolean isRestrictedBackupMode, boolean persistent, Configuration config,</span><br><span class="line">                CompatibilityInfo compatInfo, Map services, Bundle coreSettings,</span><br><span class="line">                String buildSerial, boolean autofillCompatibilityEnabled) &#123;</span><br><span class="line">                    ...</span><br><span class="line">                     sendMessage(H.BIND_APPLICATION, data);</span><br><span class="line">                &#125;</span><br><span class="line">     class H extends Handler &#123;</span><br><span class="line">          public void handleMessage(Message msg) &#123;</span><br><span class="line">            if (DEBUG_MESSAGES) Slog.v(TAG, &quot;&gt;&gt;&gt; handling: &quot; + codeToString(msg.what));</span><br><span class="line">            switch (msg.what) &#123;</span><br><span class="line">                case BIND_APPLICATION:</span><br><span class="line">                    Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;bindApplication&quot;);</span><br><span class="line">                    AppBindData data = (AppBindData)msg.obj;</span><br><span class="line">                    handleBindApplication(data);</span><br><span class="line">                    Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);</span><br><span class="line">                    break;</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里跟前面暂停一个activity一样，发从一个消息，然后去H这个Handler中执行</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private void handleBindApplication(AppBindData data) &#123;</span><br><span class="line">    //设置进程名</span><br><span class="line">    Process.setArgV0(data.processName);</span><br><span class="line">    ...</span><br><span class="line">    app = data.info.makeApplication(data.restrictedBackupMode, null);</span><br><span class="line">    ...</span><br><span class="line">    mInstrumentation.callApplicationOnCreate(app);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">public void callApplicationOnCreate(Application app) &#123;</span><br><span class="line">       app.onCreate();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>上面最终执行了Application的onCreate方法</p>
+<p>在回到attachApplicationLocked中看mStackSupervisor.attachApplicationLocked(app)方法<br>/frameworks/base/services/core/java/com/android/server/am/ActivityStackSupervisor.java<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">boolean attachApplicationLocked(ProcessRecord app) throws RemoteException &#123;</span><br><span class="line">     ...</span><br><span class="line">     stack.getAllRunningVisibleActivitiesLocked(mTmpActivityList);</span><br><span class="line">                final ActivityRecord top = stack.topRunningActivityLocked();</span><br><span class="line">     ...</span><br><span class="line">     //需要启动的Activity</span><br><span class="line">     final ActivityRecord top = stack.topRunningActivityLocked();</span><br><span class="line">                final int size = mTmpActivityList.size();</span><br><span class="line">                //遍历所有的activity</span><br><span class="line">                for (int i = 0; i &lt; size; i++) &#123;</span><br><span class="line">                    final ActivityRecord activity = mTmpActivityList.get(i);</span><br><span class="line">                    //如果未启动并且属于当前线程</span><br><span class="line">                    if (activity.app == null &amp;&amp; app.uid == activity.info.applicationInfo.uid</span><br><span class="line">                            &amp;&amp; processName.equals(activity.processName)) &#123;</span><br><span class="line">                        try &#123;</span><br><span class="line">                            if (realStartActivityLocked(activity, app,</span><br><span class="line">                                    top == activity /* andResume */, true /* checkConfig */)) &#123;</span><br><span class="line">                                didSomething = true;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125; catch (RemoteException e) &#123;</span><br><span class="line">                            throw e;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里又看到了realStartActivityLocked这个方法，很熟悉吧，我们在前面startSpecificActivityLocked方法中判断要启动的activity的进程是否存在，如果存在就执行realStartActivityLocked方法，如果不存在就调用AMS的startProcessLocked方法创建新的进程，所以这里我们转了一圈启动了进程之后又回到realStartActivityLocked这个方法来真正的启动一个activity。</p>
+<hr>
+<p>/frameworks/base/services/core/java/com/android/server/am/ActivityStackSupervisor.java<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">final boolean realStartActivityLocked(ActivityRecord r, ProcessRecord app,</span><br><span class="line">            boolean andResume, boolean checkConfig) throws RemoteException &#123;</span><br><span class="line">            ......</span><br><span class="line">            // 为Activity的launch创建 transaction</span><br><span class="line">                final ClientTransaction clientTransaction = ClientTransaction.obtain(app.thread,</span><br><span class="line">                        r.appToken);</span><br><span class="line">                //创建一个LaunchActivityItem对象，并传添加到事物中</span><br><span class="line">                clientTransaction.addCallback(LaunchActivityItem.obtain(new Intent(r.intent),</span><br><span class="line">                        System.identityHashCode(r), r.info,</span><br><span class="line">                        mergedConfiguration.getGlobalConfiguration(),</span><br><span class="line">                        mergedConfiguration.getOverrideConfiguration(), r.compat,</span><br><span class="line">                        r.launchedFromPackage, task.voiceInteractor, app.repProcState, r.icicle,</span><br><span class="line">                        r.persistentState, results, newIntents, mService.isNextTransitionForward(),</span><br><span class="line">                        profilerInfo));</span><br><span class="line"></span><br><span class="line">                //设置Activity的最终状态</span><br><span class="line">                final ActivityLifecycleItem lifecycleItem;</span><br><span class="line">                if (andResume) &#123;</span><br><span class="line">                    lifecycleItem = ResumeActivityItem.obtain(mService.isNextTransitionForward());</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    lifecycleItem = PauseActivityItem.obtain();</span><br><span class="line">                &#125;</span><br><span class="line">                clientTransaction.setLifecycleStateRequest(lifecycleItem);</span><br><span class="line"></span><br><span class="line">                // Schedule transaction.</span><br><span class="line">                mService.getLifecycleManager().scheduleTransaction(clientTransaction);</span><br><span class="line">                ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建一个LaunchActivityItem对象，并传添加到事物中，这里跟前面的pause的流程一样，添加到事物中后，通过ClientLifecycleManager 执行事物。通过ClientLifecycleManager中的scheduleTransaction方法跟前面pause中的是一样的，就不贴出来了。</p>
+<p>大体流程就是最后执行到IApplicationThread中的scheduleTransaction方法，又回到ActivityThread中，也就是AMS交给应用进程自己创建activity自己创建，scheduleTransaction中发从了一个message交给H这个handler处理。最终执行到TransactionExecutor中的execute方法</p>
+<p>上面代码中clientTransaction.addCallback中传入的是LaunchActivityItem.obtain方法，它返回了一个addCallback中传入的是LaunchActivityItem对象</p>
+<p>/frameworks/base/core/java/android/app/servertransaction/TransactionExecutor.java<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public void execute(ClientTransaction transaction) &#123;</span><br><span class="line">       final IBinder token = transaction.getActivityToken();</span><br><span class="line">       log(&quot;Start resolving transaction for client: &quot; + mTransactionHandler + &quot;, token: &quot; + token);</span><br><span class="line"></span><br><span class="line">       executeCallbacks(transaction);</span><br><span class="line"></span><br><span class="line">       executeLifecycleState(transaction);</span><br><span class="line">       mPendingActions.clear();</span><br><span class="line">       log(&quot;End resolving transaction&quot;);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>因为前面代码是addCallback，所以这里执行executeCallbacks方法<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public void executeCallbacks(ClientTransaction transaction) &#123;</span><br><span class="line">//通过前面传的我们知道ClientTransactionItem就是是LaunchActivityItem</span><br><span class="line">     final List&lt;ClientTransactionItem&gt; callbacks = transaction.getCallbacks();</span><br><span class="line">     if (callbacks == null) &#123;</span><br><span class="line">           return;</span><br><span class="line">       &#125;</span><br><span class="line">     ....</span><br><span class="line">     final int size = callbacks.size();</span><br><span class="line">       for (int i = 0; i &lt; size; ++i) &#123;</span><br><span class="line">           final ClientTransactionItem item = callbacks.get(i);</span><br><span class="line">           final int postExecutionState = item.getPostExecutionState();</span><br><span class="line">           final int closestPreExecutionState = mHelper.getClosestPreExecutionState(r,</span><br><span class="line">                   item.getPostExecutionState());</span><br><span class="line">           if (closestPreExecutionState != UNDEFINED) &#123;</span><br><span class="line">               cycleToPath(r, closestPreExecutionState);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           item.execute(mTransactionHandler, token, mPendingActions);</span><br><span class="line">           item.postExecute(mTransactionHandler, token, mPendingActions);</span><br><span class="line">          ......</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>首先获得callback然后执行callback的execute方法。这里的callback是LaunchActivityItem对象，LaunchActivityItem只实现了ClientTransactionItem中的execute方法，所以不执行postExecute</p>
+<p>/frameworks/base/core/java/android/app/servertransaction/LaunchActivityItem.java<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public void execute(ClientTransactionHandler client, IBinder token,</span><br><span class="line">         PendingTransactionActions pendingActions) &#123;</span><br><span class="line">     Trace.traceBegin(TRACE_TAG_ACTIVITY_MANAGER, &quot;activityStart&quot;);</span><br><span class="line">     ActivityClientRecord r = new ActivityClientRecord(token, mIntent, mIdent, mInfo,</span><br><span class="line">             mOverrideConfig, mCompatInfo, mReferrer, mVoiceInteractor, mState, mPersistentState,</span><br><span class="line">             mPendingResults, mPendingNewIntents, mIsForward,</span><br><span class="line">             mProfilerInfo, client);</span><br><span class="line">     client.handleLaunchActivity(r, pendingActions, null /* customIntent */);</span><br><span class="line">     Trace.traceEnd(TRACE_TAG_ACTIVITY_MANAGER);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到这里封装了一个activity客户端记录类，然后执行ClientTransactionHandler中的handleLaunchActivity方法，ClientTransactionHandler 是一个抽象类，ActivityThread继承了它，所以其实又回到了ActivityThread中</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public Activity handleLaunchActivity(ActivityClientRecord r,</span><br><span class="line">            PendingTransactionActions pendingActions, Intent customIntent) &#123;</span><br><span class="line">            ......</span><br><span class="line">        WindowManagerGlobal.initialize();</span><br><span class="line">        final Activity a = performLaunchActivity(r, customIntent);</span><br><span class="line">        ......</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<p>这里初始化窗口管理器WindowManagerService之后，执行performLaunchActivity方法创建一个activity<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">private Activity performLaunchActivity(ActivityClientRecord r, Intent customIntent) &#123;</span><br><span class="line">    ...</span><br><span class="line">   //ContextImpl类继承自Context抽象类,</span><br><span class="line">    ContextImpl appContext = createBaseContextForActivity(r);</span><br><span class="line">        Activity activity = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            java.lang.ClassLoader cl = appContext.getClassLoader();</span><br><span class="line">            activity = mInstrumentation.newActivity(</span><br><span class="line">                    cl, component.getClassName(), r.intent);</span><br><span class="line">            StrictMode.incrementExpectedActivityCount(activity.getClass());</span><br><span class="line">            r.intent.setExtrasClassLoader(cl);</span><br><span class="line">            r.intent.prepareToEnterProcess();</span><br><span class="line">            if (r.state != null) &#123;</span><br><span class="line">                r.state.setClassLoader(cl);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;...&#125;</span><br><span class="line">    ...</span><br><span class="line">    //检查Application是否存在如果不存在尝试创建</span><br><span class="line">    Application app = r.packageInfo.makeApplication(false, mInstrumentation);</span><br><span class="line">    ...</span><br><span class="line">    //把ContextImpl的成员变量mOuterContext赋值成activity</span><br><span class="line">     appContext.setOuterContext(activity);</span><br><span class="line">     //完成activity大部分成员变量的初始化</span><br><span class="line">    activity.attach(appContext, this, getInstrumentation(), r.token,</span><br><span class="line">                        r.ident, app, r.intent, r.activityInfo, title, r.parent,</span><br><span class="line">                        r.embeddedID, r.lastNonConfigurationInstances, config,</span><br><span class="line">                        r.referrer, r.voiceInteractor, window, r.configCallback);</span><br><span class="line">    ...</span><br><span class="line">    //要启动的activity是不是持久的，对应Manifest中Application标签的android:persistent属性</span><br><span class="line">      if (r.isPersistable()) &#123;</span><br><span class="line">                    mInstrumentation.callActivityOnCreate(activity, r.state, r.persistentState);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    mInstrumentation.callActivityOnCreate(activity, r.state);</span><br><span class="line">                &#125;</span><br><span class="line">    //设置 Activity 当前状态为 ON_CREATE</span><br><span class="line">    r.setState(ON_CREATE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>拿到类加载器ClassLoader然后委托给mInstrumentation去创建activity，然后初始化成员变量，最后走到mInstrumentation.callActivityOnCreate方法<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public void callActivityOnCreate(Activity activity, Bundle icicle) &#123;</span><br><span class="line">     prePerformCreate(activity);</span><br><span class="line">     activity.performCreate(icicle);</span><br><span class="line">     postPerformCreate(activity);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行activity的performCreate方法<br>/frameworks/base/core/java/android/app/Activity.java<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">final void performCreate(Bundle icicle) &#123;</span><br><span class="line">        performCreate(icicle, null);</span><br><span class="line">    &#125;</span><br><span class="line">final void performCreate(Bundle icicle, PersistableBundle persistentState) &#123;</span><br><span class="line">    ...</span><br><span class="line">      if (persistentState != null) &#123;</span><br><span class="line">            onCreate(icicle, persistentState);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            onCreate(icicle);</span><br><span class="line">        &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>到这里终于看到了我们熟悉的onCreate方法啦！！！别着急还没完呢</p>
+<p>回到上面realStartActivityLocked方法中，我们传入的第二个参数是top == activity，很明显最顶层的就是我们要启动的activity，所以这里是true，所以lifecycleItem = ResumeActivityItem.obtain，然后执行了 clientTransaction.setLifecycleStateRequest(lifecycleItem);方法。所以我们上面TransactionExecutor类中的execute方法中的executeLifecycleState(transaction)方法也会执行<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public void executeCallbacks(ClientTransaction transaction) &#123;</span><br><span class="line">     final List&lt;ClientTransactionItem&gt; callbacks = transaction.getCallbacks();</span><br><span class="line">       if (callbacks == null) &#123;</span><br><span class="line">           return;</span><br><span class="line">       &#125;</span><br><span class="line">   ...</span><br><span class="line">    item.execute(mTransactionHandler, token, mPendingActions);</span><br><span class="line">           item.postExecute(mTransactionHandler, token, mPendingActions);</span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最终会执行ResumeActivityItem中的execute方法<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public void execute(ClientTransactionHandler client, IBinder token,</span><br><span class="line">          PendingTransactionActions pendingActions) &#123;</span><br><span class="line">      Trace.traceBegin(TRACE_TAG_ACTIVITY_MANAGER, &quot;activityResume&quot;);</span><br><span class="line">      client.handleResumeActivity(token, true /* finalStateRequest */, mIsForward,</span><br><span class="line">              &quot;RESUME_ACTIVITY&quot;);</span><br><span class="line">      Trace.traceEnd(TRACE_TAG_ACTIVITY_MANAGER);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>跟上面思路一样一样回到ActivityThread中执行handleResumeActivity方法<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public void handleResumeActivity(IBinder token, boolean finalStateRequest, boolean isForward,</span><br><span class="line">           String reason) &#123;</span><br><span class="line">               ...</span><br><span class="line">           final ActivityClientRecord r = performResumeActivity(token, finalStateRequest, reason);</span><br><span class="line">           ...</span><br><span class="line">           final Activity a = r.activity;</span><br><span class="line">           ...</span><br><span class="line">            ViewManager wm = a.getWindowManager();</span><br><span class="line">           WindowManager.LayoutParams l = r.window.getAttributes();</span><br><span class="line">           a.mDecor = decor;</span><br><span class="line">           l.type = WindowManager.LayoutParams.TYPE_BASE_APPLICATION;</span><br><span class="line">           l.softInputMode |= forwardBit;</span><br><span class="line">           ...</span><br><span class="line">             a.mWindowAdded = true;</span><br><span class="line">                   wm.addView(decor, l);</span><br><span class="line">           ...</span><br><span class="line">            Looper.myQueue().addIdleHandler(new Idler());</span><br><span class="line">           &#125;</span><br></pre></td></tr></table></figure></p>
+<p>performResumeActivity就是去执行activity的onResume方法，然后创建WindowManager，把DecorView方法WindowManager中。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> public ActivityClientRecord performResumeActivity(IBinder token, boolean finalStateRequest,</span><br><span class="line">            String reason) &#123;</span><br><span class="line">        ...</span><br><span class="line">         r.activity.performResume(r.startsNotResumed, reason);</span><br><span class="line"></span><br><span class="line">         r.state = null;</span><br><span class="line">         r.persistentState = null;</span><br><span class="line">         r.setState(ON_RESUME);</span><br><span class="line">         ...</span><br><span class="line">            &#125;</span><br><span class="line">/frameworks/base/core/java/android/app/Activity.java</span><br><span class="line"> final void performResume(boolean followedByPause, String reason) &#123;</span><br><span class="line">     //判断是不是restart</span><br><span class="line">     performRestart(true /* start */, reason);</span><br><span class="line">     ...</span><br><span class="line">     mInstrumentation.callActivityOnResume(this);</span><br><span class="line">     ...</span><br><span class="line"> &#125;</span><br><span class="line"> /frameworks/base/core/java/android/app/Instrumentation.java</span><br><span class="line"> public void callActivityOnResume(Activity activity) &#123;</span><br><span class="line">        activity.mResumed = true;</span><br><span class="line">        activity.onResume();</span><br><span class="line">     ...</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>看到了onResume，至此activity终于启动完成。</p>
+<p>下面总结一下：</p>
+<ol>
+<li>在我们调用startActivity或者startActityForResult方法的时候，通过Binder通信向ActivityManagerService发送Activity的启动请求</li>
+<li>ActivityManagerService收到请求之后，进行合法检测和根据activity的启动模式进行一系列的初始化和准备工作</li>
+<li>ActivityManagerService判断当前栈顶的activity是否能够复用，如果能复用并且启动模式为复用栈顶，就通知栈顶activity所在进程回调onNewIntent()</li>
+<li>如果不能复用，那么通过Binder通知栈顶的activity执行onPause操作</li>
+<li>栈顶的activity执行完onPause之后，开始启动将目标activity，判断目标activity所在进程是否已经启动，如果已经启动，则去执行目标activity的生命周期方法</li>
+<li>如果目标activity所在进程没有启动，则通过Socket通知Zygote进程fork出一个新的进程，然后通过传过去的“android.app.ActivityThread”字符串反射出ActivityThread对象，并执行它的main方法初始化主线程。</li>
+<li>新进程中的activity依次调用onCreate-&gt;onStart-&gt;onResume方法来完成activity的启动流程。</li>
+</ol>
+<p>参考连接：</p>
+<p><a href="https://blog.csdn.net/hongchi110/article/details/82890180#ch2-5" target="_blank" rel="noopener">https://blog.csdn.net/hongchi110/article/details/82890180#ch2-5</a><br><a href="https://blog.csdn.net/cjh_android/article/details/82533321" target="_blank" rel="noopener">https://blog.csdn.net/cjh_android/article/details/82533321</a><br><a href="https://blog.csdn.net/lj19851227/article/details/82562115" target="_blank" rel="noopener">https://blog.csdn.net/lj19851227/article/details/82562115</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/进阶/">进阶</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/03/06/technology/Activity启动流程-上/">
+                <span class="level-item">Activity启动流程(上)</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/03/06/technology/Activity启动流程-下/';
+        this.page.identifier = '2019/03/06/technology/Activity启动流程-下/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="CHS">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        CHS
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        只要坚持，终会有收获。
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        5
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        4
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        3
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/chsmy">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="weibo" href="http://weibo.com/2504847694/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="csdn" href="https://blog.csdn.net/mingyunxiaohai">
+                
+                <i class="fab fa-wordpress"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="简书" href="https://www.jianshu.com/u/6ab3e65ba7b5">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Links
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="http://www.wanandroid.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">玩Android</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wanandroid.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/人生/">
+            <span class="level-start">
+                <span class="level-item">人生</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/人生/感悟/">
+            <span class="level-start">
+                <span class="level-item">感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/技术/">
+            <span class="level-start">
+                <span class="level-item">技术</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/技术/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/感悟/" style="font-size: 20px;">感悟</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 20px;">进阶</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/03/06/technology/Activity启动流程-下/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/technology/activity_xia.jpg" alt="Activity启动流程(下)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T02:45:33.000Z">2019-03-06</time></div>
+                    <a href="/2019/03/06/technology/Activity启动流程-下/" class="has-link-black-ter is-size-6">Activity启动流程(下)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/技术/">技术</a> / <a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/06/technology/Activity启动流程-上/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/technology/activity_shang.jpg" alt="Activity启动流程(上)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T02:45:22.000Z">2019-03-06</time></div>
+                    <a href="/2019/03/06/technology/Activity启动流程-上/" class="has-link-black-ter is-size-6">Activity启动流程(上)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/技术/">技术</a> / <a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/04/life/夯实自己的金字塔/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/life/pyramid.jpg" alt="夯实自己的金字塔">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-04T01:32:34.000Z">2019-03-04</time></div>
+                    <a href="/2019/03/04/life/夯实自己的金字塔/" class="has-link-black-ter is-size-6">夯实自己的金字塔</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/人生/">人生</a> / <a class="has-link-grey -link" href="/categories/人生/感悟/">感悟</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/02/27/life/意识到不足才有机会改/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/life/jiaolv.jpg" alt="意识到不足才有机会改">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-27T06:15:10.000Z">2019-02-27</time></div>
+                    <a href="/2019/02/27/life/意识到不足才有机会改/" class="has-link-black-ter is-size-6">意识到不足才有机会改</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/人生/">人生</a> / <a class="has-link-grey -link" href="/categories/人生/感悟/">感悟</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/02/27/technology/Android资料/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/technology/android.png" alt="Android资料">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-27T04:25:01.000Z">2019-02-27</time></div>
+                    <a href="/2019/02/27/technology/Android资料/" class="has-link-black-ter is-size-6">Android资料</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/技术/">技术</a> / <a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/03/06/technology/Activity启动流程-下/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/technology/activity_xia.jpg" alt="Activity启动流程(下)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T02:45:33.000Z">2019-03-06</time></div>
+                    <a href="/2019/03/06/technology/Activity启动流程-下/" class="has-link-black-ter is-size-6">Activity启动流程(下)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/技术/">技术</a> / <a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/06/technology/Activity启动流程-上/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/technology/activity_shang.jpg" alt="Activity启动流程(上)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T02:45:22.000Z">2019-03-06</time></div>
+                    <a href="/2019/03/06/technology/Activity启动流程-上/" class="has-link-black-ter is-size-6">Activity启动流程(上)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/技术/">技术</a> / <a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/04/life/夯实自己的金字塔/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/life/pyramid.jpg" alt="夯实自己的金字塔">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-04T01:32:34.000Z">2019-03-04</time></div>
+                    <a href="/2019/03/04/life/夯实自己的金字塔/" class="has-link-black-ter is-size-6">夯实自己的金字塔</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/人生/">人生</a> / <a class="has-link-grey -link" href="/categories/人生/感悟/">感悟</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/02/27/life/意识到不足才有机会改/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/life/jiaolv.jpg" alt="意识到不足才有机会改">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-27T06:15:10.000Z">2019-02-27</time></div>
+                    <a href="/2019/02/27/life/意识到不足才有机会改/" class="has-link-black-ter is-size-6">意识到不足才有机会改</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/人生/">人生</a> / <a class="has-link-grey -link" href="/categories/人生/感悟/">感悟</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/02/27/technology/Android资料/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/technology/android.png" alt="Android资料">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-27T04:25:01.000Z">2019-02-27</time></div>
+                    <a href="/2019/02/27/technology/Android资料/" class="has-link-black-ter is-size-6">Android资料</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/技术/">技术</a> / <a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Activity启动流程(下)" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
