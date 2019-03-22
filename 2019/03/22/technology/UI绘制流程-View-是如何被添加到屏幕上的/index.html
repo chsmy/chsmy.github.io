@@ -15,12 +15,12 @@
 <meta property="og:site_name" content="小草喔">
 <meta property="og:description" content="我们平时打开一个activity的时候，设置我们的视图都是在onCreate的setContentView方法开始，那我们就从这个方法开始看源码。">
 <meta property="og:locale" content="CHS">
-<meta property="og:image" content="https://github.com/chsmy/chsmy.github.io/blob/master/gallery/technology/view_add.png">
-<meta property="og:updated_time" content="2019-03-22T13:03:34.877Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/view_add.png">
+<meta property="og:updated_time" content="2019-03-22T13:06:53.863Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UI绘制流程--View是如何被添加到屏幕上的">
 <meta name="twitter:description" content="我们平时打开一个activity的时候，设置我们的视图都是在onCreate的setContentView方法开始，那我们就从这个方法开始看源码。">
-<meta name="twitter:image" content="https://github.com/chsmy/chsmy.github.io/blob/master/gallery/technology/view_add.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/view_add.png">
 
 
 
@@ -210,7 +210,8 @@
 <p>上面的代码中根据不同的风格加载不同的布局，这些布局中都有一个id为@android:id/content的控件，比如screen_simple.xml。布局源码位置在/frameworks/base/core/res/res/layout/。然后把加载出来的布局放到mDecor中。</p>
 <p>OK到这里<code>mWindow.getDecorView()</code>我们就看完了，它就是创建一个DecorView，然后根据不同的风格加载不同的布局文件，把这些布局文件放到DecorView中。下面我们看一下<code>mWindow.setContentView(subDecor)</code>前面我们知道mWindow就是PhoneWindow所以调用了PhoneWindow中的setContentView方法<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"> public void setContentView(View view) &#123;</span><br><span class="line">    setContentView(view, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));</span><br><span class="line">&#125;</span><br><span class="line"> public void setContentView(View view, ViewGroup.LayoutParams params) &#123;</span><br><span class="line">    //mContentParent在mWindow.getDecorView()已经创建了</span><br><span class="line">    if (mContentParent == null) &#123;</span><br><span class="line">        installDecor();</span><br><span class="line">    &#125; else if (!hasFeature(FEATURE_CONTENT_TRANSITIONS)) &#123;</span><br><span class="line">        mContentParent.removeAllViews();</span><br><span class="line">    &#125;</span><br><span class="line">    //是否有转场动画 transitions</span><br><span class="line">    if (hasFeature(FEATURE_CONTENT_TRANSITIONS)) &#123;</span><br><span class="line">        view.setLayoutParams(params);</span><br><span class="line">        final Scene newScene = new Scene(mContentParent, view);</span><br><span class="line">        transitionTo(newScene);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">    //  把subDecor也就是前面的FitWindowsLinearLayout添加到mContentParent中</span><br><span class="line">        mContentParent.addView(view, params);</span><br><span class="line">    &#125;</span><br><span class="line">    mContentParent.requestApplyInsets();</span><br><span class="line">    final Callback cb = getCallback();</span><br><span class="line">    if (cb != null &amp;&amp; !isDestroyed()) &#123;</span><br><span class="line">        cb.onContentChanged();</span><br><span class="line">    &#125;</span><br><span class="line">    mContentParentExplicitlySet = true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>mWindow.getDecorView()创建了DecorView和mContentParent，上面的代码吧subDecor放入mContentParent中。最后回到AppCompatDelegateImpl中，找到R.id.content这个容器，把我们的view放到这个容器中。这时候我们可以知道整个activity的布局从外到内：AppCompatActivity-&gt;PhoneWindow-&gt;DecorView-&gt;LinearLayout-&gt;FitWindowLinearLayout-&gt;ViewStubCompat-&gt;ConentFramLayout-&gt;我们的view。</p>
-<p><img src="https://github.com/chsmy/chsmy.github.io/blob/master/gallery/technology/view_add.png" alt="最后一张奇丑无比的图来镇楼"></p>
+<p>最后一张奇丑无比的图来镇楼</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/view_add.png" alt></p>
 
         </div>
         
@@ -254,7 +255,7 @@
 
 <div class="card">
     <div class="card-content">
-        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        <h3 class="title is-5 has-text-weight-normal">Comentarios</h3>
         
 <script>
     var disqus_config = function () {
@@ -315,7 +316,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Posts
+                        Entradas
                     </p>
                     <p class="title has-text-weight-normal">
                         7
@@ -325,7 +326,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Categories
+                        Categorias
                     </p>
                     <p class="title has-text-weight-normal">
                         6
@@ -335,7 +336,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Tags
+                        Etiquetas
                     </p>
                     <p class="title has-text-weight-normal">
                         4
@@ -345,7 +346,7 @@
         </nav>
         <div class="level">
             <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
-                Follow</a>
+                SEGUIR</a>
         </div>
         
         
@@ -432,7 +433,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Categories
+                Categorias
             </h3>
             <ul class="menu-list">
             <li>
@@ -485,7 +486,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Tag Cloud
+            Nube de etiquetas
         </h3>
         <a href="/tags/感悟/" style="font-size: 15px;">感悟</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 20px;">进阶</a>
     </div>
@@ -499,7 +500,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recent
+            Recientes
         </h3>
         
         <article class="media">
@@ -605,7 +606,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Archives
+            Archivos
         </h3>
         <ul class="menu-list">
         
@@ -640,7 +641,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Tags
+                Etiquetas
             </h3>
             <div class="field is-grouped is-grouped-multiline">
                 
@@ -692,7 +693,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recent
+            Recientes
         </h3>
         
         <article class="media">
@@ -798,7 +799,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Archives
+            Archivos
         </h3>
         <ul class="menu-list">
         
@@ -833,7 +834,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Tags
+                Etiquetas
             </h3>
             <div class="field is-grouped is-grouped-multiline">
                 
@@ -1040,10 +1041,10 @@ document.addEventListener('DOMContentLoaded', function () {
     (function (window) {
         var INSIGHT_CONFIG = {
             TRANSLATION: {
-                POSTS: 'Posts',
+                POSTS: 'Entradas',
                 PAGES: 'Pages',
-                CATEGORIES: 'Categories',
-                TAGS: 'Tags',
+                CATEGORIES: 'Categorias',
+                TAGS: 'Etiquetas',
                 UNTITLED: '(Untitled)',
             },
             CONTENT_URL: '/content.json',
