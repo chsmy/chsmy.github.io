@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="小草喔">
 <meta property="og:description" content="接着上一篇Activity启动流程(上)继续看新的activity的启动流程">
 <meta property="og:locale" content="CHS">
-<meta property="og:updated_time" content="2019-03-06T06:06:40.401Z">
+<meta property="og:updated_time" content="2019-03-22T13:28:31.851Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Activity启动流程(下)">
 <meta name="twitter:description" content="接着上一篇Activity启动流程(上)继续看新的activity的启动流程">
@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/idea.css.css">
 
 
     
@@ -250,7 +250,7 @@
 <p>回到上面realStartActivityLocked方法中，我们传入的第二个参数是top == activity，很明显最顶层的就是我们要启动的activity，所以这里是true，所以lifecycleItem = ResumeActivityItem.obtain，然后执行了 clientTransaction.setLifecycleStateRequest(lifecycleItem);方法。所以我们上面TransactionExecutor类中的execute方法中的executeLifecycleState(transaction)方法也会执行<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public void executeCallbacks(ClientTransaction transaction) &#123;</span><br><span class="line">     final List&lt;ClientTransactionItem&gt; callbacks = transaction.getCallbacks();</span><br><span class="line">       if (callbacks == null) &#123;</span><br><span class="line">           return;</span><br><span class="line">       &#125;</span><br><span class="line">   ...</span><br><span class="line">    item.execute(mTransactionHandler, token, mPendingActions);</span><br><span class="line">           item.postExecute(mTransactionHandler, token, mPendingActions);</span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>最终会执行ResumeActivityItem中的execute方法<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public void execute(ClientTransactionHandler client, IBinder token,</span><br><span class="line">          PendingTransactionActions pendingActions) &#123;</span><br><span class="line">      Trace.traceBegin(TRACE_TAG_ACTIVITY_MANAGER, &quot;activityResume&quot;);</span><br><span class="line">      client.handleResumeActivity(token, true /* finalStateRequest */, mIsForward,</span><br><span class="line">              &quot;RESUME_ACTIVITY&quot;);</span><br><span class="line">      Trace.traceEnd(TRACE_TAG_ACTIVITY_MANAGER);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
 <p>跟上面思路一样一样回到ActivityThread中执行handleResumeActivity方法<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public void handleResumeActivity(IBinder token, boolean finalStateRequest, boolean isForward,</span><br><span class="line">           String reason) &#123;</span><br><span class="line">               ...</span><br><span class="line">           final ActivityClientRecord r = performResumeActivity(token, finalStateRequest, reason);</span><br><span class="line">           ...</span><br><span class="line">           final Activity a = r.activity;</span><br><span class="line">           ...</span><br><span class="line">            ViewManager wm = a.getWindowManager();</span><br><span class="line">           WindowManager.LayoutParams l = r.window.getAttributes();</span><br><span class="line">           a.mDecor = decor;</span><br><span class="line">           l.type = WindowManager.LayoutParams.TYPE_BASE_APPLICATION;</span><br><span class="line">           l.softInputMode |= forwardBit;</span><br><span class="line">           ...</span><br><span class="line">             a.mWindowAdded = true;</span><br><span class="line">                   wm.addView(decor, l);</span><br><span class="line">           ...</span><br><span class="line">            Looper.myQueue().addIdleHandler(new Idler());</span><br><span class="line">           &#125;</span><br></pre></td></tr></table></figure></p>
-<p>performResumeActivity就是去执行activity的onResume方法，然后创建WindowManager，把DecorView方法WindowManager中。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> public ActivityClientRecord performResumeActivity(IBinder token, boolean finalStateRequest,</span><br><span class="line">            String reason) &#123;</span><br><span class="line">        ...</span><br><span class="line">         r.activity.performResume(r.startsNotResumed, reason);</span><br><span class="line"></span><br><span class="line">         r.state = null;</span><br><span class="line">         r.persistentState = null;</span><br><span class="line">         r.setState(ON_RESUME);</span><br><span class="line">         ...</span><br><span class="line">            &#125;</span><br><span class="line">/frameworks/base/core/java/android/app/Activity.java</span><br><span class="line"> final void performResume(boolean followedByPause, String reason) &#123;</span><br><span class="line">     //判断是不是restart</span><br><span class="line">     performRestart(true /* start */, reason);</span><br><span class="line">     ...</span><br><span class="line">     mInstrumentation.callActivityOnResume(this);</span><br><span class="line">     ...</span><br><span class="line"> &#125;</span><br><span class="line"> /frameworks/base/core/java/android/app/Instrumentation.java</span><br><span class="line"> public void callActivityOnResume(Activity activity) &#123;</span><br><span class="line">        activity.mResumed = true;</span><br><span class="line">        activity.onResume();</span><br><span class="line">     ...</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>performResumeActivity就是去执行activity的onResume方法，然后创建ViewManager，把DecorView方法ViewManager中。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> public ActivityClientRecord performResumeActivity(IBinder token, boolean finalStateRequest,</span><br><span class="line">            String reason) &#123;</span><br><span class="line">        ...</span><br><span class="line">         r.activity.performResume(r.startsNotResumed, reason);</span><br><span class="line"></span><br><span class="line">         r.state = null;</span><br><span class="line">         r.persistentState = null;</span><br><span class="line">         r.setState(ON_RESUME);</span><br><span class="line">         ...</span><br><span class="line">            &#125;</span><br><span class="line">/frameworks/base/core/java/android/app/Activity.java</span><br><span class="line"> final void performResume(boolean followedByPause, String reason) &#123;</span><br><span class="line">     //判断是不是restart</span><br><span class="line">     performRestart(true /* start */, reason);</span><br><span class="line">     ...</span><br><span class="line">     mInstrumentation.callActivityOnResume(this);</span><br><span class="line">     ...</span><br><span class="line"> &#125;</span><br><span class="line"> /frameworks/base/core/java/android/app/Instrumentation.java</span><br><span class="line"> public void callActivityOnResume(Activity activity) &#123;</span><br><span class="line">        activity.mResumed = true;</span><br><span class="line">        activity.onResume();</span><br><span class="line">     ...</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
 <p>看到了onResume，至此activity终于启动完成。</p>
 <p>下面总结一下：</p>
 <ol>
@@ -359,7 +359,7 @@
                     
                     
                     <p class="is-size-6 is-block">
-                        只要坚持，终会有收获。
+                        只要坚持，终会有收获
                     </p>
                     
                     
@@ -378,7 +378,7 @@
                         Entradas
                     </p>
                     <p class="title has-text-weight-normal">
-                        7
+                        8
                     </p>
                 </div>
             </div>
@@ -525,7 +525,7 @@
                 <span class="level-item">技术</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/技术/Android/">
@@ -533,7 +533,7 @@
                 <span class="level-item">Android</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li></ul></li>
             </ul>
@@ -564,6 +564,25 @@
         
         <article class="media">
             
+            <a href="/2019/03/24/technology/UI绘制流程-View的绘制流程/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="UI绘制流程--View的绘制流程">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-24T03:17:15.000Z">2019-03-24</time></div>
+                    <a href="/2019/03/24/technology/UI绘制流程-View的绘制流程/" class="has-link-black-ter is-size-6">UI绘制流程--View的绘制流程</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/技术/">技术</a> / <a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/03/22/technology/UI绘制流程-View-是如何被添加到屏幕上的/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="UI绘制流程--View是如何被添加到屏幕上的">
@@ -638,25 +657,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/03/04/life/夯实自己的金字塔/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/gallery/life/pyramid.jpg" alt="夯实自己的金字塔">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-04T01:32:34.000Z">2019-03-04</time></div>
-                    <a href="/2019/03/04/life/夯实自己的金字塔/" class="has-link-black-ter is-size-6">夯实自己的金字塔</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/人生/">人生</a> / <a class="has-link-grey -link" href="/categories/人生/感悟/">感悟</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -675,7 +675,7 @@
                     <span class="level-item">March 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
                 </span>
             </a>
         </li>
@@ -728,7 +728,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/进阶/">
                         <span class="tag">进阶</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -757,6 +757,25 @@
         
         <article class="media">
             
+            <a href="/2019/03/24/technology/UI绘制流程-View的绘制流程/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="UI绘制流程--View的绘制流程">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-24T03:17:15.000Z">2019-03-24</time></div>
+                    <a href="/2019/03/24/technology/UI绘制流程-View的绘制流程/" class="has-link-black-ter is-size-6">UI绘制流程--View的绘制流程</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/技术/">技术</a> / <a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/03/22/technology/UI绘制流程-View-是如何被添加到屏幕上的/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="UI绘制流程--View是如何被添加到屏幕上的">
@@ -831,25 +850,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/03/04/life/夯实自己的金字塔/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/gallery/life/pyramid.jpg" alt="夯实自己的金字塔">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-04T01:32:34.000Z">2019-03-04</time></div>
-                    <a href="/2019/03/04/life/夯实自己的金字塔/" class="has-link-black-ter is-size-6">夯实自己的金字塔</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/人生/">人生</a> / <a class="has-link-grey -link" href="/categories/人生/感悟/">感悟</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -868,7 +868,7 @@
                     <span class="level-item">March 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">5</span>
+                    <span class="level-item tag">6</span>
                 </span>
             </a>
         </li>
@@ -921,7 +921,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/进阶/">
                         <span class="tag">进阶</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1054,7 +1054,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     
 
-<a id="back-to-top" title="Back to Top" href="javascript:;">
+<a id="back-to-top" title="Kembali ke atas" href="javascript:;">
     <i class="fas fa-chevron-up"></i>
 </a>
 <script src="/js/back-to-top.js" defer></script>
