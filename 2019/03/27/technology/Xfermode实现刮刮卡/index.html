@@ -2,23 +2,25 @@
 <html lang="CH">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>夯实自己的金字塔 - 小草喔</title>
+<title>Xfermode实现刮刮卡 - 小草喔</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="不知道大家有没有这种情况，有时候今天的工作很多，自己沉浸在工作之中，忽然间一看时间，已经快下班了，心里面感觉慢慢的充实">
-<meta name="keywords" content="感悟">
+    <meta name="description" content="想要实现一个刮刮卡的效果，其中的一种方法就是使用图层混合模式Xfermode，想要很好的理解Xfermode，我们需要先结合着谷歌的例子来。">
+<meta name="keywords" content="进阶">
 <meta property="og:type" content="article">
-<meta property="og:title" content="夯实自己的金字塔">
-<meta property="og:url" content="https://chsmy.github.io/2019/03/04/life/夯实自己的金字塔/index.html">
+<meta property="og:title" content="Xfermode实现刮刮卡">
+<meta property="og:url" content="https://chsmy.github.io/2019/03/27/technology/Xfermode实现刮刮卡/index.html">
 <meta property="og:site_name" content="小草喔">
-<meta property="og:description" content="不知道大家有没有这种情况，有时候今天的工作很多，自己沉浸在工作之中，忽然间一看时间，已经快下班了，心里面感觉慢慢的充实">
+<meta property="og:description" content="想要实现一个刮刮卡的效果，其中的一种方法就是使用图层混合模式Xfermode，想要很好的理解Xfermode，我们需要先结合着谷歌的例子来。">
 <meta property="og:locale" content="CHS">
-<meta property="og:updated_time" content="2019-03-04T01:36:48.742Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/xfermode.png">
+<meta property="og:updated_time" content="2019-03-27T15:29:30.157Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="夯实自己的金字塔">
-<meta name="twitter:description" content="不知道大家有没有这种情况，有时候今天的工作很多，自己沉浸在工作之中，忽然间一看时间，已经快下班了，心里面感觉慢慢的充实">
+<meta name="twitter:title" content="Xfermode实现刮刮卡">
+<meta name="twitter:description" content="想要实现一个刮刮卡的效果，其中的一种方法就是使用图层混合模式Xfermode，想要很好的理解Xfermode，我们需要先结合着谷歌的例子来。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/xfermode.png">
 
 
 
@@ -110,7 +112,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.png" alt="夯实自己的金字塔" height="28">
+                <img src="/images/logo.png" alt="Xfermode实现刮刮卡" height="28">
             
             </a>
         </div>
@@ -157,27 +159,21 @@
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
     
-    <div class="card-image">
-        <span class="image is-7by1">
-            <img class="thumbnail" src="/gallery/life/pyramid.jpg" alt="夯实自己的金字塔">
-        </span>
-    </div>
-    
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-04T01:32:34.000Z">2019-03-04</time>
+                <time class="level-item has-text-grey" datetime="2019-03-27T15:21:56.000Z">2019-03-27</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/人生/">人生</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/人生/感悟/">感悟</a>
+                <a class="has-link-grey -link" href="/categories/技术/">技术</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/技术/Android/UI/">UI</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    6 minutes read (About 936 words)
+                    12 minutes read (About 1787 words)
                 </span>
                 
                 
@@ -186,22 +182,30 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                夯实自己的金字塔
+                Xfermode实现刮刮卡
             
         </h1>
         <div class="content">
-            <p>不知道大家有没有这种情况，有时候今天的工作很多，自己沉浸在工作之中，忽然间一看时间，已经快下班了，心里面感觉慢慢的充实</p>
+            <p>想要实现一个刮刮卡的效果，其中的一种方法就是使用图层混合模式Xfermode，想要很好的理解Xfermode，我们需要先结合着谷歌的例子来。</p>
 <a id="more"></a>
-<p>有的时候工作少很，刷刷朋友圈，浏览一下新闻，逛一下论坛，一看时间怎么过的这么慢啊，啥时候下班啊，感到非常的无聊，然后继续刷网页逛论坛知道下班结束，心里面感觉到慢慢的空虚。</p>
-<p>不只是工作中，平时的放假中也经常会体现，有事情去做无论是学习还是娱乐还是生活琐事，会感觉时间过的很快，但是如果没事情做呢，床上躺尸一天还会感觉非常累。</p>
-<p>很多时候我们都是这样重复着每一天，有时候充实，有时候空虚，也许会认为这就是生活的多姿，就没有去在意，但是正常情况下充实是我们想要的，空虚不是我们想要的，为什么不能让每天都是充实的呢？</p>
-<p>稍微想一下，就会发现，这跟我们是否有一个行动的目标有关系，当有目标的时候，我们自然就向着目标前进就行了，反之就像一个无头苍蝇到处乱飞哪也到不了。</p>
-<p>所以想要充实自己首先要有一个目标，从大的目标开始，然后分解成一个一个的小目标，比如大目标，两年之内学好英语，小目标就是今天背几个单词说几句口语。</p>
-<p>然后按照自己的小目标一天一天的去完成，一个人的技能是生活的支柱，技能的金字塔需要我们一块砖一块砖的去砌，每天一点一点的往上堆砌，总有一天会变成一个高大的金字塔，如果偷懒，每天东逛西爽，技能的金字塔永远也起不来，生活也就失去了支柱。</p>
-<p>当我们娱乐的时候身体会感到很满足比如游戏刷视频，而大部分人也都倾向于去享受这种满足感，对于比较辛苦的事情没有耐心比如学习和工作，没有那种延时满足的觉悟，如果你还没有达到财务自由，这些满足感都是暂时的，大部分时间还是去面对生活中的柴米油盐。</p>
-<p>试想一下，如果你能在别人娱乐的时候去自己的金字塔添几块砖，起初可能很不起眼，但请相信时间的力量，坚持下去，一段时间之后，你就能明显的看出自己的金字塔比别人高了一层。</p>
-<p>自己的金字塔比别人高了一层。自然就有了一丝优越感，或者满足感，为了保证这种满足不会消失，自然更加勤快的去添砖，然后的行成一个良性循环，金字塔也越来越高，慢慢的就变成了别人眼中的成功的人。</p>
-<p>永远不要让自己失去目标，永远要坚持建造自己的金字塔，金字塔成了，在这个比较残酷的世界上，才有能力让自己和自己的亲人活的更好，才能活的更加有底气。</p>
+<p>官方的源码我们可以在这里获得 <a href="https://github.com/THEONE10211024/ApiDemos/blob/master/app/src/main/java/com/example/android/apis/graphics/Xfermodes.java" target="_blank" rel="noopener">https://github.com/THEONE10211024/ApiDemos/blob/master/app/src/main/java/com/example/android/apis/graphics/Xfermodes.java</a> 将这里面的源码拿到自己的项目中运行我们就可以看到下面这张图片。</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/xfermode.png" alt></p>
+<p>先绘制Dst在绘制Src，我们需要知道一点，使用Xfermode混合模式绘制后，受影响的区域永远是我们的src原图像区域。下面我们来看一下这16中混合模式的具体意思<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">private static final Xfermode[] sModes = &#123;</span><br><span class="line">            //所绘制的不会提交到画布上</span><br><span class="line">            new PorterDuffXfermode(PorterDuff.Mode.CLEAR),</span><br><span class="line">            //显示上层绘制的图片</span><br><span class="line">            new PorterDuffXfermode(PorterDuff.Mode.SRC),</span><br><span class="line">            //显示下层绘制的图片</span><br><span class="line">            new PorterDuffXfermode(PorterDuff.Mode.DST),</span><br><span class="line">            //上下层都显示，上层层居上</span><br><span class="line">            new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER),</span><br><span class="line">            //上下层都显示，下层居上</span><br><span class="line">            new PorterDuffXfermode(PorterDuff.Mode.DST_OVER),</span><br><span class="line">            //取两层绘制的交集，显示上层</span><br><span class="line">            new PorterDuffXfermode(PorterDuff.Mode.SRC_IN),</span><br><span class="line">            //取两层绘制的交集，显示下层</span><br><span class="line">            new PorterDuffXfermode(PorterDuff.Mode.DST_IN),</span><br><span class="line">            //取上层绘制的非交集部分，其余部分变成透明</span><br><span class="line">            new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT),</span><br><span class="line">            //取下层绘制的非交集部分，其余部分变成透明</span><br><span class="line">            new PorterDuffXfermode(PorterDuff.Mode.DST_OUT),</span><br><span class="line">            //取上层的交集部分和下层的非交集部分</span><br><span class="line">            new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP),</span><br><span class="line">            //取下层交集部分和上层非交集部分</span><br><span class="line">            new PorterDuffXfermode(PorterDuff.Mode.DST_ATOP),</span><br><span class="line">            //除去两层的交集部分</span><br><span class="line">            new PorterDuffXfermode(PorterDuff.Mode.XOR),</span><br><span class="line">            //取全部区域，交集部分颜色加深</span><br><span class="line">            new PorterDuffXfermode(PorterDuff.Mode.DARKEN),</span><br><span class="line">            //取两图层全部区域，交集部分颜色点亮</span><br><span class="line">            new PorterDuffXfermode(PorterDuff.Mode.LIGHTEN),</span><br><span class="line">            //取两层交集部分，颜色加深</span><br><span class="line">            new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY),</span><br><span class="line">            //取两图层全部区域，交集部分变为透明色</span><br><span class="line">            new PorterDuffXfermode(PorterDuff.Mode.SCREEN),</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure></p>
+<p>知道了上面的属性的意思，我们来想一下我们刮刮卡的思路一个图片上面蒙上一层，手指划过的区域让上层变成透明，就显示出下层的图片了。</p>
+<p>我们去上面属性中找，就可以找到DST_OUT这个属性，它的意思是取下层绘制的非交集部分，交集部分变成透明</p>
+<p>所以我们可以先绘制一个刮奖层，为dst层，手指一动的路径为src层。设置为DST_OUT属性，那么两者交集的地方就会变成透明了。</p>
+<p>当然也可以是用SRC_OUT，使用SRC_OUT就是遮罩层绘制在path上面。使用DST_OUT就是遮罩层绘制在path下面</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">private void init() &#123;</span><br><span class="line">      mPaint = new Paint();</span><br><span class="line">      mPaint.setAntiAlias(true);</span><br><span class="line">      mPaint.setStrokeWidth(30);</span><br><span class="line">      mPaint.setStyle(Paint.Style.STROKE);</span><br><span class="line">      mPaint.setStrokeCap(Paint.Cap.ROUND);</span><br><span class="line"></span><br><span class="line">      //禁止硬件加速</span><br><span class="line">      setLayerType(LAYER_TYPE_SOFTWARE,null);</span><br><span class="line">      //结果图片</span><br><span class="line">      mBitmapRes = BitmapFactory.decodeResource(getResources(), R.mipmap.guagua);</span><br><span class="line">      //遮罩层图片</span><br><span class="line">      mSrcBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.gua);</span><br><span class="line">      //创建一个可绘制path的bitmap</span><br><span class="line">      mDstBitmap = Bitmap.createBitmap(mSrcBitmap.getWidth(),mSrcBitmap.getHeight(), Bitmap.Config.ARGB_8888);</span><br><span class="line">      mCanvas = new Canvas(mDstBitmap);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>首先禁止硬件加速，有些手机不支持，然后初始化结果图片，遮罩层图片和一个可绘制path的bitmap</p>
+<p>下面分别使用DST_OUT和SRC_OUT两种方式来实现绘制<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">    protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">        super.onDraw(canvas);</span><br><span class="line">        //绘制结果图片</span><br><span class="line">        canvas.drawBitmap(mBitmapRes,0,0,null);</span><br><span class="line"></span><br><span class="line">//        //第一种 先绘制遮罩层在绘制path,path的画笔使用DST_OUT模式</span><br><span class="line">//        mCanvas.drawBitmap(mSrcBitmap,0,0,null);</span><br><span class="line">//        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));</span><br><span class="line">//        mCanvas.drawPath(mPath,mPaint);</span><br><span class="line">//        //绘制目标图像</span><br><span class="line">//        canvas.drawBitmap(mDstBitmap,0,0,null);</span><br><span class="line"></span><br><span class="line">        //第二种//遮罩层绘制在path上面，遮罩层的画笔使用SRC_OUT模式</span><br><span class="line">        //新建一个图层，不然会把原始图层也当成dst层了。上面的方法之所以不用起一个新图层，因为遮罩层和path都是绘制在新new的canvas中了。</span><br><span class="line">        int layerId = canvas.saveLayer(0,0,getWidth(),getHeight(),mPaint,Canvas.ALL_SAVE_FLAG);</span><br><span class="line">        //绘制路径</span><br><span class="line">        mCanvas.drawPath(mPath,mPaint);</span><br><span class="line">        //绘制目标图像</span><br><span class="line">        canvas.drawBitmap(mDstBitmap,0,0,mPaint);</span><br><span class="line">        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));</span><br><span class="line"></span><br><span class="line">        canvas.drawBitmap(mSrcBitmap,0,0,mPaint);</span><br><span class="line">        mPaint.setXfermode(null);</span><br><span class="line">        canvas.restoreToCount(layerId);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>第一种先绘制遮罩层在绘制path,path的画笔使用DST_OUT模式，第二种遮罩层绘制在path上面，遮罩层的画笔使用SRC_OUT模式。</p>
+<p>第二种方法使用canvas.saveLayer新建了一个图层，是因为如果不新建一个图层，就会把原始图层当成dst层了。第一种方式，因为我们先new了一个自己的Canvas，然后把遮罩层绘制在了new出来的画布上了，path也是绘制在这个画布上。</p>
+<p>最后就是path的路径了，很简单通过onTouchEvent获得<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">    public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line">        super.onTouchEvent(event);</span><br><span class="line">        switch (event.getAction())&#123;</span><br><span class="line">            case MotionEvent.ACTION_DOWN:</span><br><span class="line">                mEventX = event.getX();</span><br><span class="line">                mEventY = event.getY();</span><br><span class="line">                mPath.moveTo(mEventX,mEventY);</span><br><span class="line">                break;</span><br><span class="line">            case MotionEvent.ACTION_MOVE:</span><br><span class="line">                float endX = (mEventX+event.getX())/2;</span><br><span class="line">                float endY = (mEventY+event.getY())/2;</span><br><span class="line">                //可以用lineTo也可以用quadTo一个是直线一个是以阶贝塞尔曲线</span><br><span class="line">                mPath.quadTo(mEventX,mEventY,endX,endY);</span><br><span class="line">//                mPath.lineTo(event.getX(),event.getY());</span><br><span class="line">                mEventX = event.getX();</span><br><span class="line">                mEventY = event.getY();</span><br><span class="line">                invalidate();</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果有需求，当擦除一半的遮罩层后，抬起手自动全部消除，参考<a href="https://blog.csdn.net/lmj623565791/article/details/40162163" target="_blank" rel="noopener">鸿洋的博客</a>我们可以统计mDstBitmap的像素数据，被清除的像素变成0。统计为0的像素点跟总的像素点相除，大于某个值之后比如0.5就不绘制遮罩层了。</p>
+<p>由于图片可能会很大，所以在子线程中处理统计的操作。在MotionEvent.ACTION_UP中启动线程计算。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">private Runnable mRunnable = new Runnable()</span><br><span class="line">    &#123;</span><br><span class="line">        private int[] mPixels;</span><br><span class="line">        @Override</span><br><span class="line">        public void run()</span><br><span class="line">        &#123;</span><br><span class="line">            int w = mDstBitmap.getWidth();</span><br><span class="line">            int h = mDstBitmap.getHeight();</span><br><span class="line"></span><br><span class="line">            float wipeArea = 0;</span><br><span class="line">            float totalArea = w * h;</span><br><span class="line"></span><br><span class="line">            Bitmap bitmap = mDstBitmap;</span><br><span class="line"></span><br><span class="line">            mPixels = new int[w * h];</span><br><span class="line"></span><br><span class="line">            //拿到所有的像素信息</span><br><span class="line">            bitmap.getPixels(mPixels, 0, w, 0, 0, w, h);</span><br><span class="line"></span><br><span class="line">            //遍历统计擦除的区域</span><br><span class="line">            for (int i = 0; i &lt; w; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                for (int j = 0; j &lt; h; j++)</span><br><span class="line">                &#123;</span><br><span class="line">                    int index = i + j * w;</span><br><span class="line">                    if (mPixels[index] == 0)</span><br><span class="line">                    &#123;</span><br><span class="line">                        wipeArea++;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            //根据所占百分比，进行一些操作</span><br><span class="line">            if (wipeArea &gt; 0 &amp;&amp; totalArea &gt; 0)</span><br><span class="line">            &#123;</span><br><span class="line">                int percent = (int) (wipeArea * 100 / totalArea);</span><br><span class="line">                if (percent &gt; 50)</span><br><span class="line">                &#123;</span><br><span class="line">                    isComplete = true;</span><br><span class="line">                    postInvalidate();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
+<p>最后我们可以在OnMeasure方法中，将我们整个view的大小设置为我们背景图片的大小,就可以在布局文件中愉快的玩耍啦。不然在布局文件中总是已match_parent的形式存在。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">    super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">    // 宽的测量规格</span><br><span class="line">    int widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line">    // 宽的测量尺寸</span><br><span class="line">    int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">    // 高度的测量规格</span><br><span class="line">    int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">    // 高度的测量尺寸</span><br><span class="line">    int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line"></span><br><span class="line">    //根据View的逻辑得到，比如TextView根据设置的文字计算wrap_content时的大小。</span><br><span class="line">    //这两个数据根据实现需求计算。</span><br><span class="line">    int wrapWidth = mBitmapRes.getWidth();</span><br><span class="line">    int wrapHeight = mBitmapRes.getHeight();</span><br><span class="line"></span><br><span class="line">    // 如果是是AT_MOST则对哪个进行特殊处理</span><br><span class="line">    if(widthSpecMode == MeasureSpec.AT_MOST &amp;&amp; heightSpecMode == MeasureSpec.AT_MOST)&#123;</span><br><span class="line">        setMeasuredDimension(wrapWidth, wrapHeight);</span><br><span class="line">    &#125;else if(widthSpecMode == MeasureSpec.AT_MOST)&#123;</span><br><span class="line">        setMeasuredDimension(wrapWidth, heightSpecSize);</span><br><span class="line">    &#125;else if(heightSpecMode == MeasureSpec.AT_MOST)&#123;</span><br><span class="line">        setMeasuredDimension(widthSpecSize, wrapHeight);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://github.com/chsmy/AndroidDailyText/blob/master/app/src/main/java/com/chs/androiddailytext/netease/GuaGuaKaView.java" target="_blank" rel="noopener">源码位置</a></p>
 
         </div>
         
@@ -209,7 +213,7 @@
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/感悟/">感悟</a>
+                    <a class="has-link-grey -link" href="/tags/进阶/">进阶</a>
                 </div>
             </div>
         </div>
@@ -230,17 +234,10 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/03/06/technology/Activity启动流程-上/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Activity启动流程(上)</span>
-            </a>
-        </div>
-        
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2019/02/27/life/意识到不足才有机会改/">
-                <span class="level-item">意识到不足才有机会改</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/03/24/technology/UI绘制流程-View的绘制流程/">
+                <span class="level-item">UI绘制流程--View的绘制流程</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -256,8 +253,8 @@
         
 <script>
     var disqus_config = function () {
-        this.page.url = 'https://chsmy.github.io/2019/03/04/life/夯实自己的金字塔/';
-        this.page.identifier = '2019/03/04/life/夯实自己的金字塔/';
+        this.page.url = 'https://chsmy.github.io/2019/03/27/technology/Xfermode实现刮刮卡/';
+        this.page.identifier = '2019/03/27/technology/Xfermode实现刮刮卡/';
     };
     (function() {
         var d = document, s = d.createElement('script');  
@@ -880,7 +877,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.png" alt="夯实自己的金字塔" height="28">
+                    <img src="/images/logo.png" alt="Xfermode实现刮刮卡" height="28">
                 
                 </a>
                 <p class="is-size-7">
