@@ -2,7 +2,7 @@
 <html lang="CH">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>Categoria: Android - 小草喔</title>
+<title>Category: Android - 小草喔</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
@@ -157,7 +157,7 @@
     <div class="card-content">
         <nav class="breadcrumb" aria-label="breadcrumbs">
         <ul>
-            <li><a href="/categories">Categorias</a></li>
+            <li><a href="/categories">Categories</a></li>
             
             <li class="is-active"><a href="#" aria-current="page">Android</a></li>
         </ul>
@@ -181,7 +181,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    6 minutes read (About 965 words)
+                    7 minutes read (About 975 words)
                 </span>
                 
                 
@@ -194,28 +194,17 @@
             
         </h1>
         <div class="content">
-            <p>最终效果如下图</p>
-<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/split.gif" alt></p>
-<p>实现步骤：</p>
-<ol>
-<li>绘制6个小圆圈，小圆圈是围绕着一个大圆平均绘制的，我们可以计算大圆的总弧度，然后除以小圆的个数，就能得到每个小圆之间间隔的弧度。然后循环绘制<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private void drawSmallCircle(Canvas canvas) &#123;</span><br><span class="line">     canvas.drawColor(Color.WHITE);</span><br><span class="line">     //一个完整的圆的弧度是2π，计算每个小圆之间的弧度</span><br><span class="line">     float angleEach = (float) (2*Math.PI/mCircleColors.length);</span><br><span class="line">     //循环绘制6个小圆</span><br><span class="line">     for (int i = 0; i &lt; mCircleColors.length; i++) &#123;</span><br><span class="line">         float angle = i*angleEach+mCurrentAngle;</span><br><span class="line">         float x = (float) (Math.cos(angle)*mRotateRadius+mCenterX);</span><br><span class="line">         float y = (float) (Math.sin(angle)*mRotateRadius+mCenterY);</span><br><span class="line">         mPaint.setColor(mCircleColors[i]);</span><br><span class="line">         canvas.drawCircle(x,y,mCircleRadius,mPaint);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>小圆的的原点的坐标可以看下图，根据我们中学数学中所讲，x=sin(角度)<em>大圆的半径，y=cos(角度)</em>大圆的半径。最后在加上大圆的原点坐标，就是上面代码上中的计算方法了。</p>
-<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/circle.png" alt></p>
-<ol start="2">
-<li>让着些小圆转起来，那就需要通过属性动画了，通过属性动画，动态的改变弧度的大小，就能该表小球的原点坐标了，最后重绘即可。<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">private void initRotateAnimator() &#123;</span><br><span class="line">    //弧度从0到最大弧度</span><br><span class="line">    ValueAnimator rotateAnimator = ValueAnimator.ofFloat(0, (float) (Math.PI * 2));</span><br><span class="line">    rotateAnimator.setDuration(1000);</span><br><span class="line">    rotateAnimator.setRepeatCount(2);</span><br><span class="line">    rotateAnimator.setInterpolator(new LinearInterpolator());</span><br><span class="line">    rotateAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">            mCurrentAngle = (float) animation.getAnimatedValue();</span><br><span class="line">            invalidate();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    //监听动画结束，然后开启另一个动画</span><br><span class="line">    rotateAnimator.addListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">            super.onAnimationEnd(animation);</span><br><span class="line">            initAggregationAnimator();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    rotateAnimator.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>3.让小球执行聚合扩展的动画，首先我们动态的改变大圆的半径值，然后重绘。这里需要设置一个特殊的插值器OvershootInterpolator，它的意思是向前甩一定值后再回到原来位置。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">private void initAggregationAnimator() &#123;</span><br><span class="line">    ValueAnimator aggregationAnimator = ValueAnimator.ofFloat(mCircleRadius, mRotateRadius);</span><br><span class="line">    aggregationAnimator.setDuration(500);</span><br><span class="line">    aggregationAnimator.setInterpolator(new OvershootInterpolator(10f));</span><br><span class="line">    aggregationAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">            mRotateRadius = (float) animation.getAnimatedValue();</span><br><span class="line">            invalidate();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    //监听动画结束，然后开启另一个动画</span><br><span class="line">    aggregationAnimator.addListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">            super.onAnimationEnd(animation);</span><br><span class="line">            initRippleAnimator();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    aggregationAnimator.reverse();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上面的两个动画中用到了两个插值器：LinearInterpolator和OvershootInterpolator。Android系统中默认给我们提供了很多插值器如下：<br>插值器 | 描述<br>———| ————-<br>AccelerateDecelerateInterpolator | 开始和结束缓慢，中间加速<br>AccelerateInterpolator |在动画开始的地方速率改变比较慢，然后开始加速<br>AnticipateInterpolator|开始的时候向后甩一下，然后向前<br>AnticipateOvershootInterpolator|开始的时候向后然后向前甩一定值后返回最后的值<br>BounceInterpolator|动画结束的时候弹起<br>CycleInterpolator|动画循环播放特定的次数，速率改变沿着正弦曲线<br>DecelerateInterpolator|开始的时候快，结束的时候慢<br>LinearInterpolator|以常量速率变化<br>OvershootInterpolator|运动到终点后，冲过终点后再回弹</p>
-<p>4.最后绘制一个水波纹的效果，可以通过绘制空心圆的做法实现，通过属性动画，动态改变圆的半径，圆的半径从0到屏幕对角线的一半。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">private void initRippleAnimator() &#123;</span><br><span class="line">//mDistance为屏幕对角线的一半</span><br><span class="line">    ValueAnimator rippleAnimator = ValueAnimator.ofFloat(mCircleRadius, mDistance);</span><br><span class="line">    rippleAnimator.setDuration(1200);</span><br><span class="line">    rippleAnimator.setInterpolator(new LinearInterpolator());</span><br><span class="line">    rippleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">            isRipple = true;</span><br><span class="line">            mHollowRadius = (float) animation.getAnimatedValue();</span><br><span class="line">            invalidate();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    rippleAnimator.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>最后是onDraw方法中,因为前两部需要绘制6个小圆，最后一步绘制一个空心圆不用绘制小圆，通过一个标志位isRipple来判断需要绘制哪个。标志位在第二个动画结束的时候置为true。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">      super.onDraw(canvas);</span><br><span class="line">      if(isRipple)&#123;</span><br><span class="line">          float strokeWidth = (mDistance - mHollowRadius);</span><br><span class="line">          mHollowPaint.setStrokeWidth(strokeWidth);</span><br><span class="line">          float radius = strokeWidth / 2 + mHollowRadius;</span><br><span class="line">          canvas.drawCircle(mCenterX,mCenterY,radius,mHollowPaint);</span><br><span class="line">      &#125;else &#123;</span><br><span class="line">          drawSmallCircle(canvas);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>到此动画完成。</p>
-<p><a href="https://github.com/chsmy/AndroidDailyText/blob/master/app/src/main/java/com/chs/androiddailytext/netease/SplashView.java" target="_blank" rel="noopener">源码位置请点这里</a></p>
-
+            <p>旋转，聚合，水波纹</p>
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/03/29/technology/Canvas和属性动画实现好看的效果/#more">Read More</a>
+                </div>
+            </div>
+        </div>
         
         
     </div>
@@ -650,7 +639,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Entradas
+                        Posts
                     </p>
                     <p class="title has-text-weight-normal">
                         11
@@ -660,7 +649,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Categorias
+                        Categories
                     </p>
                     <p class="title has-text-weight-normal">
                         7
@@ -670,7 +659,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Etiquetas
+                        Tags
                     </p>
                     <p class="title has-text-weight-normal">
                         5
@@ -680,7 +669,7 @@
         </nav>
         <div class="level">
             <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
-                SEGUIR</a>
+                Follow</a>
         </div>
         
         
@@ -767,7 +756,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Categorias
+                Categories
             </h3>
             <ul class="menu-list">
             <li>
@@ -836,7 +825,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Nube de etiquetas
+            Tag Cloud
         </h3>
         <a href="/tags/UI/" style="font-size: 16.67px;">UI</a> <a href="/tags/感悟/" style="font-size: 13.33px;">感悟</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 20px;">进阶</a>
     </div>
@@ -850,7 +839,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recientes
+            Recent
         </h3>
         
         <article class="media">
@@ -956,7 +945,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Archivos
+            Archives
         </h3>
         <ul class="menu-list">
         
@@ -991,7 +980,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Etiquetas
+                Tags
             </h3>
             <div class="field is-grouped is-grouped-multiline">
                 
@@ -1050,7 +1039,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recientes
+            Recent
         </h3>
         
         <article class="media">
@@ -1156,7 +1145,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Archivos
+            Archives
         </h3>
         <ul class="menu-list">
         
@@ -1191,7 +1180,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Etiquetas
+                Tags
             </h3>
             <div class="field is-grouped is-grouped-multiline">
                 
@@ -1405,10 +1394,10 @@ document.addEventListener('DOMContentLoaded', function () {
     (function (window) {
         var INSIGHT_CONFIG = {
             TRANSLATION: {
-                POSTS: 'Entradas',
+                POSTS: 'Posts',
                 PAGES: 'Pages',
-                CATEGORIES: 'Categorias',
-                TAGS: 'Etiquetas',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
                 UNTITLED: '(Untitled)',
             },
             CONTENT_URL: '/content.json',
