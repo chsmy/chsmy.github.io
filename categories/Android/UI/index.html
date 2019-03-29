@@ -2,7 +2,7 @@
 <html lang="CH">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>Category: Android - 小草喔</title>
+<title>Categoria: UI - 小草喔</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
@@ -10,7 +10,7 @@
     <meta name="description" content="冰冻三尺，费一日之寒，只要坚持，终会有收获。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="小草喔">
-<meta property="og:url" content="https://chsmy.github.io/categories/技术/Android/index.html">
+<meta property="og:url" content="https://chsmy.github.io/categories/Android/UI/index.html">
 <meta property="og:site_name" content="小草喔">
 <meta property="og:description" content="冰冻三尺，费一日之寒，只要坚持，终会有收获。">
 <meta property="og:locale" content="CHS">
@@ -157,11 +157,11 @@
     <div class="card-content">
         <nav class="breadcrumb" aria-label="breadcrumbs">
         <ul>
-            <li><a href="/categories">Categories</a></li>
+            <li><a href="/categories">Categorias</a></li>
             
-            <li><a href="/categories/技术/">技术</a></li>
+            <li><a href="/categories/Android/">Android</a></li>
             
-            <li class="is-active"><a href="#" aria-current="page">Android</a></li>
+            <li class="is-active"><a href="#" aria-current="page">UI</a></li>
         </ul>
         </nav>
     </div>
@@ -173,17 +173,132 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-27T15:21:56.000Z">2019-03-27</time>
+                <time class="level-item has-text-grey" datetime="2019-03-29T12:31:05.000Z">2019-03-29</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/技术/">技术</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/技术/Android/UI/">UI</a>
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/UI/">UI</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    12 minutes read (About 1787 words)
+                    6 minutes read (About 965 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/03/29/technology/Canvas和属性动画实现好看的效果/">Canvas和属性动画实现好看的效果</a>
+            
+        </h1>
+        <div class="content">
+            <p>最终效果如下图</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/split.gif" alt></p>
+<p>实现步骤：</p>
+<ol>
+<li>绘制6个小圆圈，小圆圈是围绕着一个大圆平均绘制的，我们可以计算大圆的总弧度，然后除以小圆的个数，就能得到每个小圆之间间隔的弧度。然后循环绘制<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private void drawSmallCircle(Canvas canvas) &#123;</span><br><span class="line">     canvas.drawColor(Color.WHITE);</span><br><span class="line">     //一个完整的圆的弧度是2π，计算每个小圆之间的弧度</span><br><span class="line">     float angleEach = (float) (2*Math.PI/mCircleColors.length);</span><br><span class="line">     //循环绘制6个小圆</span><br><span class="line">     for (int i = 0; i &lt; mCircleColors.length; i++) &#123;</span><br><span class="line">         float angle = i*angleEach+mCurrentAngle;</span><br><span class="line">         float x = (float) (Math.cos(angle)*mRotateRadius+mCenterX);</span><br><span class="line">         float y = (float) (Math.sin(angle)*mRotateRadius+mCenterY);</span><br><span class="line">         mPaint.setColor(mCircleColors[i]);</span><br><span class="line">         canvas.drawCircle(x,y,mCircleRadius,mPaint);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>小圆的的原点的坐标可以看下图，根据我们中学数学中所讲，x=sin(角度)<em>大圆的半径，y=cos(角度)</em>大圆的半径。最后在加上大圆的原点坐标，就是上面代码上中的计算方法了。</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/circle.png" alt></p>
+<ol start="2">
+<li>让着些小圆转起来，那就需要通过属性动画了，通过属性动画，动态的改变弧度的大小，就能该表小球的原点坐标了，最后重绘即可。<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">private void initRotateAnimator() &#123;</span><br><span class="line">    //弧度从0到最大弧度</span><br><span class="line">    ValueAnimator rotateAnimator = ValueAnimator.ofFloat(0, (float) (Math.PI * 2));</span><br><span class="line">    rotateAnimator.setDuration(1000);</span><br><span class="line">    rotateAnimator.setRepeatCount(2);</span><br><span class="line">    rotateAnimator.setInterpolator(new LinearInterpolator());</span><br><span class="line">    rotateAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">            mCurrentAngle = (float) animation.getAnimatedValue();</span><br><span class="line">            invalidate();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    //监听动画结束，然后开启另一个动画</span><br><span class="line">    rotateAnimator.addListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">            super.onAnimationEnd(animation);</span><br><span class="line">            initAggregationAnimator();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    rotateAnimator.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>3.让小球执行聚合扩展的动画，首先我们动态的改变大圆的半径值，然后重绘。这里需要设置一个特殊的插值器OvershootInterpolator，它的意思是向前甩一定值后再回到原来位置。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">private void initAggregationAnimator() &#123;</span><br><span class="line">    ValueAnimator aggregationAnimator = ValueAnimator.ofFloat(mCircleRadius, mRotateRadius);</span><br><span class="line">    aggregationAnimator.setDuration(500);</span><br><span class="line">    aggregationAnimator.setInterpolator(new OvershootInterpolator(10f));</span><br><span class="line">    aggregationAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">            mRotateRadius = (float) animation.getAnimatedValue();</span><br><span class="line">            invalidate();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    //监听动画结束，然后开启另一个动画</span><br><span class="line">    aggregationAnimator.addListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">            super.onAnimationEnd(animation);</span><br><span class="line">            initRippleAnimator();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    aggregationAnimator.reverse();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的两个动画中用到了两个插值器：LinearInterpolator和OvershootInterpolator。Android系统中默认给我们提供了很多插值器如下：<br>插值器 | 描述<br>———| ————-<br>AccelerateDecelerateInterpolator | 开始和结束缓慢，中间加速<br>AccelerateInterpolator |在动画开始的地方速率改变比较慢，然后开始加速<br>AnticipateInterpolator|开始的时候向后甩一下，然后向前<br>AnticipateOvershootInterpolator|开始的时候向后然后向前甩一定值后返回最后的值<br>BounceInterpolator|动画结束的时候弹起<br>CycleInterpolator|动画循环播放特定的次数，速率改变沿着正弦曲线<br>DecelerateInterpolator|开始的时候快，结束的时候慢<br>LinearInterpolator|以常量速率变化<br>OvershootInterpolator|运动到终点后，冲过终点后再回弹</p>
+<p>4.最后绘制一个水波纹的效果，可以通过绘制空心圆的做法实现，通过属性动画，动态改变圆的半径，圆的半径从0到屏幕对角线的一半。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">private void initRippleAnimator() &#123;</span><br><span class="line">//mDistance为屏幕对角线的一半</span><br><span class="line">    ValueAnimator rippleAnimator = ValueAnimator.ofFloat(mCircleRadius, mDistance);</span><br><span class="line">    rippleAnimator.setDuration(1200);</span><br><span class="line">    rippleAnimator.setInterpolator(new LinearInterpolator());</span><br><span class="line">    rippleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">            isRipple = true;</span><br><span class="line">            mHollowRadius = (float) animation.getAnimatedValue();</span><br><span class="line">            invalidate();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    rippleAnimator.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后是onDraw方法中,因为前两部需要绘制6个小圆，最后一步绘制一个空心圆不用绘制小圆，通过一个标志位isRipple来判断需要绘制哪个。标志位在第二个动画结束的时候置为true。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">      super.onDraw(canvas);</span><br><span class="line">      if(isRipple)&#123;</span><br><span class="line">          float strokeWidth = (mDistance - mHollowRadius);</span><br><span class="line">          mHollowPaint.setStrokeWidth(strokeWidth);</span><br><span class="line">          float radius = strokeWidth / 2 + mHollowRadius;</span><br><span class="line">          canvas.drawCircle(mCenterX,mCenterY,radius,mHollowPaint);</span><br><span class="line">      &#125;else &#123;</span><br><span class="line">          drawSmallCircle(canvas);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>到此动画完成。</p>
+<p><a href="https://github.com/chsmy/AndroidDailyText/blob/master/app/src/main/java/com/chs/androiddailytext/netease/SplashView.java" target="_blank" rel="noopener">源码位置请点这里</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-03-29T11:58:58.000Z">2019-03-29</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/UI/">UI</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 minutes read (About 718 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/03/29/technology/粒子效果的实现/">粒子效果的实现</a>
+            
+        </h1>
+        <div class="content">
+            <p>想要实现一个图片的粒子效果，非常简单</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/03/29/technology/粒子效果的实现/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-03-27T15:21:56.000Z">2019-03-27</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/UI/">UI</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 minutes read (About 1809 words)
                 </span>
                 
                 
@@ -204,284 +319,6 @@
             <div class="level-start">
                 <div class="level-item">
                 <a class="button is-size-7 is-light" href="/2019/03/27/technology/Xfermode实现刮刮卡/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-24T03:17:15.000Z">2019-03-24</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/技术/">技术</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/技术/Android/UI/">UI</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    32 minutes read (About 4802 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/24/technology/UI绘制流程-View的绘制流程/">UI绘制流程--View的绘制流程</a>
-            
-        </h1>
-        <div class="content">
-            <p>上一篇<a href="https://chsmy.github.io/2019/03/22/technology/UI%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B-View-%E6%98%AF%E5%A6%82%E4%BD%95%E8%A2%AB%E6%B7%BB%E5%8A%A0%E5%88%B0%E5%B1%8F%E5%B9%95%E4%B8%8A%E7%9A%84/">UI绘制流程–View是如何被添加到屏幕上的</a>我们学习了View是怎么添加到屏幕上的，这一片来学习View绘制流程，它的入口在入口ActivityThread.handleResumeActivity()。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/24/technology/UI绘制流程-View的绘制流程/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-22T12:43:14.000Z">2019-03-22</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/技术/">技术</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/技术/Android/UI/">UI</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    15 minutes read (About 2289 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/22/technology/UI绘制流程-View-是如何被添加到屏幕上的/">UI绘制流程--View是如何被添加到屏幕上的</a>
-            
-        </h1>
-        <div class="content">
-            <p>我们平时打开一个activity的时候，设置我们的视图都是在onCreate的setContentView方法开始，那我们就从这个方法开始看源码。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/22/technology/UI绘制流程-View-是如何被添加到屏幕上的/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/03/06/technology/Activity启动流程-下/" class="image is-7by1">
-            <img class="thumbnail" src="/gallery/technology/activity_xia.jpg" alt="Activity启动流程(下)">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-06T02:45:33.000Z">2019-03-06</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/技术/">技术</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    32 minutes read (About 4865 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/06/technology/Activity启动流程-下/">Activity启动流程(下)</a>
-            
-        </h1>
-        <div class="content">
-            <p>接着上一篇<a href="https://chsmy.github.io/2019/03/06/technology/Activity启动流程-上/">Activity启动流程(上)</a>继续看新的activity的启动流程</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/06/technology/Activity启动流程-下/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/03/06/technology/Activity启动流程-上/" class="image is-7by1">
-            <img class="thumbnail" src="/gallery/technology/activity_shang.jpg" alt="Activity启动流程(上)">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-06T02:45:22.000Z">2019-03-06</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/技术/">技术</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    32 minutes read (About 4774 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/06/technology/Activity启动流程-上/">Activity启动流程(上)</a>
-            
-        </h1>
-        <div class="content">
-            <p>Android看源码的两个网站：</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/06/technology/Activity启动流程-上/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/02/27/technology/Android资料/" class="image is-7by1">
-            <img class="thumbnail" src="/gallery/technology/android.png" alt="Android资料">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-02-27T04:25:01.000Z">2019-02-27</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/技术/">技术</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 hours read (About 21626 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/02/27/technology/Android资料/">Android资料</a>
-            
-        </h1>
-        <div class="content">
-            <p>Anroid学习平时收集的一些资料，方便查找。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/02/27/technology/Android资料/#more">Read More</a>
                 </div>
             </div>
         </div>
@@ -537,37 +374,37 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Posts
+                        Entradas
                     </p>
                     <p class="title has-text-weight-normal">
-                        9
+                        11
                     </p>
                 </div>
             </div>
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Categories
+                        Categorias
                     </p>
                     <p class="title has-text-weight-normal">
-                        6
+                        7
                     </p>
                 </div>
             </div>
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Tags
+                        Etiquetas
                     </p>
                     <p class="title has-text-weight-normal">
-                        4
+                        5
                     </p>
                 </div>
             </div>
         </nav>
         <div class="level">
             <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
-                Follow</a>
+                SEGUIR</a>
         </div>
         
         
@@ -654,10 +491,42 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Categories
+                Categorias
             </h3>
             <ul class="menu-list">
             <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Android/UI/">
+            <span class="level-start">
+                <span class="level-item">UI</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/源码/">
+            <span class="level-start">
+                <span class="level-item">源码</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/资料/">
+            <span class="level-start">
+                <span class="level-item">资料</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/人生/">
             <span class="level-start">
                 <span class="level-item">人生</span>
@@ -681,22 +550,6 @@
             <span class="level-end">
                 <span class="level-item tag">1</span>
             </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/技术/">
-            <span class="level-start">
-                <span class="level-item">技术</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">6</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/技术/Android/">
-            <span class="level-start">
-                <span class="level-item">Android</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">6</span>
-            </span>
         </a></li></ul></li>
             </ul>
         </div>
@@ -707,9 +560,9 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Tag Cloud
+            Nube de etiquetas
         </h3>
-        <a href="/tags/感悟/" style="font-size: 15px;">感悟</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 20px;">进阶</a>
+        <a href="/tags/UI/" style="font-size: 16.67px;">UI</a> <a href="/tags/感悟/" style="font-size: 13.33px;">感悟</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 20px;">进阶</a>
     </div>
 </div>
 
@@ -721,8 +574,46 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recent
+            Recientes
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/03/29/technology/Canvas和属性动画实现好看的效果/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Canvas和属性动画实现好看的效果">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-29T12:31:05.000Z">2019-03-29</time></div>
+                    <a href="/2019/03/29/technology/Canvas和属性动画实现好看的效果/" class="has-link-black-ter is-size-6">Canvas和属性动画实现好看的效果</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/UI/">UI</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/29/technology/粒子效果的实现/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="粒子效果的实现">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-29T11:58:58.000Z">2019-03-29</time></div>
+                    <a href="/2019/03/29/technology/粒子效果的实现/" class="has-link-black-ter is-size-6">粒子效果的实现</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/UI/">UI</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -737,7 +628,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-27T15:21:56.000Z">2019-03-27</time></div>
                     <a href="/2019/03/27/technology/Xfermode实现刮刮卡/" class="has-link-black-ter is-size-6">Xfermode实现刮刮卡</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/技术/">技术</a> / <a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/UI/">UI</a>
                     </p>
                 </div>
             </div>
@@ -756,7 +647,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-24T03:17:15.000Z">2019-03-24</time></div>
                     <a href="/2019/03/24/technology/UI绘制流程-View的绘制流程/" class="has-link-black-ter is-size-6">UI绘制流程--View的绘制流程</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/技术/">技术</a> / <a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/源码/">源码</a>
                     </p>
                 </div>
             </div>
@@ -775,45 +666,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-22T12:43:14.000Z">2019-03-22</time></div>
                     <a href="/2019/03/22/technology/UI绘制流程-View-是如何被添加到屏幕上的/" class="has-link-black-ter is-size-6">UI绘制流程--View是如何被添加到屏幕上的</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/技术/">技术</a> / <a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/03/11/life/娱乐和节制/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/gallery/life/recreation.jpg" alt="娱乐和节制">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-11T01:04:49.000Z">2019-03-11</time></div>
-                    <a href="/2019/03/11/life/娱乐和节制/" class="has-link-black-ter is-size-6">娱乐和节制</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/人生/">人生</a> / <a class="has-link-grey -link" href="/categories/人生/读书/">读书</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/03/06/technology/Activity启动流程-下/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/gallery/technology/activity_xia.jpg" alt="Activity启动流程(下)">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T02:45:33.000Z">2019-03-06</time></div>
-                    <a href="/2019/03/06/technology/Activity启动流程-下/" class="has-link-black-ter is-size-6">Activity启动流程(下)</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/技术/">技术</a> / <a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/源码/">源码</a>
                     </p>
                 </div>
             </div>
@@ -827,7 +680,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Archives
+            Archivos
         </h3>
         <ul class="menu-list">
         
@@ -837,7 +690,7 @@
                     <span class="level-item">March 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">7</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -862,9 +715,16 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Tags
+                Etiquetas
             </h3>
             <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/感悟/">
@@ -890,7 +750,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/进阶/">
                         <span class="tag">进阶</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -914,8 +774,46 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recent
+            Recientes
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/03/29/technology/Canvas和属性动画实现好看的效果/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Canvas和属性动画实现好看的效果">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-29T12:31:05.000Z">2019-03-29</time></div>
+                    <a href="/2019/03/29/technology/Canvas和属性动画实现好看的效果/" class="has-link-black-ter is-size-6">Canvas和属性动画实现好看的效果</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/UI/">UI</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/29/technology/粒子效果的实现/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="粒子效果的实现">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-29T11:58:58.000Z">2019-03-29</time></div>
+                    <a href="/2019/03/29/technology/粒子效果的实现/" class="has-link-black-ter is-size-6">粒子效果的实现</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/UI/">UI</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -930,7 +828,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-27T15:21:56.000Z">2019-03-27</time></div>
                     <a href="/2019/03/27/technology/Xfermode实现刮刮卡/" class="has-link-black-ter is-size-6">Xfermode实现刮刮卡</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/技术/">技术</a> / <a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/UI/">UI</a>
                     </p>
                 </div>
             </div>
@@ -949,7 +847,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-24T03:17:15.000Z">2019-03-24</time></div>
                     <a href="/2019/03/24/technology/UI绘制流程-View的绘制流程/" class="has-link-black-ter is-size-6">UI绘制流程--View的绘制流程</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/技术/">技术</a> / <a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/源码/">源码</a>
                     </p>
                 </div>
             </div>
@@ -968,45 +866,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-22T12:43:14.000Z">2019-03-22</time></div>
                     <a href="/2019/03/22/technology/UI绘制流程-View-是如何被添加到屏幕上的/" class="has-link-black-ter is-size-6">UI绘制流程--View是如何被添加到屏幕上的</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/技术/">技术</a> / <a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/03/11/life/娱乐和节制/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/gallery/life/recreation.jpg" alt="娱乐和节制">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-11T01:04:49.000Z">2019-03-11</time></div>
-                    <a href="/2019/03/11/life/娱乐和节制/" class="has-link-black-ter is-size-6">娱乐和节制</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/人生/">人生</a> / <a class="has-link-grey -link" href="/categories/人生/读书/">读书</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/03/06/technology/Activity启动流程-下/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/gallery/technology/activity_xia.jpg" alt="Activity启动流程(下)">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T02:45:33.000Z">2019-03-06</time></div>
-                    <a href="/2019/03/06/technology/Activity启动流程-下/" class="has-link-black-ter is-size-6">Activity启动流程(下)</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/技术/">技术</a> / <a class="has-link-grey -link" href="/categories/技术/Android/">Android</a>
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/源码/">源码</a>
                     </p>
                 </div>
             </div>
@@ -1020,7 +880,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Archives
+            Archivos
         </h3>
         <ul class="menu-list">
         
@@ -1030,7 +890,7 @@
                     <span class="level-item">March 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">7</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -1055,9 +915,16 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Tags
+                Etiquetas
             </h3>
             <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/感悟/">
@@ -1083,7 +950,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/进阶/">
                         <span class="tag">进阶</span>
-                        <span class="tag is-grey">5</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1262,10 +1129,10 @@ document.addEventListener('DOMContentLoaded', function () {
     (function (window) {
         var INSIGHT_CONFIG = {
             TRANSLATION: {
-                POSTS: 'Posts',
+                POSTS: 'Entradas',
                 PAGES: 'Pages',
-                CATEGORIES: 'Categories',
-                TAGS: 'Tags',
+                CATEGORIES: 'Categorias',
+                TAGS: 'Etiquetas',
                 UNTITLED: '(Untitled)',
             },
             CONTENT_URL: '/content.json',

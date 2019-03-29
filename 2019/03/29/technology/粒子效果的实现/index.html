@@ -2,21 +2,25 @@
 <html lang="CH">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>小草喔</title>
+<title>粒子效果的实现 - 小草喔</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="冰冻三尺，费一日之寒，只要坚持，终会有收获。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="小草喔">
-<meta property="og:url" content="https://chsmy.github.io/index.html">
+    <meta name="description" content="想要实现一个图片的粒子效果，非常简单">
+<meta name="keywords" content="UI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="粒子效果的实现">
+<meta property="og:url" content="https://chsmy.github.io/2019/03/29/technology/粒子效果的实现/index.html">
 <meta property="og:site_name" content="小草喔">
-<meta property="og:description" content="冰冻三尺，费一日之寒，只要坚持，终会有收获。">
+<meta property="og:description" content="想要实现一个图片的粒子效果，非常简单">
 <meta property="og:locale" content="CHS">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/split.gif">
+<meta property="og:updated_time" content="2019-03-29T12:16:50.680Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="小草喔">
-<meta name="twitter:description" content="冰冻三尺，费一日之寒，只要坚持，终会有收获。">
+<meta name="twitter:title" content="粒子效果的实现">
+<meta name="twitter:description" content="想要实现一个图片的粒子效果，非常简单">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/split.gif">
 
 
 
@@ -108,7 +112,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.png" alt="小草喔" height="28">
+                <img src="/images/logo.png" alt="粒子效果的实现" height="28">
             
             </a>
         </div>
@@ -116,7 +120,7 @@
             
             <div class="navbar-start">
                 
-                <a class="navbar-item is-active" href="/">首页</a>
+                <a class="navbar-item" href="/">首页</a>
                 
                 <a class="navbar-item" href="/archives">归档</a>
                 
@@ -153,71 +157,7 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-29T12:31:05.000Z">2019-03-29</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/UI/">UI</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    6 minutes read (About 965 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/29/technology/Canvas和属性动画实现好看的效果/">Canvas和属性动画实现好看的效果</a>
-            
-        </h1>
-        <div class="content">
-            <p>最终效果如下图</p>
-<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/split.gif" alt></p>
-<p>实现步骤：</p>
-<ol>
-<li>绘制6个小圆圈，小圆圈是围绕着一个大圆平均绘制的，我们可以计算大圆的总弧度，然后除以小圆的个数，就能得到每个小圆之间间隔的弧度。然后循环绘制<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private void drawSmallCircle(Canvas canvas) &#123;</span><br><span class="line">     canvas.drawColor(Color.WHITE);</span><br><span class="line">     //一个完整的圆的弧度是2π，计算每个小圆之间的弧度</span><br><span class="line">     float angleEach = (float) (2*Math.PI/mCircleColors.length);</span><br><span class="line">     //循环绘制6个小圆</span><br><span class="line">     for (int i = 0; i &lt; mCircleColors.length; i++) &#123;</span><br><span class="line">         float angle = i*angleEach+mCurrentAngle;</span><br><span class="line">         float x = (float) (Math.cos(angle)*mRotateRadius+mCenterX);</span><br><span class="line">         float y = (float) (Math.sin(angle)*mRotateRadius+mCenterY);</span><br><span class="line">         mPaint.setColor(mCircleColors[i]);</span><br><span class="line">         canvas.drawCircle(x,y,mCircleRadius,mPaint);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>小圆的的原点的坐标可以看下图，根据我们中学数学中所讲，x=sin(角度)<em>大圆的半径，y=cos(角度)</em>大圆的半径。最后在加上大圆的原点坐标，就是上面代码上中的计算方法了。</p>
-<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/circle.png" alt></p>
-<ol start="2">
-<li>让着些小圆转起来，那就需要通过属性动画了，通过属性动画，动态的改变弧度的大小，就能该表小球的原点坐标了，最后重绘即可。<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">private void initRotateAnimator() &#123;</span><br><span class="line">    //弧度从0到最大弧度</span><br><span class="line">    ValueAnimator rotateAnimator = ValueAnimator.ofFloat(0, (float) (Math.PI * 2));</span><br><span class="line">    rotateAnimator.setDuration(1000);</span><br><span class="line">    rotateAnimator.setRepeatCount(2);</span><br><span class="line">    rotateAnimator.setInterpolator(new LinearInterpolator());</span><br><span class="line">    rotateAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">            mCurrentAngle = (float) animation.getAnimatedValue();</span><br><span class="line">            invalidate();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    //监听动画结束，然后开启另一个动画</span><br><span class="line">    rotateAnimator.addListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">            super.onAnimationEnd(animation);</span><br><span class="line">            initAggregationAnimator();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    rotateAnimator.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>3.让小球执行聚合扩展的动画，首先我们动态的改变大圆的半径值，然后重绘。这里需要设置一个特殊的插值器OvershootInterpolator，它的意思是向前甩一定值后再回到原来位置。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">private void initAggregationAnimator() &#123;</span><br><span class="line">    ValueAnimator aggregationAnimator = ValueAnimator.ofFloat(mCircleRadius, mRotateRadius);</span><br><span class="line">    aggregationAnimator.setDuration(500);</span><br><span class="line">    aggregationAnimator.setInterpolator(new OvershootInterpolator(10f));</span><br><span class="line">    aggregationAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">            mRotateRadius = (float) animation.getAnimatedValue();</span><br><span class="line">            invalidate();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    //监听动画结束，然后开启另一个动画</span><br><span class="line">    aggregationAnimator.addListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">            super.onAnimationEnd(animation);</span><br><span class="line">            initRippleAnimator();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    aggregationAnimator.reverse();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上面的两个动画中用到了两个插值器：LinearInterpolator和OvershootInterpolator。Android系统中默认给我们提供了很多插值器如下：<br>插值器 | 描述<br>———| ————-<br>AccelerateDecelerateInterpolator | 开始和结束缓慢，中间加速<br>AccelerateInterpolator |在动画开始的地方速率改变比较慢，然后开始加速<br>AnticipateInterpolator|开始的时候向后甩一下，然后向前<br>AnticipateOvershootInterpolator|开始的时候向后然后向前甩一定值后返回最后的值<br>BounceInterpolator|动画结束的时候弹起<br>CycleInterpolator|动画循环播放特定的次数，速率改变沿着正弦曲线<br>DecelerateInterpolator|开始的时候快，结束的时候慢<br>LinearInterpolator|以常量速率变化<br>OvershootInterpolator|运动到终点后，冲过终点后再回弹</p>
-<p>4.最后绘制一个水波纹的效果，可以通过绘制空心圆的做法实现，通过属性动画，动态改变圆的半径，圆的半径从0到屏幕对角线的一半。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">private void initRippleAnimator() &#123;</span><br><span class="line">//mDistance为屏幕对角线的一半</span><br><span class="line">    ValueAnimator rippleAnimator = ValueAnimator.ofFloat(mCircleRadius, mDistance);</span><br><span class="line">    rippleAnimator.setDuration(1200);</span><br><span class="line">    rippleAnimator.setInterpolator(new LinearInterpolator());</span><br><span class="line">    rippleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">            isRipple = true;</span><br><span class="line">            mHollowRadius = (float) animation.getAnimatedValue();</span><br><span class="line">            invalidate();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    rippleAnimator.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>最后是onDraw方法中,因为前两部需要绘制6个小圆，最后一步绘制一个空心圆不用绘制小圆，通过一个标志位isRipple来判断需要绘制哪个。标志位在第二个动画结束的时候置为true。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">      super.onDraw(canvas);</span><br><span class="line">      if(isRipple)&#123;</span><br><span class="line">          float strokeWidth = (mDistance - mHollowRadius);</span><br><span class="line">          mHollowPaint.setStrokeWidth(strokeWidth);</span><br><span class="line">          float radius = strokeWidth / 2 + mHollowRadius;</span><br><span class="line">          canvas.drawCircle(mCenterX,mCenterY,radius,mHollowPaint);</span><br><span class="line">      &#125;else &#123;</span><br><span class="line">          drawSmallCircle(canvas);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>到此动画完成。</p>
-<p><a href="https://github.com/chsmy/AndroidDailyText/blob/master/app/src/main/java/com/chs/androiddailytext/netease/SplashView.java" target="_blank" rel="noopener">源码位置请点这里</a></p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
     
     <div class="card-content article ">
         
@@ -242,22 +182,44 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/03/29/technology/粒子效果的实现/">粒子效果的实现</a>
+                粒子效果的实现
             
         </h1>
         <div class="content">
             <p>想要实现一个图片的粒子效果，非常简单</p>
+<a id="more"></a>
+<p>效果图：</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/split.gif" alt></p>
+<p>思路：</p>
+<ol>
+<li>遍历图片的宽高，通过Bitmap.getPixel(row,cloum)这个方法，返回值我们可以拿到当前像素点的颜色值，我们也能拿到当前的坐标点，然后封装成一个一个的小球对象，保存在集合里面。</li>
+<li>在onDraw里面遍历集合根据这些小球的坐标点和颜色值绘制圆圈。如果我们取的像素足够密，绘制出来的原点可以组成这个图片。</li>
+<li>动画效果，通过属性动画，在onAnimationUpdate方法中根据一定的算法不断更新小球对象的x，y坐标点。这个算法可以自己定，比如通过自有落体的公式，或者随机数等。</li>
+<li>在onTouchEvent方法中监听ACTION_DOWN事件开启动画</li>
+<li>如果直接取图片的所有像素，如果图片很大的话，会非常卡，如果不取全部的，那绘制出来效果没原图清晰，我们可以通过一个标志位，开始绘制原图，点击之后在绘制小圆球。</li>
+</ol>
+<p>创建一个Ball对象，用来保存将要绘制的每个点的坐标和当坐标更新时的变化速度。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class Ball &#123;</span><br><span class="line"></span><br><span class="line">    public int color;</span><br><span class="line">    //x坐标</span><br><span class="line">    public float x;</span><br><span class="line">    //y坐标</span><br><span class="line">    public float y;</span><br><span class="line">    //半径</span><br><span class="line">    public float r;</span><br><span class="line"></span><br><span class="line">    //水平速度</span><br><span class="line">    public float vX;</span><br><span class="line">    //垂直速度</span><br><span class="line">    public float vY;</span><br><span class="line">    //水平加速度</span><br><span class="line">    public float aX;</span><br><span class="line">    //垂直加速度</span><br><span class="line">    public float aY;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建一个bitmap,遍历它的宽高，获取像素值，和坐标值，封装成一个一个的小球并保存起来。为了提高效率这里的遍历每次+2，可根据实际情况更改。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mBitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.shader);</span><br><span class="line">for (int i = 0; i &lt; mBitmap.getWidth()/d; i+=2) &#123;</span><br><span class="line">           for (int j = 0; j &lt; mBitmap.getHeight()/d; j+=2) &#123;</span><br><span class="line">               Ball ball = new Ball();</span><br><span class="line">               ball.color = mBitmap.getPixel(i,j);</span><br><span class="line">               ball.x = i*d+d/2;</span><br><span class="line">               ball.y = j*d+d/2;</span><br><span class="line">               ball.r = d/2;</span><br><span class="line"></span><br><span class="line">               //速度(-20,20)</span><br><span class="line">               ball.vX = (float) (Math.pow(-1, Math.ceil(Math.random() * 100)) * 20 * Math.random());</span><br><span class="line">               ball.vY = rangInt(-15, 35);</span><br><span class="line">               //加速度</span><br><span class="line">               ball.aX = 0;</span><br><span class="line">               ball.aY = 0.98f;</span><br><span class="line"></span><br><span class="line">               mBalls.add(ball);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure></p>
+<p>开始绘制，判断是绘制原图还是绘制小圆圈。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">    super.onDraw(canvas);</span><br><span class="line">    canvas.translate(getWidth()/2-mBitmap.getWidth()/2,getHeight()/2-mBitmap.getHeight()/2);</span><br><span class="line">    if(isShowBitmap)&#123;</span><br><span class="line">        canvas.drawBitmap(mBitmap,0,0,null);</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        for (Ball ball : mBalls) &#123;</span><br><span class="line">            mPaint.setColor(ball.color);</span><br><span class="line">            canvas.drawCircle(ball.x,ball.y,ball.r,mPaint);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用属性动画，动态的更新每个小球的坐标值然后重新绘制。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">splitAnimator = ValueAnimator.ofFloat(0,1);</span><br><span class="line">    splitAnimator.setRepeatCount(-1);</span><br><span class="line">    splitAnimator.setDuration(2000);</span><br><span class="line">    splitAnimator.setInterpolator(new LinearInterpolator());</span><br><span class="line">    splitAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">            updateBall();</span><br><span class="line">            invalidate();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  private void updateBall() &#123;</span><br><span class="line">    for (Ball ball : mBalls) &#123;</span><br><span class="line">        ball.x += ball.vX;</span><br><span class="line">        ball.y += ball.vY;</span><br><span class="line"></span><br><span class="line">        ball.vX += ball.aX;</span><br><span class="line">        ball.vY += ball.aY;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>OK完成，<a href="https://github.com/chsmy/AndroidDailyText/blob/master/app/src/main/java/com/chs/androiddailytext/netease/SplitView.java" target="_blank" rel="noopener">源码地址点击这里</a></p>
+
         </div>
         
-        
-        <div class="level is-mobile">
+        <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/29/technology/粒子效果的实现/#more">Read More</a>
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/UI/">UI</a>
                 </div>
             </div>
         </div>
         
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
         
     </div>
 </div>
@@ -266,473 +228,51 @@
 
 
 
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-27T15:21:56.000Z">2019-03-27</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/UI/">UI</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    12 minutes read (About 1809 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/27/technology/Xfermode实现刮刮卡/">Xfermode实现刮刮卡</a>
-            
-        </h1>
-        <div class="content">
-            <p>想要实现一个刮刮卡的效果，其中的一种方法就是使用图层混合模式Xfermode，想要很好的理解Xfermode，我们需要先结合着谷歌的例子来。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/27/technology/Xfermode实现刮刮卡/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-24T03:17:15.000Z">2019-03-24</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/源码/">源码</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    32 minutes read (About 4802 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/24/technology/UI绘制流程-View的绘制流程/">UI绘制流程--View的绘制流程</a>
-            
-        </h1>
-        <div class="content">
-            <p>上一篇<a href="https://chsmy.github.io/2019/03/22/technology/UI%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B-View-%E6%98%AF%E5%A6%82%E4%BD%95%E8%A2%AB%E6%B7%BB%E5%8A%A0%E5%88%B0%E5%B1%8F%E5%B9%95%E4%B8%8A%E7%9A%84/">UI绘制流程–View是如何被添加到屏幕上的</a>我们学习了View是怎么添加到屏幕上的，这一片来学习View绘制流程，它的入口在入口ActivityThread.handleResumeActivity()。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/24/technology/UI绘制流程-View的绘制流程/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-22T12:43:14.000Z">2019-03-22</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/源码/">源码</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    15 minutes read (About 2289 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/22/technology/UI绘制流程-View-是如何被添加到屏幕上的/">UI绘制流程--View是如何被添加到屏幕上的</a>
-            
-        </h1>
-        <div class="content">
-            <p>我们平时打开一个activity的时候，设置我们的视图都是在onCreate的setContentView方法开始，那我们就从这个方法开始看源码。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/22/technology/UI绘制流程-View-是如何被添加到屏幕上的/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/03/11/life/娱乐和节制/" class="image is-7by1">
-            <img class="thumbnail" src="/gallery/life/recreation.jpg" alt="娱乐和节制">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-11T01:04:49.000Z">2019-03-11</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/人生/">人生</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/人生/读书/">读书</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    10 minutes read (About 1540 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/11/life/娱乐和节制/">娱乐和节制</a>
-            
-        </h1>
-        <div class="content">
-            <p>很多人都推荐《娱乐至死》这本书，听着名字也挺唬人的，也想看看怎么在娱乐中死去，于是找来这书读了。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/11/life/娱乐和节制/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/03/06/technology/Activity启动流程-下/" class="image is-7by1">
-            <img class="thumbnail" src="/gallery/technology/activity_xia.jpg" alt="Activity启动流程(下)">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-06T02:45:33.000Z">2019-03-06</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/源码/">源码</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    32 minutes read (About 4865 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/06/technology/Activity启动流程-下/">Activity启动流程(下)</a>
-            
-        </h1>
-        <div class="content">
-            <p>接着上一篇<a href="https://chsmy.github.io/2019/03/06/technology/Activity启动流程-上/">Activity启动流程(上)</a>继续看新的activity的启动流程</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/06/technology/Activity启动流程-下/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/03/06/technology/Activity启动流程-上/" class="image is-7by1">
-            <img class="thumbnail" src="/gallery/technology/activity_shang.jpg" alt="Activity启动流程(上)">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-06T02:45:22.000Z">2019-03-06</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/源码/">源码</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    32 minutes read (About 4774 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/06/technology/Activity启动流程-上/">Activity启动流程(上)</a>
-            
-        </h1>
-        <div class="content">
-            <p>Android看源码的两个网站：</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/06/technology/Activity启动流程-上/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/03/04/life/夯实自己的金字塔/" class="image is-7by1">
-            <img class="thumbnail" src="/gallery/life/pyramid.jpg" alt="夯实自己的金字塔">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-04T01:32:34.000Z">2019-03-04</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/人生/">人生</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/人生/感悟/">感悟</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    6 minutes read (About 936 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/04/life/夯实自己的金字塔/">夯实自己的金字塔</a>
-            
-        </h1>
-        <div class="content">
-            <p>不知道大家有没有这种情况，有时候今天的工作很多，自己沉浸在工作之中，忽然间一看时间，已经快下班了，心里面感觉慢慢的充实</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/04/life/夯实自己的金字塔/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/02/27/life/意识到不足才有机会改/" class="image is-7by1">
-            <img class="thumbnail" src="/gallery/life/jiaolv.jpg" alt="意识到不足才有机会改">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-02-27T06:15:10.000Z">2019-02-27</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/人生/">人生</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/人生/感悟/">感悟</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    7 minutes read (About 1004 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/02/27/life/意识到不足才有机会改/">意识到不足才有机会改</a>
-            
-        </h1>
-        <div class="content">
-            <p>焦虑有时候是好的，如果连焦虑都感受不到，那要么家里有矿，要么就是每天迷迷糊糊的过日子，过到哪算哪；感受到焦虑的人，有的去努力夯实自己，有的每天在娱乐中焦虑的煎熬</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/02/27/life/意识到不足才有机会改/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-    
 <div class="card card-transparent">
-    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-        <div class="pagination-previous is-invisible is-hidden-mobile">
-            <a class="is-flex-grow has-text-black-ter" href="/page/0/">Anterior</a>
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/03/29/technology/Canvas和属性动画实现好看的效果/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Canvas和属性动画实现好看的效果</span>
+            </a>
         </div>
-        <div class="pagination-next">
-            <a class="is-flex-grow has-text-black-ter" href="/page/2/">Siguiente</a>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/03/27/technology/Xfermode实现刮刮卡/">
+                <span class="level-item">Xfermode实现刮刮卡</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
         </div>
-        <ul class="pagination-list is-hidden-mobile">
-            
-            <li><a class="pagination-link is-current" href="/">1</a></li>
-            
-            <li><a class="pagination-link has-text-black-ter" href="/page/2/">2</a></li>
-            
-        </ul>
-    </nav>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comentarios</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/03/29/technology/粒子效果的实现/';
+        this.page.identifier = '2019/03/29/technology/粒子效果的实现/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
 </div>
 </div>
                 
@@ -1371,7 +911,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.png" alt="小草喔" height="28">
+                    <img src="/images/logo.png" alt="粒子效果的实现" height="28">
                 
                 </a>
                 <p class="is-size-7">
