@@ -15,14 +15,14 @@
 <meta property="og:site_name" content="小草喔">
 <meta property="og:description" content="今天来做一下QQ列表上的红点拖拽效果">
 <meta property="og:locale" content="CHS">
-<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/qq_bubble1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/qq_bubble2.gif">
-<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/qq_bubble3.gif">
-<meta property="og:updated_time" content="2019-03-30T09:17:57.278Z">
+<meta property="og:image" content="https://github.com/chsmy/chsmy.github.io/blob/master/gallery/technology/qq_bubble1.png">
+<meta property="og:image" content="https://github.com/chsmy/chsmy.github.io/blob/master/gallery/technology/qq_bubble2.gif">
+<meta property="og:image" content="https://github.com/chsmy/chsmy.github.io/blob/master/gallery/technology/qq_bubble3.gif">
+<meta property="og:updated_time" content="2019-03-30T09:23:53.984Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="QQ红点拖拽效果">
 <meta name="twitter:description" content="今天来做一下QQ列表上的红点拖拽效果">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/qq_bubble1.png">
+<meta name="twitter:image" content="https://github.com/chsmy/chsmy.github.io/blob/master/gallery/technology/qq_bubble1.png">
 
 
 
@@ -200,7 +200,7 @@
 <p>计算角度 在直角三角形中,非直角的sin值等于对边长比斜边长.使用勾股定理计算即可。<br>sinA=对边/斜边  cosB=邻边/斜边   tanA=对边/邻边</p>
 </blockquote>
 <p>看着下面的图绘制会更清晰</p>
-<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/qq_bubble1.png" alt></p>
+<p><img src="https://github.com/chsmy/chsmy.github.io/blob/master/gallery/technology/qq_bubble1.png" alt></p>
 <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">//链接状态绘制静止的圆和赛贝尔曲线</span><br><span class="line">     if (mState == BUBBLE_STATE_CLICK) &#123;</span><br><span class="line">         //绘制静止的圆</span><br><span class="line">         canvas.drawCircle(mQuitPoint.x, mQuitPoint.y, mQuitRadius, mBubblePaint);</span><br><span class="line">         //绘制贝塞尔曲线</span><br><span class="line">         //找到控制点</span><br><span class="line">         float controlX = (mMovePoint.x + mQuitPoint.x) / 2;</span><br><span class="line">         float controlY = (mMovePoint.y + mQuitPoint.y) / 2;</span><br><span class="line">         //计算角度 在直角三角形中,非直角的sin值等于对边长比斜边长.使用勾股定理计算即可</span><br><span class="line">         //sinA=对边/斜边  cosB=邻边/斜边   tanA=对边/邻边</span><br><span class="line">         float sinThet = (mMovePoint.y - mQuitPoint.y) / mDist;</span><br><span class="line">         float cosThet = (mMovePoint.x - mQuitPoint.x) / mDist;</span><br><span class="line"></span><br><span class="line">         //A点</span><br><span class="line">         float ax = mQuitPoint.x - mQuitRadius * sinThet;</span><br><span class="line">         float ay = mQuitPoint.y + mQuitRadius * cosThet;</span><br><span class="line">         //B点</span><br><span class="line">         float bx = mMovePoint.x - mMoveRadius * sinThet;</span><br><span class="line">         float by = mMovePoint.y + mMoveRadius * cosThet;</span><br><span class="line">         //C点</span><br><span class="line">         float cx = mMovePoint.x + mMoveRadius * sinThet;</span><br><span class="line">         float cy = mMovePoint.y - mMoveRadius * cosThet;</span><br><span class="line">         //D点</span><br><span class="line">         float dx = mQuitPoint.x + mQuitRadius * sinThet;</span><br><span class="line">         float dy = mQuitPoint.y - mQuitRadius * cosThet;</span><br><span class="line"></span><br><span class="line">         //设置path的路径</span><br><span class="line">         mBezierPath.reset();</span><br><span class="line">         mBezierPath.moveTo(ax, ay);</span><br><span class="line">         mBezierPath.quadTo(controlX, controlY, bx, by);</span><br><span class="line"></span><br><span class="line">         mBezierPath.lineTo(cx, cy);</span><br><span class="line">         mBezierPath.quadTo(controlX, controlY, dx, dy);</span><br><span class="line">         mBezierPath.close();</span><br><span class="line">         canvas.drawPath(mBezierPath, mBubblePaint);</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
 <p>找到各个点之后就简单了，使用path的api将各个点连接起来，最后绘制就ok。</p>
 <p>最后是爆炸状态,我们在初始化的时候定义一个有5张爆炸小图片的bitmap数组，使用属性动画控制数组的下标，然后循环绘制这几张图片。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//爆炸状态绘制爆炸图片</span><br><span class="line">      if (mState == BUBBLE_STATE_BLAST &amp;&amp; mBlastIndex &lt; mBlastDrawablesArray.length) &#123;</span><br><span class="line">          mBlastRect.left = mMovePoint.x - mMoveRadius;</span><br><span class="line">          mBlastRect.top = mMovePoint.y - mMoveRadius;</span><br><span class="line">          mBlastRect.right = mMovePoint.x + mMoveRadius;</span><br><span class="line">          mBlastRect.bottom = mMovePoint.y + mMoveRadius;</span><br><span class="line">          canvas.drawBitmap(mBlastBitmapsArray[mBlastIndex], null, mBlastRect, mBlastPaint);</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure></p>
@@ -212,7 +212,7 @@
 <p>最后就是两个简单的属性动画，爆炸动画用来控制我们的bitmap数组的index值。回弹动画来控制两个点的移动，使用系统默认的插值器OvershootInterpolator(运动到终点后，冲过终点后再回弹)。</p>
 <p>这里的PointFEvaluator这个估值器系统有提供，但是只支持5.0以上，所以自定了一个PointFEvaluator，把系统的源码抄一下即可。</p>
 <p>OK到这里效果就出来了可以看下图</p>
-<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/qq_bubble2.gif" alt></p>
+<p><img src="https://github.com/chsmy/chsmy.github.io/blob/master/gallery/technology/qq_bubble2.gif" alt></p>
 <p>效果出来了，那怎么用呢，现在是在我们自定义的view中可以全屏拖动绘制，但是如果把这个veiw放到列表中怎么办呢，只能在列表的那一条区域中拖拽吗，当然不符合我们的预期</p>
 <p>思路就是，当我们点击列表中的红点的时候，通过当前的Window对象拿到我们的跟布局DecorView，然后把我们自定义的view放到跟布局中，把当前的textview设置隐藏，然后在我们的自定义view的手指点击的地方开始绘制圆就可以了</p>
 <p>这里需要注意onTouchEvent获取坐标使用event.getRawX()和event.getRawY()，不能使用event.getX()和event.getY()了，因为我们现在的自定义veiw和点击的textveiw不在一个布局中。getRawX()是相对于屏幕来说的而getX()是相对于父布局来说的。</p>
@@ -220,7 +220,7 @@
 <p>OnExecuteFinishListener是我们自顶一个view中定义的一个接口，用来监听手指抬起之后的的状态结果，因为完事后我们需要移除我们添加到DecorView中的我们自己的veiw。</p>
 <p>使用的时候，我们在Adapter中的textveiw设置setOnTouchListener监听传入我们上面写的QQViewListenter即可。</p>
 <p>最终效果：</p>
-<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/qq_bubble3.gif" alt></p>
+<p><img src="https://github.com/chsmy/chsmy.github.io/blob/master/gallery/technology/qq_bubble3.gif" alt></p>
 <p><a href="https://github.com/chsmy/AndroidDailyText/blob/master/app/src/main/java/com/chs/androiddailytext/netease/QQBubbleView.java" target="_blank" rel="noopener">源码位置</a></p>
 
         </div>
