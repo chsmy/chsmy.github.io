@@ -15,12 +15,12 @@
 <meta property="og:site_name" content="小草喔">
 <meta property="og:description" content="Android事件分发机制">
 <meta property="og:locale" content="CHS">
-<meta property="og:image" content="https://github.com/chsmy/chsmy.github.io/blob/master/gallery/technology/view_dispatch.png">
-<meta property="og:updated_time" content="2019-03-31T14:09:36.819Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/view_dispatch.png">
+<meta property="og:updated_time" content="2019-03-31T14:26:22.858Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android事件分发机制">
 <meta name="twitter:description" content="Android事件分发机制">
-<meta name="twitter:image" content="https://github.com/chsmy/chsmy.github.io/blob/master/gallery/technology/view_dispatch.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/view_dispatch.png">
 
 
 
@@ -203,7 +203,7 @@
 <p>OK事件分发看完了，下面去View的onTouchEvent看一下事件的处理<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br></pre></td><td class="code"><pre><span class="line">public boolean onTouchEvent(MotionEvent event) &#123;</span><br><span class="line">       final float x = event.getX();</span><br><span class="line">       final float y = event.getY();</span><br><span class="line">       final int viewFlags = mViewFlags;</span><br><span class="line">       final int action = event.getAction();</span><br><span class="line">       //是否是可点击的</span><br><span class="line">       final boolean clickable = ((viewFlags &amp; CLICKABLE) == CLICKABLE</span><br><span class="line">               || (viewFlags &amp; LONG_CLICKABLE) == LONG_CLICKABLE)</span><br><span class="line">               || (viewFlags &amp; CONTEXT_CLICKABLE) == CONTEXT_CLICKABLE;</span><br><span class="line"></span><br><span class="line">       if ((viewFlags &amp; ENABLED_MASK) == DISABLED) &#123;</span><br><span class="line">           if (action == MotionEvent.ACTION_UP &amp;&amp; (mPrivateFlags &amp; PFLAG_PRESSED) != 0) &#123;</span><br><span class="line">               setPressed(false);</span><br><span class="line">           &#125;</span><br><span class="line">           mPrivateFlags3 &amp;= ~PFLAG3_FINGER_DOWN;</span><br><span class="line">           //如果一个vew设置了点击事件或者长按事件，即使它是DISABLED的，</span><br><span class="line">           //也会消费这个事件，只是不响应。也就是这里直接返回true，但是下面的代码都不执行了。</span><br><span class="line">           return clickable;</span><br><span class="line">       &#125;</span><br><span class="line">       //如果view设置了代理执行下面的方法</span><br><span class="line">       if (mTouchDelegate != null) &#123;</span><br><span class="line">           if (mTouchDelegate.onTouchEvent(event)) &#123;</span><br><span class="line">               return true;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       //如果是可点击的，就开始处理ACTION_UP，ACTION_DOWN，ACTION_CANCEL，ACTION_MOVE事件。</span><br><span class="line">       if (clickable || (viewFlags &amp; TOOLTIP) == TOOLTIP) &#123;</span><br><span class="line">           switch (action) &#123;</span><br><span class="line">               case MotionEvent.ACTION_UP:</span><br><span class="line">                   mPrivateFlags3 &amp;= ~PFLAG3_FINGER_DOWN;</span><br><span class="line">                   if ((viewFlags &amp; TOOLTIP) == TOOLTIP) &#123;</span><br><span class="line">                       handleTooltipUp();</span><br><span class="line">                   &#125;</span><br><span class="line">                   if (!clickable) &#123;</span><br><span class="line">                       removeTapCallback();</span><br><span class="line">                       removeLongPressCallback();</span><br><span class="line">                       mInContextButtonPress = false;</span><br><span class="line">                       mHasPerformedLongPress = false;</span><br><span class="line">                       mIgnoreNextUpEvent = false;</span><br><span class="line">                       break;</span><br><span class="line">                   &#125;</span><br><span class="line">                   boolean prepressed = (mPrivateFlags &amp; PFLAG_PREPRESSED) != 0;</span><br><span class="line">                   if ((mPrivateFlags &amp; PFLAG_PRESSED) != 0 || prepressed) &#123;</span><br><span class="line">                       boolean focusTaken = false;</span><br><span class="line">                       if (isFocusable() &amp;&amp; isFocusableInTouchMode() &amp;&amp; !isFocused()) &#123;</span><br><span class="line">                           focusTaken = requestFocus();</span><br><span class="line">                       &#125;</span><br><span class="line"></span><br><span class="line">                       if (prepressed) &#123;</span><br><span class="line">                           // 按钮在我们之前就被释放了</span><br><span class="line">                           // 按下显示。让它显示被压的</span><br><span class="line">                           // 现在状态(在调度单击之前)以确保用户可以看到它。</span><br><span class="line">                           setPressed(true, x, y);</span><br><span class="line">                       &#125;</span><br><span class="line">                       //如果没有处理长按事件或者长按事件返回了false</span><br><span class="line">                       //mHasPerformedLongPress在DOWN的时候置为false,在DOWN中</span><br><span class="line">                       //监测是否有长按事件，如果有长按事件mHasPerformedLongPress会置为true</span><br><span class="line">                       if (!mHasPerformedLongPress &amp;&amp; !mIgnoreNextUpEvent) &#123;</span><br><span class="line">                           // 如果没有长按事件，移除掉长按的回调</span><br><span class="line">                           removeLongPressCallback();</span><br><span class="line"></span><br><span class="line">                           // Only perform take click actions if we were in the pressed state</span><br><span class="line">                           if (!focusTaken) &#123;</span><br><span class="line">                              //使用Runnable来执行一个点击事件，而不是直接执行</span><br><span class="line">                               if (mPerformClick == null) &#123;</span><br><span class="line">                                   mPerformClick = new PerformClick();</span><br><span class="line">                               &#125;</span><br><span class="line">                               if (!post(mPerformClick)) &#123;</span><br><span class="line">                                   performClick();</span><br><span class="line">                               &#125;</span><br><span class="line">                           &#125;</span><br><span class="line">                       &#125;</span><br><span class="line"></span><br><span class="line">                       if (mUnsetPressedState == null) &#123;</span><br><span class="line">                           mUnsetPressedState = new UnsetPressedState();</span><br><span class="line">                       &#125;</span><br><span class="line"></span><br><span class="line">                       if (prepressed) &#123;</span><br><span class="line">                           postDelayed(mUnsetPressedState,</span><br><span class="line">                                   ViewConfiguration.getPressedStateDuration());</span><br><span class="line">                       &#125; else if (!post(mUnsetPressedState)) &#123;</span><br><span class="line">                           // If the post failed, unpress right now</span><br><span class="line">                           mUnsetPressedState.run();</span><br><span class="line">                       &#125;</span><br><span class="line"></span><br><span class="line">                       removeTapCallback();</span><br><span class="line">                   &#125;</span><br><span class="line">                   mIgnoreNextUpEvent = false;</span><br><span class="line">                   break;</span><br><span class="line"></span><br><span class="line">               case MotionEvent.ACTION_DOWN:</span><br><span class="line">                   if (event.getSource() == InputDevice.SOURCE_TOUCHSCREEN) &#123;</span><br><span class="line">                       mPrivateFlags3 |= PFLAG3_FINGER_DOWN;</span><br><span class="line">                   &#125;</span><br><span class="line">                   //是否处理长按事件</span><br><span class="line">                   mHasPerformedLongPress = false;</span><br><span class="line"></span><br><span class="line">                   if (!clickable) &#123;</span><br><span class="line">                       //监测长按事件</span><br><span class="line">                       checkForLongClick(0, x, y);</span><br><span class="line">                       break;</span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   if (performButtonActionOnTouchDown(event)) &#123;</span><br><span class="line">                       break;</span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   // 是否在一个滚动容器中</span><br><span class="line">                   boolean isInScrollingContainer = isInScrollingContainer();</span><br><span class="line"></span><br><span class="line">                   // 如果是在容器中，发送一个100毫秒的延时post</span><br><span class="line">                   //在其run方法中监测长按事件</span><br><span class="line">                   if (isInScrollingContainer) &#123;</span><br><span class="line">                       mPrivateFlags |= PFLAG_PREPRESSED;</span><br><span class="line">                       if (mPendingCheckForTap == null) &#123;</span><br><span class="line">                           mPendingCheckForTap = new CheckForTap();</span><br><span class="line">                       &#125;</span><br><span class="line">                       mPendingCheckForTap.x = event.getX();</span><br><span class="line">                       mPendingCheckForTap.y = event.getY();</span><br><span class="line">                       postDelayed(mPendingCheckForTap, ViewConfiguration.getTapTimeout());</span><br><span class="line">                   &#125; else &#123;</span><br><span class="line">                       // 如果不在容器中，直接检查长按事件</span><br><span class="line">                       //长按事件的监测，发送一个500毫秒的延时post，</span><br><span class="line">                       //在run方法中如果检测到是长按就给上面的mHasPerformedLongPress标志位赋值为true</span><br><span class="line">                       setPressed(true, x, y);</span><br><span class="line">                       checkForLongClick(0, x, y);</span><br><span class="line">                   &#125;</span><br><span class="line">                   break;</span><br><span class="line"></span><br><span class="line">               case MotionEvent.ACTION_CANCEL:</span><br><span class="line">                   if (clickable) &#123;</span><br><span class="line">                       setPressed(false);</span><br><span class="line">                   &#125;</span><br><span class="line">                   removeTapCallback();</span><br><span class="line">                   removeLongPressCallback();</span><br><span class="line">                   mInContextButtonPress = false;</span><br><span class="line">                   mHasPerformedLongPress = false;</span><br><span class="line">                   mIgnoreNextUpEvent = false;</span><br><span class="line">                   mPrivateFlags3 &amp;= ~PFLAG3_FINGER_DOWN;</span><br><span class="line">                   break;</span><br><span class="line"></span><br><span class="line">               case MotionEvent.ACTION_MOVE:</span><br><span class="line">                   if (clickable) &#123;</span><br><span class="line">                       drawableHotspotChanged(x, y);</span><br><span class="line">                   &#125;</span><br><span class="line"></span><br><span class="line">                   // Be lenient about moving outside of buttons</span><br><span class="line">                   if (!pointInView(x, y, mTouchSlop)) &#123;</span><br><span class="line">                       // Outside button</span><br><span class="line">                       // Remove any future long press/tap checks</span><br><span class="line">                       removeTapCallback();</span><br><span class="line">                       removeLongPressCallback();</span><br><span class="line">                       if ((mPrivateFlags &amp; PFLAG_PRESSED) != 0) &#123;</span><br><span class="line">                           setPressed(false);</span><br><span class="line">                       &#125;</span><br><span class="line">                       mPrivateFlags3 &amp;= ~PFLAG3_FINGER_DOWN;</span><br><span class="line">                   &#125;</span><br><span class="line">                   break;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           return true;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       return false;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
 <p>onTouchEvent方法中，只要CLICKABLE和LONG_CLICKABLE有一个为true就消费这个事件，在DOWN方法中处理长按事件，在UP方法中处理点击事件。LONG_CLICKABLE默认为false,CLICKABLE的值跟具体的view有关，比如Button默认是true,TextView默认是false。通过setClickable和setLongClickable可以改变这两个值。setOnClickListener和setOnLongClickListener会把这两个值设置为true。</p>
 <p>OK，View的事件分发的源码查看完毕，看一下流程图</p>
-<p><img src="https://github.com/chsmy/chsmy.github.io/blob/master/gallery/technology/view_dispatch.png" alt>   </p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/view_dispatch.png" alt>   </p>
 <p><strong> 总结一下：</strong></p>
 <ul>
 <li>一个事件序列是从手指按下屏幕(ACTION_DOWN)开始，到手指离开屏幕(ACTION_UP)结束，中间有一系列的(ACTION_MOVE)事件，非人为的结束事件会走到ACTION_CANCEL中</li>
@@ -259,7 +259,7 @@
 
 <div class="card">
     <div class="card-content">
-        <h3 class="title is-5 has-text-weight-normal">Comentarios</h3>
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
         
 <script>
     var disqus_config = function () {
@@ -320,7 +320,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Entradas
+                        Posts
                     </p>
                     <p class="title has-text-weight-normal">
                         13
@@ -330,7 +330,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Categorias
+                        Categories
                     </p>
                     <p class="title has-text-weight-normal">
                         7
@@ -340,7 +340,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Etiquetas
+                        Tags
                     </p>
                     <p class="title has-text-weight-normal">
                         5
@@ -350,7 +350,7 @@
         </nav>
         <div class="level">
             <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
-                SEGUIR</a>
+                Follow</a>
         </div>
         
         
@@ -437,7 +437,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Categorias
+                Categories
             </h3>
             <ul class="menu-list">
             <li>
@@ -506,7 +506,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Nube de etiquetas
+            Tag Cloud
         </h3>
         <a href="/tags/UI/" style="font-size: 16.67px;">UI</a> <a href="/tags/感悟/" style="font-size: 13.33px;">感悟</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 20px;">进阶</a>
     </div>
@@ -520,7 +520,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recientes
+            Recent
         </h3>
         
         <article class="media">
@@ -626,7 +626,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Archivos
+            Archives
         </h3>
         <ul class="menu-list">
         
@@ -661,7 +661,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Etiquetas
+                Tags
             </h3>
             <div class="field is-grouped is-grouped-multiline">
                 
@@ -720,7 +720,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recientes
+            Recent
         </h3>
         
         <article class="media">
@@ -826,7 +826,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Archivos
+            Archives
         </h3>
         <ul class="menu-list">
         
@@ -861,7 +861,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Etiquetas
+                Tags
             </h3>
             <div class="field is-grouped is-grouped-multiline">
                 
@@ -1075,10 +1075,10 @@ document.addEventListener('DOMContentLoaded', function () {
     (function (window) {
         var INSIGHT_CONFIG = {
             TRANSLATION: {
-                POSTS: 'Entradas',
+                POSTS: 'Posts',
                 PAGES: 'Pages',
-                CATEGORIES: 'Categorias',
-                TAGS: 'Etiquetas',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
                 UNTITLED: '(Untitled)',
             },
             CONTENT_URL: '/content.json',
