@@ -16,7 +16,7 @@
 <meta property="og:description" content="想要实现一个图片的粒子效果，非常简单">
 <meta property="og:locale" content="CHS">
 <meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/split.gif">
-<meta property="og:updated_time" content="2019-03-31T14:26:21.209Z">
+<meta property="og:updated_time" content="2019-04-02T13:07:55.628Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="粒子效果的实现">
 <meta name="twitter:description" content="想要实现一个图片的粒子效果，非常简单">
@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/idea.css.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
 
 
     
@@ -173,7 +173,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    5 minutes read (About 718 words)
+                    5 minutes read (About 722 words)
                 </span>
                 
                 
@@ -198,10 +198,10 @@
 <li>在onTouchEvent方法中监听ACTION_DOWN事件开启动画</li>
 <li>如果直接取图片的所有像素，如果图片很大的话，会非常卡，如果不取全部的，那绘制出来效果没原图清晰，我们可以通过一个标志位，开始绘制原图，点击之后在绘制小圆球。</li>
 </ol>
-<p>创建一个Ball对象，用来保存将要绘制的每个点的坐标和当坐标更新时的变化速度。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class Ball &#123;</span><br><span class="line"></span><br><span class="line">    public int color;</span><br><span class="line">    //x坐标</span><br><span class="line">    public float x;</span><br><span class="line">    //y坐标</span><br><span class="line">    public float y;</span><br><span class="line">    //半径</span><br><span class="line">    public float r;</span><br><span class="line"></span><br><span class="line">    //水平速度</span><br><span class="line">    public float vX;</span><br><span class="line">    //垂直速度</span><br><span class="line">    public float vY;</span><br><span class="line">    //水平加速度</span><br><span class="line">    public float aX;</span><br><span class="line">    //垂直加速度</span><br><span class="line">    public float aY;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>创建一个bitmap,遍历它的宽高，获取像素值，和坐标值，封装成一个一个的小球并保存起来。为了提高效率这里的遍历每次+2，可根据实际情况更改。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mBitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.shader);</span><br><span class="line">for (int i = 0; i &lt; mBitmap.getWidth()/d; i+=2) &#123;</span><br><span class="line">           for (int j = 0; j &lt; mBitmap.getHeight()/d; j+=2) &#123;</span><br><span class="line">               Ball ball = new Ball();</span><br><span class="line">               ball.color = mBitmap.getPixel(i,j);</span><br><span class="line">               ball.x = i*d+d/2;</span><br><span class="line">               ball.y = j*d+d/2;</span><br><span class="line">               ball.r = d/2;</span><br><span class="line"></span><br><span class="line">               //速度(-20,20)</span><br><span class="line">               ball.vX = (float) (Math.pow(-1, Math.ceil(Math.random() * 100)) * 20 * Math.random());</span><br><span class="line">               ball.vY = rangInt(-15, 35);</span><br><span class="line">               //加速度</span><br><span class="line">               ball.aX = 0;</span><br><span class="line">               ball.aY = 0.98f;</span><br><span class="line"></span><br><span class="line">               mBalls.add(ball);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure></p>
-<p>开始绘制，判断是绘制原图还是绘制小圆圈。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">    super.onDraw(canvas);</span><br><span class="line">    canvas.translate(getWidth()/2-mBitmap.getWidth()/2,getHeight()/2-mBitmap.getHeight()/2);</span><br><span class="line">    if(isShowBitmap)&#123;</span><br><span class="line">        canvas.drawBitmap(mBitmap,0,0,null);</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        for (Ball ball : mBalls) &#123;</span><br><span class="line">            mPaint.setColor(ball.color);</span><br><span class="line">            canvas.drawCircle(ball.x,ball.y,ball.r,mPaint);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>使用属性动画，动态的更新每个小球的坐标值然后重新绘制。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">splitAnimator = ValueAnimator.ofFloat(0,1);</span><br><span class="line">    splitAnimator.setRepeatCount(-1);</span><br><span class="line">    splitAnimator.setDuration(2000);</span><br><span class="line">    splitAnimator.setInterpolator(new LinearInterpolator());</span><br><span class="line">    splitAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">            updateBall();</span><br><span class="line">            invalidate();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  private void updateBall() &#123;</span><br><span class="line">    for (Ball ball : mBalls) &#123;</span><br><span class="line">        ball.x += ball.vX;</span><br><span class="line">        ball.y += ball.vY;</span><br><span class="line"></span><br><span class="line">        ball.vX += ball.aX;</span><br><span class="line">        ball.vY += ball.aY;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建一个Ball对象，用来保存将要绘制的每个点的坐标和当坐标更新时的变化速度。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Ball</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> color;</span><br><span class="line">    <span class="hljs-comment">//x坐标</span></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">float</span> x;</span><br><span class="line">    <span class="hljs-comment">//y坐标</span></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">float</span> y;</span><br><span class="line">    <span class="hljs-comment">//半径</span></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">float</span> r;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">//水平速度</span></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">float</span> vX;</span><br><span class="line">    <span class="hljs-comment">//垂直速度</span></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">float</span> vY;</span><br><span class="line">    <span class="hljs-comment">//水平加速度</span></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">float</span> aX;</span><br><span class="line">    <span class="hljs-comment">//垂直加速度</span></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">float</span> aY;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建一个bitmap,遍历它的宽高，获取像素值，和坐标值，封装成一个一个的小球并保存起来。为了提高效率这里的遍历每次+2，可根据实际情况更改。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mBitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.shader);</span><br><span class="line"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; mBitmap.getWidth()/d; i+=<span class="hljs-number">2</span>) &#123;</span><br><span class="line">           <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; mBitmap.getHeight()/d; j+=<span class="hljs-number">2</span>) &#123;</span><br><span class="line">               Ball ball = <span class="hljs-keyword">new</span> Ball();</span><br><span class="line">               ball.color = mBitmap.getPixel(i,j);</span><br><span class="line">               ball.x = i*d+d/<span class="hljs-number">2</span>;</span><br><span class="line">               ball.y = j*d+d/<span class="hljs-number">2</span>;</span><br><span class="line">               ball.r = d/<span class="hljs-number">2</span>;</span><br><span class="line"></span><br><span class="line">               <span class="hljs-comment">//速度(-20,20)</span></span><br><span class="line">               ball.vX = (<span class="hljs-keyword">float</span>) (Math.pow(-<span class="hljs-number">1</span>, Math.ceil(Math.random() * <span class="hljs-number">100</span>)) * <span class="hljs-number">20</span> * Math.random());</span><br><span class="line">               ball.vY = rangInt(-<span class="hljs-number">15</span>, <span class="hljs-number">35</span>);</span><br><span class="line">               <span class="hljs-comment">//加速度</span></span><br><span class="line">               ball.aX = <span class="hljs-number">0</span>;</span><br><span class="line">               ball.aY = <span class="hljs-number">0.98f</span>;</span><br><span class="line"></span><br><span class="line">               mBalls.add(ball);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure></p>
+<p>开始绘制，判断是绘制原图还是绘制小圆圈。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onDraw</span><span class="hljs-params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">super</span>.onDraw(canvas);</span><br><span class="line">    canvas.translate(getWidth()/<span class="hljs-number">2</span>-mBitmap.getWidth()/<span class="hljs-number">2</span>,getHeight()/<span class="hljs-number">2</span>-mBitmap.getHeight()/<span class="hljs-number">2</span>);</span><br><span class="line">    <span class="hljs-keyword">if</span>(isShowBitmap)&#123;</span><br><span class="line">        canvas.drawBitmap(mBitmap,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-keyword">null</span>);</span><br><span class="line">    &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">        <span class="hljs-keyword">for</span> (Ball ball : mBalls) &#123;</span><br><span class="line">            mPaint.setColor(ball.color);</span><br><span class="line">            canvas.drawCircle(ball.x,ball.y,ball.r,mPaint);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用属性动画，动态的更新每个小球的坐标值然后重新绘制。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">splitAnimator = ValueAnimator.ofFloat(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>);</span><br><span class="line">    splitAnimator.setRepeatCount(-<span class="hljs-number">1</span>);</span><br><span class="line">    splitAnimator.setDuration(<span class="hljs-number">2000</span>);</span><br><span class="line">    splitAnimator.setInterpolator(<span class="hljs-keyword">new</span> LinearInterpolator());</span><br><span class="line">    splitAnimator.addUpdateListener(<span class="hljs-keyword">new</span> ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAnimationUpdate</span><span class="hljs-params">(ValueAnimator animation)</span> </span>&#123;</span><br><span class="line">            updateBall();</span><br><span class="line">            invalidate();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">updateBall</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">for</span> (Ball ball : mBalls) &#123;</span><br><span class="line">        ball.x += ball.vX;</span><br><span class="line">        ball.y += ball.vY;</span><br><span class="line"></span><br><span class="line">        ball.vX += ball.aX;</span><br><span class="line">        ball.vY += ball.aY;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>OK完成，<a href="https://github.com/chsmy/AndroidDailyText/blob/master/app/src/main/java/com/chs/androiddailytext/netease/SplitView.java" target="_blank" rel="noopener">源码地址点击这里</a></p>
 
         </div>
@@ -253,7 +253,7 @@
 
 <div class="card">
     <div class="card-content">
-        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        <h3 class="title is-5 has-text-weight-normal">Commentaires</h3>
         
 <script>
     var disqus_config = function () {
@@ -314,7 +314,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Posts
+                        Articles
                     </p>
                     <p class="title has-text-weight-normal">
                         13
@@ -324,7 +324,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Categories
+                        Catégories
                     </p>
                     <p class="title has-text-weight-normal">
                         7
@@ -344,7 +344,7 @@
         </nav>
         <div class="level">
             <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
-                Follow</a>
+                SUIVRE</a>
         </div>
         
         
@@ -393,7 +393,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Links
+            Liens
         </h3>
         <ul class="menu-list">
         
@@ -431,7 +431,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Categories
+                Catégories
             </h3>
             <ul class="menu-list">
             <li>
@@ -500,7 +500,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Tag Cloud
+            Nuage de tags
         </h3>
         <a href="/tags/UI/" style="font-size: 16.67px;">UI</a> <a href="/tags/感悟/" style="font-size: 13.33px;">感悟</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 20px;">进阶</a>
     </div>
@@ -514,7 +514,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recent
+            Récents
         </h3>
         
         <article class="media">
@@ -714,7 +714,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recent
+            Récents
         </h3>
         
         <article class="media">
@@ -1069,9 +1069,9 @@ document.addEventListener('DOMContentLoaded', function () {
     (function (window) {
         var INSIGHT_CONFIG = {
             TRANSLATION: {
-                POSTS: 'Posts',
+                POSTS: 'Articles',
                 PAGES: 'Pages',
-                CATEGORIES: 'Categories',
+                CATEGORIES: 'Catégories',
                 TAGS: 'Tags',
                 UNTITLED: '(Untitled)',
             },
