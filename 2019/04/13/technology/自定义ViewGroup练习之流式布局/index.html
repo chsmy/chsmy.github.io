@@ -2,21 +2,25 @@
 <html lang="CH">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>Category: 资料 - 小草喔</title>
+<title>自定义ViewGroup练习之流式布局 - 小草喔</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="冰冻三尺，费一日之寒，只要坚持，终会有收获。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="小草喔">
-<meta property="og:url" content="https://chsmy.github.io/categories/Android/资料/index.html">
+    <meta name="description" content="自定义ViewGroup，写自己的View继承自ViewGroup，然后重写它的onMeasure和onLayout方法即可。">
+<meta name="keywords" content="UI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义ViewGroup练习之流式布局">
+<meta property="og:url" content="https://chsmy.github.io/2019/04/13/technology/自定义ViewGroup练习之流式布局/index.html">
 <meta property="og:site_name" content="小草喔">
-<meta property="og:description" content="冰冻三尺，费一日之寒，只要坚持，终会有收获。">
+<meta property="og:description" content="自定义ViewGroup，写自己的View继承自ViewGroup，然后重写它的onMeasure和onLayout方法即可。">
 <meta property="og:locale" content="CHS">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/flow_layout.png">
+<meta property="og:updated_time" content="2019-04-13T14:03:43.870Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="小草喔">
-<meta name="twitter:description" content="冰冻三尺，费一日之寒，只要坚持，终会有收获。">
+<meta name="twitter:title" content="自定义ViewGroup练习之流式布局">
+<meta name="twitter:description" content="自定义ViewGroup，写自己的View继承自ViewGroup，然后重写它的onMeasure和onLayout方法即可。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/flow_layout.png">
 
 
 
@@ -108,7 +112,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.png" alt="小草喔" height="28">
+                <img src="/images/logo.png" alt="自定义ViewGroup练习之流式布局" height="28">
             
             </a>
         </div>
@@ -154,42 +158,22 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
-    <div class="card-content">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-            <li><a href="/categories">Categories</a></li>
-            
-            <li><a href="/categories/Android/">Android</a></li>
-            
-            <li class="is-active"><a href="#" aria-current="page">资料</a></li>
-        </ul>
-        </nav>
-    </div>
-</div>
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/02/27/technology/Android资料/" class="image is-7by1">
-            <img class="thumbnail" src="/gallery/technology/android.png" alt="Android资料">
-        </a>
-    </div>
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-02-27T04:25:01.000Z">2019-02-27</time>
+                <time class="level-item has-text-grey" datetime="2019-04-13T12:46:30.000Z">2019-04-13</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/资料/">资料</a>
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/UI/">UI</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    2 hours read (About 21626 words)
+                    5 minutes read (About 729 words)
                 </span>
                 
                 
@@ -198,22 +182,63 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/02/27/technology/Android资料/">Android资料</a>
+                自定义ViewGroup练习之流式布局
             
         </h1>
         <div class="content">
-            <p>Anroid学习平时收集的一些资料，方便查找。</p>
+            <p>自定义ViewGroup，写自己的View继承自ViewGroup，然后重写它的onMeasure和onLayout方法即可。</p>
+<a id="more"></a>
+<p><strong>onMeasure</strong> 测量阶段主要分3步</p>
+<ol>
+<li>循环调用子view的measure方法，测量子view的宽高并保存</li>
+<li>通过子view的宽高，来确定自己的宽高</li>
+<li>setMeasuredDimension()方法来保存自己的宽高</li>
+</ol>
+<p>计算子view的尺寸，需要通过父view的测量模式和大小和子view的LayoutParams 来确定。</p>
+<p>View的三种测量模式</p>
+<p>EXACTLY：精准测量模式，比如我们在xml中使用match_parent和写死dp值，如果父view是这种模式，那么子veiw在测量的时候，肯定不能超过这个固定的值，返回MeasureSpec中的size。</p>
+<p>AT_MOST：最大测量模式，比如我们在xml中是用wrap_content，如果父view是这种模式，理论上讲父view的大小是可以无限大的，但是我们也不知道这个值是多少，就暂时把父view当前的size返回，也是MeasureSpec中的size</p>
+<p>UNSPECIFIED：无限制测量模式，没有任何限制，一般用不到。</p>
+<p>onLayout()布局阶段主要分两步</p>
+<ol>
+<li>根据onMeasure中的测量结果，找出子view的左 上 右 下 四个位置的数值</li>
+<li>调用子view的layout方法，传入上面求出来的四个值，完成布局</li>
+</ol>
+<p>下面开始实现一个流式布局的自定义</p>
+<p>首先定义一个类FlowLayout继承自ViewGroup,然后开始实现其onMeasure方法</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onMeasure</span><span class="hljs-params">(<span class="hljs-keyword">int</span> widthMeasureSpec, <span class="hljs-keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">//获取本身宽度的测量模式和大小</span></span><br><span class="line">        <span class="hljs-keyword">int</span> widthSize = MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">//记录当前行每个子view加起来的中宽度</span></span><br><span class="line">        <span class="hljs-keyword">int</span> currentWidth = <span class="hljs-number">0</span>;</span><br><span class="line">        <span class="hljs-comment">//如果有多行，记录最宽的那一行的宽度</span></span><br><span class="line">        <span class="hljs-keyword">int</span> measureWidth = <span class="hljs-number">0</span>;</span><br><span class="line">        <span class="hljs-comment">//记录子view每一行加起来的高度</span></span><br><span class="line">        <span class="hljs-keyword">int</span> currentHeight = <span class="hljs-number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">//遍历测量每个子view</span></span><br><span class="line">        <span class="hljs-keyword">int</span> childCount = getChildCount();</span><br><span class="line">        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; childCount; i++) &#123;</span><br><span class="line">            View chileView = getChildAt(i);</span><br><span class="line">            <span class="hljs-comment">//测量子view的宽高</span></span><br><span class="line">            measureChild(chileView,widthMeasureSpec,heightMeasureSpec);</span><br><span class="line">            <span class="hljs-comment">//得到子view的测量数据</span></span><br><span class="line">            MarginLayoutParams layoutParams = (MarginLayoutParams)chileView.getLayoutParams();</span><br><span class="line">            <span class="hljs-comment">//子view最终实际占用的宽高需要加上它的margin值</span></span><br><span class="line">            <span class="hljs-keyword">int</span> childWidth = chileView.getMeasuredWidth()+ layoutParams.leftMargin+layoutParams.rightMargin;</span><br><span class="line">            <span class="hljs-keyword">int</span> childHeight = chileView.getMeasuredHeight()+layoutParams.topMargin+layoutParams.bottomMargin;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-comment">//如果当前的行的子view的宽加起来小于父view的可用宽度</span></span><br><span class="line">            <span class="hljs-keyword">if</span>(currentWidth&lt;widthSize)&#123;</span><br><span class="line">                currentWidth = currentWidth+childWidth;</span><br><span class="line">                currentHeight = Math.max(currentHeight,childHeight);</span><br><span class="line">            &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                measureWidth = Math.max(currentWidth,childWidth);</span><br><span class="line">                currentWidth = childWidth;</span><br><span class="line">                currentHeight = currentHeight+childHeight;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-comment">//保存自己的宽高</span></span><br><span class="line">        setMeasuredDimension(resolveSize(measureWidth,widthMeasureSpec),resolveSize(currentHeight,heightMeasureSpec));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>循环遍历子view，通过调用系统提供的measureChild方法来测量子view的宽高。</p>
+<p>在计算子view的宽高的同时也计算自己的宽高</p>
+<p>对于宽，流式布局，我们知道，当子view的宽度相加和大于父view的可用宽的时候，需要换行，所以每一行的子view相加的宽度可能都不一样，我们需要找到一个最大值来当做我们自定义的ViewGroup的宽度，也就是上面代码中的measureWidth</p>
+<p>对于高度，定义一个currentHeight来记录当前的高度，没当换一行的时候，它的大小就加上子view的高度</p>
+<p>最后通过setMeasuredDimension方法保存自己的宽高。自己的宽高也要根据自己的测量模式来确定，resolveSize就是系统给提供的一个很好用的根据测量模式来返回最终结果的工具方法，传入我们期望宽高和宽高的测量模式即可，省去我们自己根据测量模式来判断返回值。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">resolveSize</span><span class="hljs-params">(<span class="hljs-keyword">int</span> size, <span class="hljs-keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">      <span class="hljs-keyword">return</span> resolveSizeAndState(size, measureSpec, <span class="hljs-number">0</span>) &amp; MEASURED_SIZE_MASK;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">resolveSizeAndState</span><span class="hljs-params">(<span class="hljs-keyword">int</span> size, <span class="hljs-keyword">int</span> measureSpec, <span class="hljs-keyword">int</span> childMeasuredState)</span> </span>&#123;</span><br><span class="line">      <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> specMode = MeasureSpec.getMode(measureSpec);</span><br><span class="line">      <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> specSize = MeasureSpec.getSize(measureSpec);</span><br><span class="line">      <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> result;</span><br><span class="line">      <span class="hljs-keyword">switch</span> (specMode) &#123;</span><br><span class="line">          <span class="hljs-comment">//如果是最大模式</span></span><br><span class="line">          <span class="hljs-keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">              <span class="hljs-comment">//如果MeasureSpec中的specSize值小于我们传入的期望值</span></span><br><span class="line">              <span class="hljs-comment">//那也不能超过specSize，返回specSize并给它一个太小的标记</span></span><br><span class="line">              <span class="hljs-keyword">if</span> (specSize &lt; size) &#123;</span><br><span class="line">                  result = specSize | MEASURED_STATE_TOO_SMALL;</span><br><span class="line">              &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">              <span class="hljs-comment">//反之，直接返回我们的期望值。</span></span><br><span class="line">                  result = size;</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="hljs-keyword">break</span>;</span><br><span class="line">          <span class="hljs-comment">//如果是精准模式，直接返回MeasureSpec中的值</span></span><br><span class="line">          <span class="hljs-keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">              result = specSize;</span><br><span class="line">              <span class="hljs-keyword">break</span>;</span><br><span class="line">          <span class="hljs-keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">          <span class="hljs-keyword">default</span>:</span><br><span class="line">              result = size;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="hljs-keyword">return</span> result | (childMeasuredState &amp; MEASURED_STATE_MASK);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>然后开始布局<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onLayout</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> b, <span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</span> i1, <span class="hljs-keyword">int</span> i2, <span class="hljs-keyword">int</span> i3)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">//自身的可用宽</span></span><br><span class="line">        <span class="hljs-keyword">int</span> width = getWidth()-getPaddingLeft()-getPaddingRight();</span><br><span class="line">        <span class="hljs-comment">//当前行子view的总宽度</span></span><br><span class="line">        <span class="hljs-keyword">int</span> currentWidth = <span class="hljs-number">0</span>;</span><br><span class="line">        <span class="hljs-comment">//当前高度</span></span><br><span class="line">        <span class="hljs-keyword">int</span> currentHeight = <span class="hljs-number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">//根据上面onMeasure中测量的值，遍历布局子view，算出子view的左上右下的值，调用其layout方法</span></span><br><span class="line">        <span class="hljs-keyword">int</span> childCount = getChildCount();</span><br><span class="line">        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; childCount; j++) &#123;</span><br><span class="line">            View chileView = getChildAt(j);</span><br><span class="line">            <span class="hljs-comment">//得到子view的测量数据</span></span><br><span class="line">            MarginLayoutParams layoutParams = (MarginLayoutParams)chileView.getLayoutParams();</span><br><span class="line">            <span class="hljs-comment">//子view最终实际占用的宽高需要加上它的margin值</span></span><br><span class="line">            <span class="hljs-keyword">int</span> childWidth = chileView.getMeasuredWidth()+ layoutParams.leftMargin+layoutParams.rightMargin;</span><br><span class="line">            <span class="hljs-keyword">int</span> childHeight = chileView.getMeasuredHeight()+layoutParams.topMargin+layoutParams.bottomMargin;</span><br><span class="line">            <span class="hljs-comment">//如果如果当前宽度加上下一个子view的宽度小于父view可用的宽度，就加上子view的宽</span></span><br><span class="line">            <span class="hljs-comment">//反之，当前宽度重置为下一个子view的宽</span></span><br><span class="line">            <span class="hljs-keyword">if</span>(currentWidth+childWidth&lt;width)&#123;</span><br><span class="line">                currentWidth = currentWidth+childWidth;</span><br><span class="line">            &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                currentWidth = childWidth;</span><br><span class="line">                currentHeight = currentHeight + childHeight;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-comment">//计算出子view左 上 右 下 的位置</span></span><br><span class="line">            <span class="hljs-keyword">int</span> childL = currentWidth - childWidth+layoutParams.leftMargin+layoutParams.rightMargin;</span><br><span class="line">            <span class="hljs-keyword">int</span> childT = currentHeight+layoutParams.topMargin+layoutParams.bottomMargin;</span><br><span class="line">            <span class="hljs-keyword">int</span> childR = childL+chileView.getMeasuredWidth();</span><br><span class="line">            <span class="hljs-keyword">int</span> childB = childT + chileView.getMeasuredHeight();</span><br><span class="line">            <span class="hljs-comment">//布局</span></span><br><span class="line">            chileView.layout(childL,childT,childR,childB);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>注释很清楚，求出每个View的左 上 右 下的数值，然后调用子view的layout方法进行布局。</p>
+<p>OK 一个简单的流式布局就完成了</p>
+<p>使用的时候在布局文件中或者在代码中添加数据都可以</p>
+<p>xml中添加<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">com.chs.androiddailytext.netease.FlowLayout</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/flow_layout"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"wrap_content"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"wrap_content"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">style</span>=<span class="hljs-string">"@style/text_flow"</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">android:text</span>=<span class="hljs-string">"哈哈"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">style</span>=<span class="hljs-string">"@style/text_flow"</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">android:text</span>=<span class="hljs-string">"嘎嘎嘎嘎"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">style</span>=<span class="hljs-string">"@style/text_flow"</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">android:text</span>=<span class="hljs-string">"呱呱呱呱呱"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">style</span>=<span class="hljs-string">"@style/text_flow"</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">android:text</span>=<span class="hljs-string">"摇摇摇"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">style</span>=<span class="hljs-string">"@style/text_flow"</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">android:text</span>=<span class="hljs-string">"切克闹"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">style</span>=<span class="hljs-string">"@style/text_flow"</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">android:text</span>=<span class="hljs-string">"呵呵呵呵"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">style</span>=<span class="hljs-string">"@style/text_flow"</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">android:text</span>=<span class="hljs-string">"嘿嘿嘿IEhi额嘿嘿"</span> /&gt;</span></span><br><span class="line">                <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">style</span>=<span class="hljs-string">"@style/text_flow"</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">android:text</span>=<span class="hljs-string">"哇哇哇哇"</span> /&gt;</span></span><br><span class="line">                <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">style</span>=<span class="hljs-string">"@style/text_flow"</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">android:text</span>=<span class="hljs-string">"来来来来"</span> /&gt;</span></span><br><span class="line">                <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">style</span>=<span class="hljs-string">"@style/text_flow"</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">android:text</span>=<span class="hljs-string">"小bitch"</span> /&gt;</span></span><br><span class="line">                <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">style</span>=<span class="hljs-string">"@style/text_flow"</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">android:text</span>=<span class="hljs-string">"come on baby"</span> /&gt;</span></span><br><span class="line">                <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">style</span>=<span class="hljs-string">"@style/text_flow"</span></span></span><br><span class="line"><span class="hljs-tag">                    <span class="hljs-attr">android:text</span>=<span class="hljs-string">"都是弟弟"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">com.chs.androiddailytext.netease.FlowLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>代码中添加,在activity中<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> datas = mutableListOf&lt;String&gt;()</span><br><span class="line">       datas.add(<span class="hljs-string">"刮刮卡"</span>)</span><br><span class="line">       datas.add(<span class="hljs-string">"粒子效果"</span>)</span><br><span class="line">       datas.add(<span class="hljs-string">"splash"</span>)</span><br><span class="line">       datas.add(<span class="hljs-string">"QQ红点拖拽"</span>)</span><br><span class="line">       datas.add(<span class="hljs-string">"PathMeasure"</span>)</span><br><span class="line">       datas.add(<span class="hljs-string">"屏幕适配"</span>)</span><br><span class="line">       datas.add(<span class="hljs-string">"刘海适配"</span>)</span><br><span class="line">       datas.add(<span class="hljs-string">"刘海适配"</span>)</span><br><span class="line">       datas.add(<span class="hljs-string">"FlowLayout"</span>)</span><br><span class="line">       datas.add(<span class="hljs-string">"FlowLayout"</span>)</span><br><span class="line"></span><br><span class="line">       <span class="hljs-keyword">for</span> (str <span class="hljs-keyword">in</span> datas)&#123;</span><br><span class="line">           <span class="hljs-keyword">val</span> textview = TextView(<span class="hljs-keyword">this</span>)</span><br><span class="line">           <span class="hljs-keyword">val</span> lp = ViewGroup.MarginLayoutParams(</span><br><span class="line">                   ViewGroup.LayoutParams.WRAP_CONTENT,</span><br><span class="line">                   ViewGroup.LayoutParams.WRAP_CONTENT)</span><br><span class="line">           lp.setMargins(<span class="hljs-number">15</span>,<span class="hljs-number">15</span>,<span class="hljs-number">15</span>,<span class="hljs-number">15</span>)</span><br><span class="line">           textview.layoutParams = lp</span><br><span class="line">           textview.text = str</span><br><span class="line">           textview.textSize = <span class="hljs-number">20f</span></span><br><span class="line">           textview.background = ContextCompat.getDrawable(<span class="hljs-keyword">this</span>,R.drawable.text_bg)</span><br><span class="line"></span><br><span class="line">           flow_layout.addView(textview)</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后效果：</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/flow_layout.png" alt></p>
+<p><a href="https://github.com/chsmy/AndroidDailyText/blob/master/app/src/main/java/com/chs/androiddailytext/netease/FlowLayout.java" target="_blank" rel="noopener">源码位置在此</a></p>
+
         </div>
         
-        
-        <div class="level is-mobile">
+        <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/02/27/technology/Android资料/#more">Read More</a>
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/UI/">UI</a>
                 </div>
             </div>
         </div>
         
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
         
     </div>
 </div>
@@ -222,9 +247,52 @@
 
 
 
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/04/13/technology/自定义控件神器-PathMeasure/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">自定义控件神器--PathMeasure</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/04/05/technology/RecycleView的缓存原理/">
+                <span class="level-item">RecycleView的缓存原理</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
 
 
 
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/04/13/technology/自定义ViewGroup练习之流式布局/';
+        this.page.identifier = '2019/04/13/technology/自定义ViewGroup练习之流式布局/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
 </div>
                 
 
@@ -884,7 +952,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.png" alt="小草喔" height="28">
+                    <img src="/images/logo.png" alt="自定义ViewGroup练习之流式布局" height="28">
                 
                 </a>
                 <p class="is-size-7">

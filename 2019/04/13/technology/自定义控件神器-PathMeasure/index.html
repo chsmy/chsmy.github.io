@@ -2,21 +2,29 @@
 <html lang="CH">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>Category: 资料 - 小草喔</title>
+<title>自定义控件神器--PathMeasure - 小草喔</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="冰冻三尺，费一日之寒，只要坚持，终会有收获。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="小草喔">
-<meta property="og:url" content="https://chsmy.github.io/categories/Android/资料/index.html">
+    <meta name="description" content="自定义控件神器–PathMeasure">
+<meta name="keywords" content="UI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义控件神器--PathMeasure">
+<meta property="og:url" content="https://chsmy.github.io/2019/04/13/technology/自定义控件神器-PathMeasure/index.html">
 <meta property="og:site_name" content="小草喔">
-<meta property="og:description" content="冰冻三尺，费一日之寒，只要坚持，终会有收获。">
+<meta property="og:description" content="自定义控件神器–PathMeasure">
 <meta property="og:locale" content="CHS">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/pathmeasure_1.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/pathmeasure_2.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/pathmeasure_3.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/pathmeasure_4.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/pathmeasure_5.gif">
+<meta property="og:updated_time" content="2019-04-13T14:03:49.102Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="小草喔">
-<meta name="twitter:description" content="冰冻三尺，费一日之寒，只要坚持，终会有收获。">
+<meta name="twitter:title" content="自定义控件神器--PathMeasure">
+<meta name="twitter:description" content="自定义控件神器–PathMeasure">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/pathmeasure_1.gif">
 
 
 
@@ -108,7 +116,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.png" alt="小草喔" height="28">
+                <img src="/images/logo.png" alt="自定义控件神器--PathMeasure" height="28">
             
             </a>
         </div>
@@ -154,42 +162,22 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
-    <div class="card-content">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-            <li><a href="/categories">Categories</a></li>
-            
-            <li><a href="/categories/Android/">Android</a></li>
-            
-            <li class="is-active"><a href="#" aria-current="page">资料</a></li>
-        </ul>
-        </nav>
-    </div>
-</div>
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/02/27/technology/Android资料/" class="image is-7by1">
-            <img class="thumbnail" src="/gallery/technology/android.png" alt="Android资料">
-        </a>
-    </div>
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-02-27T04:25:01.000Z">2019-02-27</time>
+                <time class="level-item has-text-grey" datetime="2019-04-13T13:50:57.000Z">2019-04-13</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/资料/">资料</a>
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/UI/">UI</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    2 hours read (About 21626 words)
+                    8 minutes read (About 1254 words)
                 </span>
                 
                 
@@ -198,22 +186,62 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/02/27/technology/Android资料/">Android资料</a>
+                自定义控件神器--PathMeasure
             
         </h1>
         <div class="content">
-            <p>Anroid学习平时收集的一些资料，方便查找。</p>
+            <p>自定义控件神器–PathMeasure</p>
+<a id="more"></a>
+<p>我们平时自定义View的时候，经常会绘制path，想要求出path路径上的某个点的位置，很难通过一般的数学函数来计算，幸好系统给我们提供了一个PathMeasure可以用来测量一个path的路径，我们可以根据测量得到的值来绘制一些别的效果。</p>
+<p>PathMeasure有两个构造方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PathMeasure</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">      mPath = <span class="hljs-keyword">null</span>;</span><br><span class="line">      native_instance = native_create(<span class="hljs-number">0</span>, <span class="hljs-keyword">false</span>);</span><br><span class="line">  &#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PathMeasure</span><span class="hljs-params">(Path path, <span class="hljs-keyword">boolean</span> forceClosed)</span> </span>&#123;</span><br><span class="line">      mPath = path;</span><br><span class="line">      native_instance = native_create(path != <span class="hljs-keyword">null</span> ? path.readOnlyNI() : <span class="hljs-number">0</span>,forceClosed);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>一个是有参数的，一个是没参数的</p>
+<ul>
+<li>有参数的构造方法中第一个很好理解就是需要测量的path，第二个参数的意思是是否计算path路径闭合的路径。如果是true，那么不管我们path是不是闭合了，它都会去计算闭合的路径。如果是false就不会计算。</li>
+<li>没有参数创建出来之后，可以通过 <code>pathMeasure.setPath(mPath,false);</code>方法把path和forceClosed这两个参数传进去</li>
+</ul>
+<p>下面来看PathMeasure中的几个比较常用的方法</p>
+<p><strong>getSegment</strong></p>
+<p>给定一个起始点，一个结束点和一个空path对象，把给定的起点到终点的路径赋值给这个空的path。<code>public boolean getSegment(float startD, float stopD, Path dst, boolean startWithMoveTo)</code>。最后一个参数startWithMoveTo表示起点是否使用moveTo，用来保证截取的path第一个点的位置不变。从而保证截取的片段不会变形</p>
+<p>它返回的是一个boolean值，如果截取到的路径长度是0就返回false，不是0就返回true。</p>
+<p>下面来看一下使用getSegment的简单案例,在onDraw方法中<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mPath.reset();</span><br><span class="line">mFloat += <span class="hljs-number">0.01</span>;</span><br><span class="line"><span class="hljs-keyword">if</span> (mFloat &gt;= <span class="hljs-number">1</span>)&#123;</span><br><span class="line">    mFloat = <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">mPath.addCircle(getWidth()/<span class="hljs-number">2</span>,getHeight()/<span class="hljs-number">2</span>,<span class="hljs-number">200</span>,Path.Direction.CW);</span><br><span class="line">mDst.reset();</span><br><span class="line">pathMeasure.setPath(mPath,<span class="hljs-keyword">false</span>);</span><br><span class="line"><span class="hljs-keyword">float</span> distance = pathMeasure.getLength() * mFloat;</span><br><span class="line">pathMeasure.getSegment(<span class="hljs-number">0</span>, distance , mDst, <span class="hljs-keyword">true</span>);</span><br><span class="line">canvas.drawPath(mDst, mPaint);</span><br><span class="line">invalidate();</span><br></pre></td></tr></table></figure></p>
+<p>使用一个0-1的成员变量mFloat来控制当前截取比例，每次调用invalidate的时候mFloat的值都会改变，这样就可以弄个简单的动画效果 效果如下</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/pathmeasure_1.gif" alt></p>
+<p>上面一直是从0来时截取如果我们改一下截取的位置<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pathMeasure.getSegment(<span class="hljs-number">2</span>*distance/<span class="hljs-number">3</span>, distance, mDst, <span class="hljs-keyword">true</span>);</span><br></pre></td></tr></table></figure></p>
+<p>第一个参数改成了<code>2*distance/3</code>，效果如下，类似一个加载动画的效果，这个参数可以随便改，更改的不同截取效果就不同</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/pathmeasure_2.gif" alt></p>
+<p>前面两个我们只绘制了我们截取的path，下面把原path也绘制上，截取的部分换一种颜色绘制，效果如下</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/pathmeasure_3.gif" alt></p>
+<p><strong>getPosTan</strong></p>
+<p>getPosTan方法，可以获得path路径上某个点的位置和这个点的切线的值。<code>public boolean getPosTan(float distance, float pos[], float tan[])</code> distance是当前需要截取的长度，pos是一个数组，如果不为空，可以给这个数组赋值，pos[0]是x坐标pos[1]是y坐标，tan跟也是个数组，tan[0],tan[1]代表切线的值，通过Math.atan2()方法传入tan[0],tan[1]可以获取到当前切线的角度。</p>
+<p>下面看一个简单的例子<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">mPath.reset();</span><br><span class="line"></span><br><span class="line">  mFloat += <span class="hljs-number">0.01</span>;</span><br><span class="line">  <span class="hljs-keyword">if</span> (mFloat &gt;= <span class="hljs-number">1</span>)&#123;</span><br><span class="line">      mFloat = <span class="hljs-number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"> mPath.addCircle(getWidth()/<span class="hljs-number">2</span>,getHeight()/<span class="hljs-number">2</span>,<span class="hljs-number">200</span>,Path.Direction.CW);</span><br><span class="line">  pathMeasure.setPath(mPath,<span class="hljs-keyword">false</span>);</span><br><span class="line"> <span class="hljs-comment">//用来记录位置</span></span><br><span class="line">  <span class="hljs-keyword">float</span> []pos = <span class="hljs-keyword">new</span> <span class="hljs-keyword">float</span>[<span class="hljs-number">2</span>];</span><br><span class="line">  <span class="hljs-comment">//用来记录切点的位置</span></span><br><span class="line">  <span class="hljs-keyword">float</span> []tan = <span class="hljs-keyword">new</span> <span class="hljs-keyword">float</span>[<span class="hljs-number">2</span>];</span><br><span class="line">  <span class="hljs-keyword">float</span> distance = pathMeasure.getLength() * mFloat;</span><br><span class="line">  pathMeasure.getPosTan(distance,pos,tan);</span><br><span class="line">  <span class="hljs-comment">//计算出当前图片要旋转的角度</span></span><br><span class="line">  <span class="hljs-keyword">float</span> degree = (<span class="hljs-keyword">float</span>) (Math.atan2(tan[<span class="hljs-number">1</span>], tan[<span class="hljs-number">0</span>]) * <span class="hljs-number">180</span> / Math.PI);</span><br><span class="line">  mMatrix.reset();</span><br><span class="line">  <span class="hljs-comment">//设置旋转角度和旋转中心</span></span><br><span class="line">  mMatrix.postRotate(degree,mBitmap.getWidth() / <span class="hljs-number">2</span>,mBitmap.getHeight() / <span class="hljs-number">2</span>);</span><br><span class="line">  <span class="hljs-comment">//设置绘制的中心点与当前图片中心点重合</span></span><br><span class="line">  mMatrix.postTranslate(pos[<span class="hljs-number">0</span>]-mBitmap.getWidth() / <span class="hljs-number">2</span>,pos[<span class="hljs-number">1</span>]-mBitmap.getHeight()/<span class="hljs-number">2</span>);</span><br><span class="line">  canvas.drawPath(mPath, mPaint);</span><br><span class="line">  canvas.drawBitmap(mBitmap,mMatrix, mPaint);</span><br></pre></td></tr></table></figure></p>
+<p>效果如下：</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/pathmeasure_4.gif" alt></p>
+<p>通过getPosTan方法，获取到当前的角度，通过Matrix方法把一个图片旋转这个角度，然后绘制到圆圈上</p>
+<p>除了使用getPosTan之外，还有一个稍微简单的方法可以获取到pos和tan的值，通过<code>pathMeasure.getMatrix</code>方法</p>
+<p> public boolean getMatrix(float distance, Matrix matrix, int flags) </p>
+<p> 前两个值好理解，最后一个值flag，用来指定矩阵中需要返回那些参数，有两个值</p>
+<p>   public static final int POSITION_MATRIX_FLAG = 0x01;<br>   public static final int TANGENT_MATRIX_FLAG  = 0x02;</p>
+<p>这两个值分别代表前面的pos和tan，例如下面的代码<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mPath.reset();</span><br><span class="line"> mFloat += <span class="hljs-number">0.01</span>;</span><br><span class="line"> <span class="hljs-keyword">if</span> (mFloat &gt;= <span class="hljs-number">1</span>)&#123;</span><br><span class="line">     mFloat = <span class="hljs-number">0</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="hljs-comment">//路径</span></span><br><span class="line"> mPath.lineTo(<span class="hljs-number">0</span>, <span class="hljs-number">200</span>);</span><br><span class="line"> mPath.lineTo(<span class="hljs-number">300</span>, <span class="hljs-number">200</span>);</span><br><span class="line"> mPath.quadTo(<span class="hljs-number">450</span>,<span class="hljs-number">100</span>,<span class="hljs-number">600</span>,<span class="hljs-number">200</span>);</span><br><span class="line"> mPath.lineTo(<span class="hljs-number">900</span>, <span class="hljs-number">200</span>);</span><br><span class="line"> pathMeasure.setPath(mPath,<span class="hljs-keyword">false</span>);</span><br><span class="line"> <span class="hljs-comment">//将pos信息和tan信息保存在mMatrix中</span></span><br><span class="line"> pathMeasure.getMatrix(pathMeasure.getLength() * mFloat, mMatrix,</span><br><span class="line">         PathMeasure.POSITION_MATRIX_FLAG | PathMeasure.TANGENT_MATRIX_FLAG);</span><br><span class="line"> <span class="hljs-comment">//将图片的旋转坐标调整到图片中心位置</span></span><br><span class="line"> mMatrix.preTranslate(-mBitmap.getWidth() / <span class="hljs-number">2</span>, -mBitmap.getHeight() / <span class="hljs-number">2</span>);</span><br><span class="line"> canvas.drawPath(mPath, mPaint);</span><br><span class="line"> canvas.drawBitmap(mBitmap,mMatrix, mPaint);</span><br></pre></td></tr></table></figure></p>
+<p>效果：</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/pathmeasure_5.gif" alt></p>
+<p><a href="https://github.com/chsmy/AndroidDailyText/blob/master/app/src/main/java/com/chs/androiddailytext/netease/PathMeasureView.java" target="_blank" rel="noopener">源码地址</a></p>
+
         </div>
         
-        
-        <div class="level is-mobile">
+        <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/02/27/technology/Android资料/#more">Read More</a>
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/UI/">UI</a>
                 </div>
             </div>
         </div>
         
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
         
     </div>
 </div>
@@ -222,9 +250,45 @@
 
 
 
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/04/13/technology/自定义ViewGroup练习之流式布局/">
+                <span class="level-item">自定义ViewGroup练习之流式布局</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
 
 
 
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/04/13/technology/自定义控件神器-PathMeasure/';
+        this.page.identifier = '2019/04/13/technology/自定义控件神器-PathMeasure/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
 </div>
                 
 
@@ -884,7 +948,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.png" alt="小草喔" height="28">
+                    <img src="/images/logo.png" alt="自定义控件神器--PathMeasure" height="28">
                 
                 </a>
                 <p class="is-size-7">
