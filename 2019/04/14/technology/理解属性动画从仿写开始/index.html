@@ -17,7 +17,7 @@
 <meta property="og:locale" content="CHS">
 <meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/myanimator_1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/myanimator_2.gif">
-<meta property="og:updated_time" content="2019-04-14T12:37:02.007Z">
+<meta property="og:updated_time" content="2019-04-14T12:39:10.780Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="理解属性动画从仿写开始">
 <meta name="twitter:description" content="属性动画的本质：">
@@ -146,7 +146,7 @@
                 
                 
                 
-                <a class="navbar-item search" title="Pencarian" href="javascript:;">
+                <a class="navbar-item search" title="Search" href="javascript:;">
                     <i class="fas fa-search"></i>
                 </a>
                 
@@ -174,7 +174,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    14 minutes membaca (Sekitar 2105 kata)
+                    14 minutes read (About 2103 words)
                 </span>
                 
                 
@@ -190,10 +190,10 @@
             <p>属性动画的本质：</p>
 <a id="more"></a>
 <p>改变某一个View某一个时间点的属性值，比如一个View在0.1秒的时候在100px的位置，0.2秒的时候到了200px的位置，这就会让我们感觉到一个动画的效果，实际上就时每隔一段时间调用view.setX()方法。</p>
-<p>先看一下系统属性动画的简单用法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Button button = findViewById(R.id.button);</span><br><span class="line"> ObjectAnimator animator = ObjectAnimator.ofFloat(button,<span class="hljs-string">"translationX"</span>,<span class="hljs-number">0</span>,<span class="hljs-number">200</span>);</span><br><span class="line">        animator.setDuration(<span class="hljs-number">2000</span>);</span><br><span class="line">        animator.start();</span><br><span class="line">        animator.setInterpolator(<span class="hljs-keyword">new</span> LinearInterpolator());</span><br></pre></td></tr></table></figure></p>
+<p>看一下系统属性动画的简单用法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Button button = findViewById(R.id.button);</span><br><span class="line"> ObjectAnimator animator = ObjectAnimator.ofFloat(button,<span class="hljs-string">"translationX"</span>,<span class="hljs-number">0</span>,<span class="hljs-number">200</span>);</span><br><span class="line">        animator.setDuration(<span class="hljs-number">2000</span>);</span><br><span class="line">        animator.start();</span><br><span class="line">        animator.setInterpolator(<span class="hljs-keyword">new</span> LinearInterpolator());</span><br></pre></td></tr></table></figure></p>
 <p>通过上面的方法，就会让一个button移动起来。下面我们自己来实现一个这个效果。</p>
 <p>动画是需要时间来完成的，不同的时间节点，控件的状态也不一样。所以需要把一个动画分解成一个一个的关键帧。</p>
-<p>先看下面的流程图<br><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/myanimator_1.png" alt></p>
+<p>看下面的流程图<br><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/myanimator_1.png" alt></p>
 <p>此图是我自己的理解，如果问题欢迎指正。</p>
 <p>当我们开始调用一个动画的时候，比如<code>ObjectAnimator.ofFloat(button,&quot;translationX&quot;,0,200);</code></p>
 <ol>
@@ -290,7 +290,7 @@
 
 <div class="card">
     <div class="card-content">
-        <h3 class="title is-5 has-text-weight-normal">Komentar</h3>
+        <h3 class="title is-5 has-text-weight-normal">Commentaires</h3>
         
 <script>
     var disqus_config = function () {
@@ -351,7 +351,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Artikel
+                        Articles
                     </p>
                     <p class="title has-text-weight-normal">
                         21
@@ -361,7 +361,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Kategori
+                        Catégories
                     </p>
                     <p class="title has-text-weight-normal">
                         7
@@ -371,7 +371,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Tag
+                        Tags
                     </p>
                     <p class="title has-text-weight-normal">
                         5
@@ -381,7 +381,7 @@
         </nav>
         <div class="level">
             <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
-                IKUTI</a>
+                SUIVRE</a>
         </div>
         
         
@@ -430,7 +430,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Tautan
+            Liens
         </h3>
         <ul class="menu-list">
         
@@ -468,7 +468,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Kategori
+                Catégories
             </h3>
             <ul class="menu-list">
             <li>
@@ -537,7 +537,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Awan tag
+            Nuage de tags
         </h3>
         <a href="/tags/UI/" style="font-size: 20px;">UI</a> <a href="/tags/感悟/" style="font-size: 13.33px;">感悟</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 16.67px;">进阶</a>
     </div>
@@ -551,7 +551,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Terbaru
+            Récents
         </h3>
         
         <article class="media">
@@ -657,7 +657,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Arsip
+            Archives
         </h3>
         <ul class="menu-list">
         
@@ -703,7 +703,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Tag
+                Tags
             </h3>
             <div class="field is-grouped is-grouped-multiline">
                 
@@ -762,7 +762,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Terbaru
+            Récents
         </h3>
         
         <article class="media">
@@ -868,7 +868,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Arsip
+            Archives
         </h3>
         <ul class="menu-list">
         
@@ -914,7 +914,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Tag
+                Tags
             </h3>
             <div class="field is-grouped is-grouped-multiline">
                 
@@ -1082,7 +1082,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     
 
-<a id="back-to-top" title="Kembali ke atas" href="javascript:;">
+<a id="back-to-top" title="Back to Top" href="javascript:;">
     <i class="fas fa-chevron-up"></i>
 </a>
 <script src="/js/back-to-top.js" defer></script>
@@ -1116,7 +1116,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="searchbox ins-search">
     <div class="searchbox-container ins-search-container">
         <div class="searchbox-input-wrapper">
-            <input type="text" class="searchbox-input ins-search-input" placeholder="Tulis Sesuatu..">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
             <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="searchbox-result-wrapper ins-section-wrapper">
@@ -1128,11 +1128,11 @@ document.addEventListener('DOMContentLoaded', function () {
     (function (window) {
         var INSIGHT_CONFIG = {
             TRANSLATION: {
-                POSTS: 'Artikel',
-                PAGES: 'Halaman',
-                CATEGORIES: 'Kategori',
-                TAGS: 'Tag',
-                UNTITLED: 'Tanpa Judul',
+                POSTS: 'Articles',
+                PAGES: 'Pages',
+                CATEGORIES: 'Catégories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
             },
             CONTENT_URL: '/content.json',
         };
