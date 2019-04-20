@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="小草喔">
 <meta property="og:description" content="Room是在Sqlite数据的一个抽象层，拥有更强大的数据访问能力。">
 <meta property="og:locale" content="CHS">
-<meta property="og:updated_time" content="2019-04-20T05:17:06.414Z">
+<meta property="og:updated_time" content="2019-04-20T05:23:36.839Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android Jetpack之Room">
 <meta name="twitter:description" content="Room是在Sqlite数据的一个抽象层，拥有更强大的数据访问能力。">
@@ -236,16 +236,17 @@
 </ol>
 <figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> age;</span><br></pre></td></tr></table></figure>
 <ol start="2">
-<li><p>编写Migration类，编写sql更改数据库</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Migration MIGRATION_1_2 = <span class="hljs-keyword">new</span> Migration(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>) &#123;</span><br><span class="line">      <span class="hljs-meta">@Override</span></span><br><span class="line">      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">migrate</span><span class="hljs-params">(SupportSQLiteDatabase database)</span> </span>&#123;</span><br><span class="line">          database.execSQL(<span class="hljs-string">"alter table user add age INTEGER NOT NULL default 0"</span>);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>更改数据库的版本由1变成2</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Database</span>(entities = &#123;User.class&#125;,version = <span class="hljs-number">2</span>,exportSchema = <span class="hljs-keyword">false</span>)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserRoomDatabase</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RoomDatabase</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>更改数据库的创建方法</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">instance = Room.databaseBuilder(context.getApplicationContext(),UserRoomDatabase.class</span><br><span class="line">                   ,<span class="hljs-string">"user_database"</span>)</span><br><span class="line">                           .addMigrations(MIGRATION_1_2)</span><br><span class="line">                           .build();</span><br></pre></td></tr></table></figure>
-</li>
+<li>编写Migration类，编写sql更改数据库</li>
 </ol>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Migration MIGRATION_1_2 = <span class="hljs-keyword">new</span> Migration(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>) &#123;</span><br><span class="line">      <span class="hljs-meta">@Override</span></span><br><span class="line">      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">migrate</span><span class="hljs-params">(SupportSQLiteDatabase database)</span> </span>&#123;</span><br><span class="line">          database.execSQL(<span class="hljs-string">"alter table user add age INTEGER NOT NULL default 0"</span>);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>更改数据库的版本由1变成2</li>
+</ol>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Database</span>(entities = &#123;User.class&#125;,version = <span class="hljs-number">2</span>,exportSchema = <span class="hljs-keyword">false</span>)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserRoomDatabase</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RoomDatabase</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>更改数据库的创建方法</li>
+</ol>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">instance = Room.databaseBuilder(context.getApplicationContext(),UserRoomDatabase.class</span><br><span class="line">                   ,<span class="hljs-string">"user_database"</span>)</span><br><span class="line">                           .addMigrations(MIGRATION_1_2)</span><br><span class="line">                           .build();</span><br></pre></td></tr></table></figure>
 <p>然后重新运行程序就可以看到age字段已经加到表里了。</p>
 <p>addMigrations方法，里面可以接收多个参数，比如现在只是编写了版本1-2的升级方法MIGRATION_1_2，假如我们还有2-3版本的还可以编写一个MIGRATION_2_3，添加到后面。</p>
 <p><a href="https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929" target="_blank" rel="noopener">更新数据库的版本</a></p>
