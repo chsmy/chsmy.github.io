@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Android Jetpack之Room - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="Room是在Sqlite数据的一个抽象层，拥有更强大的数据访问能力。">
+<meta name="keywords" content="jetpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Jetpack之Room">
+<meta property="og:url" content="https://chsmy.github.io/2019/04/20/technology/Android-Jetpack之Room/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="Room是在Sqlite数据的一个抽象层，拥有更强大的数据访问能力。">
+<meta property="og:locale" content="CHS">
+<meta property="og:updated_time" content="2019-04-20T05:17:06.414Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Jetpack之Room">
+<meta name="twitter:description" content="Room是在Sqlite数据的一个抽象层，拥有更强大的数据访问能力。">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Android Jetpack之Room" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-04-20T03:13:01.000Z">2019-04-20</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    26 minutes read (About 3876 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Android Jetpack之Room
+            
+        </h1>
+        <div class="content">
+            <p>Room是在Sqlite数据的一个抽象层，拥有更强大的数据访问能力。</p>
+<a id="more"></a>
+<p>导入依赖：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">def room_version = <span class="hljs-string">"2.1.0-alpha06"</span></span><br><span class="line">implementation <span class="hljs-string">"androidx.room:room-runtime:$room_version"</span></span><br><span class="line">annotationProcessor <span class="hljs-string">"androidx.room:room-compiler:$room_version"</span></span><br><span class="line"></span><br><span class="line"> <span class="hljs-comment">// kotlin扩展和协程支持</span></span><br><span class="line">implementation <span class="hljs-string">"androidx.room:room-ktx:$room_version"</span></span><br><span class="line"><span class="hljs-comment">//RxJava 支持库</span></span><br><span class="line">implementation <span class="hljs-string">"androidx.room:room-rxjava2:$room_version"</span></span><br><span class="line"><span class="hljs-comment">// 可选 - Guava 的支持库</span></span><br><span class="line">implementation <span class="hljs-string">"androidx.room:room-guava:$room_version"</span></span><br></pre></td></tr></table></figure></p>
+<p>下面开始使用</p>
+<h4 id="第一步创建实体类"><a href="#第一步创建实体类" class="headerlink" title="第一步创建实体类"></a>第一步创建实体类</h4><p>假如我们有一个用户表，每个用户的实体就是表中的一列</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Entity</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@PrimaryKey</span></span><br><span class="line">    <span class="hljs-meta">@NonNull</span></span><br><span class="line">    <span class="hljs-meta">@ColumnInfo</span>(name = <span class="hljs-string">"id_"</span>)</span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> id;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">public</span> String name;</span><br><span class="line">    <span class="hljs-keyword">public</span> String password;</span><br><span class="line">    <span class="hljs-keyword">public</span> String school;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>@Entity：</strong> 代表一个表中的实体，默认类名就是表名，如果不想使用类名作为表名，可以给注解添加表名字段<code>@Entity(tableName = &quot;user_table&quot;)</code></li>
+<li><strong>@PrimaryKey：</strong> 每个实体都需要自己的主键</li>
+<li><strong>@NonNull</strong> 表示字段，方法，参数返回值不能为空</li>
+<li><strong>@ColumnInfo(name = “lastname”)</strong> 如果希望表中字段名跟类中的成员变量名不同，添加此字段指明</li>
+</ul>
+<h4 id="第二步创建DAO"><a href="#第二步创建DAO" class="headerlink" title="第二步创建DAO"></a>第二步创建DAO</h4><ul>
+<li>DAO是数据访问对象，指定SQL查询，并让他与方法调用相关联。</li>
+<li>DAO必须是一个接口或者抽象类。</li>
+<li>默认情况下，所有的查询都必须在单独的线程中执行</li>
+</ul>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Dao</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UserDao</span> </span>&#123;</span><br><span class="line">    <span class="hljs-meta">@Insert</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">insert</span><span class="hljs-params">(User user)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Query</span>(<span class="hljs-string">"select * from user"</span>)</span><br><span class="line">    <span class="hljs-function">List&lt;User&gt; <span class="hljs-title">getUserList</span><span class="hljs-params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Query</span>(<span class="hljs-string">"delete from user"</span>)</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">deleteAll</span><span class="hljs-params">()</span></span>;</span><br><span class="line">    </span><br><span class="line">     <span class="hljs-meta">@Update</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">updateUsers</span><span class="hljs-params">(User... users)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建一个接口UserDao</li>
+<li>给它添加注解@Dao，表名它是Room的一个查询类</li>
+<li>声明一个插入用户的方法insert，并给它添加注解@Insert，不用提供任何SQL语句</li>
+<li>声明一个删除全部的方法，deleteAll()，删除方法没有便捷方法，需要使用@Query注解，并且提供相应的SQL语句<code>delete from user</code></li>
+<li>声明一个getUserList方法来查询所有的用户，这个也没有便捷方法，，需要使用@Query注解，并且提供相应的SQL语句<code>select * from user</code></li>
+</ul>
+<h4 id="第三步添加Database"><a href="#第三步添加Database" class="headerlink" title="第三步添加Database"></a>第三步添加Database</h4><p>Room是SQLite数据库之上的数据库层，可以让我们轻松的使用系统原始API：SQLiteOpenHelper<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Database</span>(entities = &#123;User.class&#125;,version = <span class="hljs-number">1</span>)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserRoomDatabase</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RoomDatabase</span> </span>&#123;</span><br><span class="line">   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> UserDao <span class="hljs-title">userDao</span><span class="hljs-params">()</span></span>;</span><br><span class="line"></span><br><span class="line">   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> UserRoomDatabase instance;</span><br><span class="line"></span><br><span class="line">   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> UserRoomDatabase <span class="hljs-title">getInstance</span><span class="hljs-params">(Context context)</span></span>&#123;</span><br><span class="line">       <span class="hljs-keyword">if</span>(instance == <span class="hljs-keyword">null</span>)&#123;</span><br><span class="line">           <span class="hljs-keyword">synchronized</span> (UserRoomDatabase.class)&#123;</span><br><span class="line">               <span class="hljs-keyword">if</span>(instance == <span class="hljs-keyword">null</span>)&#123;</span><br><span class="line">                   instance = Room.databaseBuilder(context.getApplicationContext(),UserRoomDatabase.class</span><br><span class="line">                   ,<span class="hljs-string">"user_database"</span>).build();</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="hljs-keyword">return</span> instance;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>创建一个抽象类继承自RoomDatabase</li>
+<li>给他添加一个注解<code>@Database</code>表名它是一个数据库，注解有两个参数第一个是数据库的实体，它是一个数组，可以传多个，当数据库创建的时候，会默认给创建好对应的表，第二个参数是数据库的版本号</li>
+<li>定义跟数据库一起使用的相关的DAO类</li>
+<li>创建一个UserRoomDatabase的单例，防止同时打开多个数据库的实例</li>
+<li>使用Room提供的数据库构建器来创建该实例，第一个参数application，第二个参数当前数据库的实体类，第三个参数数据库的名字</li>
+</ul>
+<h4 id="第四步开始使用"><a href="#第四步开始使用" class="headerlink" title="第四步开始使用"></a>第四步开始使用</h4><p>前面三步主要步骤写完了，现在就可以开始使用了，使用的时候，为了让Activity中代码简洁，创建一个UserRepository类来管理这个数据库<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserRepository</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> UserDao mUserDao;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> List&lt;User&gt; allUser;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">UserRepository</span><span class="hljs-params">(Application application)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">//UserRoomDatabase db = UserRoomDatabase.getInstance(application);</span></span><br><span class="line">        <span class="hljs-comment">//mUserDao = db.userDao();</span></span><br><span class="line">        <span class="hljs-comment">//allUser = mUserDao.getUserList();</span></span><br><span class="line">        <span class="hljs-comment">//使用ViweModel可以直接使用上面注释了的</span></span><br><span class="line">        <span class="hljs-keyword">new</span> InitThread(application).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;User&gt; <span class="hljs-title">getAllUser</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> allUser;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">deleteAll</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">        <span class="hljs-keyword">new</span> DeleteAsyncTask(mUserDao).execute();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(User user)</span></span>&#123;</span><br><span class="line">       <span class="hljs-keyword">new</span> UpdateAsyncTask(mUserDao).execute(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">insert</span><span class="hljs-params">(User user)</span></span>&#123;</span><br><span class="line">     <span class="hljs-keyword">new</span> InsertAsyncTask(mUserDao).execute(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span>  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">InitThread</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span></span>&#123;</span><br><span class="line">        Application application;</span><br><span class="line">        InitThread(Application application)&#123;</span><br><span class="line">            <span class="hljs-keyword">this</span>.application = application;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">            UserRoomDatabase db = UserRoomDatabase.getInstance(application);</span><br><span class="line">            mUserDao = db.userDao();</span><br><span class="line">            allUser = mUserDao.getUserList();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-comment">//更新</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UpdateAsyncTask</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AsyncTask</span>&lt;<span class="hljs-title">User</span>, <span class="hljs-title">Void</span>, <span class="hljs-title">Void</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">private</span> UserDao mAsyncTaskDao;</span><br><span class="line"></span><br><span class="line">        UpdateAsyncTask(UserDao dao) &#123;</span><br><span class="line">            mAsyncTaskDao = dao;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">protected</span> Void <span class="hljs-title">doInBackground</span><span class="hljs-params">(<span class="hljs-keyword">final</span> User... params)</span> </span>&#123;</span><br><span class="line">            mAsyncTaskDao.updateUsers(params[<span class="hljs-number">0</span>]);</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-comment">//插入</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">InsertAsyncTask</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AsyncTask</span>&lt;<span class="hljs-title">User</span>, <span class="hljs-title">Void</span>, <span class="hljs-title">Void</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">private</span> UserDao mAsyncTaskDao;</span><br><span class="line"></span><br><span class="line">        InsertAsyncTask(UserDao dao) &#123;</span><br><span class="line">            mAsyncTaskDao = dao;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">protected</span> Void <span class="hljs-title">doInBackground</span><span class="hljs-params">(<span class="hljs-keyword">final</span> User... params)</span> </span>&#123;</span><br><span class="line">            mAsyncTaskDao.insert(params[<span class="hljs-number">0</span>]);</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-comment">//删除</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DeleteAsyncTask</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AsyncTask</span>&lt;<span class="hljs-title">Void</span>, <span class="hljs-title">Void</span>, <span class="hljs-title">Void</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">private</span> UserDao mAsyncTaskDao;</span><br><span class="line"></span><br><span class="line">        DeleteAsyncTask(UserDao dao) &#123;</span><br><span class="line">            mAsyncTaskDao = dao;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">protected</span> Void <span class="hljs-title">doInBackground</span><span class="hljs-params">(Void... voids)</span> </span>&#123;</span><br><span class="line">            mAsyncTaskDao.deleteAll();</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个类的作用就是初始化数据库和响应的DAO类，对外提供插入、查询等方法。</p>
+<p>注意：数据库的创建，表的插入和删除操作，Room会强制要求在非UI线程中使用，否则会崩溃。</p>
+<p>在Activity中初始化UserRepository之后，就可以进行相关的操作了</p>
+<h4 id="使用LiveData和ViewModel"><a href="#使用LiveData和ViewModel" class="headerlink" title="使用LiveData和ViewModel"></a>使用LiveData和ViewModel</h4><p>当数据变化的时候，LiveData可以观察到数据的变化，可以让我们实时更新UI</p>
+<p>ViewModel可以更好的保存Activity中的数据，比如屏幕旋转的时候数据不会丢失</p>
+<p>ViewModel与Room和LiveData一起工作可以替换以前的loader。ViewModel确保数据在设备配置更改后仍然存在。当数据库发生更改时，Room会通LiveData，而LiveData反过来又用修改后的数据更的UI。</p>
+<p>将DAO中的查询更改为下面</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Query</span>(<span class="hljs-string">"select * from user"</span>)</span><br><span class="line">    LiveData&lt;List&lt;User&gt;&gt; getUserList();</span><br></pre></td></tr></table></figure>
+<p>然后创建ViewModel<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserViewModel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AndroidViewModel</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">private</span> LiveData&lt;List&lt;User&gt;&gt; mUsers;</span><br><span class="line">    <span class="hljs-keyword">private</span> UserRepository mRepository;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">UserViewModel</span><span class="hljs-params">(Application application)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>(application);</span><br><span class="line">        mRepository = <span class="hljs-keyword">new</span> UserRepository(application);</span><br><span class="line">        mUsers =  mRepository.getAllUser();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">public</span> LiveData&lt;List&lt;User&gt;&gt; getUsers()&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> mUsers;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">insertUser</span><span class="hljs-params">(User user)</span></span>&#123;</span><br><span class="line">        mRepository.insert(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">deleteAll</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">        mRepository.deleteAll();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(User user)</span></span>&#123;</span><br><span class="line">        mRepository.update(user);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们单独使用LiveData的时候，都是使用MutableLiveData，当与Room一块使用的时候只能使用LiveData。</p>
+<p>Activity中使用<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RoomActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    List&lt;User&gt; mUsers = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    UserRepository mRepository;</span><br><span class="line">    MyAdapter mAdapter;</span><br><span class="line">    <span class="hljs-keyword">int</span> index = <span class="hljs-number">0</span>;</span><br><span class="line">    <span class="hljs-keyword">private</span> UserViewModel mViewModel;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(@Nullable Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_room);</span><br><span class="line"><span class="hljs-comment">//        mRepository = new UserRepository(getApplication());</span></span><br><span class="line"><span class="hljs-comment">//        mUsers = new ArrayList&lt;&gt;();</span></span><br><span class="line">        RecyclerView recyclerView = findViewById(R.id.recycleview);</span><br><span class="line">        LinearLayoutManager manager = <span class="hljs-keyword">new</span> LinearLayoutManager(<span class="hljs-keyword">this</span>);</span><br><span class="line">        recyclerView.setLayoutManager(manager);</span><br><span class="line">        mAdapter = <span class="hljs-keyword">new</span> MyAdapter(mUsers,<span class="hljs-keyword">this</span>);</span><br><span class="line">        recyclerView.setAdapter(mAdapter);</span><br><span class="line"></span><br><span class="line">        mViewModel = ViewModelProviders.of(<span class="hljs-keyword">this</span>).get(UserViewModel.class);</span><br><span class="line"></span><br><span class="line">        mViewModel.getUsers().observe(<span class="hljs-keyword">this</span>, <span class="hljs-keyword">new</span> Observer&lt;List&lt;User&gt;&gt;() &#123;</span><br><span class="line">            <span class="hljs-meta">@Override</span></span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onChanged</span><span class="hljs-params">(List&lt;User&gt; users)</span> </span>&#123;</span><br><span class="line">                mUsers.clear();</span><br><span class="line">                mUsers.addAll(users);</span><br><span class="line">                mAdapter.notifyDataSetChanged();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">insert</span><span class="hljs-params">(View view)</span> </span>&#123;</span><br><span class="line">        User user = <span class="hljs-keyword">new</span> User();</span><br><span class="line">        user.id =index;</span><br><span class="line">        user.name = <span class="hljs-string">"张三"</span>+ Math.random()*<span class="hljs-number">100</span>;</span><br><span class="line">        user.school = <span class="hljs-string">"北大"</span>+ Math.random()*<span class="hljs-number">100</span>;</span><br><span class="line">        user.password = <span class="hljs-string">"123"</span>+ Math.random()*<span class="hljs-number">100</span>;</span><br><span class="line"><span class="hljs-comment">//        mRepository.insert(user);</span></span><br><span class="line">        mViewModel.insertUser(user);</span><br><span class="line">        index++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">query</span><span class="hljs-params">(View view)</span> </span>&#123;</span><br><span class="line"><span class="hljs-comment">//        List&lt;User&gt; allUser = mRepository.getAllUser();</span></span><br><span class="line"><span class="hljs-comment">//        mUsers.addAll(allUser);</span></span><br><span class="line"><span class="hljs-comment">//        mAdapter.notifyDataSetChanged();</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">deleteAll</span><span class="hljs-params">(View view)</span> </span>&#123;</span><br><span class="line">        mViewModel.deleteAll();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(View view)</span> </span>&#123;</span><br><span class="line">        User user = <span class="hljs-keyword">new</span> User();</span><br><span class="line">        user.id =<span class="hljs-number">0</span>;</span><br><span class="line">        user.name = <span class="hljs-string">"张三"</span>+ Math.random()*<span class="hljs-number">100</span>;</span><br><span class="line">        user.school = <span class="hljs-string">"北大"</span>+ Math.random()*<span class="hljs-number">100</span>;</span><br><span class="line">        user.password = <span class="hljs-string">"123"</span>+ Math.random()*<span class="hljs-number">100</span>;</span><br><span class="line">        mViewModel.update(user);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="数据库升级"><a href="#数据库升级" class="headerlink" title="数据库升级"></a>数据库升级</h4><p>当数据库中的表或者表中的字段有变化的时候，我们需要升级数据的版本，这个时候，我们不希望现在数据库中的数据丢失</p>
+<p>Room提供了相应的类（Migration）来完成数据库的迁移，需要传入一个旧版本和新版本，比如现在在user表中新加一个age字段</p>
+<ol>
+<li>在User类中新加一个字段</li>
+</ol>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> age;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><p>编写Migration类，编写sql更改数据库</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Migration MIGRATION_1_2 = <span class="hljs-keyword">new</span> Migration(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>) &#123;</span><br><span class="line">      <span class="hljs-meta">@Override</span></span><br><span class="line">      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">migrate</span><span class="hljs-params">(SupportSQLiteDatabase database)</span> </span>&#123;</span><br><span class="line">          database.execSQL(<span class="hljs-string">"alter table user add age INTEGER NOT NULL default 0"</span>);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更改数据库的版本由1变成2</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Database</span>(entities = &#123;User.class&#125;,version = <span class="hljs-number">2</span>,exportSchema = <span class="hljs-keyword">false</span>)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserRoomDatabase</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RoomDatabase</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更改数据库的创建方法</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">instance = Room.databaseBuilder(context.getApplicationContext(),UserRoomDatabase.class</span><br><span class="line">                   ,<span class="hljs-string">"user_database"</span>)</span><br><span class="line">                           .addMigrations(MIGRATION_1_2)</span><br><span class="line">                           .build();</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>然后重新运行程序就可以看到age字段已经加到表里了。</p>
+<p>addMigrations方法，里面可以接收多个参数，比如现在只是编写了版本1-2的升级方法MIGRATION_1_2，假如我们还有2-3版本的还可以编写一个MIGRATION_2_3，添加到后面。</p>
+<p><a href="https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929" target="_blank" rel="noopener">更新数据库的版本</a></p>
+<hr>
+<p>OK,到这里Room的简单使用就完成啦。下面来看看它的源码吧</p>
+<p>前面我们知道数据库的创建是从<code>Room.databaseBuilder(...).build();</code>方法开始，很明显看出来这是通过建造者模式创建出来的。传入一些参数到RoomDatabase.Builder中，最终的创建方法肯定就是在build中。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">  <span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">build</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">       ......</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">if</span> (mFactory == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            mFactory = <span class="hljs-keyword">new</span> FrameworkSQLiteOpenHelperFactory();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-comment">//数据库配置</span></span><br><span class="line">        DatabaseConfiguration configuration =</span><br><span class="line">                <span class="hljs-keyword">new</span> DatabaseConfiguration(</span><br><span class="line">                        mContext,</span><br><span class="line">                        mName,</span><br><span class="line">                        mFactory,</span><br><span class="line">                        mMigrationContainer,</span><br><span class="line">                        mCallbacks,</span><br><span class="line">                        mAllowMainThreadQueries,</span><br><span class="line">                        mJournalMode.resolve(mContext),</span><br><span class="line">                        mQueryExecutor,</span><br><span class="line">                        mTransactionExecutor,</span><br><span class="line">                        mMultiInstanceInvalidation,</span><br><span class="line">                        mRequireMigration,</span><br><span class="line">                        mAllowDestructiveMigrationOnDowngrade,</span><br><span class="line">                        mMigrationsNotRequiredFrom);</span><br><span class="line">        <span class="hljs-comment">//前面创建的UserRoomDatabase是个抽象类，编译期间会生成对应的实现类UserRoomDatabase_Impl，获取UserRoomDatabase的实现类</span></span><br><span class="line">        T db = Room.getGeneratedImplementation(mDatabaseClass, DB_IMPL_SUFFIX);</span><br><span class="line">        <span class="hljs-comment">//初始化数据库</span></span><br><span class="line">        db.init(configuration);</span><br><span class="line">        <span class="hljs-keyword">return</span> db;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建了一个SQLiteOpenHelper的工厂类FrameworkSQLiteOpenHelperFactory<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FrameworkSQLiteOpenHelperFactory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">SupportSQLiteOpenHelper</span>.<span class="hljs-title">Factory</span> </span>&#123;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> SupportSQLiteOpenHelper <span class="hljs-title">create</span><span class="hljs-params">(SupportSQLiteOpenHelper.Configuration configuration)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> FrameworkSQLiteOpenHelper(</span><br><span class="line">                configuration.context, configuration.name, configuration.callback);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个工厂方法可以创建一个FrameworkSQLiteOpenHelper，它是SupportSQLiteOpenHelper接口的实现类。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FrameworkSQLiteOpenHelper</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">SupportSQLiteOpenHelper</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> OpenHelper mDelegate;</span><br><span class="line"></span><br><span class="line">    FrameworkSQLiteOpenHelper(Context context, String name,</span><br><span class="line">            Callback callback) &#123;</span><br><span class="line">        mDelegate = createDelegate(context, name, callback);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到在其构造方法中创建了一个代理类OpenHelper<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OpenHelper</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SQLiteOpenHelper</span> </span>&#123;......&#125;</span><br></pre></td></tr></table></figure></p>
+<p>OpenHelper继承自系统的SQLiteOpenHelper，它用来监听数据库的创建(onCreate)升级(onUpgrade)等操作。然后回调给RoomOpenHelper来处理。</p>
+<p>回到build()方法中，将数据库的配置封装到DatabaseConfiguration中，然后获取我们之前写的抽象类UserRoomDatabase的一个实现类，这个实现类是注解器在编译期间自动创建的。</p>
+<p>位置在：build-&gt;generated-&gt;source-&gt;apt-&gt;debug-&gt;你的包名中找到。最后初始化数据库。怎么创建的可以去查一下编译时注解的原理。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">static</span> &lt;T, C&gt; <span class="hljs-function">T <span class="hljs-title">getGeneratedImplementation</span><span class="hljs-params">(Class&lt;C&gt; klass, String suffix)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">//包名</span></span><br><span class="line">    <span class="hljs-keyword">final</span> String fullPackage = klass.getPackage().getName();</span><br><span class="line">    <span class="hljs-comment">//全名</span></span><br><span class="line">    String name = klass.getCanonicalName();</span><br><span class="line">    <span class="hljs-keyword">final</span> String postPackageName = fullPackage.isEmpty()</span><br><span class="line">            ? name</span><br><span class="line">            : (name.substring(fullPackage.length() + <span class="hljs-number">1</span>));</span><br><span class="line">    <span class="hljs-comment">//拼成UserRoomDatabase_Impl</span></span><br><span class="line">    <span class="hljs-keyword">final</span> String implName = postPackageName.replace(<span class="hljs-string">'.'</span>, <span class="hljs-string">'_'</span>) + suffix;</span><br><span class="line">    <span class="hljs-comment">//noinspection TryWithIdenticalCatches</span></span><br><span class="line">    <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">    <span class="hljs-comment">//通过反射找到生成的类，然后实例化</span></span><br><span class="line">        <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>)</span><br><span class="line">        <span class="hljs-keyword">final</span> Class&lt;T&gt; aClass = (Class&lt;T&gt;) Class.forName(</span><br><span class="line">                fullPackage.isEmpty() ? implName : fullPackage + <span class="hljs-string">"."</span> + implName);</span><br><span class="line">        <span class="hljs-keyword">return</span> aClass.newInstance();</span><br><span class="line">    &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">"cannot find implementation for "</span></span><br><span class="line">                + klass.getCanonicalName() + <span class="hljs-string">". "</span> + implName + <span class="hljs-string">" does not exist"</span>);</span><br><span class="line">    &#125; <span class="hljs-keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">"Cannot access the constructor"</span></span><br><span class="line">                + klass.getCanonicalName());</span><br><span class="line">    &#125; <span class="hljs-keyword">catch</span> (InstantiationException e) &#123;</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">"Failed to create an instance of "</span></span><br><span class="line">                + klass.getCanonicalName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的方法就是根据我们传入的数据库的类名，拼接出Room编译器给自动生成的实现类的名字，然后通过反射找到这个类并实例化返回。</p>
+<p>下面看一下这个自动生成的类UserRoomDatabase_Impl<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserRoomDatabase_Impl</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">UserRoomDatabase</span> </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> UserDao _userDao;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-meta">@Override</span></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">protected</span> SupportSQLiteOpenHelper <span class="hljs-title">createOpenHelper</span><span class="hljs-params">(DatabaseConfiguration configuration)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">final</span> SupportSQLiteOpenHelper.Callback _openCallback = <span class="hljs-keyword">new</span> RoomOpenHelper(configuration, <span class="hljs-keyword">new</span> RoomOpenHelper.Delegate(<span class="hljs-number">2</span>) &#123;</span><br><span class="line">      <span class="hljs-meta">@Override</span></span><br><span class="line">      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createAllTables</span><span class="hljs-params">(SupportSQLiteDatabase _db)</span> </span>&#123;</span><br><span class="line">        _db.execSQL(<span class="hljs-string">"CREATE TABLE IF NOT EXISTS `User` (`id_` INTEGER NOT NULL, `name` TEXT, `password` TEXT, `school` TEXT, `age` INTEGER NOT NULL, PRIMARY KEY(`id_`))"</span>);</span><br><span class="line">        _db.execSQL(<span class="hljs-string">"CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)"</span>);</span><br><span class="line">        _db.execSQL(<span class="hljs-string">"INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c59ead1e532b11ea2062c3f5e814a66b\")"</span>);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="hljs-meta">@Override</span></span><br><span class="line">      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dropAllTables</span><span class="hljs-params">(SupportSQLiteDatabase _db)</span> </span>&#123;</span><br><span class="line">        _db.execSQL(<span class="hljs-string">"DROP TABLE IF EXISTS `User`"</span>);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="hljs-meta">@Override</span></span><br><span class="line">      <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(SupportSQLiteDatabase _db)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (mCallbacks != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">          <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> _i = <span class="hljs-number">0</span>, _size = mCallbacks.size(); _i &lt; _size; _i++) &#123;</span><br><span class="line">            mCallbacks.get(_i).onCreate(_db);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="hljs-meta">@Override</span></span><br><span class="line">      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onOpen</span><span class="hljs-params">(SupportSQLiteDatabase _db)</span> </span>&#123;</span><br><span class="line">        mDatabase = _db;</span><br><span class="line">        internalInitInvalidationTracker(_db);</span><br><span class="line">        <span class="hljs-keyword">if</span> (mCallbacks != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">          <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> _i = <span class="hljs-number">0</span>, _size = mCallbacks.size(); _i &lt; _size; _i++) &#123;</span><br><span class="line">            mCallbacks.get(_i).onOpen(_db);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="hljs-meta">@Override</span></span><br><span class="line">      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onPreMigrate</span><span class="hljs-params">(SupportSQLiteDatabase _db)</span> </span>&#123;</span><br><span class="line">        DBUtil.dropFtsSyncTriggers(_db);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="hljs-meta">@Override</span></span><br><span class="line">      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onPostMigrate</span><span class="hljs-params">(SupportSQLiteDatabase _db)</span> </span>&#123;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="hljs-meta">@Override</span></span><br><span class="line">      <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">validateMigration</span><span class="hljs-params">(SupportSQLiteDatabase _db)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">final</span> HashMap&lt;String, TableInfo.Column&gt; _columnsUser = <span class="hljs-keyword">new</span> HashMap&lt;String, TableInfo.Column&gt;(<span class="hljs-number">5</span>);</span><br><span class="line">        _columnsUser.put(<span class="hljs-string">"id_"</span>, <span class="hljs-keyword">new</span> TableInfo.Column(<span class="hljs-string">"id_"</span>, <span class="hljs-string">"INTEGER"</span>, <span class="hljs-keyword">true</span>, <span class="hljs-number">1</span>));</span><br><span class="line">        _columnsUser.put(<span class="hljs-string">"name"</span>, <span class="hljs-keyword">new</span> TableInfo.Column(<span class="hljs-string">"name"</span>, <span class="hljs-string">"TEXT"</span>, <span class="hljs-keyword">false</span>, <span class="hljs-number">0</span>));</span><br><span class="line">        _columnsUser.put(<span class="hljs-string">"password"</span>, <span class="hljs-keyword">new</span> TableInfo.Column(<span class="hljs-string">"password"</span>, <span class="hljs-string">"TEXT"</span>, <span class="hljs-keyword">false</span>, <span class="hljs-number">0</span>));</span><br><span class="line">        _columnsUser.put(<span class="hljs-string">"school"</span>, <span class="hljs-keyword">new</span> TableInfo.Column(<span class="hljs-string">"school"</span>, <span class="hljs-string">"TEXT"</span>, <span class="hljs-keyword">false</span>, <span class="hljs-number">0</span>));</span><br><span class="line">        _columnsUser.put(<span class="hljs-string">"age"</span>, <span class="hljs-keyword">new</span> TableInfo.Column(<span class="hljs-string">"age"</span>, <span class="hljs-string">"INTEGER"</span>, <span class="hljs-keyword">true</span>, <span class="hljs-number">0</span>));</span><br><span class="line">        <span class="hljs-keyword">final</span> HashSet&lt;TableInfo.ForeignKey&gt; _foreignKeysUser = <span class="hljs-keyword">new</span> HashSet&lt;TableInfo.ForeignKey&gt;(<span class="hljs-number">0</span>);</span><br><span class="line">        <span class="hljs-keyword">final</span> HashSet&lt;TableInfo.Index&gt; _indicesUser = <span class="hljs-keyword">new</span> HashSet&lt;TableInfo.Index&gt;(<span class="hljs-number">0</span>);</span><br><span class="line">        <span class="hljs-keyword">final</span> TableInfo _infoUser = <span class="hljs-keyword">new</span> TableInfo(<span class="hljs-string">"User"</span>, _columnsUser, _foreignKeysUser, _indicesUser);</span><br><span class="line">        <span class="hljs-keyword">final</span> TableInfo _existingUser = TableInfo.read(_db, <span class="hljs-string">"User"</span>);</span><br><span class="line">        <span class="hljs-keyword">if</span> (! _infoUser.equals(_existingUser)) &#123;</span><br><span class="line">          <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"Migration didn't properly handle User(com.chs.androiddailytext.jetpack.User).\n"</span></span><br><span class="line">                  + <span class="hljs-string">" Expected:\n"</span> + _infoUser + <span class="hljs-string">"\n"</span></span><br><span class="line">                  + <span class="hljs-string">" Found:\n"</span> + _existingUser);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;, <span class="hljs-string">"c59ead1e532b11ea2062c3f5e814a66b"</span>, <span class="hljs-string">"c0809d515e95fc9eec52ad8880ec6aae"</span>);</span><br><span class="line">    <span class="hljs-keyword">final</span> SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)</span><br><span class="line">        .name(configuration.name)</span><br><span class="line">        .callback(_openCallback)</span><br><span class="line">        .build();</span><br><span class="line">    <span class="hljs-keyword">final</span> SupportSQLiteOpenHelper _helper = configuration.sqliteOpenHelperFactory.create(_sqliteConfig);</span><br><span class="line">    <span class="hljs-keyword">return</span> _helper;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-meta">@Override</span></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">protected</span> InvalidationTracker <span class="hljs-title">createInvalidationTracker</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">final</span> HashMap&lt;String, String&gt; _shadowTablesMap = <span class="hljs-keyword">new</span> HashMap&lt;String, String&gt;(<span class="hljs-number">0</span>);</span><br><span class="line">    HashMap&lt;String, Set&lt;String&gt;&gt; _viewTables = <span class="hljs-keyword">new</span> HashMap&lt;String, Set&lt;String&gt;&gt;(<span class="hljs-number">0</span>);</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> InvalidationTracker(<span class="hljs-keyword">this</span>, _shadowTablesMap, _viewTables, <span class="hljs-string">"User"</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-meta">@Override</span></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">clearAllTables</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">super</span>.assertNotMainThread();</span><br><span class="line">    <span class="hljs-keyword">final</span> SupportSQLiteDatabase _db = <span class="hljs-keyword">super</span>.getOpenHelper().getWritableDatabase();</span><br><span class="line">    <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">      <span class="hljs-keyword">super</span>.beginTransaction();</span><br><span class="line">      _db.execSQL(<span class="hljs-string">"DELETE FROM `User`"</span>);</span><br><span class="line">      <span class="hljs-keyword">super</span>.setTransactionSuccessful();</span><br><span class="line">    &#125; <span class="hljs-keyword">finally</span> &#123;</span><br><span class="line">      <span class="hljs-keyword">super</span>.endTransaction();</span><br><span class="line">      _db.query(<span class="hljs-string">"PRAGMA wal_checkpoint(FULL)"</span>).close();</span><br><span class="line">      <span class="hljs-keyword">if</span> (!_db.inTransaction()) &#123;</span><br><span class="line">        _db.execSQL(<span class="hljs-string">"VACUUM"</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-meta">@Override</span></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">public</span> UserDao <span class="hljs-title">userDao</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (_userDao != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">      <span class="hljs-keyword">return</span> _userDao;</span><br><span class="line">    &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">      <span class="hljs-keyword">synchronized</span>(<span class="hljs-keyword">this</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">if</span>(_userDao == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">          _userDao = <span class="hljs-keyword">new</span> UserDao_Impl(<span class="hljs-keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> _userDao;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>createOpenHelper方法，创建SupportSQLiteOpenHelper的实现类FrameworkSQLiteOpenHelper，前面我们知道他的构造方法中创建了一个代理类OpenHelper它继承自系统的SQLiteOpenHelper，这个就是我们如果不使用Room，而是自己使用系统提供的类操作数据库的时候需要创建的类，这里Room帮我们创建好了，这个方法是在前面build()方法中的 db.init(configuration)中调用的</li>
+<li>createOpenHelper方法中创建了SupportSQLiteOpenHelper.Callback这个回调，并实现它的回调方法从代码中看到它是一个RoomOpenHelper。</li>
+<li>OpenHelper监听系统回调，监听到之后会回调RoomOpenHelper的相关方法，RoomOpenHelper又会回调UserRoomDatabase_Impl中的相关方法。</li>
+<li>onCreate（）中Sql语句创建user表和room_master_table表，dropAllTables方法删除数据库，validateMigration方法实现数据库升级</li>
+<li>userDao()方法创建UserDao_Impl的实例，这个UserDao_Impl也是注解处理器给我们自动生成的，这里面就是我们定义的UserDao中增删改查的真正实现的地方。</li>
+</ul>
+<p>然后在看build()方法中的init方法</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">(@NonNull DatabaseConfiguration configuration)</span> </span>&#123;</span><br><span class="line">       mOpenHelper = createOpenHelper(configuration);</span><br><span class="line">       <span class="hljs-keyword">boolean</span> wal = <span class="hljs-keyword">false</span>;</span><br><span class="line">       <span class="hljs-keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN) &#123;</span><br><span class="line">           wal = configuration.journalMode == JournalMode.WRITE_AHEAD_LOGGING;</span><br><span class="line">           mOpenHelper.setWriteAheadLoggingEnabled(wal);</span><br><span class="line">       &#125;</span><br><span class="line">       mCallbacks = configuration.callbacks;</span><br><span class="line">       mQueryExecutor = configuration.queryExecutor;</span><br><span class="line">       mTransactionExecutor = <span class="hljs-keyword">new</span> TransactionExecutor(configuration.transactionExecutor);</span><br><span class="line">       mAllowMainThreadQueries = configuration.allowMainThreadQueries;</span><br><span class="line">       mWriteAheadLoggingEnabled = wal;</span><br><span class="line">       <span class="hljs-keyword">if</span> (configuration.multiInstanceInvalidation) &#123;</span><br><span class="line">           mInvalidationTracker.startMultiInstanceInvalidation(configuration.context,</span><br><span class="line">                   configuration.name);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>createOpenHelper(configuration)就是调用了UserRoomDatabase_Impl中的createOpenHelper方法。</li>
+<li>mQueryExecutor 和 mTransactionExecutor 是两个线程池，查询和事物的线程池。这就是为啥前面例子中我们的查询方法不用自己放到非UI线程中执行，而插入和更新方法却需要自己创建子线程执行了。</li>
+</ul>
+<p>下面来看看升级的方法，前面我们知道OpenHelper这个代理类继承了系统的SQLiteOpenHelper，会监听系统的数据库相关事件，我们找到它中的升级方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onUpgrade</span><span class="hljs-params">(SQLiteDatabase sqLiteDatabase, <span class="hljs-keyword">int</span> oldVersion, <span class="hljs-keyword">int</span> newVersion)</span> </span>&#123;</span><br><span class="line">           mMigrated = <span class="hljs-keyword">true</span>;</span><br><span class="line">           mCallback.onUpgrade(getWrappedDb(sqLiteDatabase), oldVersion, newVersion);</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure></p>
+<p>mCallback就是我们在UserRoomDatabase_Impl中创建的RoomOpenHelper一路传进来的<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onUpgrade</span><span class="hljs-params">(SupportSQLiteDatabase db, <span class="hljs-keyword">int</span> oldVersion, <span class="hljs-keyword">int</span> newVersion)</span> </span>&#123;</span><br><span class="line">      <span class="hljs-keyword">boolean</span> migrated = <span class="hljs-keyword">false</span>;</span><br><span class="line">      <span class="hljs-keyword">if</span> (mConfiguration != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">      <span class="hljs-comment">//根据版本号查找对应的migrations</span></span><br><span class="line">          List&lt;Migration&gt; migrations = mConfiguration.migrationContainer.findMigrationPath(</span><br><span class="line">                  oldVersion, newVersion);</span><br><span class="line">          <span class="hljs-keyword">if</span> (migrations != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">              <span class="hljs-comment">//迁移之前的初始化工作</span></span><br><span class="line">              mDelegate.onPreMigrate(db);</span><br><span class="line">              <span class="hljs-comment">//循环执行我们写的sql</span></span><br><span class="line">              <span class="hljs-keyword">for</span> (Migration migration : migrations) &#123;</span><br><span class="line">                  migration.migrate(db);</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="hljs-comment">//验证升级结果</span></span><br><span class="line">              mDelegate.validateMigration(db);</span><br><span class="line">              mDelegate.onPostMigrate(db);</span><br><span class="line">              updateIdentity(db);</span><br><span class="line">              migrated = <span class="hljs-keyword">true</span>;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="hljs-comment">//如果没有执行我们的sql</span></span><br><span class="line">      <span class="hljs-keyword">if</span> (!migrated) &#123;</span><br><span class="line">          <span class="hljs-keyword">if</span> (mConfiguration != <span class="hljs-keyword">null</span></span><br><span class="line">                  &amp;&amp; !mConfiguration.isMigrationRequired(oldVersion, newVersion)) &#123;</span><br><span class="line">              <span class="hljs-comment">//删除清空表</span></span><br><span class="line">              mDelegate.dropAllTables(db);</span><br><span class="line">              mDelegate.createAllTables(db);</span><br><span class="line">          &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">              <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"A migration from "</span> + oldVersion + <span class="hljs-string">" to "</span></span><br><span class="line">                      + newVersion + <span class="hljs-string">" was required but not found. Please provide the "</span></span><br><span class="line">                      + <span class="hljs-string">"necessary Migration path via "</span></span><br><span class="line">                      + <span class="hljs-string">"RoomDatabase.Builder.addMigration(Migration ...) or allow for "</span></span><br><span class="line">                      + <span class="hljs-string">"destructive migrations via one of the "</span></span><br><span class="line">                      + <span class="hljs-string">"RoomDatabase.Builder.fallbackToDestructiveMigration* methods."</span>);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里面的mDelegate就是我们在UserRoomDatabase_Impl中new出来的RoomOpenHelper.Delegate，并实现了它里面的方法，所以上面代码中调用Delegate最终都会到达UserRoomDatabase_Impl中的相关方法执行。</p>
+<p>findMigrationPath方法根据版本号找到相应的migrations，前面使用中我们知道migrations中封装了我们升级数据库的sql语句。</p>
+<p>循环执行我们的migrations，执行我们写的升级的sql语句，执行完之后验证是否升级成功。</p>
+<p>如果没有执行找到需要执行的migrations ，并且mConfiguration.isMigrationRequired(oldVersion, newVersion)为false，就会清空数据库中所有的表。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isMigrationRequired</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fromVersion, <span class="hljs-keyword">int</span> toVersion)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> isDowngrade = fromVersion &gt; toVersion;</span><br><span class="line">    <span class="hljs-keyword">if</span> (isDowngrade &amp;&amp; allowDestructiveMigrationOnDowngrade) &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到当旧版本大于新版本的时候或者allowDestructiveMigrationOnDowngrade为true的时候返回false。</p>
+<p>allowDestructiveMigrationOnDowngrade这个标志位可以在数据库创建的时候指定<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Room.databaseBuilder(context.getApplicationContext(),UserRoomDatabase.class</span><br><span class="line">                   ,<span class="hljs-string">"user_database"</span>)</span><br><span class="line">                           .fallbackToDestructiveMigration()</span><br><span class="line">                           .build();</span><br></pre></td></tr></table></figure></p>
+<p>加上它之后升级就会清空数据库中以前的数据。一般情况下我们都是希望保留数据的，所以需要些我们自己的Migration类，定义升级的sql。</p>
+<p>OK结束</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/jetpack/">jetpack</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/04/20/technology/Android-Jetpack之ViewModel/">
+                <span class="level-item">Android Jetpack之ViewModel</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/04/20/technology/Android-Jetpack之Room/';
+        this.page.identifier = '2019/04/20/technology/Android-Jetpack之Room/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="CHS">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        CHS
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        只要坚持，终会有收获
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        26
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        8
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        6
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/chsmy">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="weibo" href="http://weibo.com/2504847694/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="csdn" href="https://blog.csdn.net/mingyunxiaohai">
+                
+                <i class="fab fa-wordpress"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="简书" href="https://www.jianshu.com/u/6ab3e65ba7b5">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Links
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="http://www.wanandroid.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">玩Android</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wanandroid.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">22</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Android/UI/">
+            <span class="level-start">
+                <span class="level-item">UI</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/jetpack/">
+            <span class="level-start">
+                <span class="level-item">jetpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/源码/">
+            <span class="level-start">
+                <span class="level-item">源码</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/资料/">
+            <span class="level-start">
+                <span class="level-item">资料</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/人生/">
+            <span class="level-start">
+                <span class="level-item">人生</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/人生/感悟/">
+            <span class="level-start">
+                <span class="level-item">感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/人生/读书/">
+            <span class="level-start">
+                <span class="level-item">读书</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/UI/" style="font-size: 20px;">UI</a> <a href="/tags/jetpack/" style="font-size: 15px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 12.5px;">感悟</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 17.5px;">进阶</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/04/20/technology/Android-Jetpack之Room/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Jetpack之Room">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-20T03:13:01.000Z">2019-04-20</time></div>
+                    <a href="/2019/04/20/technology/Android-Jetpack之Room/" class="has-link-black-ter is-size-6">Android Jetpack之Room</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/04/20/technology/Android-Jetpack之ViewModel/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Jetpack之ViewModel">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-20T03:12:32.000Z">2019-04-20</time></div>
+                    <a href="/2019/04/20/technology/Android-Jetpack之ViewModel/" class="has-link-black-ter is-size-6">Android Jetpack之ViewModel</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/04/20/technology/Android-Jetpack之LiveData/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Jetpack之LiveData">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-20T03:12:14.000Z">2019-04-20</time></div>
+                    <a href="/2019/04/20/technology/Android-Jetpack之LiveData/" class="has-link-black-ter is-size-6">Android Jetpack之LiveData</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/04/20/technology/Android-Jetpack之Lifecycles/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Jetpack之Lifecycles">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-20T02:53:06.000Z">2019-04-20</time></div>
+                    <a href="/2019/04/20/technology/Android-Jetpack之Lifecycles/" class="has-link-black-ter is-size-6">Android Jetpack之Lifecycles</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/04/14/life/人生需要坚持一次/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="人生需要坚持一次">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-14T12:46:32.000Z">2019-04-14</time></div>
+                    <a href="/2019/04/14/life/人生需要坚持一次/" class="has-link-black-ter is-size-6">人生需要坚持一次</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/人生/">人生</a> / <a class="has-link-grey -link" href="/categories/人生/感悟/">感悟</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">13</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/04/20/technology/Android-Jetpack之Room/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Jetpack之Room">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-20T03:13:01.000Z">2019-04-20</time></div>
+                    <a href="/2019/04/20/technology/Android-Jetpack之Room/" class="has-link-black-ter is-size-6">Android Jetpack之Room</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/04/20/technology/Android-Jetpack之ViewModel/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Jetpack之ViewModel">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-20T03:12:32.000Z">2019-04-20</time></div>
+                    <a href="/2019/04/20/technology/Android-Jetpack之ViewModel/" class="has-link-black-ter is-size-6">Android Jetpack之ViewModel</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/04/20/technology/Android-Jetpack之LiveData/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Jetpack之LiveData">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-20T03:12:14.000Z">2019-04-20</time></div>
+                    <a href="/2019/04/20/technology/Android-Jetpack之LiveData/" class="has-link-black-ter is-size-6">Android Jetpack之LiveData</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/04/20/technology/Android-Jetpack之Lifecycles/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Jetpack之Lifecycles">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-20T02:53:06.000Z">2019-04-20</time></div>
+                    <a href="/2019/04/20/technology/Android-Jetpack之Lifecycles/" class="has-link-black-ter is-size-6">Android Jetpack之Lifecycles</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/04/14/life/人生需要坚持一次/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="人生需要坚持一次">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-14T12:46:32.000Z">2019-04-14</time></div>
+                    <a href="/2019/04/14/life/人生需要坚持一次/" class="has-link-black-ter is-size-6">人生需要坚持一次</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/人生/">人生</a> / <a class="has-link-grey -link" href="/categories/人生/感悟/">感悟</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">13</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Android Jetpack之Room" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
