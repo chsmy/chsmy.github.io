@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="小草喔">
 <meta property="og:description" content="Android Jetpack之LiveData">
 <meta property="og:locale" content="CHS">
-<meta property="og:updated_time" content="2019-04-20T03:18:00.116Z">
+<meta property="og:updated_time" content="2019-04-27T11:22:46.036Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android Jetpack之LiveData">
 <meta name="twitter:description" content="Android Jetpack之LiveData">
@@ -171,7 +171,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    23 minutes read (About 3468 words)
+                    23 minutes read (About 3496 words)
                 </span>
                 
                 
@@ -235,7 +235,7 @@
 <p>上面NameActivity的例子中我们可以更改一下<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">  <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(@Nullable Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    setContentView(R.layout.activity_name);</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">final</span> TextView textView = findViewById(R.id.tv_name);</span><br><span class="line">    mViewModel = ViewModelProviders.of(<span class="hljs-keyword">this</span>).get(NameViewModel1.class);</span><br><span class="line"></span><br><span class="line">    LiveData&lt;String&gt; userNameMap = Transformations.map(mViewModel.getCurrentName(), <span class="hljs-keyword">new</span> Function&lt;String, String&gt;() &#123;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">apply</span><span class="hljs-params">(String input)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">return</span> input + <span class="hljs-string">"哈哈哈"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    userNameMap.observe(<span class="hljs-keyword">this</span>, <span class="hljs-keyword">new</span> Observer&lt;String&gt;() &#123;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onChanged</span><span class="hljs-params">(String s)</span> </span>&#123;</span><br><span class="line">            textView.setText(s);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>上面代码会在在name后面拼接一个哈哈哈，这只是最简单的逻辑，我们可以在map函数中添加更多的逻辑，比如我们的LiveData接收的是一个User对象，最后输出的是名字的字符串等</p>
 <p><strong>Transformations.switchMap() 更改被LiveData观察的对象</strong></p>
-<p>和map()方法类似，区别是switchMap()给出的是LiveData，而map给出的是具体值。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">private LiveData&lt;User&gt; getUser(String id) &#123;</span><br><span class="line">  ...;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LiveData&lt;String&gt; userId = ...;</span><br><span class="line">LiveData&lt;User&gt; user = Transformations.switchMap(userId, id -&gt; getUser(id) );</span><br></pre></td></tr></table></figure></p>
+<p>和map()方法类似，区别是switchMap()给出的是LiveData，而map给出的是具体值。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> LiveData&lt;User&gt; <span class="hljs-title">getUser</span><span class="hljs-params">(String id)</span> </span>&#123;</span><br><span class="line">  ...;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LiveData&lt;String&gt; userId = ...;</span><br><span class="line">LiveData&lt;User&gt; user = Transformations.switchMap(userId, id -&gt; getUser(id) );</span><br></pre></td></tr></table></figure></p>
 <p>比如上面的方法，通过switchMap，把用户的id和LiveData相关联，当用户的id发生改变的时候，会重新调用查找用户的方法，最后返新用户的LiveData的数据，这样不管查询多少个用户，界面都只需观察生成的LiveData一次</p>
 <p><strong>MediatorLiveData 提供自定义的转换</strong></p>
 <p>可以使用MediatorLiveData来自定义转换，该类监听其他LiveData对象并处理它们发出的事件。MediatorLiveData正确地将其状态传播到LiveData对象，更多参考<a href="https://developer.android.google.cn/reference/android/arch/lifecycle/Transformations.html" target="_blank" rel="noopener">Transformations</a></p>
@@ -275,10 +275,11 @@
 <p>observer.mObserver就是我们最开始传入的观察者，调用它的onChanged方法传入data，我们在activity或者fragment中就能收到这个data值了。</p>
 <p>mData的值是在setValue方法中被赋值的。LiveData中有两种赋值的方法：setValue方法。和postValue，一个是在主线程中赋值，一个是在子线程中赋值。postValue其实就是在一个Runnable中地哦啊用setValue方法。</p>
 <figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setValue</span><span class="hljs-params">(T value)</span> </span>&#123;</span><br><span class="line">    assertMainThread(<span class="hljs-string">"setValue"</span>);</span><br><span class="line">    mVersion++;</span><br><span class="line">    mData = value;</span><br><span class="line">    dispatchingValue(<span class="hljs-keyword">null</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Ok到这里源码就看完了。下面思考一下，前面文档中我们知道，如果一个activity或者fragment在后台，他是收不到数据更新的。当切换到前台拿上就能收到。怎么实现的呢？</p>
-<p>前面activeStateChanged方法中我们知道，只有activity或者fragment是活动状态才能会调用 dispatchingValue方法，如果它们在后台，这时候不调用dispatchingValue方法。当它们切换回到前台的时候，生命周期发生改变，会调用LifecycleBoundObserver中的onStateChange方法，然后又会进入到activeStateChanged方法中，这时候状态是活动的就可以调用dispatchingValue方法分发了。</p>
 </li>
 </ul>
+<p>可以看到没次setValue,mVersion都会加一，并且调用dispatchingValue方法进行消息分发。</p>
+<p> Ok到这里源码就看完了。下面思考一下，前面文档中我们知道，如果一个activity或者fragment在后台，他是收不到数据更新的。当切换到前台拿上就能收到。怎么实现的呢？</p>
+<p> 前面activeStateChanged方法中我们知道，只有activity或者fragment是活动状态才能会调用 dispatchingValue方法，如果它们在后台，这时候不调用dispatchingValue方法。当它们切换回到前台的时候，生命周期发生改变，会调用LifecycleBoundObserver中的onStateChange方法，然后又会进入到activeStateChanged方法中，这时候状态是活动的就可以调用dispatchingValue方法分发了。</p>
 
         </div>
         
@@ -329,7 +330,7 @@
 
 <div class="card">
     <div class="card-content">
-        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        <h3 class="title is-5 has-text-weight-normal">Comentarios</h3>
         
 <script>
     var disqus_config = function () {
@@ -390,17 +391,17 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Posts
+                        Entradas
                     </p>
                     <p class="title has-text-weight-normal">
-                        26
+                        27
                     </p>
                 </div>
             </div>
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Categories
+                        Categorias
                     </p>
                     <p class="title has-text-weight-normal">
                         8
@@ -410,7 +411,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Tags
+                        Etiquetas
                     </p>
                     <p class="title has-text-weight-normal">
                         6
@@ -420,7 +421,7 @@
         </nav>
         <div class="level">
             <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
-                Follow</a>
+                SEGUIR</a>
         </div>
         
         
@@ -507,7 +508,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Categories
+                Categorias
             </h3>
             <ul class="menu-list">
             <li>
@@ -516,7 +517,7 @@
                 <span class="level-item">Android</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">22</span>
+                <span class="level-item tag">23</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Android/UI/">
@@ -532,7 +533,7 @@
                 <span class="level-item">jetpack</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Android/源码/">
@@ -584,7 +585,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Tag Cloud
+            Nube de etiquetas
         </h3>
         <a href="/tags/UI/" style="font-size: 20px;">UI</a> <a href="/tags/jetpack/" style="font-size: 15px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 12.5px;">感悟</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 17.5px;">进阶</a>
     </div>
@@ -598,8 +599,27 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recent
+            Recientes
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/04/27/technology/事件总线LiveDataBus/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="事件总线LiveDataBus">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-27T11:11:13.000Z">2019-04-27</time></div>
+                    <a href="/2019/04/27/technology/事件总线LiveDataBus/" class="has-link-black-ter is-size-6">事件总线LiveDataBus</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -677,25 +697,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/04/14/life/人生需要坚持一次/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="人生需要坚持一次">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-14T12:46:32.000Z">2019-04-14</time></div>
-                    <a href="/2019/04/14/life/人生需要坚持一次/" class="has-link-black-ter is-size-6">人生需要坚持一次</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/人生/">人生</a> / <a class="has-link-grey -link" href="/categories/人生/感悟/">感悟</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -704,7 +705,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Archives
+            Archivos
         </h3>
         <ul class="menu-list">
         
@@ -714,7 +715,7 @@
                     <span class="level-item">April 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">13</span>
+                    <span class="level-item tag">14</span>
                 </span>
             </a>
         </li>
@@ -750,7 +751,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Tags
+                Etiquetas
             </h3>
             <div class="field is-grouped is-grouped-multiline">
                 
@@ -764,7 +765,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/jetpack/">
                         <span class="tag">jetpack</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -816,8 +817,27 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recent
+            Recientes
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/04/27/technology/事件总线LiveDataBus/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="事件总线LiveDataBus">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-27T11:11:13.000Z">2019-04-27</time></div>
+                    <a href="/2019/04/27/technology/事件总线LiveDataBus/" class="has-link-black-ter is-size-6">事件总线LiveDataBus</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -895,25 +915,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/04/14/life/人生需要坚持一次/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="人生需要坚持一次">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-14T12:46:32.000Z">2019-04-14</time></div>
-                    <a href="/2019/04/14/life/人生需要坚持一次/" class="has-link-black-ter is-size-6">人生需要坚持一次</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/人生/">人生</a> / <a class="has-link-grey -link" href="/categories/人生/感悟/">感悟</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -922,7 +923,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Archives
+            Archivos
         </h3>
         <ul class="menu-list">
         
@@ -932,7 +933,7 @@
                     <span class="level-item">April 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">13</span>
+                    <span class="level-item tag">14</span>
                 </span>
             </a>
         </li>
@@ -968,7 +969,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Tags
+                Etiquetas
             </h3>
             <div class="field is-grouped is-grouped-multiline">
                 
@@ -982,7 +983,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/jetpack/">
                         <span class="tag">jetpack</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1189,10 +1190,10 @@ document.addEventListener('DOMContentLoaded', function () {
     (function (window) {
         var INSIGHT_CONFIG = {
             TRANSLATION: {
-                POSTS: 'Posts',
+                POSTS: 'Entradas',
                 PAGES: 'Pages',
-                CATEGORIES: 'Categories',
-                TAGS: 'Tags',
+                CATEGORIES: 'Categorias',
+                TAGS: 'Etiquetas',
                 UNTITLED: '(Untitled)',
             },
             CONTENT_URL: '/content.json',
