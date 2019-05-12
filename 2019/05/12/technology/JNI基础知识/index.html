@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>JNI基础知识 - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="JNI(Java Native Interface)，它是java中的一套接口，用来跟c和c++通信。">
+<meta name="keywords" content="c&#x2F;c++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JNI基础知识">
+<meta property="og:url" content="https://chsmy.github.io/2019/05/12/technology/JNI基础知识/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="JNI(Java Native Interface)，它是java中的一套接口，用来跟c和c++通信。">
+<meta property="og:locale" content="CHS">
+<meta property="og:updated_time" content="2019-05-12T15:03:45.845Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JNI基础知识">
+<meta name="twitter:description" content="JNI(Java Native Interface)，它是java中的一套接口，用来跟c和c++通信。">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="JNI基础知识" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-12T12:17:32.000Z">2019-05-12</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/c-c/">c/c++</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    21 minutes read (About 3089 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                JNI基础知识
+            
+        </h1>
+        <div class="content">
+            <p>JNI(Java Native Interface)，它是java中的一套接口，用来跟c和c++通信。</p>
+<a id="more"></a>
+<h4 id="JNI中的数据类型"><a href="#JNI中的数据类型" class="headerlink" title="JNI中的数据类型"></a>JNI中的数据类型</h4><p>java中的数据类型和c的数据类型之间的映射关系：<br>java-&gt;JNI-&gt;c/c++</p>
+<p>基本数据类型：</p>
+<table>
+<thead>
+<tr>
+<th>java</th>
+<th style="text-align:center">JNI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boolean</td>
+<td style="text-align:center">jboolean</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>byte</td>
+<td style="text-align:center">jbyte</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>char</td>
+<td style="text-align:center">jchar</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>short</td>
+<td style="text-align:center">jshort</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>int</td>
+<td style="text-align:center">jlong</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>long</td>
+<td style="text-align:center">jchar</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>float</td>
+<td style="text-align:center">jfloat</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>double</td>
+<td style="text-align:center">jdouble</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>void</td>
+<td style="text-align:center">void</td>
+<td style="text-align:right"></td>
+</tr>
+</tbody>
+</table>
+<p>引用类型：</p>
+<table>
+<thead>
+<tr>
+<th>java</th>
+<th style="text-align:center">JNI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>String</td>
+<td style="text-align:center">jstring</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>object</td>
+<td style="text-align:center">jobject</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>class</td>
+<td style="text-align:center">jclass</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>byte[]</td>
+<td style="text-align:center">jByteArray</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>object[]</td>
+<td style="text-align:center">jobjectArray</td>
+<td style="text-align:right"></td>
+</tr>
+</tbody>
+</table>
+<h4 id="JNI开发流程的步骤"><a href="#JNI开发流程的步骤" class="headerlink" title="JNI开发流程的步骤"></a>JNI开发流程的步骤</h4><ol>
+<li>编写native方法</li>
+<li>javah命令，生成.h头文件</li>
+<li>复制.h头文件到CPP工程中</li>
+<li>复制jni.h和jni_md.h文件到CPP工程中</li>
+<li>创建jni目录</li>
+<li>添加本地支持add native support</li>
+<li>实现.h头文件中声明的函数</li>
+<li>生成动态库Windows系统下是.dll文件，如果是Linux系统下是.so文件，如果是Mac系统下是.jnilib</li>
+<li>令执行Java程序，加载动态库</li>
+</ol>
+<h4 id="java调用C，例如下面返回一个字符串"><a href="#java调用C，例如下面返回一个字符串" class="headerlink" title="java调用C，例如下面返回一个字符串"></a>java调用C，例如下面返回一个字符串</h4><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JniTest</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">//写一个native方法</span></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">native</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">getStringFromC</span><span class="hljs-params">()</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;</span><br><span class="line">		String text = getStringFromC();</span><br><span class="line">		System.out.println(text);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-comment">//加载动态库</span></span><br><span class="line">	<span class="hljs-keyword">static</span>&#123;</span><br><span class="line">		System.loadLibrary(<span class="hljs-string">"jni_study"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>C中<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//函数实现</span></span><br><span class="line"><span class="hljs-comment">//Java_包名_类名_方法名</span></span><br><span class="line">JNIEXPORT jstring JNICALL Java_com_chs_jni_JniTest_getStringFromC</span><br><span class="line">(JNIEnv *env, jclass jcls)&#123;</span><br><span class="line">	<span class="hljs-comment">//JNIEnv 结构体指针  env是二级指针</span></span><br><span class="line">	<span class="hljs-comment">//代表Java运行环境，调用Java中的代码</span></span><br><span class="line">	<span class="hljs-comment">//将C的字符串转为一个java字符串</span></span><br><span class="line">	<span class="hljs-keyword">return</span> (*env)-&gt;NewStringUTF(env,<span class="hljs-string">"C String"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="C调用java中的方法"><a href="#C调用java中的方法" class="headerlink" title="C调用java中的方法"></a>C调用java中的方法</h4><p>访问属性，访问静态属性，访问方法，访问静态方法</p>
+<p>先在java中定义相关的属性和方法</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JniTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-comment">//加载动态库</span></span><br><span class="line">	<span class="hljs-keyword">static</span>&#123;	</span><br><span class="line">		System.loadLibrary(<span class="hljs-string">"jni_test"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">public</span> String name = <span class="hljs-string">"chs"</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> count = <span class="hljs-number">9</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">native</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">getStringFromC</span><span class="hljs-params">()</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">native</span> String <span class="hljs-title">getString2FromC</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span></span>;</span><br><span class="line">	<span class="hljs-comment">//访问属性，返回修改之后的属性内容</span></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">native</span> String <span class="hljs-title">accessField</span><span class="hljs-params">()</span></span>;</span><br><span class="line">	<span class="hljs-comment">//c调用java中的静态变量</span></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">native</span> <span class="hljs-keyword">void</span> <span class="hljs-title">accessStaticField</span><span class="hljs-params">()</span></span>;</span><br><span class="line">	<span class="hljs-comment">//c调用java中的方法</span></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">native</span> <span class="hljs-keyword">void</span> <span class="hljs-title">accessMethod</span><span class="hljs-params">()</span></span>;</span><br><span class="line">	<span class="hljs-comment">//c调用java中的静态方法</span></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">native</span> <span class="hljs-keyword">void</span> <span class="hljs-title">accessStaticMethod</span><span class="hljs-params">()</span></span>;</span><br><span class="line">	<span class="hljs-comment">//c调用java中的构造方法</span></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">native</span> <span class="hljs-keyword">void</span> <span class="hljs-title">accessConstructor</span><span class="hljs-params">()</span></span>;</span><br><span class="line">	<span class="hljs-comment">//c调用java中的父类的方法</span></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">native</span> <span class="hljs-keyword">void</span> <span class="hljs-title">accessNonvirtualObjectMethod</span><span class="hljs-params">()</span></span>;</span><br><span class="line">	<span class="hljs-comment">//中文</span></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">native</span> String <span class="hljs-title">chuneseChars</span><span class="hljs-params">(String in)</span></span></span><br><span class="line"><span class="hljs-function">	<span class="hljs-comment">//传入数组</span></span></span><br><span class="line"><span class="hljs-function">	<span class="hljs-keyword">public</span> <span class="hljs-keyword">native</span> <span class="hljs-keyword">void</span> <span class="hljs-title">giveArray</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] array)</span></span>;</span><br><span class="line">	<span class="hljs-comment">//获取数组</span></span><br><span class="line">	<span class="hljs-keyword">public</span> <span class="hljs-keyword">native</span> <span class="hljs-keyword">int</span>[] getArray(<span class="hljs-keyword">int</span> len);</span><br><span class="line">	<span class="hljs-comment">//获取本地引用</span></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">native</span> <span class="hljs-keyword">void</span> <span class="hljs-title">loaclRef</span><span class="hljs-params">()</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;</span><br><span class="line">		String text = getStringFromC();</span><br><span class="line">		System.out.println(text);</span><br><span class="line">		JniTest t = <span class="hljs-keyword">new</span> JniTest();</span><br><span class="line">		text = t.getString2FromC(<span class="hljs-number">6</span>);</span><br><span class="line">		System.out.println(text);</span><br><span class="line">		</span><br><span class="line">		t.accessField();</span><br><span class="line">		t.accessStaticField();</span><br><span class="line">		t.accessMethod();</span><br><span class="line">		t.accessStaticMethod();</span><br><span class="line">		<span class="hljs-keyword">int</span>[] array = &#123;<span class="hljs-number">9</span>,<span class="hljs-number">100</span>,<span class="hljs-number">10</span>,<span class="hljs-number">37</span>,<span class="hljs-number">5</span>,<span class="hljs-number">10</span>&#125;;</span><br><span class="line">		<span class="hljs-comment">//排序</span></span><br><span class="line">		t.giveArray(array);</span><br><span class="line">		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i : array) &#123;</span><br><span class="line">			System.out.println(i);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="hljs-keyword">int</span>[] array2 = t.getArray(<span class="hljs-number">10</span>);</span><br><span class="line">			System.out.println(<span class="hljs-string">"------------"</span>);</span><br><span class="line">		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i : array2) &#123;</span><br><span class="line">			System.out.println(i);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="hljs-comment">//全局引用</span></span><br><span class="line">		t.createGlobalRef();</span><br><span class="line">		System.out.println(t.getGlobalRef());</span><br><span class="line">		<span class="hljs-comment">//用完之后释放</span></span><br><span class="line">		t.deleteGlobalRef();</span><br><span class="line">		System.out.println(<span class="hljs-string">"释放完了..."</span>);</span><br><span class="line">		<span class="hljs-comment">//System.out.println(t.getGlobalRef());</span></span><br><span class="line">		<span class="hljs-comment">//Java中捕捉C中的异常Exception是无法捕捉到的</span></span><br><span class="line">		<span class="hljs-comment">//得用Throwable捕获</span></span><br><span class="line">		<span class="hljs-keyword">try</span> &#123;</span><br><span class="line">			t.exeception();						</span><br><span class="line">		&#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			System.out.println(<span class="hljs-string">"发生异常："</span>+e.getMessage());</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(<span class="hljs-string">"--------异常发生之后-------"</span>);</span><br><span class="line">		<span class="hljs-comment">//C中手动抛出来的异常可以捕捉到</span></span><br><span class="line">		<span class="hljs-keyword">try</span> &#123;</span><br><span class="line">			t.exeception();</span><br><span class="line">		&#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			<span class="hljs-comment">//e.printStackTrace();</span></span><br><span class="line">			System.out.println(e.getMessage());</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="hljs-comment">//不断调用cached方法</span></span><br><span class="line">		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++) &#123;</span><br><span class="line">			t.cached();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="hljs-comment">//产生指定范围的随机数</span></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">genRandomInt</span><span class="hljs-params">(<span class="hljs-keyword">int</span> max)</span></span>&#123;</span><br><span class="line">		<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Random().nextInt(max); </span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="hljs-comment">//产生UUID字符串</span></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">getUUID</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">		<span class="hljs-keyword">return</span> UUID.randomUUID().toString();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>1.访问属性</p>
+<p>这里会用到属性签名</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th style="text-align:center">签名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boolean</td>
+<td style="text-align:center">Z</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>byte</td>
+<td style="text-align:center">B</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>char</td>
+<td style="text-align:center">C</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>short</td>
+<td style="text-align:center">S</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>int</td>
+<td style="text-align:center">I</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>long</td>
+<td style="text-align:center">L</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>float</td>
+<td style="text-align:center">F</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>double</td>
+<td style="text-align:center">D</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>void</td>
+<td style="text-align:center">V</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>object</td>
+<td style="text-align:center">L开头，然后以/分割包的完整类型，后面再加;<br>比如String的签名就是Ljava/long/String</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>Array</td>
+<td style="text-align:center">以[开头，在加上数组元素类型的签名，<br>比如int[],签名是[I，int[][]的签名是[[I，<br>object[]的签名是[Ljava/lang/Object</td>
+<td style="text-align:right"></td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">JNIEXPORT jstring JNICALL Java_com_chs_JniTest_accessField</span><br><span class="line">(JNIEnv *env, jobject jobj)&#123;</span><br><span class="line">	<span class="hljs-comment">//jobj是t对象，JniTest.class</span></span><br><span class="line">	jclass cls = (*env)-&gt;GetObjectClass(env, jobj);</span><br><span class="line">	<span class="hljs-comment">//jfieldID</span></span><br><span class="line">	<span class="hljs-comment">//属性名称，属性签名</span></span><br><span class="line">	jfieldID fid = (*env)-&gt;GetFieldID(env, cls, <span class="hljs-string">"key"</span>, <span class="hljs-string">"Ljava/lang/String;"</span>);	</span><br><span class="line"></span><br><span class="line">	<span class="hljs-comment">//jason &gt;&gt; super jason</span></span><br><span class="line">	<span class="hljs-comment">//获取key属性的值</span></span><br><span class="line">	<span class="hljs-comment">//Get&lt;Type&gt;Field</span></span><br><span class="line">	jstring jstr = (*env)-&gt;GetObjectField(env, jobj, fid);	</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"jstr:%#x\n"</span>,&amp;jstr);</span><br><span class="line"></span><br><span class="line">	<span class="hljs-comment">//jstring -&gt; c字符串</span></span><br><span class="line">	<span class="hljs-comment">//isCopy 是否复制（true代表赋值，false不复制）</span></span><br><span class="line">	<span class="hljs-keyword">char</span> *c_str = (*env)-&gt;GetStringUTFChars(env,jstr,JNI_FALSE);</span><br><span class="line">	<span class="hljs-comment">//拼接得到新的字符串</span></span><br><span class="line">	<span class="hljs-keyword">char</span> text[<span class="hljs-number">20</span>] = <span class="hljs-string">"super "</span>;</span><br><span class="line">	<span class="hljs-built_in">strcat</span>(text,c_str);</span><br><span class="line"></span><br><span class="line">	<span class="hljs-comment">//c字符串 -&gt;jstring</span></span><br><span class="line">	jstring new_jstr = (*env)-&gt;NewStringUTF(env, text);</span><br><span class="line"></span><br><span class="line">	<span class="hljs-comment">//修改key</span></span><br><span class="line">	<span class="hljs-comment">//Set&lt;Type&gt;Field</span></span><br><span class="line">	(*env)-&gt;SetObjectField(env, jobj, fid, new_jstr);</span><br><span class="line"></span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"new_jstr:%#x\n"</span>, &amp;new_jstr);</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">return</span> new_jstr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.访问静态属性<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">JNIEXPORT <span class="hljs-keyword">void</span> JNICALL Java_com_chs_JniTest_accessStaticField</span><br><span class="line">(JNIEnv *env, jobject jobj)&#123;</span><br><span class="line">	<span class="hljs-comment">//jclass</span></span><br><span class="line">	jclass cls = (*env)-&gt;GetObjectClass(env, jobj);</span><br><span class="line">	<span class="hljs-comment">//jfieldID</span></span><br><span class="line">	jfieldID fid = (*env)-&gt;GetStaticFieldID(env, cls, <span class="hljs-string">"count"</span>, <span class="hljs-string">"I"</span>);</span><br><span class="line">	<span class="hljs-comment">//GetStatic&lt;Type&gt;Field</span></span><br><span class="line">	jint count = (*env)-&gt;GetStaticIntField(env, cls, fid);</span><br><span class="line">	count++;</span><br><span class="line">	<span class="hljs-comment">//修改</span></span><br><span class="line">	<span class="hljs-comment">//SetStatic&lt;Type&gt;Field</span></span><br><span class="line">	(*env)-&gt;SetStaticIntField(env,cls,fid,count);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3.访问java方法</p>
+<p>这里需要用到方法的签名，方法的签名的获取，可以通过javap命令，打开命令行，进入我们的java类所在的文件夹，执行javap命令 比如<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javap -s -p com.chs.JniTest</span><br></pre></td></tr></table></figure></p>
+<p>执行上面的命令，就可以看到该类下面所有属性和方法的签名了。<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">JNIEXPORT <span class="hljs-keyword">void</span> JNICALL Java_com_chs_JniTest_accessMethod</span><br><span class="line">(JNIEnv *env, jobject jobj)&#123;</span><br><span class="line">	<span class="hljs-comment">//jclass</span></span><br><span class="line">	jclass cls = (*env)-&gt;GetObjectClass(env, jobj);</span><br><span class="line">	<span class="hljs-comment">//jmethodID  最后一个参数是方法的签名</span></span><br><span class="line">	jmethodID mid = (*env)-&gt;GetMethodID(env, cls, <span class="hljs-string">"genRandomInt"</span>, <span class="hljs-string">"(I)I"</span>);</span><br><span class="line">	<span class="hljs-comment">//Call&lt;Type&gt;Method</span></span><br><span class="line">	jint random = (*env)-&gt;CallIntMethod(env, jobj, mid, <span class="hljs-number">200</span>);</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"random num:%ld"</span>,random);</span><br></pre></td></tr></table></figure></p>
+<p>4.访问静态方法<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">JNIEXPORT <span class="hljs-keyword">void</span> JNICALL Java_com_chs_JniTest_accessStaticMethod</span><br><span class="line">(JNIEnv *env, jobject jobj)&#123;</span><br><span class="line">	<span class="hljs-comment">//jclass</span></span><br><span class="line">	jclass cls = (*env)-&gt;GetObjectClass(env, jobj);</span><br><span class="line">	<span class="hljs-comment">//jmethodID	</span></span><br><span class="line">	jmethodID mid = (*env)-&gt;GetStaticMethodID(env, cls, <span class="hljs-string">"getUUID"</span>, <span class="hljs-string">"()Ljava/lang/String;"</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="hljs-comment">//CallStatic&lt;Type&gt;Method</span></span><br><span class="line">	jstring uuid = (*env)-&gt;CallStaticObjectMethod(env, cls, mid);</span><br><span class="line"></span><br><span class="line">	<span class="hljs-comment">//随机文件名称 uuid.txt</span></span><br><span class="line">	<span class="hljs-comment">//jstring -&gt; char*</span></span><br><span class="line">	<span class="hljs-comment">//第三个参数isCopy JNI_FALSE，代表java和c操作的是同一个字符串</span></span><br><span class="line">	<span class="hljs-keyword">char</span> *uuid_str = (*env)-&gt;GetStringUTFChars(env, uuid, <span class="hljs-literal">NULL</span>);</span><br><span class="line">	<span class="hljs-comment">//拼接</span></span><br><span class="line">	<span class="hljs-keyword">char</span> filename[<span class="hljs-number">100</span>];</span><br><span class="line">	<span class="hljs-built_in">sprintf</span>(filename, <span class="hljs-string">"D://%s.txt"</span>,uuid_str);</span><br><span class="line">	FILE *fp = fopen(filename,<span class="hljs-string">"w"</span>);</span><br><span class="line">	<span class="hljs-built_in">fputs</span>(<span class="hljs-string">"i love jason"</span>, fp);</span><br><span class="line">	fclose(fp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>5.访问构造方法</p>
+<p>访问构造方式的时候需要传入一个”<init>“参数</init></p>
+<figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//使用java.util.Date产生一个当前的时间戳</span></span><br><span class="line">JNIEXPORT jobject JNICALL Java_com_chs_JniTest_accessConstructor</span><br><span class="line">(JNIEnv *env, jobject jobj)&#123;</span><br><span class="line">    <span class="hljs-comment">//找到要访问的class</span></span><br><span class="line">	jclass cls = (*env)-&gt;FindClass(env, <span class="hljs-string">"java/util/Date"</span>);</span><br><span class="line">	<span class="hljs-comment">//找到它的构造方法</span></span><br><span class="line">	jmethodID constructor_mid = (*env)-&gt;GetMethodID(env, cls, <span class="hljs-string">"&lt;init&gt;"</span>, <span class="hljs-string">"()V"</span>);</span><br><span class="line">	<span class="hljs-comment">//实例化一个Date对象</span></span><br><span class="line">	jobject date_obj = (*env)-&gt;NewObject(env, cls, constructor_mid);</span><br><span class="line">	<span class="hljs-comment">//找到想要调用的方法</span></span><br><span class="line">	jmethodID mid = (*env)-&gt;GetMethodID(env, cls, <span class="hljs-string">"getTime"</span>, <span class="hljs-string">"()J"</span>);</span><br><span class="line">	<span class="hljs-comment">//调用getTime方法</span></span><br><span class="line">	jlong time = (*env)-&gt;CallLongMethod(env, date_obj, mid);</span><br><span class="line"></span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"\ntime:%lld\n"</span>,time);</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">return</span> date_obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>6.调用父类的方法</p>
+<p>Java中定义一个父类Human，和一个子类Man，父类中有个方法sayHai，子类重写该方法。</p>
+<p>java中</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Human human = <span class="hljs-keyword">new</span> Man();</span><br></pre></td></tr></table></figure>
+<p>C中<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">JNIEXPORT <span class="hljs-keyword">void</span> JNICALL Java_com_chs_JniTest_accessNonvirtualMethod</span><br><span class="line">(JNIEnv *env, jobject jobj)&#123;</span><br><span class="line">    <span class="hljs-comment">//拿到该对象</span></span><br><span class="line">	jclass cls = (*env)-&gt;GetObjectClass(env, jobj);</span><br><span class="line">	<span class="hljs-comment">//找到属性的ID</span></span><br><span class="line">	jfieldID fid = (*env)-&gt;GetFieldID(env, cls, <span class="hljs-string">"human"</span>, <span class="hljs-string">"Lcom/chs/Human;"</span>);</span><br><span class="line">	<span class="hljs-comment">//获取man属性（对象</span></span><br><span class="line">	jobject human_obj = (*env)-&gt;GetObjectField(env, jobj, fid);</span><br><span class="line">	<span class="hljs-comment">//知道父类，注意：传父类的名称</span></span><br><span class="line">	jclass human_cls = (*env)-&gt;FindClass(env, <span class="hljs-string">"com/chs/Human"</span>); </span><br><span class="line">	<span class="hljs-comment">//执行sayHi方法</span></span><br><span class="line">	jmethodID mid = (*env)-&gt;GetMethodID(env, human_cls, <span class="hljs-string">"sayHi"</span>, <span class="hljs-string">"()V"</span>);</span><br><span class="line">	<span class="hljs-comment">//执行CallObjectMethod，还是会调用子类的方法</span></span><br><span class="line">	<span class="hljs-comment">//(*env)-&gt;CallObjectMethod(env, human_obj, mid);</span></span><br><span class="line">	<span class="hljs-comment">//使用CallNonvirtualObjectMethod可以调用的父类的方法</span></span><br><span class="line">	(*env)-&gt;CallNonvirtualObjectMethod(env, human_obj, human_cls, mid);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>7.从C中返回中文乱码问题</p>
+<p>C中字符串默认是UTF-16，想要返回到Java中不乱码，需要进行转码，C中转码非常麻烦，通过C调用Java中的String提供的类来进行转码就简单了很多。</p>
+<figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">JNIEXPORT jstring JNICALL Java_com_chs_JniTest_chineseChars</span><br><span class="line">(JNIEnv *env, jobject jobj, jstring in)&#123;</span><br><span class="line">	<span class="hljs-comment">//输出</span></span><br><span class="line">	<span class="hljs-comment">//char *c_str = (*env)-&gt;GetStringUTFChars(env, in, NULL);</span></span><br><span class="line">	<span class="hljs-comment">//printf("%s\n",c_str);</span></span><br><span class="line"></span><br><span class="line">	<span class="hljs-comment">//c 转化成 jstring</span></span><br><span class="line">	<span class="hljs-keyword">char</span> *c_str = <span class="hljs-string">"我是C中的文字"</span>;</span><br><span class="line">	<span class="hljs-comment">//char c_str[] = "我是C中的文字";</span></span><br><span class="line">	<span class="hljs-comment">//jstring jstr = (*env)-&gt;NewStringUTF(env, c_str);</span></span><br><span class="line">	<span class="hljs-comment">//执行String(byte bytes[], String charsetName)构造方法需要的条件</span></span><br><span class="line">	<span class="hljs-comment">//1.jmethodID</span></span><br><span class="line">	<span class="hljs-comment">//2.byte数组</span></span><br><span class="line">	<span class="hljs-comment">//3.字符编码jstring</span></span><br><span class="line">	</span><br><span class="line">    <span class="hljs-comment">//找到String类，并回去构造方法的ID</span></span><br><span class="line">	jclass str_cls = (*env)-&gt;FindClass(env, <span class="hljs-string">"java/lang/String"</span>);</span><br><span class="line">	jmethodID constructor_mid = (*env)-&gt;GetMethodID(env, str_cls, <span class="hljs-string">"&lt;init&gt;"</span>, <span class="hljs-string">"([BLjava/lang/String;)V"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="hljs-comment">//jbyte 转换成 char </span></span><br><span class="line">	<span class="hljs-comment">//jbyteArray -&gt; char[]</span></span><br><span class="line">	jbyteArray bytes = (*env)-&gt;NewByteArray(env, <span class="hljs-built_in">strlen</span>(c_str));</span><br><span class="line">	<span class="hljs-comment">//byte数组赋值，C中的char跟jbyte类型是一样的</span></span><br><span class="line">	<span class="hljs-comment">//0-&gt;strlen(c_str)，从头到尾</span></span><br><span class="line">	<span class="hljs-comment">//对等于，从c_str这个字符数组，复制到bytes这个字符数组</span></span><br><span class="line">	(*env)-&gt;SetByteArrayRegion(env, bytes, <span class="hljs-number">0</span>, <span class="hljs-built_in">strlen</span>(c_str), c_str);</span><br><span class="line"></span><br><span class="line">	<span class="hljs-comment">//字符编码jstring</span></span><br><span class="line">	jstring charsetName = (*env)-&gt;NewStringUTF(env, <span class="hljs-string">"GB2312"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="hljs-comment">//调用构造函数，返回编码之后的jstring</span></span><br><span class="line">	<span class="hljs-keyword">return</span> (*env)-&gt;NewObject(env,str_cls,constructor_mid,bytes,charsetName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>8.Java传数组到C中</p>
+<p>传入一个数组并排序，操作完一定要同步回去<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//比较的方法</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *a,<span class="hljs-keyword">int</span> *b)</span></span>&#123;</span><br><span class="line">	<span class="hljs-keyword">return</span> (*a) - (*b);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//传入</span></span><br><span class="line">JNIEXPORT <span class="hljs-keyword">void</span> JNICALL Java_com_chs_JniTest_giveArray</span><br><span class="line">(JNIEnv *env, jobject jobj, jintArray arr)&#123;</span><br><span class="line">	<span class="hljs-comment">//jintArray -&gt; jint指针 -&gt; c int 数组</span></span><br><span class="line">	jint *elems = (*env)-&gt;GetIntArrayElements(env, arr, <span class="hljs-literal">NULL</span>);</span><br><span class="line">	<span class="hljs-comment">//printf("%#x,%#x\n", &amp;elems, &amp;arr);</span></span><br><span class="line"></span><br><span class="line">	<span class="hljs-comment">//数组的长度</span></span><br><span class="line">	<span class="hljs-keyword">int</span> len = (*env)-&gt;GetArrayLength(env, arr);</span><br><span class="line">	<span class="hljs-comment">//排序</span></span><br><span class="line">	qsort(elems, len, <span class="hljs-keyword">sizeof</span>(jint), compare);	</span><br><span class="line"></span><br><span class="line">	<span class="hljs-comment">//同步</span></span><br><span class="line">	<span class="hljs-comment">//0, Java数组进行更新，并且释放C/C++数组</span></span><br><span class="line">	<span class="hljs-comment">//JNI_ABORT, Java数组不进行更新，但是释放C/C++数组</span></span><br><span class="line">	<span class="hljs-comment">//JNI_COMMIT，Java数组进行更新，不释放C/C++数组（函数执行完，数组还是会释放）</span></span><br><span class="line">	(*env)-&gt;ReleaseIntArrayElements(env, arr, elems, JNI_COMMIT);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>9.C返回数组到Java</p>
+<p>操作完一定要同步回去</p>
+<figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">JNIEXPORT jintArray JNICALL <span class="hljs-title">Java_com_chs_JniTest_getArray</span><span class="hljs-params">(JNIEnv *env, jobject jobj, jint len)</span></span>&#123;</span><br><span class="line">	<span class="hljs-comment">//创建一个指定大小的数组</span></span><br><span class="line">	jintArray jint_arr = (*env)-&gt;NewIntArray(env, len);</span><br><span class="line">	<span class="hljs-comment">//创建jint数组</span></span><br><span class="line">	jint *elems = (*env)-&gt;GetIntArrayElements(env, jint_arr, <span class="hljs-literal">NULL</span>);	</span><br><span class="line">	<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;</span><br><span class="line">	<span class="hljs-keyword">for</span> (; i &lt; len; i++)&#123;</span><br><span class="line">		elems[i] = i;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-comment">//同步</span></span><br><span class="line">	(*env)-&gt;ReleaseIntArrayElements(env, jint_arr, elems, <span class="hljs-number">0</span>);	</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">return</span> jint_arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>10.JNI中的引用</p>
+<p>引用类型分为局部引用和全局引用</p>
+<p>局部引用可以使用DeleteLocalRef手动释放对象，什么时候释放呢</p>
+<ol>
+<li>当访问一个恨到的java对象，使用完成知乎，还要进行复杂的耗时操作</li>
+<li>当创建了大量的局部引用，占用了太多的内存，这些局部引用只是暂时使用，跟后面的操作没有关联。</li>
+</ol>
+<p>局部引用：<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">JNIEXPORT <span class="hljs-keyword">void</span> JNICALL <span class="hljs-title">Java_com_chs_JniTest_localRef</span><span class="hljs-params">(JNIEnv *env, jobject jobj)</span></span>&#123;</span><br><span class="line">	<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;</span><br><span class="line">	<span class="hljs-keyword">for</span> (; i &lt; <span class="hljs-number">5</span>; i++)&#123;</span><br><span class="line">		<span class="hljs-comment">//创建Date对象</span></span><br><span class="line">		jclass cls = (*env)-&gt;FindClass(env, <span class="hljs-string">"java/util/Date"</span>);</span><br><span class="line">		jmethodID constructor_mid = (*env)-&gt;GetMethodID(env, cls, <span class="hljs-string">"&lt;init&gt;"</span>, <span class="hljs-string">"()V"</span>);</span><br><span class="line">		jobject obj = (*env)-&gt;NewObject(env, cls, constructor_mid);</span><br><span class="line">		<span class="hljs-comment">//省略一些操作</span></span><br><span class="line"></span><br><span class="line">		<span class="hljs-comment">//不在使用jobject对象了</span></span><br><span class="line">		<span class="hljs-comment">//通知垃圾回收器回收这些对象</span></span><br><span class="line">		(*env)-&gt;DeleteLocalRef(env, obj);</span><br><span class="line">		<span class="hljs-comment">//省略一些操作...</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>全局引用</p>
+<p>全局引用可以共享数据，可以跨多个线程，使用DeleteGlobalRef释放。</p>
+<figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">jstring global_str;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//创建全局引用</span></span><br><span class="line"><span class="hljs-function">JNIEXPORT <span class="hljs-keyword">void</span> JNICALL <span class="hljs-title">Java_com_chs_JniTest_createGlobalRef</span><span class="hljs-params">(JNIEnv *env, jobject jobj)</span></span>&#123;</span><br><span class="line">	jstring obj = (*env)-&gt;NewStringUTF(env, <span class="hljs-string">"jni development is powerful!"</span>);</span><br><span class="line">	global_str = (*env)-&gt;NewGlobalRef(env, obj);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//返回全局引用</span></span><br><span class="line"><span class="hljs-function">JNIEXPORT jstring JNICALL <span class="hljs-title">Java_com_chs_JniTest_getGlobalRef</span><span class="hljs-params">(JNIEnv *env, jobject jobj)</span></span>&#123;</span><br><span class="line">	<span class="hljs-keyword">return</span> global_str;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//释放全局引用</span></span><br><span class="line"><span class="hljs-function">JNIEXPORT <span class="hljs-keyword">void</span> JNICALL <span class="hljs-title">Java_com_chs_JniTest_deleteGlobalRef</span><span class="hljs-params">(JNIEnv *env, jobject jobj)</span></span>&#123;</span><br><span class="line">	(*env)-&gt;DeleteGlobalRef(env, global_str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>弱全局引用</p>
+<p>全局引用需要手动释放，弱全局引用，跟java中的弱引用差不多，当内存不足的时候系统会释放掉这部分内存。</p>
+<p>创建：NewWeakGlobalRef,销毁：DeleteGlobalWeakRef</p>
+<p>11.C中异常处理</p>
+<ul>
+<li>C中发生错误抛出的异常，可以使用Throwable捕获，可以从C中把异常清理后才能继续执行后面的代码。C中使用<code>ExceptionOccurred</code>查看返回的异常是不是NULL。不过不是，可以清空异常，并做一些补救的措施。</li>
+<li>C中通过手动通过ThrowNew抛出的异常，可以在java层try catch捕获到。</li>
+</ul>
+<figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">JNIEXPORT <span class="hljs-keyword">void</span> JNICALL <span class="hljs-title">Java_com_chs_JniTest_exeception</span><span class="hljs-params">(JNIEnv *env, jobject jobj)</span></span>&#123;</span><br><span class="line">	jclass cls = (*env)-&gt;GetObjectClass(env, jobj);</span><br><span class="line">	jfieldID fid = (*env)-&gt;GetFieldID(env, cls, <span class="hljs-string">"key2"</span>, <span class="hljs-string">"Ljava/lang/String;"</span>);</span><br><span class="line">	<span class="hljs-comment">//检测是否发生Java异常</span></span><br><span class="line">	jthrowable exception = (*env)-&gt;ExceptionOccurred(env);</span><br><span class="line">	<span class="hljs-keyword">if</span> (exception != <span class="hljs-literal">NULL</span>)&#123;</span><br><span class="line">		<span class="hljs-comment">//让Java代码可以继续运行</span></span><br><span class="line">		<span class="hljs-comment">//清空异常信息</span></span><br><span class="line">		(*env)-&gt;ExceptionClear(env);</span><br><span class="line">		<span class="hljs-comment">//补救措施</span></span><br><span class="line">		fid = (*env)-&gt;GetFieldID(env, cls, <span class="hljs-string">"key"</span>, <span class="hljs-string">"Ljava/lang/String;"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-comment">//获取属性的值</span></span><br><span class="line">	jstring jstr = (*env)-&gt;GetObjectField(env, jobj, fid);</span><br><span class="line">	<span class="hljs-keyword">char</span> *str = (*env)-&gt;GetStringUTFChars(env, jstr, <span class="hljs-literal">NULL</span>);</span><br><span class="line">	<span class="hljs-comment">//对比属性值是否合法</span></span><br><span class="line">	<span class="hljs-keyword">if</span> (_stricmp(str, <span class="hljs-string">"super jason"</span>) != <span class="hljs-number">0</span>)&#123;</span><br><span class="line">		<span class="hljs-comment">//认为抛出异常，给Java层处理</span></span><br><span class="line">		jclass newExcCls = (*env)-&gt;FindClass(env, <span class="hljs-string">"java/lang/IllegalArgumentException"</span>);</span><br><span class="line">		(*env)-&gt;ThrowNew(env,newExcCls,<span class="hljs-string">"key's value is invalid!"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>12.缓存策略</p>
+<p>如果从java中循环调用很多次下面的方法，我们让对象第一次拿到之后就缓存起来，以后再取的时候就去缓存中取，这时候可以使用局部静态变量来存储。</p>
+<p>在实际的项目中，我们也可以在一个方法中一次初始化很多需要的全局的变量。</p>
+<figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">JNIEXPORT <span class="hljs-keyword">void</span> JNICALL <span class="hljs-title">Java_com_chs_JniTest_cached</span><span class="hljs-params">(JNIEnv *env, jobject jobj)</span></span>&#123;</span><br><span class="line">	jclass cls = (*env)-&gt;GetObjectClass(env, jobj);	</span><br><span class="line">	<span class="hljs-comment">//获取jfieldID只获取一次</span></span><br><span class="line">	<span class="hljs-comment">//局部静态变量</span></span><br><span class="line">	<span class="hljs-keyword">static</span> jfieldID key_id = <span class="hljs-literal">NULL</span>;</span><br><span class="line">	<span class="hljs-keyword">if</span> (key_id == <span class="hljs-literal">NULL</span>)&#123;</span><br><span class="line">		key_id = (*env)-&gt;GetFieldID(env, cls, <span class="hljs-string">"key"</span>, <span class="hljs-string">"Ljava/lang/String;"</span>);</span><br><span class="line">		<span class="hljs-built_in">printf</span>(<span class="hljs-string">"--------GetFieldID-------\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//初始化全局变量，动态库加载完成之后，立刻缓存起来</span></span><br><span class="line">jfieldID key_fid;</span><br><span class="line">jmethodID random_mid;</span><br><span class="line"><span class="hljs-function">JNIEXPORT <span class="hljs-keyword">void</span> JNICALL <span class="hljs-title">Java_chs_jni_JniTest_initIds</span><span class="hljs-params">(JNIEnv *env, jclass jcls)</span></span>&#123;	</span><br><span class="line">	key_fid = (*env)-&gt;GetFieldID(env, jcls, <span class="hljs-string">"key"</span>, <span class="hljs-string">"Ljava/lang/String;"</span>);</span><br><span class="line">	random_mid = (*env)-&gt;GetMethodID(env, jcls, <span class="hljs-string">"genRandomInt"</span>, <span class="hljs-string">"(I)I"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/c-c/">c/c++</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/05/12/technology/C基础知识/">
+                <span class="level-item">C基础知识</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/05/12/technology/JNI基础知识/';
+        this.page.identifier = '2019/05/12/technology/JNI基础知识/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="CHS">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        CHS
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        只要坚持，终会有收获
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        29
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        9
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        7
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/chsmy">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="weibo" href="http://weibo.com/2504847694/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="csdn" href="https://blog.csdn.net/mingyunxiaohai">
+                
+                <i class="fab fa-wordpress"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="简书" href="https://www.jianshu.com/u/6ab3e65ba7b5">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Links
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="http://www.wanandroid.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">玩Android</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wanandroid.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">25</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Android/UI/">
+            <span class="level-start">
+                <span class="level-item">UI</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/c-c/">
+            <span class="level-start">
+                <span class="level-item">c/c++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/jetpack/">
+            <span class="level-start">
+                <span class="level-item">jetpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/源码/">
+            <span class="level-start">
+                <span class="level-item">源码</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/资料/">
+            <span class="level-start">
+                <span class="level-item">资料</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/人生/">
+            <span class="level-start">
+                <span class="level-item">人生</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/人生/感悟/">
+            <span class="level-start">
+                <span class="level-item">感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/人生/读书/">
+            <span class="level-start">
+                <span class="level-item">读书</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/UI/" style="font-size: 20px;">UI</a> <a href="/tags/c-c/" style="font-size: 12px;">c/c++</a> <a href="/tags/jetpack/" style="font-size: 16px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 14px;">感悟</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 18px;">进阶</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/05/12/technology/JNI基础知识/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JNI基础知识">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-12T12:17:32.000Z">2019-05-12</time></div>
+                    <a href="/2019/05/12/technology/JNI基础知识/" class="has-link-black-ter is-size-6">JNI基础知识</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/c-c/">c/c++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/12/technology/C基础知识/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C基础知识">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-12T12:17:16.000Z">2019-05-12</time></div>
+                    <a href="/2019/05/12/technology/C基础知识/" class="has-link-black-ter is-size-6">C基础知识</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/c-c/">c/c++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/04/27/technology/事件总线LiveDataBus/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="事件总线LiveDataBus">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-27T11:11:13.000Z">2019-04-27</time></div>
+                    <a href="/2019/04/27/technology/事件总线LiveDataBus/" class="has-link-black-ter is-size-6">事件总线LiveDataBus</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/04/20/technology/Android-Jetpack之Room/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Jetpack之Room">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-20T03:13:01.000Z">2019-04-20</time></div>
+                    <a href="/2019/04/20/technology/Android-Jetpack之Room/" class="has-link-black-ter is-size-6">Android Jetpack之Room</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/04/20/technology/Android-Jetpack之ViewModel/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Jetpack之ViewModel">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-20T03:12:32.000Z">2019-04-20</time></div>
+                    <a href="/2019/04/20/technology/Android-Jetpack之ViewModel/" class="has-link-black-ter is-size-6">Android Jetpack之ViewModel</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/05/12/technology/JNI基础知识/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JNI基础知识">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-12T12:17:32.000Z">2019-05-12</time></div>
+                    <a href="/2019/05/12/technology/JNI基础知识/" class="has-link-black-ter is-size-6">JNI基础知识</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/c-c/">c/c++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/12/technology/C基础知识/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C基础知识">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-12T12:17:16.000Z">2019-05-12</time></div>
+                    <a href="/2019/05/12/technology/C基础知识/" class="has-link-black-ter is-size-6">C基础知识</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/c-c/">c/c++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/04/27/technology/事件总线LiveDataBus/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="事件总线LiveDataBus">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-27T11:11:13.000Z">2019-04-27</time></div>
+                    <a href="/2019/04/27/technology/事件总线LiveDataBus/" class="has-link-black-ter is-size-6">事件总线LiveDataBus</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/04/20/technology/Android-Jetpack之Room/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Jetpack之Room">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-20T03:13:01.000Z">2019-04-20</time></div>
+                    <a href="/2019/04/20/technology/Android-Jetpack之Room/" class="has-link-black-ter is-size-6">Android Jetpack之Room</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/04/20/technology/Android-Jetpack之ViewModel/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Jetpack之ViewModel">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-20T03:12:32.000Z">2019-04-20</time></div>
+                    <a href="/2019/04/20/technology/Android-Jetpack之ViewModel/" class="has-link-black-ter is-size-6">Android Jetpack之ViewModel</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="JNI基础知识" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
