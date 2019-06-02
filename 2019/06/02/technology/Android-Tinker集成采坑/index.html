@@ -15,15 +15,15 @@
 <meta property="og:site_name" content="小草喔">
 <meta property="og:description" content="Android Tinker集成采坑">
 <meta property="og:locale" content="CHS">
-<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker_1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker_2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker_3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker_4.png">
-<meta property="og:updated_time" content="2019-06-02T04:19:44.266Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker4.png">
+<meta property="og:updated_time" content="2019-06-02T04:32:19.312Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android Tinker集成采坑">
 <meta name="twitter:description" content="Android Tinker集成采坑">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker_1.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker1.png">
 
 
 
@@ -220,14 +220,14 @@
 <p>到这里配置和代码就都完成了，下面开始打包，先打基础包</p>
 <p>线上的包基本都是release包，前面已经配置了签名，所以这就只打release包。</p>
 <p>可以使用命令行输入命令<code>./gradlew assemableRelease</code>，也可以使用studio的快捷操作，快捷操作图片如下</p>
-<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker_1.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker1.png" alt></p>
 <p>打完包之后，tinker会将outputs/release文件夹下的打包好的文件复制一份到bakApk文件夹中一份，并重命名，这个bakApk文件夹是前面在gradle中配置的。还有混淆的mapping文件和R文件也复制一份重命名放到bakApk文件夹下面。</p>
-<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker_2.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker2.png" alt></p>
 <p>把打包好的apk装到手机上，然后修改一些代码，开始打补丁包</p>
 <p>如图修改gradle中的oldApk的信息。然后调用tinker的命令打包如下图</p>
-<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker_3.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker3.png" alt></p>
 <p>打包完成之后在outputs文件夹下会多出来一个tinkerPatch文件夹。patch_signed_7zip.apk就死我们需要的patch包了。直接放到前面加载sdk文件的路径，或者从网络下载到该路径，之后调用加载的方法就完成修复了。</p>
-<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker_4.png" alt></p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/tinker4.png" alt></p>
 
         </div>
         
