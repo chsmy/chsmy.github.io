@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="小草喔">
 <meta property="og:description" content="CMake">
 <meta property="og:locale" content="CHS">
-<meta property="og:updated_time" content="2019-05-25T08:43:57.191Z">
+<meta property="og:updated_time" content="2019-05-25T08:56:38.996Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CMake">
 <meta name="twitter:description" content="CMake">
@@ -235,7 +235,7 @@
 </tr>
 <tr>
 <td>二元</td>
-<td>EQUAL,LESS,LESS_EQUAL,GREATER,GREATER_EQUAL,STREQUAL,STRLESS,STRLESS_EQUAL,STRGREATER,STRGREATER_EQUAL,VERSION_EQUAL,VERSION_GREATER,VERSION_GREATER_EQUAL,MATCHES</td>
+<td>EQUAL,LESS,LESS_EQUAL,GREATER,GREATER_EQUAL,STREQUAL,<br>STRLESS,STRLESS_EQUAL,STRGREATER,STRGREATER_EQUAL,<br>VERSION_EQUAL,VERSION_GREATER,VERSION_GREATER_EQUAL,MATCHES</td>
 </tr>
 <tr>
 <td>逻辑</td>
@@ -298,15 +298,15 @@
 <li>添加一个库文件，名称为<name></name></li>
 <li>指定STATIC,SHSRED,MODULE参数来指定库的类型，STATIC:静态库；SHARED:动态库；MODULE:在使用dyld的系统中有效，如果不支持dyld等同于SHARED</li>
 <li>EXCLUDE_FORM_ALL:表示该库不会被默认构建</li>
-<li>sorece1 sorece2….sourceN用来指定库的源文件<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add_library(&lt;name&gt; [STATIC|SHARED|MODULE]</span><br><span class="line">[EXCLUDE_FROM_ALL] source1 source2...sourceN)</span><br></pre></td></tr></table></figure>
-</li>
+<li>sorece1 sorece2….sourceN用来指定库的源文件</li>
 </ul>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add_library(&lt;name&gt; [STATIC|SHARED|MODULE]</span><br><span class="line">[EXCLUDE_FROM_ALL] source1 source2...sourceN)</span><br></pre></td></tr></table></figure>
 <p><strong>导入预编译的库</strong></p>
 <ul>
 <li>添加一个已存在的预编译的库名为<name></name></li>
-<li>一般配合set_target_properties使用<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">add_library(&lt;name&gt; &lt;SHARED|STATIC|MODULE|UNKNOWN&gt; IMPORTED)</span><br><span class="line">#比如</span><br><span class="line">add_library(test SHARED IMPORTED)</span><br><span class="line">set_target_projecties(</span><br><span class="line">    test#指明目标库的名称</span><br><span class="line">    #指明要设置的参数库路径</span><br><span class="line">    #/$&#123;ANDROID_ABI&#125;/libtest.so#导入库的路径</span><br><span class="line">    PROPRETIES IMPORTED_LOCATION)</span><br></pre></td></tr></table></figure>
-</li>
+<li>一般配合set_target_properties使用</li>
 </ul>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">add_library(&lt;name&gt; &lt;SHARED|STATIC|MODULE|UNKNOWN&gt; IMPORTED)</span><br><span class="line">#比如</span><br><span class="line">add_library(test SHARED IMPORTED)</span><br><span class="line">set_target_projecties(</span><br><span class="line">    test#指明目标库的名称</span><br><span class="line">    #指明要设置的参数库路径</span><br><span class="line">    #/$&#123;ANDROID_ABI&#125;/libtest.so#导入库的路径</span><br><span class="line">    PROPRETIES IMPORTED_LOCATION)</span><br></pre></td></tr></table></figure>
 <p><strong>set</strong> 设置CMake变量<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#设置可执行文件的输出路径(EXCUTABLE_OUTPUT_PATH是全局变量)</span><br><span class="line">set(EXECUTABLE_OUT_PATH [out_path])</span><br><span class="line"></span><br><span class="line">#设置库文件的输出路径(LIBRARY_OUT_PATH是全局变量)</span><br><span class="line">set(LIBRARY_OUT_PATH [output_path])</span><br><span class="line"></span><br><span class="line">#设置C++编译参数(CMAKE_CXX_FLAGS是全局变量)</span><br><span class="line">set(CMAKE_CXX_FLAGS &quot;-Wall std=c++ll&quot;)</span><br><span class="line"></span><br><span class="line">#设置源文件集合(SOURCE_FILES是本地变量即自定义变量)</span><br><span class="line">set(SOURCE_FILES main.cpp test.cpp...)</span><br></pre></td></tr></table></figure></p>
 <p><strong>include_directories</strong> 设置头文件目录，相当于g++选项中的-l参数<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#可以用相对路径或者绝对路径，也可以使用自定义的变量值</span><br><span class="line">include_directories(./include $&#123;MY_INCLUDE&#125;)</span><br></pre></td></tr></table></figure></p>
 <p><strong>add_executable</strong> 添加可执行文件<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#第一个参数文件名 第二个路径</span><br><span class="line">add_executable(&lt;name&gt; #&#123;SRC_LIST&#125;)</span><br></pre></td></tr></table></figure></p>
@@ -363,11 +363,11 @@
 </ol>
 <p>等会使用模拟器测试，所以app.gradle中配置cpu的类型为x86<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">externalNativeBuild &#123;</span><br><span class="line">          cmake &#123;</span><br><span class="line">              abiFilters &quot;x86&quot;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      ndk &#123;</span><br><span class="line">          abiFilters &apos;x86&apos;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure></p>
 <ol start="5">
-<li><p>配置CMakeLists.txt文件</p>
+<li>配置CMakeLists.txt文件</li>
+</ol>
 <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#指定cmake最小支持版本</span><br><span class="line">cmake_minimum_required(VERSION 3.4.1)</span><br><span class="line">#设置头文件目录</span><br><span class="line">include_directories($&#123;CMAKE_SOURCE_DIR&#125;/inc)</span><br><span class="line">#添加一个库，根据native-lib.cpp文件编译一个native-lib动态库</span><br><span class="line">add_library( </span><br><span class="line">        native-lib</span><br><span class="line">        SHARED</span><br><span class="line">        native-lib.cpp)</span><br><span class="line">#设置第三方so库的路径</span><br><span class="line">set(CMAKE_CXX_FLAGS &quot;$&#123;CMAKE_CXX_FLAGS&#125; -L$&#123;CMAKE_SOURCE_DIR&#125;/../jniLibs/$&#123;CMAKE_ANDROID_ARCH_ABI&#125;&quot;)</span><br><span class="line">#查找系统库，这里查找的是系统日志库</span><br><span class="line">#默认会到 skd的ndk路径下面去找比如：sdk\ndk-bundle\platforms\android-28\arch-arm\usr\lib</span><br><span class="line">find_library(</span><br><span class="line">        log-lib</span><br><span class="line">        log)</span><br><span class="line">#设置依赖的库，第一个参数必须为依赖的模块，顺序不能改。fmod和fmodL是动态库的名字</span><br><span class="line">target_link_libraries(</span><br><span class="line">        native-lib</span><br><span class="line">        fmod</span><br><span class="line">        fmodL</span><br><span class="line">        $&#123;log-lib&#125;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>到我们自己的cpp文件中编写代码</p>
-</li>
+<ol start="6">
+<li>到我们自己的cpp文件中编写代码</li>
 </ol>
 <p>这里引入fmod的头文件，然后打印一下其版本号<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;jni.h&gt;</span><br><span class="line">#include &lt;string&gt;</span><br><span class="line">#include &lt;fmod.hpp&gt;</span><br><span class="line">#include &lt;android/log.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace FMOD;</span><br><span class="line"></span><br><span class="line">extern &quot;C&quot; JNIEXPORT jstring JNICALL</span><br><span class="line">Java_com_chs_cmake_MainActivity_stringFromJNI(</span><br><span class="line">        JNIEnv *env,</span><br><span class="line">        jobject /* this */) &#123;</span><br><span class="line"></span><br><span class="line">    System *system;</span><br><span class="line">    System_Create(&amp;system);</span><br><span class="line">    unsigned version;</span><br><span class="line">    system-&gt;getVersion(&amp;version);</span><br><span class="line">    __android_log_print(ANDROID_LOG_ERROR,&quot;text&quot;,&quot;FMOD_VERSION:%08x&quot;,version);</span><br><span class="line">    return env-&gt;NewStringUTF(hello.c_str());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>运行项目可以在log中看到打印日志<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2019-05-25 15:37:50.261 29585-29585/com.chs.cmake E/text: FMOD_VERSION:00020001</span><br></pre></td></tr></table></figure></p>
@@ -399,6 +399,13 @@
 
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/06/02/technology/增量更新/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">增量更新</span>
+            </a>
+        </div>
         
         
         <div class="level-end">
