@@ -2,23 +2,21 @@
 <html lang="CH">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>Android屏幕适配 - 小草喔</title>
+<title>Etiqueta: 设计模式 - 小草喔</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="Android屏幕适配这个东西，真是每个Andorid开发者从入行开始就比较关注也比较头疼的问题">
-<meta name="keywords" content="UI">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Android屏幕适配">
-<meta property="og:url" content="https://chsmy.github.io/2019/04/05/technology/Android屏幕适配/index.html">
+    <meta name="description" content="冰冻三尺，费一日之寒，只要坚持，终会有收获。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="小草喔">
+<meta property="og:url" content="https://chsmy.github.io/tags/设计模式/index.html">
 <meta property="og:site_name" content="小草喔">
-<meta property="og:description" content="Android屏幕适配这个东西，真是每个Andorid开发者从入行开始就比较关注也比较头疼的问题">
+<meta property="og:description" content="冰冻三尺，费一日之寒，只要坚持，终会有收获。">
 <meta property="og:locale" content="CHS">
-<meta property="og:updated_time" content="2019-04-14T06:25:20.951Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android屏幕适配">
-<meta name="twitter:description" content="Android屏幕适配这个东西，真是每个Andorid开发者从入行开始就比较关注也比较头疼的问题">
+<meta name="twitter:title" content="小草喔">
+<meta name="twitter:description" content="冰冻三尺，费一日之寒，只要坚持，终会有收获。">
 
 
 
@@ -110,7 +108,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.png" alt="Android屏幕适配" height="28">
+                <img src="/images/logo.png" alt="小草喔" height="28">
             
             </a>
         </div>
@@ -156,22 +154,33 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    <div class="card-content">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/tags">Etiquetas</a></li>
+            <li class="is-active"><a href="#" aria-current="page">设计模式</a></li>
+        </ul>
+        </nav>
+    </div>
+</div>
+
+    <div class="card">
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-04-05T02:56:52.000Z">2019-04-05</time>
+                <time class="level-item has-text-grey" datetime="2019-06-16T13:42:17.000Z">2019-06-16</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/UI/">UI</a>
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/设计模式/">设计模式</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    12 minutes read (About 1803 words)
+                    4 minutes read (About 624 words)
                 </span>
                 
                 
@@ -180,55 +189,23 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                Android屏幕适配
+                <a class="has-link-black-ter" href="/2019/06/16/technology/适配器模式/">适配器模式</a>
             
         </h1>
         <div class="content">
-            <p>Android屏幕适配这个东西，真是每个Andorid开发者从入行开始就比较关注也比较头疼的问题</p>
-<a id="more"></a>
-<p>从多套dimens到百分比布局再到鸿神的<a href="https://github.com/hongyangAndroid/AndroidAutoLayout" target="_blank" rel="noopener">AutoLayout</a>还有smallestWidth最小宽度限定符适配，还有的公司重写了系统常用的布局容器，然后在onMeasure中进行等比例的缩放。这些都能达到一些挺好的效果，不过也有不少bug存在，适配起来酣畅淋漓的感觉。</p>
-<p>后来有人想到了<a href="https://www.jianshu.com/p/b6b9bd1fba4d" target="_blank" rel="noopener">修改系统Density</a>用起来比较爽，这篇文章非常不错，可惜知道的人比较少，直到今日头条在其公众号发表了一篇适配的文章<a href="https://mp.weixin.qq.com/s/d9QCoBP6kV9VSWvVldVVwA" target="_blank" rel="noopener">一种极低成本的Android屏幕适配方式</a>，核心思想跟上面是一样的，这种方式才迅速让更多的开发者知道，于是不少优秀的的框架出现<a href="https://github.com/JessYanCoding/AndroidAutoSize" target="_blank" rel="noopener">AndroidAutoSize</a>和<a href="https://github.com/Blankj/AndroidUtilCode" target="_blank" rel="noopener">AndroidUtilCode</a></p>
-<p>本篇文章就把上面的原理在熟悉一下，记个笔记。如需源码请去上面开源库中寻找。</p>
-<p>无论我们使用什么单位适配，除了px剩下的单位都会根据一定的规则进行转换，布局文件转换位置在android.util下的TypedValue#applyDimension。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">float</span> <span class="hljs-title">applyDimension</span><span class="hljs-params">(<span class="hljs-keyword">int</span> unit, <span class="hljs-keyword">float</span> value,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">                                     DisplayMetrics metrics)</span></span></span><br><span class="line"><span class="hljs-function">  </span>&#123;</span><br><span class="line">      <span class="hljs-keyword">switch</span> (unit) &#123;</span><br><span class="line">      <span class="hljs-keyword">case</span> COMPLEX_UNIT_PX:</span><br><span class="line">          <span class="hljs-keyword">return</span> value;</span><br><span class="line">      <span class="hljs-keyword">case</span> COMPLEX_UNIT_DIP:</span><br><span class="line">          <span class="hljs-keyword">return</span> value * metrics.density;</span><br><span class="line">      <span class="hljs-keyword">case</span> COMPLEX_UNIT_SP:</span><br><span class="line">          <span class="hljs-keyword">return</span> value * metrics.scaledDensity;</span><br><span class="line">      <span class="hljs-keyword">case</span> COMPLEX_UNIT_PT:</span><br><span class="line">          <span class="hljs-keyword">return</span> value * metrics.xdpi * (<span class="hljs-number">1.0f</span>/<span class="hljs-number">72</span>);</span><br><span class="line">      <span class="hljs-keyword">case</span> COMPLEX_UNIT_IN:</span><br><span class="line">          <span class="hljs-keyword">return</span> value * metrics.xdpi;</span><br><span class="line">      <span class="hljs-keyword">case</span> COMPLEX_UNIT_MM:</span><br><span class="line">          <span class="hljs-keyword">return</span> value * metrics.xdpi * (<span class="hljs-number">1.0f</span>/<span class="hljs-number">25.4f</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>Bitmap的转换在 BitmapFactory#decodeResourceStream<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Bitmap <span class="hljs-title">decodeResourceStream</span><span class="hljs-params">(Resources res, TypedValue value,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            InputStream is, Rect pad, Options opts)</span> </span>&#123;</span><br><span class="line">            ...</span><br><span class="line">            <span class="hljs-keyword">if</span> (opts.inTargetDensity == <span class="hljs-number">0</span> &amp;&amp; res != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            opts.inTargetDensity = res.getDisplayMetrics().densityDpi;</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure></p>
-<p>上面的代码可以看到，根据不同单位转换的时候，都用到了DisplayMetrics这个类，通过metrics.density，metrics.scaledDensity等值来转化。density就是屏幕的密度，scaledDensity是字体的缩放因子，正常情况下跟density值是相等的，当改变系统字体的大小的时候这个值会变。</p>
-<p>如果我们是用dp，上面代码中的value就是我们的dp值，可以看到px=dp*density</p>
-<p>所以，适配的时候，保持dp值不变，我们可以修改系统的density值让它跟我们的设计图中的density值相等就好了。</p>
-<p>通常情况下，我们适配宽或者高中的一个就行了，因为每个设备的宽高比是不一样的，有的是16:9，有的是4:3等等，所以完全显示一直是不可能的。</p>
-<p>下面使用宽度适配一下<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ScreenAdapter</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 参考设计图的宽 单位dp</span></span><br><span class="line"><span class="hljs-comment">     * 比如设计图是1920*1080 按360dp为基准</span></span><br><span class="line"><span class="hljs-comment">     * 相同分辨率的手机，屏幕的尺寸不同也会导致最后的dp值不同。</span></span><br><span class="line"><span class="hljs-comment">     * 比如1920*1080分辨率，屏幕尺寸为5，最后是392.7dp</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span>  <span class="hljs-keyword">float</span> WIDTH = <span class="hljs-number">320</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">adapter</span><span class="hljs-params">(Activity activity)</span></span>&#123;</span><br><span class="line">        <span class="hljs-comment">//系统的DisplayMetrics</span></span><br><span class="line">        <span class="hljs-keyword">final</span> DisplayMetrics systemDM = Resources.getSystem().getDisplayMetrics();</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">//根据设计图的WIDTH计算当前的density, scaleDensity, densityDpi</span></span><br><span class="line">        <span class="hljs-keyword">float</span> targetDensity = systemDM.widthPixels/WIDTH;</span><br><span class="line">        <span class="hljs-keyword">float</span> targetScaleDensity = targetDensity *(systemDM.scaledDensity/systemDM.density);</span><br><span class="line">        <span class="hljs-comment">//px = density * dp;  density = dpi / 160;  px = dp * (dpi / 160);</span></span><br><span class="line">        <span class="hljs-keyword">int</span> targetDensityDpi = (<span class="hljs-keyword">int</span>) (targetDensity*<span class="hljs-number">160</span>);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">//替换Activity的density, scaleDensity, densityDpi</span></span><br><span class="line">        <span class="hljs-comment">//Activity的DisplayMetrics</span></span><br><span class="line">        <span class="hljs-keyword">final</span> DisplayMetrics activityDM = activity.getResources().getDisplayMetrics();</span><br><span class="line">        activityDM.density = targetDensity;</span><br><span class="line">        activityDM.scaledDensity = targetScaleDensity;</span><br><span class="line">        activityDM.densityDpi = targetDensityDpi;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>由于 API 26 及以上的 <code>Activity#getResources()#getDisplayMetrics()</code> 和 <code>Application#getResources()#getDisplayMetrics()</code> 是不同的引用，所以在 API 26 及以上适配是没有影响的，但在API26以<code>下Activity#getResources()#getDisplayMetrics()</code> 和 <code>Application#getResources()#getDisplayMetrics()</code>是相同的引用，导致适配有问题，而<code>Resources#getSystem()#getDisplayMetrics()</code> 没有这个问题所以使用它了。</p>
-<p>如果使用<code>Application#getResources()#getDisplayMetrics()</code>，在手机的设置中改变字体的大小的时候，APP中无法改变，需要注册监听<code>registerComponentCallbacks</code><br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">float</span> appScaleDensity;</span><br><span class="line"> <span class="hljs-comment">//添加字体变化监听回调</span></span><br><span class="line">   application.registerComponentCallbacks(<span class="hljs-keyword">new</span> ComponentCallbacks() &#123;</span><br><span class="line">       <span class="hljs-meta">@Override</span></span><br><span class="line">       <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onConfigurationChanged</span><span class="hljs-params">(Configuration newConfig)</span> </span>&#123;</span><br><span class="line">                   <span class="hljs-comment">//字体发生更改，重新对scaleDensity进行赋值</span></span><br><span class="line">           <span class="hljs-keyword">if</span> (newConfig != <span class="hljs-keyword">null</span> &amp;&amp; newConfig.fontScale &gt; <span class="hljs-number">0</span>)&#123;</span><br><span class="line">               appScaleDensity = application.getResources().getDisplayMetrics().scaledDensity;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="hljs-meta">@Override</span></span><br><span class="line">           <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onLowMemory</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line">   &#125;);</span><br></pre></td></tr></table></figure></p>
-<p>不过如果使用<code>Resources#getSystem()#getDisplayMetrics()</code>的话就没这个问题了，不需要注册上面的监听也能跟随系统改变。最后在Activity的setContentViw()方法之前调用上面类中的adapter方法就可以愉快的适配了。</p>
-<p>缺点：</p>
-<p>修改了系统的density值之后，所有的地方都适配了，比如第三方库中的dp值，系统库中的dp值，这就会出现一个问题,如果第三方库和系统库中的UI设计的尺寸跟我们的基准尺寸不一样，那适配肯定就会出问题了，比如AlertDialog，Toast的尺寸会变形。<br>可以在调用这些控件的时候先取消适配。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">cancelAdapter</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Activity activity)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">final</span> DisplayMetrics systemDm = Resources.getSystem().getDisplayMetrics();</span><br><span class="line">    <span class="hljs-keyword">final</span> DisplayMetrics activityDm = activity.getResources().getDisplayMetrics();</span><br><span class="line">    activityDm.density = systemDm.density;</span><br><span class="line">    activityDm.scaledDensity = systemDm.scaledDensity;</span><br><span class="line">    activityDm.densityDpi = systemDm.densityDpi;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>有时候系统会重置density的值，比如WebView初始化的时候会重置DisplayMetrics#density的值导致适配失效。可以重写VebView的setOverScrollMode方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Override</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setOverScrollMode</span><span class="hljs-params">(<span class="hljs-keyword">int</span> mode)</span> </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">super</span>.setOverScrollMode(mode);</span><br><span class="line">       <span class="hljs-comment">//在这重新执行adapter的方法 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>还有一些其他的问题，可以去这两个框架的issue中查看。</p>
-<p>从最开始的代码中可以看到除了dp,sp之外，还有一些别的单位，pt,in,mm,Android源代码和第三方库中一般都是使用的dp,sp来做单位，所以我们可以更改pt这个单位，pt，它表示一个点，是屏幕的物理尺寸，其大小为 1 英寸的 1 / 72，也就是 72pt 等于 1 英寸</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//designWidth是我们设计图的px尺寸</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">adaptWidth</span><span class="hljs-params">(Activity activity, <span class="hljs-keyword">int</span> designWidth)</span> </span>&#123;</span><br><span class="line">      DisplayMetrics dm = Resources.getSystem().getDisplayMetrics();</span><br><span class="line">      <span class="hljs-keyword">final</span>  DisplayMetrics activityDM = activity.getResources().getDisplayMetrics();</span><br><span class="line">      activityDM.xdpi= dm.xdpi = (dm.widthPixels * <span class="hljs-number">72f</span>) / designWidth;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p>修改DisplayMetrics中的xdpi的值，在布局文件中使用pt做单位，这样我们的修改就不会对系统和第三方的控件的大小改变了。</p>
-<p>当然是用这种偏门的单位，对代码的入侵性就有点大，如果以后有了更好的适配方式，更改起来比较麻烦，不过也有处理的方式</p>
-<p>从最开始那个代码中我们可以看到，如果以pt为单位，返回的是<code>return value * metrics.xdpi * (1.0f/72);</code>，以dp为单位返回的是<code>return value * metrics.density;</code></p>
-<p>放到一块对比一下<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">return</span> value * metrics.xdpi * (<span class="hljs-number">1.0f</span>/<span class="hljs-number">72</span>);</span><br><span class="line"><span class="hljs-keyword">return</span> value * metrics.density;</span><br></pre></td></tr></table></figure></p>
-<p>从上面看，如果我们把<code>metrics.xdpi * (1.0f/72)</code>变成<code>metrics.density</code>，那么我们在布局文件中使用dp和pt的效果就一样了。</p>
-<p>所以，假如真有更好的方式的时候，可以通过一个取消pt适配的方式，把上面给改了，到时候dp和pt效果一样，我们就不用去布局文件中一个一个的更改了。取消方式<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">cancelPtAdapter</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Activity activity)</span> </span>&#123;</span><br><span class="line">      <span class="hljs-keyword">final</span> DisplayMetrics dm = Resources.getSystem().getDisplayMetrics();</span><br><span class="line">      <span class="hljs-keyword">final</span> DisplayMetrics activityDm = activity.getResources().getDisplayMetrics();</span><br><span class="line">      activityDm.xdpi = dm.xdpi = dm.density * <span class="hljs-number">72</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-
+            <p>适配器模式是将一个类的接口转换成开发者希望的另一个接口</p>
         </div>
         
-        <div class="level is-size-7 is-uppercase">
+        
+        <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/UI/">UI</a>
+                <a class="button is-size-7 is-light" href="/2019/06/16/technology/适配器模式/#more">Read More</a>
                 </div>
             </div>
         </div>
         
         
-        
-        <div class="social-share"></div>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
-<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
-        
     </div>
 </div>
 
@@ -236,52 +213,61 @@
 
 
 
-<div class="card card-transparent">
-    <div class="level post-navigation is-flex-wrap is-mobile">
-        
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/04/05/technology/Android刘海屏适配/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Android刘海屏适配</span>
-            </a>
-        </div>
-        
-        
-        <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2019/03/31/technology/Android事件分发机制/">
-                <span class="level-item">Android事件分发机制</span>
-                <i class="level-item fas fa-chevron-right"></i>
-            </a>
-        </div>
-        
-    </div>
-</div>
 
 
 
-<div class="card">
-    <div class="card-content">
-        <h3 class="title is-5 has-text-weight-normal">Comentarios</h3>
-        
-<script>
-    var disqus_config = function () {
-        this.page.url = 'https://chsmy.github.io/2019/04/05/technology/Android屏幕适配/';
-        this.page.identifier = '2019/04/05/technology/Android屏幕适配/';
-    };
-    (function() {
-        var d = document, s = d.createElement('script');  
-        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-
-<div id="disqus_thread">
+    <div class="card">
     
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-06-16T13:42:02.000Z">2019-06-16</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Java/设计模式/">设计模式</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 minutes read (About 339 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/06/16/technology/外观模式/">外观模式</a>
+            
+        </h1>
+        <div class="content">
+            <p>外观模式：隐藏了系统的复杂性，为子系统中的一组接口提供了一个统一的访问接口。高内聚低耦合。</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/06/16/technology/外观模式/#more">Read More</a>
+                </div>
+            </div>
+        </div>
+        
+        
     </div>
 </div>
+
+
+
+
+
+
+
+
 </div>
                 
 
@@ -1059,7 +1045,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.png" alt="Android屏幕适配" height="28">
+                    <img src="/images/logo.png" alt="小草喔" height="28">
                 
                 </a>
                 <p class="is-size-7">
