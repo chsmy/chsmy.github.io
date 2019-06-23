@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>直播用到的技术 - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="直播用到的技术">
+<meta name="keywords" content="c&#x2F;c++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="直播用到的技术">
+<meta property="og:url" content="https://chsmy.github.io/2019/06/22/technology/直播用到的技术/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="直播用到的技术">
+<meta property="og:locale" content="CHS">
+<meta property="og:updated_time" content="2019-06-22T09:34:48.037Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="直播用到的技术">
+<meta name="twitter:description" content="直播用到的技术">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="直播用到的技术" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-06-22T09:31:07.000Z">2019-06-22</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/c-c/">c/c++</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    30 minutes read (About 4426 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                直播用到的技术
+            
+        </h1>
+        <div class="content">
+            <p>直播用到的技术</p>
+<a id="more"></a>
+<h4 id="服务器端搭建"><a href="#服务器端搭建" class="headerlink" title="服务器端搭建"></a>服务器端搭建</h4><p><strong>Nginx</strong></p>
+<p>Nginx是一个高性能的HTTP和反向代理服务器，用来处理前端（Andorid ios Web）过来的请求，以前在一台服务器上需要部署多个服务，需要通过端口号执行访问的具体服务，部署完Nginx之后就不需要这样了，可以用Nginx来导流和分发。</p>
+<p>下载地址：<a href="http://nginx.org/en/download.html" target="_blank" rel="noopener">http://nginx.org/en/download.html</a></p>
+<p>在Linux上下载当前最新版本并解压<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://nginx.org/download/nginx-1.17.0.tar.gz</span><br><span class="line">tar -zxvf nginx-1.17.0.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>使用nginx-rtmp-module作为直播模块 <a href="https://github.com/arut/nginx-rtmp-module" target="_blank" rel="noopener">https://github.com/arut/nginx-rtmp-module</a></p>
+<p>下载最新版本并解压<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://codeload.github.com/arut/nginx-rtmp-module/tar.gz/v1.2.1</span><br><span class="line">tar -zxvf v1.2.1</span><br><span class="line">//或者</span><br><span class="line">wget https://github.com/arut/nginx-rtmp-module/archive/v1.2.1.tar.gz</span><br><span class="line">tar -zxvf v1.2.1.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>进入到nginx的解压目录，给它添加直播模块</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#--prefix代表编译到哪个目录  --add-module 指向rtmp模块目录</span><br><span class="line">./configure --prefix=./bin --add-module=../nginx-rtmp-module-1.2.1</span><br></pre></td></tr></table></figure>
+<p>开始安装<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
+<p>有时候可能会出现zlib，pcre，openssl这几个库找不到可以根据下面的链接中的安装</p>
+<p><a href="https://blog.csdn.net/z920954494/article/details/52132125" target="_blank" rel="noopener">https://blog.csdn.net/z920954494/article/details/52132125</a></p>
+<p>安装成功后会生成一个bin目录，进入bin/conf修改nginx.conf文件配置rtmp和http协议。在<code>nginx-rtmp-module-1.2.1/test/nginx.conf</code>中有示例<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd bin/conf</span><br><span class="line">vim nginx.conf</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">worker_processes  1;</span><br><span class="line"></span><br><span class="line">error_log  logs/error.log debug;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line"><span class="hljs-meta">#</span>最大连接数</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">rtmp &#123;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen 1935;</span><br><span class="line">        application myapp &#123;</span><br><span class="line">            live on;</span><br><span class="line">            #大于5秒不响应丢弃</span><br><span class="line">            drop_idle_publisher 5s;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">http &#123;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen      8081;</span><br><span class="line">        location /stat &#123;</span><br><span class="line">            rtmp_stat all;</span><br><span class="line">            rtmp_stat_stylesheet stat.xsl;</span><br><span class="line">        &#125;</span><br><span class="line">        location /stat.xsl &#123;</span><br><span class="line">        #这里改成自己的路径</span><br><span class="line">            root /root/nginx-rtmp-module-1.2.1/;</span><br><span class="line">        &#125;</span><br><span class="line">        location /control &#123;</span><br><span class="line">            rtmp_control all;</span><br><span class="line">        &#125;</span><br><span class="line">        location /rtmp-publisher &#123;</span><br><span class="line">        #这里改成自己的路径</span><br><span class="line">            root /root/nginx-rtmp-module-1.2.1/test;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">        #这里改成自己的路径</span><br><span class="line">            root /root/nginx-rtmp-module-1.2.1/test/www;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>查看端口是否被占用：<br>netstat -tunlp|grep 8081</p>
+<p>回到Nginx解压根目录,打开nginx<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/sbin//nginx</span><br></pre></td></tr></table></figure></p>
+<p>浏览器打开后台网址 58.320.63.116:8081/stat如果能够打开说明搭建成功了。</p>
+<h4 id="视频推流"><a href="#视频推流" class="headerlink" title="视频推流"></a>视频推流</h4><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">摄像头--&gt;视频通道</span><br><span class="line">麦克风--&gt;音频通道</span><br><span class="line">视频通道--&gt;打包</span><br><span class="line">音频通道--&gt;打包</span><br><span class="line">打包--&gt;Native推流</span><br></pre></td></tr></table></figure>
+<p>摄像头搜集到视频源数据Android中是NV21格式，它是YUV中的一种这个源数据非常大，需要对其编码压缩，可以使用h264协议进行压缩。</p>
+<p>H264是连续帧，包括I帧 B帧 P帧</p>
+<ul>
+<li>I帧：也是关键帧，它保留了一幅图的完整信息</li>
+<li>P帧：根据I帧形成的，表示与I帧之间的差别</li>
+<li>B帧：I帧和P帧之间的，由前面的I帧或者后面的P帧预测而来</li>
+</ul>
+<p>封装成pcket，使用rtmp协议传输，rtmpDump工具</p>
+<p>rtmpDump 下载地址：<a href="http://rtmpdump.mplayerhq.hu/download/" target="_blank" rel="noopener">http://rtmpdump.mplayerhq.hu/download/</a></p>
+<p>下载解压，把libtrmp复制到我们工程的cpp目录下面</p>
+<p>编译失败<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">F:\sdk\ndk-bundle\toolchains\llvm\prebuilt\windows-x86_64\bin\clang.exe --target=x86_64-none-linux-android21 --gcc-toolchain=F:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=F:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -fno-addrsig -Wa,--noexecstack -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC -MD -MT librtmp/CMakeFiles/rtmp.dir/hashswf.c.o -MF librtmp\CMakeFiles\rtmp.dir\hashswf.c.o.d -o librtmp/CMakeFiles/rtmp.dir/hashswf.c.o   -c D:/android/A1/MyPusher/app/src/main/cpp/librtmp/hashswf.c</span><br><span class="line">D:/android/A1/MyPusher/app/src/main/cpp/librtmp/hashswf.c:56:10: fatal error: &apos;openssl/ssl.h&apos; file not found</span><br><span class="line">#include &lt;openssl/ssl.h&gt;</span><br></pre></td></tr></table></figure></p>
+<p>说是在hashswf.c的56行找不到&lt;openssl/ssl.h&gt;，这个主要是用来加密的，加密意味着效率慢，所以通常的直播是不需要加密的，可以忽略掉这一部分。</p>
+<p>进入hashswf.c中可以看到：&lt;openssl/ssl.h&gt;的引用是在<code>#ifdef CRYPTO</code>之后，只有定义了CRYPTO这个参数才能走下面引用openssl的方法，所以可以想办法绕过这里，可以直接注释掉CRYPTO也可以通过下面的方法</p>
+<p>在CMakeLists.txt文件中传递一个NO_CRYPTO参数<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set(CMAKE_C_FLAGS &quot;$&#123;CMAKE_C_FLAGS&#125; -DNO_CRYPTO&quot;)</span><br></pre></td></tr></table></figure></p>
+<p>-D后面就是传递的参数，传递之后再编译就不会出错了。</p>
+<p>使用x264工具来负责h264的编解码</p>
+<p>x264地址 ：<a href="https://www.videolan.org/developers/x264.html" target="_blank" rel="noopener">https://www.videolan.org/developers/x264.html</a></p>
+<p>x264的源码很多，就不能跟前面rtmpdump一样直接导入AndoroidStudio中使用了，因为源码太多会编译非常慢慢到你怀疑人生，所以需要下载到Linux服务器在服务器中编译完在导入到AndoridStudio中。</p>
+<p>在服务器中直接通过git下载，clone之前要安装git，或者直接官网下载zip文件在上传到服务器中<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://code.videolan.org/videolan/x264.git</span><br></pre></td></tr></table></figure></p>
+<p>为什么视频编码采用YUV而不是RGB</p>
+<ul>
+<li>RGB原理：定义RGB从颜色发光的原理来设定，任何一种颜色都可以通过红、绿、蓝三种颜色混合而成，亮度等于参与混合的颜色之和，越混合亮度越高，即混合加法，RGB24指RGB三个各占8位</li>
+<li>YUV原理：YUV只要用于优化色彩视频信号的传输，与RGB视频信号传输相比，它的最大优点是占用极少的频宽。RGB要求三个独立的视频信号同时传输。Y表示亮度，U和V表示色度</li>
+</ul>
+<p>NV21 YUVI420</p>
+<p>为什么要对视频进行编码？</p>
+<p>视频是由一帧帧的图像组成，一般的视频为了不让用户感到卡顿，一秒钟至少需要16帧的画面（一般是30帧），假如该视频是一个1280<em>720分辨率的视频，那么不经过编码的一秒钟大小结果是：1280</em>720*60≈843.75M，非常大不适合保存和传输。</p>
+<p>H264的编码规则</p>
+<p>在相邻的几幅图像中，一般差别的像素只有10%以内的点，亮度差值变化不超过2%，而色度差值的变化只有1%以内，所以对于一段变化不大的图像，我们可以先编码出一个完整的图像的帧A</p>
+<p>随后，B帧就不用编码全部的图像，只写入和A帧的差别，这样B帧的大小就只有完成帧的1/10或者更小。B帧之后的C帧如果变化不大，我们可以继续以参考B帧的方法编码C帧如此循环</p>
+<p>这样的一段图像成为一个序列。序列就是有相同特点的一段数据。当某个图像的差别跟前一个很大的时候无法参考前面的来生成，就结束这个序列开始下一段序列。</p>
+<p>编码后的I帧B帧P帧也不能直接发送，还需要通过帧内压缩来进一步减小其大小。</p>
+<p>NALU单元设计，H264原始码流（裸流）是由一个接一个的NALU组成的。</p>
+<p>NALU包括NALU头和RBSP（切片），。NALU头就相当于一辆汽车的头，切片就相当于它拉的货物，他们两个组成一个完整的一个火车运送到目的地，H264的原始流就是一辆一辆的这样的货车运送。</p>
+<p>什么是切片：H264默认使用16*16大小的区域作为一个宏块，若干个宏块就可以组成一个切片。</p>
+<p>SPS和PPS</p>
+<p>SPS和PPS包含了初始化H264解码器所需要的信息参数，包括编码所用的profile,level图像宽和高，deblock滤波器等。</p>
+<p>SPS：序列参数集  PPS：图像参数集</p>
+<p>在H264中，都是以 “0x00 0x00 0x01” 或者 “0x00 0x00 0x00 0x01” 为开始编码的，找到开始码之后使用开始码之后的第一个字节的底5位判断是否为7sps或者8pps。</p>
+<p>RTMPDump的地址：<a href="http://rtmpdump.mplayerhq.hu/" target="_blank" rel="noopener">http://rtmpdump.mplayerhq.hu/</a></p>
+<p>使用RTMPDump的步骤：</p>
+<ol>
+<li>RTMP_Alloc 申请内存</li>
+<li>RTMP_Init  初始化</li>
+<li>RTMP_SetupURL 设置地址</li>
+<li>RTMP_EnableWrite 开启输出模式</li>
+<li>RTMP_Connect  连接服务器</li>
+<li>RTMP_ConnectStream 连接流</li>
+<li>RTMP_SendPacket 发从音频和视频数据包</li>
+<li>RTMP_Close 关闭连接</li>
+<li>RTMP_Free 释放</li>
+</ol>
+<h4 id="音频推流"><a href="#音频推流" class="headerlink" title="音频推流"></a>音频推流</h4><p>一般使用aac编码音频</p>
+<p>AAC：</p>
+<p>高级音频编码(Advanced Audio Coding)，出现于1997年，基于MPEG-2的音频编码技术,目的是取代MP3格式。2000年，MPEG-4标准出现后，AAC重新集成了其特性，为了区别于传统的MPEG-2 AAC又称为MPEG-4 AAC。相对于mp3，AAC格式的音质更佳，文件更小。<br>AAC的音频文件格式有 ADIF ＆ ADTS</p>
+<p>aac一种是在连续的音频数据的开始处存有解码信息，一种是在每一小段音频数据头部存放7个或者9个字节的头信息用于播放器解码。<br>    RTMP推流需要的是aac的裸数据。所以如果编码出adts格式的数据，需要去掉7个或者9个字节的adts头信息。<br>类似于推送视频，第一个包总是包含sps和pps的音频序列包，推送音频同样第一个包是包含了接下来数据的格式的音频序列包</p>
+<p><a href="https://www.audiocoding.com/" target="_blank" rel="noopener">https://www.audiocoding.com/</a></p>
+<p>下载地址：</p>
+<p><a href="https://sourceforge.net/projects/faac/files/faac-src/faac-1.29/faac-1.29.9.2.tar.gz/" target="_blank" rel="noopener">https://sourceforge.net/projects/faac/files/faac-src/faac-1.29/faac-1.29.9.2.tar.gz/</a></p>
+<p>编译faac</p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#</span>!/bin/bash</span><br><span class="line">PREFIX=`pwd`/android/armeabi-v7a</span><br><span class="line">NDK_ROOT=/root/android-ndk-r17c</span><br><span class="line">TOOLCHAIN=$NDK_ROOT/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64</span><br><span class="line">CROSS_COMPILE=$TOOLCHAIN/bin/arm-linux-androideabi</span><br><span class="line"></span><br><span class="line">FLAGS="-isysroot $NDK_ROOT/sysroot -isystem $NDK_ROOT/sysroot/usr/include/arm-linux-androideabi -D__ANDROID_API__=17 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -std=c++11  -O0  -fPIC"</span><br><span class="line"></span><br><span class="line">export CC="$CROSS_COMPILE-gcc --sysroot=$NDK_ROOT/platforms/android-17/arch-arm"</span><br><span class="line">export CFLAGS="$FLAGS"</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">./configure \</span><br><span class="line">--prefix=$PREFIX \</span><br><span class="line">--host=arm-linux \</span><br><span class="line">--with-pic \</span><br><span class="line">--enable-shared=no</span><br><span class="line"></span><br><span class="line">make clean</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<h4 id="音视频播放和同步"><a href="#音视频播放和同步" class="headerlink" title="音视频播放和同步"></a>音视频播放和同步</h4><p>使用FFmpeg来播放视频 使用OpenSL ES 播放音频</p>
+<p><strong>FFmpeg:</strong></p>
+<p>AvformatContext:获取视频流和音频流 字幕流，这是经过编码后的压缩数据</p>
+<p>AVcodecContext：解压的上下文，可以获得宽度高度编码信息等</p>
+<p>AVcondec：解码器  解码成yuv数据</p>
+<p>SwsContext ：转换上下文  视频缩放等操作<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">FAILED: D:/android/A1/MyPlayer/app/build/intermediates/cmake/debug/obj/armeabi-v7a/libmyplayer.so </span><br><span class="line">cmd.exe /C &quot;cd . &amp;&amp; F:\sdk\ndk-bundle\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe --target=armv7-none-linux-androideabi19 --gcc-toolchain=F:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=F:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot -fPIC -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mfpu=vfpv3-d16 -fno-addrsig -march=armv7-a -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -stdlib=libc++  -LD:/android/A1/MyPlayer/app/src/main/cpp/../../../libs/armeabi-v7a -O0 -fno-limit-debug-info  -Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libatomic.a -static-libstdc++ -Wl,--build-id -Wl,--warn-shared-textrel -Wl,--fatal-warnings -Wl,--exclude-libs,libunwind.a -Wl,--no-undefined -Qunused-arguments -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -shared -Wl,-soname,libmyplayer.so -o D:\android\A1\MyPlayer\app\build\intermediates\cmake\debug\obj\armeabi-v7a\libmyplayer.so CMakeFiles/myplayer.dir/native-lib.cpp.o  -lavcodec -lavfilter -lavformat -lavutil -lswresample -lswscale -landroid -lz -lOpenSLES -llog -latomic -lm &amp;&amp; cd .&quot;</span><br><span class="line">libavcodec/v4l2_buffers.c:439: error: undefined reference to &apos;mmap64&apos;</span><br><span class="line">libavformat/utils.c:5610: error: undefined reference to &apos;av_bitstream_filter_filter&apos;</span><br><span class="line">libavformat/codec2.c:74: error: undefined reference to &apos;avpriv_codec2_mode_bit_rate&apos;</span><br><span class="line">libavformat/codec2.c:75: error: undefined reference to &apos;avpriv_codec2_mode_frame_size&apos;</span><br><span class="line">libavformat/codec2.c:76: error: undefined reference to &apos;avpriv_codec2_mode_block_align&apos;</span><br><span class="line">libavformat/hls.c:840: error: undefined reference to &apos;atof&apos;</span><br><span class="line">libavformat/spdifdec.c:63: error: undefined reference to &apos;av_adts_header_parse&apos;</span><br><span class="line">libavformat/hlsproto.c:141: error: undefined reference to &apos;atof&apos;</span><br><span class="line">clang++.exe: error: linker command failed with exit code 1 (use -v to see invocation)</span><br><span class="line">ninja: build stopped: subcommand failed.</span><br></pre></td></tr></table></figure></p>
+<p>原因依赖顺序有问题：后面的库会用到前面库的方法</p>
+<p>原来的<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">avcodec avfilter avformat avutil swresample swscale</span><br></pre></td></tr></table></figure></p>
+<p>改后<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">avfilter avformat avcodec avutil swresample swscale</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://android.googlesource.com/platform/ndk/+/master/docs/user/common_problems.md" target="_blank" rel="noopener">https://android.googlesource.com/platform/ndk/+/master/docs/user/common_problems.md</a></p>
+<p><a href="https://github.com/android-ndk/ndk/issues/536" target="_blank" rel="noopener">https://github.com/android-ndk/ndk/issues/536</a></p>
+<p><a href="https://www.jianshu.com/p/e0e042a10000" target="_blank" rel="noopener">https://www.jianshu.com/p/e0e042a10000</a></p>
+<ul>
+<li>avcodec：编解码</li>
+<li>avformat：封装格式处理</li>
+<li>avfilter：滤镜特效处理</li>
+<li>avutil：工具库</li>
+<li>swresample：音频采样数据格式转换</li>
+<li>swscale：视频像素数据格式转换</li>
+</ul>
+<p>armv8a编译脚本<br><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#</span>!/bin/bash</span><br><span class="line">NDK_ROOT=/root/ff/NDK/android-ndk-r17c</span><br><span class="line"></span><br><span class="line">PREFIX=./android/arm64-v8a</span><br><span class="line"><span class="hljs-meta">#</span>TOOLCHAIN 变量指向ndk中的交叉编译gcc所在的目录</span><br><span class="line">TOOLCHAIN=$NDK_ROOT/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64</span><br><span class="line"></span><br><span class="line">FLAGS="-isysroot $NDK_ROOT/sysroot -isystem $NDK_ROOT/sysroot/usr/include/aarch64-linux-android -D__ANDROID_API__=21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security  -O0 -fPIC" </span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">#</span> --disable-cli : 关闭命令行</span><br><span class="line"><span class="hljs-meta">#</span> 其他和ffmpeg一样</span><br><span class="line">./configure \</span><br><span class="line">--prefix=$PREFIX \</span><br><span class="line">--enable-small \</span><br><span class="line">--disable-programs \</span><br><span class="line">--disable-avdevice \</span><br><span class="line">--disable-encoders \</span><br><span class="line">--disable-muxers \</span><br><span class="line">--disable-filters \</span><br><span class="line">--enable-cross-compile \</span><br><span class="line">--cross-prefix=$TOOLCHAIN/bin/aarch64-linux-android- \</span><br><span class="line">--enable-shared \</span><br><span class="line">--enable-static \</span><br><span class="line">--sysroot=$NDK_ROOT/platforms/android-21/arch-arm64 \</span><br><span class="line">--extra-cflags="$FLAGS $INCLUDES" \</span><br><span class="line">--extra-cflags="-isysroot $NDK_ROOT/sysroot" \</span><br><span class="line">--arch=aarch64 \</span><br><span class="line">--target-os=android</span><br><span class="line"></span><br><span class="line">make clean</span><br><span class="line">make install</span><br></pre></td></tr></table></figure></p>
+<p>多个版本一起编译<br><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#</span>!/bin/sh</span><br><span class="line"></span><br><span class="line">MY_LIBS_NAME=ffmpeg-4.0</span><br><span class="line">MY_DIR=ffmpeg-4.0</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">#</span> cd ./$&#123;MY_DIR&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">#</span>编译的过程中产生的中间件的存放目录，为了区分编译目录，源码目录，install目录</span><br><span class="line">MY_BUILD_DIR=binary</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NDK_PATH=/home/as/Android/android-ndk-r15c</span><br><span class="line">BUILD_PLATFORM=linux-x86_64</span><br><span class="line">TOOLCHAIN_VERSION=4.9</span><br><span class="line">ANDROID_VERSION=24</span><br><span class="line"></span><br><span class="line">ANDROID_ARMV5_CFLAGS="-march=armv5te"</span><br><span class="line">ANDROID_ARMV7_CFLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=neon"  #-mfloat-abi=hard -mfpu=vfpv3-d16 #-mfloat-abi=hard -mfpu=vfp</span><br><span class="line">ANDROID_ARMV8_CFLAGS="-march=armv8-a"</span><br><span class="line">ANDROID_X86_CFLAGS="-march=i686 -mtune=intel -mssse3 -mfpmath=sse -m32"</span><br><span class="line">ANDROID_X86_64_CFLAGS="-march=x86-64 -msse4.2 -mpopcnt -m64 -mtune=intel"</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">#</span> params($1:arch,$2:arch_abi,$3:host,$4:cross_prefix,$5:cflags)</span><br><span class="line">build_bin() &#123;</span><br><span class="line"></span><br><span class="line">    echo "-------------------start build $2-------------------------"</span><br><span class="line"></span><br><span class="line">    ARCH=$1         # arm arm64 x86 x86_64</span><br><span class="line">    ANDROID_ARCH_ABI=$2     # armeabi armeabi-v7a x86 mips</span><br><span class="line"></span><br><span class="line">    PREFIX=$(pwd)/dist/$&#123;MY_LIBS_NAME&#125;/$&#123;ANDROID_ARCH_ABI&#125;/</span><br><span class="line"></span><br><span class="line">    HOST=$3</span><br><span class="line">    SYSROOT=$&#123;NDK_PATH&#125;/platforms/android-$&#123;ANDROID_VERSION&#125;/arch-$&#123;ARCH&#125;</span><br><span class="line"></span><br><span class="line">    CFALGS=$5</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    TOOLCHAIN=$&#123;NDK_PATH&#125;/toolchains/$&#123;HOST&#125;-$&#123;TOOLCHAIN_VERSION&#125;/prebuilt/$&#123;BUILD_PLATFORM&#125;</span><br><span class="line">    CROSS_PREFIX=$&#123;TOOLCHAIN&#125;/bin/$4-</span><br><span class="line"></span><br><span class="line">    # build 中间件</span><br><span class="line">        BUILD_DIR=./$&#123;MY_BUILD_DIR&#125;/$&#123;ANDROID_ARCH_ABI&#125;</span><br><span class="line"></span><br><span class="line">    echo "pwd==$(pwd)"</span><br><span class="line">    echo "ARCH==$&#123;ARCH&#125;"</span><br><span class="line">    echo "PREFIX==$&#123;PREFIX&#125;"</span><br><span class="line">    echo "HOST==$&#123;HOST&#125;"</span><br><span class="line">    echo "SYSROOT=$&#123;SYSROOT&#125;"</span><br><span class="line">    echo "CFALGS=$5"</span><br><span class="line">    echo "CFALGS=$&#123;CFALGS&#125;"</span><br><span class="line">    echo "TOOLCHAIN==$&#123;TOOLCHAIN&#125;"</span><br><span class="line">    echo "CROSS_PREFIX=$&#123;CROSS_PREFIX&#125;"</span><br><span class="line"></span><br><span class="line">    #echo "-------------------------按任意键继续---------------------"</span><br><span class="line">    #read -n 1</span><br><span class="line">    #echo "-------------------------继续执行-------------------------"</span><br><span class="line"></span><br><span class="line">    mkdir -p $&#123;BUILD_DIR&#125;   #创建当前arch_abi的编译目录,比如:binary/armeabi-v7a</span><br><span class="line">        cd $&#123;BUILD_DIR&#125;         #此处 进了当前arch_abi的2级编译目录</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    sh ../../$&#123;MY_DIR&#125;/configure \</span><br><span class="line">        --prefix=$&#123;PREFIX&#125; \</span><br><span class="line">        --target-os=linux \</span><br><span class="line">        --arch=$&#123;ARCH&#125; \</span><br><span class="line">        --sysroot=$SYSROOT \</span><br><span class="line">        --enable-cross-compile \</span><br><span class="line">        --cross-prefix=$&#123;CROSS_PREFIX&#125; \</span><br><span class="line">        --extra-cflags="$CFALGS -Os -fPIC -DANDROID -Wfatal-errors -Wno-deprecated" \</span><br><span class="line">        --extra-cxxflags="-D__thumb__ -fexceptions -frtti" \</span><br><span class="line">        --extra-ldflags="-L$&#123;SYSROOT&#125;/usr/lib" \</span><br><span class="line">        --enable-shared \</span><br><span class="line">        --enable-asm \</span><br><span class="line">        --enable-neon \</span><br><span class="line">        --disable-encoders \</span><br><span class="line">        --enable-encoder=aac \</span><br><span class="line">        --enable-encoder=mjpeg \</span><br><span class="line">        --enable-encoder=png \</span><br><span class="line">        --disable-decoders \</span><br><span class="line">        --enable-decoder=aac \</span><br><span class="line">        --enable-decoder=aac_latm \</span><br><span class="line">        --enable-decoder=h264 \</span><br><span class="line">        --enable-decoder=mpeg4 \</span><br><span class="line">        --enable-decoder=mjpeg \</span><br><span class="line">        --enable-decoder=png \</span><br><span class="line">        --disable-demuxers \</span><br><span class="line">        --enable-demuxer=image2 \</span><br><span class="line">        --enable-demuxer=h264 \</span><br><span class="line">        --enable-demuxer=aac \</span><br><span class="line">        --disable-parsers \</span><br><span class="line">        --enable-parser=aac \</span><br><span class="line">        --enable-parser=ac3 \</span><br><span class="line">        --enable-parser=h264 \</span><br><span class="line">        --enable-gpl \</span><br><span class="line">        --disable-doc \</span><br><span class="line">        --disable-ffmpeg \</span><br><span class="line">        --disable-ffplay \</span><br><span class="line">        --disable-ffprobe \</span><br><span class="line">        --disable-symver \</span><br><span class="line">        --disable-debug \</span><br><span class="line">        --enable-small</span><br><span class="line"></span><br><span class="line">    make clean</span><br><span class="line">    make</span><br><span class="line">    make install</span><br><span class="line"></span><br><span class="line">    #从当前arch_abi编译目录跳出，对应上面的cd $&#123;BUILD_DIR&#125;,以便function多次执行</span><br><span class="line">        cd ../../</span><br><span class="line"></span><br><span class="line">    echo "-------------------$2 build end-------------------------"</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">#</span> build armeabi</span><br><span class="line">build_bin arm armeabi arm-linux-androideabi arm-linux-androideabi "$ANDROID_ARMV5_CFLAGS"</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">#</span>build armeabi-v7a</span><br><span class="line">build_bin arm armeabi-v7a arm-linux-androideabi arm-linux-androideabi "$ANDROID_ARMV7_CFLAGS"</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">#</span>build arm64-v8a</span><br><span class="line">build_bin arm64 arm64-v8a aarch64-linux-android aarch64-linux-android "$ANDROID_ARMV8_CFLAGS"</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">#</span>build x86</span><br><span class="line">build_bin x86 x86 x86 i686-linux-android "$ANDROID_X86_CFLAGS"</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">#</span>build x86_64</span><br><span class="line">build_bin x86_64 x86_64 x86_64 x86_64-linux-android "$ANDROID_X86_64_CFLAGS"</span><br></pre></td></tr></table></figure></p>
+<p><strong>OpenSL ES</strong></p>
+<p>OpenSL ES是一套无授权费跨平台，针对嵌入式系统精心优化的硬件音频加速API，为移动多媒体设备提供标准化、高性能、低响应时间的音频功能实现方法，并实现软硬件音频性能的直接跨平台部署，降低执行难度。促进高级音频时长的发展。</p>
+<p> Android播放音频的几种方式:<br> <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"> //1.使用MediaPlayer播放音频</span><br><span class="line"> //直接创建，不需要设置setDataSource</span><br><span class="line">MediaPlayer mMediaPlayer；</span><br><span class="line">mMediaPlayer=MediaPlayer.create(this, R.raw.audio); </span><br><span class="line">mMediaPlayer.start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//2 使用AudioTrack播放音频</span><br><span class="line"> AudioTrack audio = new AudioTrack(</span><br><span class="line">     AudioManager.STREAM_MUSIC, // 指定流的类型</span><br><span class="line">     32000, // 设置音频数据的採样率 32k，假设是44.1k就是44100</span><br><span class="line">     AudioFormat.CHANNEL_OUT_STEREO, // 设置输出声道为双声道立体声，而CHANNEL_OUT_MONO类型是单声道</span><br><span class="line">     AudioFormat.ENCODING_PCM_16BIT, // 设置音频数据块是8位还是16位。这里设置为16位。</span><br><span class="line"></span><br><span class="line">//3  使用OpenSL ES播放</span><br><span class="line">/混音器</span><br><span class="line">SLObjectItf outputMixObject = NULL;//用SLObjectItf创建混音器接口对象</span><br><span class="line">SLEnvironmentalReverbItf outputMixEnvironmentalReverb = NULL;////创建具体的混音器对象实例</span><br><span class="line"> </span><br><span class="line">result = (*engineEngine)-&gt;CreateOutputMix(engineEngine, &amp;outputMixObject, 1, mids, mreq);//利用引擎接口对象创建混音器接口对象</span><br><span class="line">result = (*outputMixObject)-&gt;Realize(outputMixObject, SL_BOOLEAN_FALSE);//实现（Realize）混音器接口对象</span><br><span class="line">result = (*outputMixObject)-&gt;GetInterface(outputMixObject, SL_IID_ENVIRONMENTALREVERB, &amp;outputMixEnvironmentalReverb);//利用混音器接口对象初始化具体混音器实例</span><br></pre></td></tr></table></figure></p>
+<p>使用OpenSl ES 播放的优势</p>
+<ul>
+<li>C 语言接口，需要在 NDK 下开发，能更好地集成在 native 应用中</li>
+<li>运行于 native 层，播放 速度极快，延时低 对于音视频同步中以音频为准的最为适合不过</li>
+<li>减少java层频繁的反射调用，如果通过AudioTrack播放需要将解码后得pcm数据反射java 增加开<br>销</li>
+</ul>
+<p>Android native操作Java的官方例子<br><a href="https://github.com/googlesamples/android-ndk" target="_blank" rel="noopener">https://github.com/googlesamples/android-ndk</a></p>
+<p>OpenSl ES的执行流程</p>
+<ol>
+<li>创建音频引擎</li>
+<li>设置混音器</li>
+<li>创建播放器</li>
+<li>设置缓冲队列和回调函数</li>
+<li>设置播放状态</li>
+<li>启动回调函数</li>
+</ol>
+<p>音视频同步以音频为准，以视频为准，自定义时间为准。一般音频为准，因为人的耳朵对音频比较敏感。</p>
+<p>音频丢一帧耳朵能听出卡顿，视频丢一帧人眼一般发现不了。</p>
+<p>帧率 解码速度 渲染速度都会影响同步</p>
+<p>ffmpeg中提供了时间戳  DTS和PTS </p>
+<p>DTS Decoding Time Stamp 解码时间戳，告诉解码器packet的解码顺序</p>
+<p>PTS presentation Time Stamp 显示时间戳，从packet中解码出来的数据的显示顺序</p>
+<p>在音频中两者是相同的，但是在视频中由于B帧（双向预测）的存在，会造成解码顺序与显示顺序不相同。视频中DTS和PTS不一定相同。</p>
+<p>视频中B帧是根据I帧和P帧计算出来的，所以解码顺序有可能不一样。比如I帧和P帧先解码然后在解码B帧。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/c-c/">c/c++</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/06/22/technology/OpenGl入门/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">OpenGl入门</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/06/16/technology/适配器模式/">
+                <span class="level-item">适配器模式</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/06/22/technology/直播用到的技术/';
+        this.page.identifier = '2019/06/22/technology/直播用到的技术/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Catalogue
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#服务器端搭建">
+        <span class="has-mr-6">1</span>
+        <span>服务器端搭建</span>
+        </a></li><li>
+        <a class="is-flex" href="#视频推流">
+        <span class="has-mr-6">2</span>
+        <span>视频推流</span>
+        </a></li><li>
+        <a class="is-flex" href="#音频推流">
+        <span class="has-mr-6">3</span>
+        <span>音频推流</span>
+        </a></li><li>
+        <a class="is-flex" href="#音视频播放和同步">
+        <span class="has-mr-6">4</span>
+        <span>音视频播放和同步</span>
+        </a></li></ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="直播用到的技术" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

@@ -2,21 +2,25 @@
 <html lang="CH">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>小草喔</title>
+<title>OpenGl入门 - 小草喔</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="冰冻三尺，费一日之寒，只要坚持，终会有收获。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="小草喔">
-<meta property="og:url" content="https://chsmy.github.io/page/4/index.html">
+    <meta name="description" content="OpenGl入门">
+<meta name="keywords" content="c&#x2F;c++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenGl入门">
+<meta property="og:url" content="https://chsmy.github.io/2019/06/22/technology/OpenGl入门/index.html">
 <meta property="og:site_name" content="小草喔">
-<meta property="og:description" content="冰冻三尺，费一日之寒，只要坚持，终会有收获。">
+<meta property="og:description" content="OpenGl入门">
 <meta property="og:locale" content="CHS">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/opengl_2.png">
+<meta property="og:updated_time" content="2019-06-22T09:57:24.858Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="小草喔">
-<meta name="twitter:description" content="冰冻三尺，费一日之寒，只要坚持，终会有收获。">
+<meta name="twitter:title" content="OpenGl入门">
+<meta name="twitter:description" content="OpenGl入门">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/opengl_2.png">
 
 
 
@@ -108,7 +112,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.png" alt="小草喔" height="28">
+                <img src="/images/logo.png" alt="OpenGl入门" height="28">
             
             </a>
         </div>
@@ -153,24 +157,23 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-    <div class="card">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-27T15:21:56.000Z">2019-03-27</time>
+                <time class="level-item has-text-grey" datetime="2019-06-22T09:31:46.000Z">2019-06-22</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/UI/">UI</a>
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/c-c/">c/c++</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    12 minutes read (About 1815 words)
+                    10 minutes read (About 1486 words)
                 </span>
                 
                 
@@ -179,22 +182,75 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/03/27/technology/Xfermode实现刮刮卡/">Xfermode实现刮刮卡</a>
+                OpenGl入门
             
         </h1>
         <div class="content">
-            <p>想要实现一个刮刮卡的效果，其中的一种方法就是使用图层混合模式Xfermode，想要很好的理解Xfermode，我们需要先结合着谷歌的例子来。</p>
+            <p> OpenGl入门</p>
+ <a id="more"></a>
+<p> 什么是OpenGL</p>
+<p>Open Graphics Library，图形领域的工业标准，是一套跨平台的、专业的、图形变成软件接口。它用于二维、三维图像，是一个功能强大的调用方便的底层图形库。</p>
+<p>OpenGL与硬件无关，可以在不同的平台比如Windows、Linux、Mac、Andorid、IOS之间进行移植，因此也得到了广泛的应用。</p>
+<p>Android 中使用OpenGl ES</p>
+<p>GLSurfaceView，它继承自SurfaceView，它内嵌的sufface专门负责OpenGl渲染，管理Surface与EGL，允许自定义渲染器，让渲染器在独立的线程中运作，和UI线程分离，并且支持按需渲染(on-demand)和连续渲染(continuous)。</p>
+<p>OpenGL是一个跨平台操作GUP的API，但是OpenGL需要本地视窗系统进行交互，这几需要一个中间层，EGL就是连接OpenGL ES和本地窗口的接口，引入EGL就是为了屏蔽不同平台上的区别。</p>
+<p>CPU和GPU的区别</p>
+<ul>
+<li>CPU是机器的大脑,中央处理器,用来发号施令</li>
+<li>GPU的结构主要包括运算器(ALU)，控制单元(CU)，寄存器(Register)，高速缓存器(Cache)和他们之间通讯的数据，控制及状态的总线</li>
+</ul>
+<p>计算单元主要执行算数运算，位移和转换</p>
+<p>存储单元主要用来保存运算中产生的数据以及指令等</p>
+<p>控制单元则对指令译码，发出要完成每条指令要执行的各个操作的控制信号。</p>
+<p>CPU中控制器和缓存器比较多，GPU中计算单元比较多。GPU无法单独工作，必须由CPU进行控制调用才能工作，CPU可以单独作用。</p>
+<p>Android中渲染步骤</p>
+<p>UI对象–&gt;CPU处理为纹理–&gt;通过OpenGLES接口调用GPU</p>
+<p>–&gt;GPU对图像进行栅格化–&gt;硬件时钟–&gt;垂直同步–&gt;投射到屏幕</p>
+<p>一维  点  顶点</p>
+<p>二维  线  2个顶点</p>
+<p>三维  面  3个顶点</p>
+<p>在OpenGl的世界中中是又很多的3个顶点组成。</p>
+<ol>
+<li>一个3D图片根据像素可以形成无数个顶点，顶点的连线叫做纹理（顶点着色器）</li>
+<li>根据纹理形成一个一个像素（就像PS中对文字进行像素处理）（光栅化）</li>
+<li>对像素进行着色（片元着色器）</li>
+<li>上色之后交给GPU渲染（OpenGl渲染）</li>
+</ol>
+<p>在使用OpenGl的时候，第二个和第四个是由系统完成的，我们需要手动写第一个和第三个，告诉系统有多少顶点和怎么着色</p>
+<p>练习：</p>
+<p>使用OpenGl绘制一个三角形</p>
+<p>新建一个项目，Andorid系统中已经有OpenGl，不用导入第三方库，不过需要在AndroidManifest.xml中声明需要使用OpenGl<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-feature android:glEsVersion=&quot;0x00020000&quot; android:required=&quot;true&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>OpenGl 使用套路</p>
+<ul>
+<li>创建顶点数组</li>
+<li>使用gl语言写顶点着色器和片元着色器</li>
+<li>将java声明是顶点数组，颜色数组，传给gl语言中的变量</li>
+<li>GPU开始渲染</li>
+</ul>
+<p>自定义一个View继承自GLSurfaceView<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GLView</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">GLSurfaceView</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">GLView</span><span class="hljs-params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">GLView</span><span class="hljs-params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>(context, attrs);</span><br><span class="line">        setEGLContextClientVersion(<span class="hljs-number">2</span>);</span><br><span class="line">        setRenderer(<span class="hljs-keyword">new</span> GLRander(<span class="hljs-keyword">this</span>));</span><br><span class="line">        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>定义一个渲染器，定义一个三角形的类Triangle，绘制的方法交给它自己来做，因为还可能绘制别的图形。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GLRander</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">GLSurfaceView</span>.<span class="hljs-title">Renderer</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">protected</span> View mView;</span><br><span class="line">    Triangle mTriangle;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">GLRander</span><span class="hljs-params">(View view)</span> </span>&#123;</span><br><span class="line">        mView = view;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onSurfaceCreated</span><span class="hljs-params">(GL10 gl, EGLConfig config)</span> </span>&#123;</span><br><span class="line">        GLES20.glClearColor(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);</span><br><span class="line">        mTriangle = <span class="hljs-keyword">new</span> Triangle();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onSurfaceChanged</span><span class="hljs-params">(GL10 gl, <span class="hljs-keyword">int</span> width, <span class="hljs-keyword">int</span> height)</span> </span>&#123;</span><br><span class="line">        mTriangle.onSurfaceChanged(gl, width, height);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 该方法不断被调用</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onDrawFrame</span><span class="hljs-params">(GL10 gl)</span> </span>&#123;</span><br><span class="line">        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT|GLES20.GL_DEPTH_BUFFER_BIT);</span><br><span class="line">        mTriangle.onDrawFrame(gl);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>开始绘制。</p>
+<p>顶点着色器用来确定需要绘制的图形的顶点，片元着色器用来给它上色。</p>
+<p>顶点着色器和片元着色器都是使用着色器语言（GLSL）语言编写，编写的程序可以直接推送给GPU执行。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Triangle</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 三个顶点</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">static</span> <span class="hljs-keyword">float</span> triangleCoords[] = &#123;</span><br><span class="line">            <span class="hljs-number">0.5f</span>, <span class="hljs-number">0.5f</span>, <span class="hljs-number">0.0f</span>,</span><br><span class="line">            -<span class="hljs-number">0.5f</span>, -<span class="hljs-number">0.5f</span>, <span class="hljs-number">0.0f</span>,</span><br><span class="line">            <span class="hljs-number">0.5f</span>, -<span class="hljs-number">0.5f</span>, <span class="hljs-number">0.0f</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 管道</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">private</span> FloatBuffer vertexBuffer;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 顶点着色器</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">private</span> String vertextShaderCode = <span class="hljs-string">"attribute vec4 vPosition;\n"</span> +</span><br><span class="line">            <span class="hljs-string">"uniform mat4 vMatrix;\n"</span> +</span><br><span class="line">            <span class="hljs-string">"void main()&#123;"</span> +</span><br><span class="line">            <span class="hljs-string">"gl_Position=vMatrix*vPosition;"</span> +</span><br><span class="line">            <span class="hljs-string">"&#125;"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 片元着色器</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String fragmentShaderCode = <span class="hljs-string">"precision mediump float;\n"</span> +</span><br><span class="line">            <span class="hljs-string">"uniform  vec4 vColor;\n"</span> +</span><br><span class="line">            <span class="hljs-string">"void main()&#123;\n"</span> +</span><br><span class="line">            <span class="hljs-string">"gl_FragColor=vColor;\t\n"</span> +</span><br><span class="line">            <span class="hljs-string">"&#125;"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">int</span> mProgram;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Triangle</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">        ByteBuffer bb = ByteBuffer.allocateDirect(triangleCoords.length * <span class="hljs-number">4</span>);</span><br><span class="line">        bb.order(ByteOrder.nativeOrder());</span><br><span class="line">        vertexBuffer=bb.asFloatBuffer();</span><br><span class="line"><span class="hljs-comment">//        把顶点  推送 给GPU</span></span><br><span class="line">        vertexBuffer.put(triangleCoords);</span><br><span class="line">        vertexBuffer.position(<span class="hljs-number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">//创建顶点着色器 并在GPU中编译</span></span><br><span class="line">        <span class="hljs-keyword">int</span> shader = GLES20.glCreateShader(GLES20.GL_VERTEX_SHADER);</span><br><span class="line">        GLES20.glShaderSource(shader,vertextShaderCode);</span><br><span class="line">        <span class="hljs-comment">//编译顶点着色器</span></span><br><span class="line">        GLES20.glCompileShader(shader);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">//创建片元着色器 并在GPU中编译</span></span><br><span class="line">        <span class="hljs-keyword">int</span> fragmentShader = GLES20.glCreateShader(GLES20.GL_FRAGMENT_SHADER);</span><br><span class="line">        GLES20.glShaderSource(fragmentShader,fragmentShaderCode);</span><br><span class="line">        <span class="hljs-comment">//编译片元着色器</span></span><br><span class="line">        GLES20.glCompileShader(fragmentShader);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">//将顶点着色器和片元着色器放到统一的管理器中进行管理</span></span><br><span class="line">        mProgram = GLES20.glCreateProgram();</span><br><span class="line">        GLES20.glAttachShader(mProgram,shader);</span><br><span class="line">        GLES20.glAttachShader(mProgram,fragmentShader);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">//连接到着色器程序</span></span><br><span class="line">        GLES20.glLinkProgram(mProgram);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onSurfaceChanged</span><span class="hljs-params">(GL10 gl, <span class="hljs-keyword">int</span> width, <span class="hljs-keyword">int</span> height)</span> </span>&#123;</span><br><span class="line">         <span class="hljs-comment">//计算宽高比</span></span><br><span class="line">        <span class="hljs-keyword">float</span> ratio=(<span class="hljs-keyword">float</span>)width/height;</span><br><span class="line">        <span class="hljs-comment">//投影矩阵</span></span><br><span class="line">        Matrix.frustumM(mProjectMatrix, <span class="hljs-number">0</span>, -ratio, ratio, -<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">120</span>);</span><br><span class="line">        <span class="hljs-comment">//相机</span></span><br><span class="line">        Matrix.setLookAtM(mViewMatrix, </span><br><span class="line">                <span class="hljs-comment">////摄像机的坐标</span></span><br><span class="line">                <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">7</span>,</span><br><span class="line">                <span class="hljs-comment">//目标物的中心坐标</span></span><br><span class="line">                <span class="hljs-number">0f</span>, <span class="hljs-number">0f</span>, <span class="hljs-number">0f</span>,</span><br><span class="line">                <span class="hljs-comment">//相机方向</span></span><br><span class="line">                <span class="hljs-number">0f</span>, <span class="hljs-number">1f</span>, <span class="hljs-number">0f</span>);</span><br><span class="line">        <span class="hljs-comment">//计算变换矩阵</span></span><br><span class="line">        Matrix.multiplyMM(mMVPMatrix,<span class="hljs-number">0</span>,mProjectMatrix,<span class="hljs-number">0</span>,mViewMatrix,<span class="hljs-number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * rgba</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">float</span> color[] = &#123; <span class="hljs-number">1.0f</span>, <span class="hljs-number">1.0f</span>, <span class="hljs-number">1.0f</span>, <span class="hljs-number">1.0f</span> &#125;;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">float</span>[] mViewMatrix=<span class="hljs-keyword">new</span> <span class="hljs-keyword">float</span>[<span class="hljs-number">16</span>];</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">float</span>[] mProjectMatrix=<span class="hljs-keyword">new</span> <span class="hljs-keyword">float</span>[<span class="hljs-number">16</span>];</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">float</span>[] mMVPMatrix=<span class="hljs-keyword">new</span> <span class="hljs-keyword">float</span>[<span class="hljs-number">16</span>];</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onDrawFrame</span><span class="hljs-params">(GL10 gl)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">//开始渲染</span></span><br><span class="line">        <span class="hljs-comment">//拿到总的程序</span></span><br><span class="line">        GLES20.glUseProgram(mProgram);</span><br><span class="line">        <span class="hljs-comment">//拿到vPosition的地址</span></span><br><span class="line">        <span class="hljs-keyword">int</span> mPositionHandle = GLES20.glGetAttribLocation(mProgram, <span class="hljs-string">"vPosition"</span>);</span><br><span class="line">        <span class="hljs-comment">//设置缩放</span></span><br><span class="line">        <span class="hljs-keyword">int</span> mMatrixHandler = GLES20.glGetUniformLocation(mProgram, <span class="hljs-string">"vMatrix"</span>);</span><br><span class="line">        GLES20.glUniformMatrix4fv(mMatrixHandler,<span class="hljs-number">1</span>,<span class="hljs-keyword">false</span>,mMVPMatrix,<span class="hljs-number">0</span>);</span><br><span class="line">        <span class="hljs-comment">//允许对这个地址进行读写</span></span><br><span class="line">        GLES20.glEnableVertexAttribArray(mPositionHandle);</span><br><span class="line">        <span class="hljs-comment">//给顶点着色器赋值</span></span><br><span class="line">        GLES20.glVertexAttribPointer(mPositionHandle,<span class="hljs-number">3</span>,</span><br><span class="line">                GLES20.GL_FLOAT,<span class="hljs-keyword">false</span>,<span class="hljs-number">3</span>*<span class="hljs-number">4</span>,vertexBuffer);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">//给片元着色器赋值</span></span><br><span class="line">        <span class="hljs-keyword">int</span> mColorHandle = GLES20.glGetUniformLocation(mProgram,<span class="hljs-string">"vColor"</span>);</span><br><span class="line">        GLES20.glUniform4fv(mColorHandle,<span class="hljs-number">1</span>,color,<span class="hljs-number">0</span>);</span><br><span class="line">        <span class="hljs-comment">//开始绘制</span></span><br><span class="line">        GLES20.glDrawArrays(GLES20.GL_TRIANGLES,<span class="hljs-number">0</span>,<span class="hljs-number">3</span>);</span><br><span class="line">        <span class="hljs-comment">//关闭读写</span></span><br><span class="line">        GLES20.glDisableVertexAttribArray(mPositionHandle);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果：</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/opengl_2.png" alt></p>
+
         </div>
         
-        
-        <div class="level is-mobile">
+        <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/27/technology/Xfermode实现刮刮卡/#more">Read More</a>
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/c-c/">c/c++</a>
                 </div>
             </div>
         </div>
         
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
         
     </div>
 </div>
@@ -203,483 +259,44 @@
 
 
 
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-24T03:17:15.000Z">2019-03-24</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/源码/">源码</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    32 minutes read (About 4829 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/24/technology/UI绘制流程-View的绘制流程/">UI绘制流程--View的绘制流程</a>
-            
-        </h1>
-        <div class="content">
-            <p>上一篇<a href="https://chsmy.github.io/2019/03/22/technology/UI%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B-View-%E6%98%AF%E5%A6%82%E4%BD%95%E8%A2%AB%E6%B7%BB%E5%8A%A0%E5%88%B0%E5%B1%8F%E5%B9%95%E4%B8%8A%E7%9A%84/">UI绘制流程–View是如何被添加到屏幕上的</a>我们学习了View是怎么添加到屏幕上的，这一片来学习View绘制流程，它的入口在入口ActivityThread.handleResumeActivity()。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/24/technology/UI绘制流程-View的绘制流程/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-22T12:43:14.000Z">2019-03-22</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/源码/">源码</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    15 minutes read (About 2302 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/22/technology/UI绘制流程-View-是如何被添加到屏幕上的/">UI绘制流程--View是如何被添加到屏幕上的</a>
-            
-        </h1>
-        <div class="content">
-            <p>我们平时打开一个activity的时候，设置我们的视图都是在onCreate的setContentView方法开始，那我们就从这个方法开始看源码。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/22/technology/UI绘制流程-View-是如何被添加到屏幕上的/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/03/11/life/娱乐和节制/" class="image is-7by1">
-            <img class="thumbnail" src="/gallery/life/recreation.jpg" alt="娱乐和节制">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-11T01:04:49.000Z">2019-03-11</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/人生/">人生</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/人生/读书/">读书</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    10 minutes read (About 1540 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/11/life/娱乐和节制/">娱乐和节制</a>
-            
-        </h1>
-        <div class="content">
-            <p>很多人都推荐《娱乐至死》这本书，听着名字也挺唬人的，也想看看怎么在娱乐中死去，于是找来这书读了。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/11/life/娱乐和节制/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/03/06/technology/Activity启动流程-下/" class="image is-7by1">
-            <img class="thumbnail" src="/gallery/technology/activity_xia.jpg" alt="Activity启动流程(下)">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-06T02:45:33.000Z">2019-03-06</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/源码/">源码</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    33 minutes read (About 4897 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/06/technology/Activity启动流程-下/">Activity启动流程(下)</a>
-            
-        </h1>
-        <div class="content">
-            <p>继续上一篇<a href="https://chsmy.github.io/2019/03/06/technology/Activity%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B-%E4%B8%8A/">Activity启动流程（上）</a><br>下面继续新activity的启动流程mStackSupervisor.startSpecificActivityLocked(next, true, true);</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/06/technology/Activity启动流程-下/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/03/06/technology/Activity启动流程-上/" class="image is-7by1">
-            <img class="thumbnail" src="/gallery/technology/activity_shang.jpg" alt="Activity启动流程(上)">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-06T02:45:22.000Z">2019-03-06</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/源码/">源码</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    32 minutes read (About 4810 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/06/technology/Activity启动流程-上/">Activity启动流程(上)</a>
-            
-        </h1>
-        <div class="content">
-            <p>Android看源码的两个网站：</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/06/technology/Activity启动流程-上/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/03/04/life/夯实自己的金字塔/" class="image is-7by1">
-            <img class="thumbnail" src="/gallery/life/pyramid.jpg" alt="夯实自己的金字塔">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-04T01:32:34.000Z">2019-03-04</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/人生/">人生</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/人生/感悟/">感悟</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    6 minutes read (About 936 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/03/04/life/夯实自己的金字塔/">夯实自己的金字塔</a>
-            
-        </h1>
-        <div class="content">
-            <p>不知道大家有没有这种情况，有时候今天的工作很多，自己沉浸在工作之中，忽然间一看时间，已经快下班了，心里面感觉慢慢的充实</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/04/life/夯实自己的金字塔/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/02/27/life/意识到不足才有机会改/" class="image is-7by1">
-            <img class="thumbnail" src="/gallery/life/jiaolv.jpg" alt="意识到不足才有机会改">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-02-27T06:15:10.000Z">2019-02-27</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/人生/">人生</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/人生/感悟/">感悟</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    7 minutes read (About 1004 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/02/27/life/意识到不足才有机会改/">意识到不足才有机会改</a>
-            
-        </h1>
-        <div class="content">
-            <p>焦虑有时候是好的，如果连焦虑都感受不到，那要么家里有矿，要么就是每天迷迷糊糊的过日子，过到哪算哪；感受到焦虑的人，有的去努力夯实自己，有的每天在娱乐中焦虑的煎熬</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/02/27/life/意识到不足才有机会改/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/02/27/technology/Android资料/" class="image is-7by1">
-            <img class="thumbnail" src="/gallery/technology/android.png" alt="Android资料">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-02-27T04:25:01.000Z">2019-02-27</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/资料/">资料</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 hours read (About 21626 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/02/27/technology/Android资料/">Android资料</a>
-            
-        </h1>
-        <div class="content">
-            <p>Anroid学习平时收集的一些资料，方便查找。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/02/27/technology/Android资料/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-    
 <div class="card card-transparent">
-    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-        <div class="pagination-previous">
-            <a class="is-flex-grow has-text-black-ter" href="/page/3/">Previous</a>
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/06/22/technology/直播用到的技术/">
+                <span class="level-item">直播用到的技术</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
         </div>
-        <div class="pagination-next is-invisible is-hidden-mobile">
-            <a class="is-flex-grow has-text-black-ter" href="/page/5/">Next</a>
-        </div>
-        <ul class="pagination-list is-hidden-mobile">
-            
-            <li><a class="pagination-link has-text-black-ter" href="/">1</a></li>
-            
-            <li><a class="pagination-link has-text-black-ter" href="/page/2/">2</a></li>
-            
-            <li><a class="pagination-link has-text-black-ter" href="/page/3/">3</a></li>
-            
-            <li><a class="pagination-link is-current" href="/page/4/">4</a></li>
-            
-        </ul>
-    </nav>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/06/22/technology/OpenGl入门/';
+        this.page.identifier = '2019/06/22/technology/OpenGl入门/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
 </div>
 </div>
                 
@@ -1458,7 +1075,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.png" alt="小草喔" height="28">
+                    <img src="/images/logo.png" alt="OpenGl入门" height="28">
                 
                 </a>
                 <p class="is-size-7">
