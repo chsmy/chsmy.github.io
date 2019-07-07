@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>AOP面向切面编程--解放你的双手 - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="AOP面向切面编程">
+<meta name="keywords" content="架构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AOP面向切面编程--解放你的双手">
+<meta property="og:url" content="https://chsmy.github.io/2019/07/07/architecture/AOP面向切面编程-解放你的双手/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="AOP面向切面编程">
+<meta property="og:locale" content="CHS">
+<meta property="og:updated_time" content="2019-07-07T11:37:56.754Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AOP面向切面编程--解放你的双手">
+<meta name="twitter:description" content="AOP面向切面编程">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="AOP面向切面编程--解放你的双手" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-07-07T11:31:52.000Z">2019-07-07</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 minutes read (About 1954 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                AOP面向切面编程--解放你的双手
+            
+        </h1>
+        <div class="content">
+            <p>AOP面向切面编程</p>
+<a id="more"></a>
+<p>假如现在有一个需求，在对数据库进行增删改查的时候，假如执行每个操作之前都要求把数据备份一下。这个时候怎么做比较好呢，难道要在每个方法之前都写一个save()方法吗，如果用到增删改查的地方非常多，这时候就非常麻烦了。</p>
+<p>通过java中的动态代理就可以很方便的实现。比如</p>
+<p>首先有个操作数据库的类<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">DBOperation</span> </span>&#123;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">save</span><span class="hljs-params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">delete</span><span class="hljs-params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">insert</span><span class="hljs-params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function">Object <span class="hljs-title">get</span><span class="hljs-params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>定义一个activity，实现数据库操作接口，通过Proxy.newProxyInstance方法创建出DBOperation的代理实现类，这个方法需要一个InvocationHandler参数，</p>
+<p>自定义一个InvocationHandler，在其invoke方法中我们就可以在执行每个方法之前和之后做一些自己的操作了。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProxyActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">DBOperation</span></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> String TAG = <span class="hljs-string">"myTag &gt;&gt;&gt; "</span>;</span><br><span class="line">    DBOperation db;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_proxy);</span><br><span class="line"></span><br><span class="line">        db = (DBOperation) Proxy.newProxyInstance(DBOperation.class.getClassLoader()</span><br><span class="line">                ,<span class="hljs-keyword">new</span> Class[]&#123;DBOperation.class&#125;,<span class="hljs-keyword">new</span> DBHandler(<span class="hljs-keyword">this</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">action</span><span class="hljs-params">(View view)</span> </span>&#123;</span><br><span class="line">        db.delete();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DBHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">InvocationHandler</span></span>&#123;</span><br><span class="line">        DBOperation db;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">DBHandler</span><span class="hljs-params">(DBOperation db)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">this</span>.db = db;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">if</span> (db != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                Log.e(<span class="hljs-string">"TAG"</span>,<span class="hljs-string">"before"</span>);</span><br><span class="line">                save();</span><br><span class="line">                Log.e(<span class="hljs-string">"TAG"</span>,<span class="hljs-string">"after"</span>);</span><br><span class="line">                <span class="hljs-keyword">return</span> method.invoke(db,args);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">save</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        Log.e(TAG, <span class="hljs-string">"保存数据"</span>);</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">delete</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        Log.e(TAG, <span class="hljs-string">"删除数据"</span>);</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">insert</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">get</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码点击执行action方法,执行结果如果下<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2019-07-02 22:49:55.296 7516-7516/com.chs.architecturetest E/TAG: before</span><br><span class="line">2019-07-02 22:49:55.296 7516-7516/com.chs.architecturetest E/myTag &gt;&gt;&gt;: 保存数据</span><br><span class="line">2019-07-02 22:49:55.296 7516-7516/com.chs.architecturetest E/TAG: after</span><br><span class="line">2019-07-02 22:49:55.297 7516-7516/com.chs.architecturetest E/myTag &gt;&gt;&gt;: 删除数据</span><br></pre></td></tr></table></figure></p>
+<p>在项目开发中，我们经常会遇到这样的需求</p>
+<ol>
+<li>统计用户的点击行为 </li>
+<li>在进入某些页面之前先判断是否登录，如果没登录就去登录页面</li>
+</ol>
+<p>我们不可能去每个方法中都写相关的统计代码，如果类很多的情况下会麻烦死还容易出错，如果使用动态代理也是比较麻烦的，这时候我们可以使用AspectJ。</p>
+<p>AspectJ是一个面向切面的框架，它扩展了Java语言。AspectJ定义了AOP语法，它有一个专门的编译器用来生成遵守Java字节编码规范的Class文件。</p>
+<p>下面使用它来解决前面的两个问题</p>
+<p>首先配置AspectJ</p>
+<p>app下的build.gralde中添加依赖</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">implementation &apos;org.aspectj:aspectjrt:1.8.13&apos;</span><br></pre></td></tr></table></figure>
+<p>工程的build.gralde中添加classpath AspectJ还需要添加maven的依赖<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">       classpath &apos;com.android.tools.build:gradle:3.4.1&apos;</span><br><span class="line">       classpath &apos;org.aspectj:aspectjtools:1.8.10&apos;</span><br><span class="line">       classpath &apos;org.aspectj:aspectjweaver:1.8.10&apos;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">buildscript &#123;</span><br><span class="line">   repositories &#123;</span><br><span class="line">       mavenCentral()</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后app下的build.gralde中添加AspectJ的编译代码,在dependencies同级添加。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> org.aspectj.bridge.IMessage</span><br><span class="line"><span class="hljs-keyword">import</span> org.aspectj.bridge.MessageHandler</span><br><span class="line"><span class="hljs-keyword">import</span> org.aspectj.tools.ajc.Main</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">final</span> def log = project.logger</span><br><span class="line"><span class="hljs-keyword">final</span> def variants = project.android.applicationVariants</span><br><span class="line"></span><br><span class="line">variants.all &#123; variant -&gt;</span><br><span class="line">    <span class="hljs-keyword">if</span> (!variant.buildType.isDebuggable()) &#123;</span><br><span class="line">        log.debug(<span class="hljs-string">"Skipping non-debuggable build type '$&#123;variant.buildType.name&#125;'."</span>)</span><br><span class="line">        <span class="hljs-keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    JavaCompile javaCompile = variant.javaCompile</span><br><span class="line">    javaCompile.doLast &#123;</span><br><span class="line">        String[] args = [<span class="hljs-string">"-showWeaveInfo"</span>,</span><br><span class="line">                         <span class="hljs-string">"-1.8"</span>,</span><br><span class="line">                         <span class="hljs-string">"-inpath"</span>, javaCompile.destinationDir.toString(),</span><br><span class="line">                         <span class="hljs-string">"-aspectpath"</span>, javaCompile.classpath.asPath,</span><br><span class="line">                         <span class="hljs-string">"-d"</span>, javaCompile.destinationDir.toString(),</span><br><span class="line">                         <span class="hljs-string">"-classpath"</span>, javaCompile.classpath.asPath,</span><br><span class="line">                         <span class="hljs-string">"-bootclasspath"</span>, project.android.bootClasspath.join(File.pathSeparator)]</span><br><span class="line">        log.debug <span class="hljs-string">"ajc args: "</span> + Arrays.toString(args)</span><br><span class="line"></span><br><span class="line">        MessageHandler handler = <span class="hljs-keyword">new</span> MessageHandler(<span class="hljs-keyword">true</span>);</span><br><span class="line">        <span class="hljs-keyword">new</span> Main().run(args, handler);</span><br><span class="line">        <span class="hljs-keyword">for</span> (IMessage message : handler.getMessages(<span class="hljs-keyword">null</span>, <span class="hljs-keyword">true</span>)) &#123;</span><br><span class="line">            <span class="hljs-keyword">switch</span> (message.getKind()) &#123;</span><br><span class="line">                <span class="hljs-keyword">case</span> IMessage.ABORT:</span><br><span class="line">                <span class="hljs-keyword">case</span> IMessage.ERROR:</span><br><span class="line">                <span class="hljs-keyword">case</span> IMessage.FAIL:</span><br><span class="line">                    log.error message.message, message.thrown</span><br><span class="line">                    <span class="hljs-keyword">break</span>;</span><br><span class="line">                <span class="hljs-keyword">case</span> IMessage.WARNING:</span><br><span class="line">                    log.warn message.message, message.thrown</span><br><span class="line">                    <span class="hljs-keyword">break</span>;</span><br><span class="line">                <span class="hljs-keyword">case</span> IMessage.INFO:</span><br><span class="line">                    log.info message.message, message.thrown</span><br><span class="line">                    <span class="hljs-keyword">break</span>;</span><br><span class="line">                <span class="hljs-keyword">case</span> IMessage.DEBUG:</span><br><span class="line">                    log.debug message.message, message.thrown</span><br><span class="line">                    <span class="hljs-keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>OK配置完毕下面开始解决第一个行为统计的问题</p>
+<p>首先定义一个注解ClickBehavior，运行时注解，作用在方法上，并且有一个参数代表需要统计的行为的名称<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="hljs-meta">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> ClickBehavior &#123;</span><br><span class="line">    <span class="hljs-function">String <span class="hljs-title">value</span><span class="hljs-params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后定义一个切面类 ClickBehaviorAspectJ<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Aspect</span><span class="hljs-comment">//定义切面类</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ClickBehaviorAspectJ</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> String TAG = <span class="hljs-string">"myTag &gt;&gt;&gt; "</span>;</span><br><span class="line">    <span class="hljs-comment">//execution 定义切入点</span></span><br><span class="line">    <span class="hljs-comment">//* *(..)) 通配符 可以处理所有ClickBehavior注解的方法</span></span><br><span class="line">    <span class="hljs-meta">@Pointcut</span>(<span class="hljs-string">"execution(@com.chs.architecturetest.annotation.ClickBehaviorAspectJ * *(..))"</span>)</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodPointCut</span><span class="hljs-params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">//对切入点方法应该如何处理 环绕通知 切入点之前和之后需要做的的事情</span></span><br><span class="line">    <span class="hljs-meta">@Around</span>(<span class="hljs-string">"methodPointCut()"</span>)</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">around</span><span class="hljs-params">(ProceedingJoinPoint joinPoint)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="hljs-comment">//获取签名方法</span></span><br><span class="line">        MethodSignature signature = (MethodSignature) joinPoint.getSignature();</span><br><span class="line">        <span class="hljs-comment">//获取方法名</span></span><br><span class="line">        String methodName = signature.getName();</span><br><span class="line">        <span class="hljs-comment">//获取class名</span></span><br><span class="line">        String className = signature.getDeclaringType().getSimpleName();</span><br><span class="line">        <span class="hljs-comment">//获取需要统计的value值</span></span><br><span class="line">        String funName = signature.getMethod().getAnnotation(com.chs.architecturetest.annotation.ClickBehavior.class).value();</span><br><span class="line">        <span class="hljs-comment">//当前时间</span></span><br><span class="line">        <span class="hljs-keyword">long</span> begin = System.currentTimeMillis();</span><br><span class="line">        Log.e(TAG,<span class="hljs-string">"ClickBehaviorAspectJ Method Before"</span>);</span><br><span class="line">        Object proceed = joinPoint.proceed();</span><br><span class="line">        Log.e(TAG,<span class="hljs-string">"ClickBehaviorAspectJ Method End"</span>);</span><br><span class="line">        <span class="hljs-comment">//执行时间</span></span><br><span class="line">        <span class="hljs-keyword">long</span> duration =  System.currentTimeMillis() - begin;</span><br><span class="line"></span><br><span class="line">        Log.e(TAG, String.format(<span class="hljs-string">"统计了：%s功能，在%s类的%s方法，用时%d ms"</span>,</span><br><span class="line">                funName, className, methodName, duration));</span><br><span class="line">        <span class="hljs-keyword">return</span> proceed;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里面有几个注解，一般用前三个就能完成</p>
+<ul>
+<li>@Aspect 代表这是一个切面类</li>
+<li>@Pointcut 设置需要切入的方法，这里设置的所有的有ClickBehavior注解的方法。我们也可以指定某一个类下的所有方法<code>(&quot;execution(com.chs.architecturetest.MainActivity *(..))&quot;)</code>，或者整个工程中的所有方法<code>(&quot;execution(* *(..))&quot;)</code>   //execution(&lt;修饰符模式&gt;? &lt;返回类型模式&gt; &lt;方法名模式&gt;(&lt;参数模式&gt;) &lt;异常模式&gt;?)</li>
+<li>@Around 对切入点方法应该如何处理 环绕通知 切入点之前和之后需要做的的事情</li>
+<li>@Before(“methodPointCut()”) 切入之前执行</li>
+<li>@After(“methodPointCut()”)切入之后执行</li>
+<li>@AfterReturning(value = “methodPointCut()”, returning = “returnValue”) 返回通知，切点方法返回结果之后执行</li>
+<li>@AfterThrowing(value = “methodPointCut()”, throwing = “throwable”) 异常通知，切点抛出异常时执行</li>
+</ul>
+<p>在Activity中整3个按钮分别为登录，VIP，账户，并设置点击方法。给这几个点击方法设置行为点击注解<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@ClickBehavior</span>(<span class="hljs-string">"VIP页面"</span>)</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">goToVip</span><span class="hljs-params">(View view)</span> </span>&#123;</span><br><span class="line">  Log.e(TAG,<span class="hljs-string">"去VIP页面"</span>);</span><br><span class="line">  startActivity(<span class="hljs-keyword">new</span> Intent(<span class="hljs-keyword">this</span>,OtherActivity.class));</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-meta">@ClickBehavior</span>(<span class="hljs-string">"账户页面"</span>)</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">goToZh</span><span class="hljs-params">(View view)</span> </span>&#123;</span><br><span class="line">    Log.e(TAG,<span class="hljs-string">"去账户页面"</span>);</span><br><span class="line">    startActivity(<span class="hljs-keyword">new</span> Intent(<span class="hljs-keyword">this</span>,OtherActivity.class));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">@ClickBehavior</span>(<span class="hljs-string">"登录页面"</span>)</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">goToLogin</span><span class="hljs-params">(View view)</span> </span>&#123;</span><br><span class="line">    Log.e(TAG,<span class="hljs-string">"去登录页面"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>OK完成到这里行为统计就完成了，执行带@ClickBehavior注解的方法都会执行统计的代码， 比如点击登录按钮打印日志</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2019-07-02 23:23:48.639 8640-8640/com.chs.architecturetest E/myTag &gt;&gt;&gt;: ClickBehaviorAspectJ Method Before</span><br><span class="line">2019-07-02 23:23:48.639 8640-8640/com.chs.architecturetest E/myTag &gt;&gt;&gt;: 去登录页面</span><br><span class="line">2019-07-02 23:23:48.639 8640-8640/com.chs.architecturetest E/myTag &gt;&gt;&gt;: ClickBehaviorAspectJ Method End</span><br><span class="line">2019-07-02 23:23:48.640 8640-8640/com.chs.architecturetest E/myTag &gt;&gt;&gt;: 统计了：登录页面功能，在ProxyActivity类的goToLogin方法，用时0 ms</span><br></pre></td></tr></table></figure>
+<p>检查登录的功能</p>
+<p>首先写一个注解ClickBehavior。它不需要有值</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="hljs-meta">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> LoginBehavior &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>定义登录的AspectJ类<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Aspect</span><span class="hljs-comment">//定义切面类</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoginAspectJ</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> String TAG = <span class="hljs-string">"myTag &gt;&gt;&gt; "</span>;</span><br><span class="line">    <span class="hljs-comment">//execution 定义切入点</span></span><br><span class="line">    <span class="hljs-comment">//* *(..)) 通配符 可以处理所有ClickBehavior注解的方法</span></span><br><span class="line">    <span class="hljs-meta">@Pointcut</span>(<span class="hljs-string">"execution(@com.chs.architecturetest.annotation.LoginBehavior * *(..))"</span>)</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodPointCut</span><span class="hljs-params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">//对切入点方法应该如何处理 环绕通知 切入点之前和之后需要做的的事情</span></span><br><span class="line">    <span class="hljs-meta">@Around</span>(<span class="hljs-string">"methodPointCut()"</span>)</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">around</span><span class="hljs-params">(ProceedingJoinPoint joinPoint)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="hljs-comment">//是否登录真实项目中去sharedprefrence中去那</span></span><br><span class="line">        Context context = (Context) joinPoint.getThis();</span><br><span class="line">        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">false</span>)&#123;</span><br><span class="line">            Log.e(TAG, <span class="hljs-string">"检测到已登录！"</span>);</span><br><span class="line">            <span class="hljs-keyword">return</span> joinPoint.proceed();</span><br><span class="line">        &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            Log.e(TAG, <span class="hljs-string">"检测到没有登录！"</span>);</span><br><span class="line">            context.startActivity(<span class="hljs-keyword">new</span> Intent(context,LoginActivity.class));</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在around方法中就可以执行判断是否登录的逻辑了，真实项目中一般都是从SharedPreferences中拿到数据判断是否登录。</p>
+<p>最后给需要判断登录状态的地方添加@LoginBehavior注解<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@LoginBehavior</span></span><br><span class="line">    <span class="hljs-meta">@ClickBehavior</span>(<span class="hljs-string">"VIP页面"</span>)</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">goToVip</span><span class="hljs-params">(View view)</span> </span>&#123;</span><br><span class="line">      Log.e(TAG,<span class="hljs-string">"去VIP页面"</span>);</span><br><span class="line">      startActivity(<span class="hljs-keyword">new</span> Intent(<span class="hljs-keyword">this</span>,OtherActivity.class));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-meta">@LoginBehavior</span></span><br><span class="line">    <span class="hljs-meta">@ClickBehavior</span>(<span class="hljs-string">"账户页面"</span>)</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">goToZh</span><span class="hljs-params">(View view)</span> </span>&#123;</span><br><span class="line">        Log.e(TAG,<span class="hljs-string">"去账户页面"</span>);</span><br><span class="line">        startActivity(<span class="hljs-keyword">new</span> Intent(<span class="hljs-keyword">this</span>,OtherActivity.class));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@ClickBehavior</span>(<span class="hljs-string">"登录页面"</span>)</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">goToLogin</span><span class="hljs-params">(View view)</span> </span>&#123;</span><br><span class="line">        Log.e(TAG,<span class="hljs-string">"去登录页面"</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>比如这里将前面代码if判断中直接改为false，点击去VIP页面的按钮测试结果如下，会跳转到到登录页面<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2019-07-02 23:26:00.057 8640-8640/com.chs.architecturetest E/myTag &gt;&gt;&gt;: ClickBehaviorAspectJ Method Before</span><br><span class="line">2019-07-02 23:26:00.058 8640-8640/com.chs.architecturetest E/myTag &gt;&gt;&gt;: 检测到没有登录！</span><br><span class="line">2019-07-02 23:26:00.067 8640-8640/com.chs.architecturetest E/myTag &gt;&gt;&gt;: ClickBehaviorAspectJ Method End</span><br><span class="line">2019-07-02 23:26:00.068 8640-8640/com.chs.architecturetest E/myTag &gt;&gt;&gt;: 统计了：VIP页面功能，在ProxyActivity类的goToVip方法，用时10 ms</span><br></pre></td></tr></table></figure></p>
+<p>OK完成啦</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/架构/">架构</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/07/07/architecture/Handler原理/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Handler机制</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/06/22/technology/OpenGl入门/">
+                <span class="level-item">OpenGl入门</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Commentaires</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/07/07/architecture/AOP面向切面编程-解放你的双手/';
+        this.page.identifier = '2019/07/07/architecture/AOP面向切面编程-解放你的双手/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="CHS">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        CHS
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        只要坚持，终会有收获
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Articles
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        41
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Catégories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        12
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        8
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
+                SUIVRE</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/chsmy">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="weibo" href="http://weibo.com/2504847694/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="csdn" href="https://blog.csdn.net/mingyunxiaohai">
+                
+                <i class="fab fa-wordpress"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="简书" href="https://www.jianshu.com/u/6ab3e65ba7b5">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Liens
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="http://www.wanandroid.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">玩Android</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wanandroid.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Catégories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">35</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Android/UI/">
+            <span class="level-start">
+                <span class="level-item">UI</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/c-c/">
+            <span class="level-start">
+                <span class="level-item">c/c++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/jetpack/">
+            <span class="level-start">
+                <span class="level-item">jetpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/源码/">
+            <span class="level-start">
+                <span class="level-item">源码</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/资料/">
+            <span class="level-start">
+                <span class="level-item">资料</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/人生/">
+            <span class="level-start">
+                <span class="level-item">人生</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/人生/感悟/">
+            <span class="level-start">
+                <span class="level-item">感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/人生/读书/">
+            <span class="level-start">
+                <span class="level-item">读书</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Nuage de tags
+        </h3>
+        <a href="/tags/UI/" style="font-size: 20px;">UI</a> <a href="/tags/c-c/" style="font-size: 18.33px;">c/c++</a> <a href="/tags/jetpack/" style="font-size: 15px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 11.67px;">感悟</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 16.67px;">进阶</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Récents
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/07/07/architecture/Handler原理/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Handler机制">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-07T11:33:16.000Z">2019-07-07</time></div>
+                    <a href="/2019/07/07/architecture/Handler原理/" class="has-link-black-ter is-size-6">Handler机制</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/07/architecture/AOP面向切面编程-解放你的双手/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="AOP面向切面编程--解放你的双手">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-07T11:31:52.000Z">2019-07-07</time></div>
+                    <a href="/2019/07/07/architecture/AOP面向切面编程-解放你的双手/" class="has-link-black-ter is-size-6">AOP面向切面编程--解放你的双手</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/06/22/technology/OpenGl入门/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="OpenGl入门">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-22T09:31:46.000Z">2019-06-22</time></div>
+                    <a href="/2019/06/22/technology/OpenGl入门/" class="has-link-black-ter is-size-6">OpenGl入门</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/c-c/">c/c++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/06/22/technology/直播用到的技术/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="直播用到的技术">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-22T09:31:07.000Z">2019-06-22</time></div>
+                    <a href="/2019/06/22/technology/直播用到的技术/" class="has-link-black-ter is-size-6">直播用到的技术</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/c-c/">c/c++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/06/16/architecture/适配器模式/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="适配器模式">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-16T13:42:17.000Z">2019-06-16</time></div>
+                    <a href="/2019/06/16/architecture/适配器模式/" class="has-link-black-ter is-size-6">适配器模式</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a> / <a class="has-link-grey -link" href="/categories/Java/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Récents
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/07/07/architecture/Handler原理/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Handler机制">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-07T11:33:16.000Z">2019-07-07</time></div>
+                    <a href="/2019/07/07/architecture/Handler原理/" class="has-link-black-ter is-size-6">Handler机制</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/07/architecture/AOP面向切面编程-解放你的双手/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="AOP面向切面编程--解放你的双手">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-07T11:31:52.000Z">2019-07-07</time></div>
+                    <a href="/2019/07/07/architecture/AOP面向切面编程-解放你的双手/" class="has-link-black-ter is-size-6">AOP面向切面编程--解放你的双手</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/06/22/technology/OpenGl入门/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="OpenGl入门">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-22T09:31:46.000Z">2019-06-22</time></div>
+                    <a href="/2019/06/22/technology/OpenGl入门/" class="has-link-black-ter is-size-6">OpenGl入门</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/c-c/">c/c++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/06/22/technology/直播用到的技术/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="直播用到的技术">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-22T09:31:07.000Z">2019-06-22</time></div>
+                    <a href="/2019/06/22/technology/直播用到的技术/" class="has-link-black-ter is-size-6">直播用到的技术</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/c-c/">c/c++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/06/16/architecture/适配器模式/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="适配器模式">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-16T13:42:17.000Z">2019-06-16</time></div>
+                    <a href="/2019/06/16/architecture/适配器模式/" class="has-link-black-ter is-size-6">适配器模式</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a> / <a class="has-link-grey -link" href="/categories/Java/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="AOP面向切面编程--解放你的双手" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Articles',
+                PAGES: 'Pages',
+                CATEGORIES: 'Catégories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
