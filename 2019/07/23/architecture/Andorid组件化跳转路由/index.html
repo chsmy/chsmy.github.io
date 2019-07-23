@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Andorid组件化跳转路由 - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="Andorid组件化跳转路由">
+<meta name="keywords" content="架构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Andorid组件化跳转路由">
+<meta property="og:url" content="https://chsmy.github.io/2019/07/23/architecture/Andorid组件化跳转路由/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="Andorid组件化跳转路由">
+<meta property="og:locale" content="CHS">
+<meta property="og:updated_time" content="2019-07-23T14:06:24.600Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Andorid组件化跳转路由">
+<meta name="twitter:description" content="Andorid组件化跳转路由">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Andorid组件化跳转路由" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-07-23T14:01:31.000Z">2019-07-23</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    30 minutes read (About 4474 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Andorid组件化跳转路由
+            
+        </h1>
+        <div class="content">
+            <p>Andorid组件化跳转路由</p>
+<a id="more"></a>
+<h4 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h4><p>路由在组件化工程中有非常重要的作用，两个没有相互引用的module之间怎么通信呢。</p>
+<p>可以使用EventBus，使用广播，使用类加载，使用反射，scheme，隐式意图等等，这些方法各自都有优缺点，现在开源用的比较多的路由框架中ARouter中使用的是类加载的方法下面我们也使用类加载的方式自己封装一个小路由。</p>
+<p>那怎么使用类加载的方法来进行不同组件之间通信呢。很简单只要我们能拿到一个类的全类名就可以啦</p>
+<p>比如，新建一个工程app<code>com.chs.mymodule.MainActivity</code>，并创建两个module，一个订单组件<code>com.chs.order.OrderActivity</code>，一个积分组件<code>com.chs.integral.IntegralActivity</code>。现在从app模块跳到订单模块只需如下操作就可以啦<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">try</span> &#123;</span><br><span class="line">        Class&lt;?&gt; clzz = Class.forName(<span class="hljs-string">"com.chs.order.OrderActivity"</span>);</span><br><span class="line">        Intent intent = <span class="hljs-keyword">new</span> Intent(<span class="hljs-keyword">this</span>,clzz);</span><br><span class="line">        startActivity(intent);</span><br><span class="line">    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果每次都这么写类名的话有点麻烦，各种点容易写错。那可不可以封装一下，其实我们只要拿到OrderActivity中的类名就可以了。</p>
+<p>所以我们可以把这些需要跳转的类保存起来，比如保存到一个map中，跳转的时候就通过key拿到类名，然后继续通过Intent跳转。</p>
+<h4 id="简单实现"><a href="#简单实现" class="headerlink" title="简单实现"></a>简单实现</h4><p>首先新建一个实体类用来保存路径和对应的类<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PathBean</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">private</span> String path;</span><br><span class="line">    <span class="hljs-keyword">private</span> Class&lt;?&gt; clzz;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PathBean</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PathBean</span><span class="hljs-params">(String path, Class&lt;?&gt; clzz)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>.path = path;</span><br><span class="line">        <span class="hljs-keyword">this</span>.clzz = clzz;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getPath</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> path;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPath</span><span class="hljs-params">(String path)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>.path = path;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">public</span> Class&lt;?&gt; getClzz() &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> clzz;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setClzz</span><span class="hljs-params">(Class&lt;?&gt; clzz)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>.clzz = clzz;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后新建一个管理类，用来保存注册过来的路径，和类信息<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RecordPathManager</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Map&lt;String, List&lt;PathBean&gt;&gt; groupMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">joinGroup</span><span class="hljs-params">(String groupName,String pathName,Class&lt;?&gt; clzz)</span></span>&#123;</span><br><span class="line">        List&lt;PathBean&gt; pathBeans = groupMap.get(groupName);</span><br><span class="line">        <span class="hljs-keyword">if</span>(pathBeans == <span class="hljs-keyword">null</span>)&#123;</span><br><span class="line">            pathBeans = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            pathBeans.add(<span class="hljs-keyword">new</span> PathBean(pathName,clzz));</span><br><span class="line">            groupMap.put(groupName,pathBeans);</span><br><span class="line">        &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            <span class="hljs-keyword">if</span>(!isExit(pathName,pathBeans))&#123;</span><br><span class="line">                pathBeans.add(<span class="hljs-keyword">new</span> PathBean(pathName,clzz));</span><br><span class="line">            &#125;</span><br><span class="line">            groupMap.put(groupName,pathBeans);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isExit</span><span class="hljs-params">(String pathName,List&lt;PathBean&gt; list)</span></span>&#123;</span><br><span class="line">        <span class="hljs-keyword">for</span> (PathBean bean : list) &#123;</span><br><span class="line">            <span class="hljs-keyword">if</span>(pathName.equals(bean.getPath()))&#123;</span><br><span class="line">                <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Class&lt;?&gt; getTargetClass(String groupName,String pathName)&#123;</span><br><span class="line">        List&lt;PathBean&gt; list = groupMap.get(groupName);</span><br><span class="line">        <span class="hljs-keyword">if</span>(list == <span class="hljs-keyword">null</span>)&#123;</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">        &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            <span class="hljs-keyword">for</span> (PathBean bean : list) &#123;</span><br><span class="line">                <span class="hljs-keyword">if</span>(pathName.equalsIgnoreCase(bean.getPath()))&#123;</span><br><span class="line">                    <span class="hljs-keyword">return</span> bean.getClzz();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>该类非常简单，一个Map，一个存的方法和一个取的方法。为了提高效率这里分一下组，每一个module是一个组，key就是这个module的名字，value就是该组下面的类信息的集合。</p>
+<p>最后是怎么存呢，当然是存的越早越好，要不然还没存好就跳转显然拿不到相关的类。所以我们在app模块中的application中存</p>
+<p>应用打包的时候，app模块肯定是依赖的所有的模块，所以子模块中的类它肯定也能拿到。所以注册的代码如下</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.onCreate();</span><br><span class="line">        RecordPathManager.joinGroup(<span class="hljs-string">"order"</span>,<span class="hljs-string">"OrderActivity"</span>, OrderActivity.class);</span><br><span class="line">        RecordPathManager.joinGroup(<span class="hljs-string">"integral"</span>,<span class="hljs-string">"IntegralActivity"</span>, IntegralActivity.class);</span><br><span class="line">        ......</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将需要跳转的类activity的模块名，类名和类信息保存到管理类的Map中。使用的时候如下</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">try</span> &#123;</span><br><span class="line">          Class&lt;?&gt; clzz = RecordPathManager.getTargetClass(<span class="hljs-string">"integral"</span>,<span class="hljs-string">"IntegralActivity"</span>);</span><br><span class="line">          Intent intent = <span class="hljs-keyword">new</span> Intent(<span class="hljs-keyword">this</span>,clzz);</span><br><span class="line">          startActivity(intent);</span><br><span class="line">      &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+<p>看起来比开始简单了一点点，不过这个在activity中一个一个的注册也是太麻烦，就几个类还好，几十上百的类估计会把自己写吐了，那能不能让系统帮我们写注册的代码呢，当然可以啦，这时候就用到APT的技术来实现啦。</p>
+<h4 id="使用APT自动完成注册。"><a href="#使用APT自动完成注册。" class="headerlink" title="使用APT自动完成注册。"></a>使用APT自动完成注册。</h4><p>下面仿照ARouter来实现一个简单跳转的路由，</p>
+<p>项目结构如上图：</p>
+<ul>
+<li>annotation是注解module 是个java module</li>
+<li>compiler是注解处理器 必须是个java module</li>
+<li>order和integral是两个字module</li>
+<li>arouter用来定义存储的规范</li>
+</ul>
+<p>先在annotation中定义一个编译时注解<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Retention</span>(RetentionPolicy.CLASS)</span><br><span class="line"><span class="hljs-meta">@Target</span>(ElementType.TYPE)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> ARouter &#123;</span><br><span class="line">     <span class="hljs-function">String <span class="hljs-title">path</span><span class="hljs-params">()</span></span>;</span><br><span class="line"></span><br><span class="line">     <span class="hljs-function">String <span class="hljs-title">group</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> ""</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在定义一个RouterBean，相当于前面简单实现中的PathBean对象，用来存储路径，类，组名等。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RouterBean</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> Type&#123;</span><br><span class="line">        <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">         * activity类型</span></span><br><span class="line"><span class="hljs-comment">         */</span></span><br><span class="line">        ACTIVITY;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> Type mType;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 类结点</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">private</span> Element mElement;</span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 组名</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">private</span> String group;</span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 路由的地址</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">private</span> String path;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> Class&lt;?&gt; mClazz;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">RouterBean</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">RouterBean</span><span class="hljs-params">(Type type, Class&lt;?&gt; clazz, String path, String group)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>.mType = type;</span><br><span class="line">        <span class="hljs-keyword">this</span>.mClazz = clazz;</span><br><span class="line">        <span class="hljs-keyword">this</span>.path = path;</span><br><span class="line">        <span class="hljs-keyword">this</span>.group = group;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> RouterBean <span class="hljs-title">create</span><span class="hljs-params">(Type type,Class&lt;?&gt; clazz,String path,String group)</span></span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> RouterBean(type,clazz,path,group);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">RouterBean</span><span class="hljs-params">(Builder builder)</span> </span>&#123;</span><br><span class="line">        mElement = builder.mElement;</span><br><span class="line">        group = builder.group;</span><br><span class="line">        path = builder.path;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Type <span class="hljs-title">getType</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> mType;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Element <span class="hljs-title">getElement</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> mElement;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getGroup</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> group;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getPath</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> path;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">public</span> Class&lt;?&gt; getClzz() &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> mClazz;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setType</span><span class="hljs-params">(Type type)</span> </span>&#123;</span><br><span class="line">        mType = type;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setGroup</span><span class="hljs-params">(String group)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>.group = group;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPath</span><span class="hljs-params">(String path)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>.path = path;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Builder</span></span>&#123;</span><br><span class="line">        <span class="hljs-keyword">private</span> Element mElement;</span><br><span class="line">        <span class="hljs-keyword">private</span> String group;</span><br><span class="line">        <span class="hljs-keyword">private</span> String path;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> Builder <span class="hljs-title">setElement</span><span class="hljs-params">(Element element)</span> </span>&#123;</span><br><span class="line">            mElement = element;</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> Builder <span class="hljs-title">setGroup</span><span class="hljs-params">(String group)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">this</span>.group = group;</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> Builder <span class="hljs-title">setPath</span><span class="hljs-params">(String path)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">this</span>.path = path;</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> RouterBean <span class="hljs-title">build</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">            <span class="hljs-keyword">if</span>(path==<span class="hljs-keyword">null</span>||path.length()==<span class="hljs-number">0</span>)&#123;</span><br><span class="line">              <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"path 为空 比如 /app/MainActivity"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> RouterBean(<span class="hljs-keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-string">"RouterBean&#123;"</span> +</span><br><span class="line">                <span class="hljs-string">"group='"</span> + group + <span class="hljs-string">'\''</span> +</span><br><span class="line">                <span class="hljs-string">", path='"</span> + path + <span class="hljs-string">'\''</span> +</span><br><span class="line">                <span class="hljs-string">'&#125;'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面在arouter_api 这个module中定义两个接口ARouterLoadGroup和ARouterLoadPath。</p>
+<p>一个工程中会有很多个module，如果每次把说有的类都加载比较耗费内存，所以设计一个组来管理，组名就是当前的module的名字，它下面管理着该module下的所有注册的activity类，只有用户到了该module的时候才会加载</p>
+<p>我们生成类会继承自这两个接口。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment"> *key:"app", value:"app"分组对应的路由详细对象类</span></span><br><span class="line"><span class="hljs-comment"> */</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ARouterLoadGroup</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    Map&lt;String,Class&lt;? extends ARouterLoadPath&gt;&gt; loadGroup();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ARouterLoadPath</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 比如传入 /app/MainActivity  通过app找到对应的组，然后通过/app/MainActivity找到对应的class</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function">Map&lt;String, RouterBean&gt; <span class="hljs-title">loadPath</span><span class="hljs-params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面来到了重头戏注解管理器compiler中。</p>
+<p>先在其gradle文件中引入相关的工具<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="hljs-string">'java-library'</span></span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    <span class="hljs-function">implementation <span class="hljs-title">fileTree</span><span class="hljs-params">(dir: <span class="hljs-string">'libs'</span>, include: [<span class="hljs-string">'*.jar'</span>])</span></span></span><br><span class="line"><span class="hljs-function"></span></span><br><span class="line"><span class="hljs-function">    compileOnly'com.google.auto.service:auto-service:1.0-rc4'</span></span><br><span class="line"><span class="hljs-function">    annotationProcessor'com.google.auto.service:auto-service:1.0-rc4'</span></span><br><span class="line"><span class="hljs-function"></span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-comment">// 帮助我们通过类调用的形式来生成Java代码</span></span></span><br><span class="line"><span class="hljs-function">    implementation "com.squareup:javapoet:1.9.0"</span></span><br><span class="line"><span class="hljs-function"></span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-comment">// 依赖注解</span></span></span><br><span class="line"><span class="hljs-function">    implementation <span class="hljs-title">project</span><span class="hljs-params">(<span class="hljs-string">':annotation'</span>)</span></span></span><br><span class="line"><span class="hljs-function">&#125;</span></span><br><span class="line"><span class="hljs-function"></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-comment">// java控制台输出中文乱码</span></span></span><br><span class="line"><span class="hljs-function">tasks.<span class="hljs-title">withType</span><span class="hljs-params">(JavaCompile)</span> </span>&#123;</span><br><span class="line">    options.encoding = <span class="hljs-string">"UTF-8"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sourceCompatibility = <span class="hljs-string">"7"</span></span><br><span class="line">targetCompatibility = <span class="hljs-string">"7"</span></span><br></pre></td></tr></table></figure></p>
+<p>auto-service是谷歌提供的可以用来自动触发注解管理器运行。</p>
+<p>javapoet是著名的square公司出品，用来生成java类的工具</p>
+<p>javapoet有8个常用的类</p>
+<table>
+<thead>
+<tr>
+<th>类对象</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MethodSpec</td>
+<td>代表一个构造函数或者方法声明</td>
+</tr>
+<tr>
+<td>TypeSpec</td>
+<td>代表一个类，接口，或者枚举声明</td>
+</tr>
+<tr>
+<td>FieldSpec</td>
+<td>代表一个成员变量，一个字段的声明</td>
+</tr>
+<tr>
+<td>JavaFile</td>
+<td>包含一个顶级的Java文件</td>
+</tr>
+<tr>
+<td>ParameterSpec</td>
+<td>用来创建参数</td>
+</tr>
+<tr>
+<td>AnnotationSpec</td>
+<td>用来创建注解</td>
+</tr>
+<tr>
+<td>ClassName</td>
+<td>用来包装一个类</td>
+</tr>
+<tr>
+<td>TypeName</td>
+<td>类型，比如添加返回值类型使用TypeName.VOID</td>
+</tr>
+</tbody>
+</table>
+<p>JavaPort字符串的格式化规则</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>$L|字面量 比如 “int value=$L”,10<br>$S|字符串 比如 $S,”hello”<br>$T|类、接口 比如 $T,MainActivity<br>$N|变量 比如 user.$N,name</p>
+<p>上面两个表中的数据比较重要，下面写注解管理器的时候都会用到。</p>
+<p>具体用法可以到<a href="https://github.com/square/javapoet中查看" target="_blank" rel="noopener">https://github.com/square/javapoet中查看</a></p>
+<p>因为相关的类是我们自己生成的，所以事先我们肯定知道它最后的样子，先看看需要生成的类的最后的样子<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ARouter</span>$$<span class="hljs-title">Group</span>$$<span class="hljs-title">app</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ARouterLoadGroup</span> </span>&#123;</span><br><span class="line">  <span class="hljs-meta">@Override</span></span><br><span class="line">  <span class="hljs-keyword">public</span> Map&lt;String, Class&lt;? extends ARouterLoadPath&gt;&gt; loadGroup() &#123;</span><br><span class="line">    Map&lt;String,Class&lt;? extends ARouterLoadPath&gt;&gt; groupMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    groupMap.put(<span class="hljs-string">"app"</span>,ARouter$$Path$$app.class);</span><br><span class="line">    <span class="hljs-keyword">return</span> groupMap;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ARouter</span>$$<span class="hljs-title">Path</span>$$<span class="hljs-title">app</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ARouterLoadPath</span> </span>&#123;</span><br><span class="line">  <span class="hljs-meta">@Override</span></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">public</span> Map&lt;String, RouterBean&gt; <span class="hljs-title">loadPath</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    Map&lt;String,RouterBean&gt; pathMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    pathMap.put(<span class="hljs-string">"/app/Main2Activity"</span>,RouterBean.create(RouterBean.Type.ACTIVITY,Main2Activity.class,<span class="hljs-string">"/app/Main2Activity"</span>,<span class="hljs-string">"app"</span>));</span><br><span class="line">    pathMap.put(<span class="hljs-string">"/app/MainActivity"</span>,RouterBean.create(RouterBean.Type.ACTIVITY,MainActivity.class,<span class="hljs-string">"/app/MainActivity"</span>,<span class="hljs-string">"app"</span>));</span><br><span class="line">    <span class="hljs-keyword">return</span> pathMap;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>分别继承前面定义的两个接口，一个用来初始化该组的map，并存入路径信息，一个是路径信息类，初始化并保存相关的路径和类信息。</p>
+<p>需要注意的是第一个类中使用了第二个类，所以生成类的时候要先生成第二个类，然后在生成第一个类</p>
+<p>下面比对着上面的两个类开始编写注解管理器:<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@AutoService</span>(Processor.class)</span><br><span class="line"><span class="hljs-comment">//这里是注解的全类名比如 com.chs.annotation.ARouter，这里保存到一个常量中了</span></span><br><span class="line"><span class="hljs-meta">@SupportedAnnotationTypes</span>(Const.ACTIVITY_ANNOTATION_TYPE)</span><br><span class="line"><span class="hljs-meta">@SupportedSourceVersion</span>(SourceVersion.RELEASE_7)</span><br><span class="line"><span class="hljs-meta">@SupportedOptions</span>(&#123;Const.MODULE_NAME,Const.APT_PACKAGE&#125;)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ARouterProcessor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractProcessor</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 结点工具类  类 函数 属性都是element</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">private</span> Elements elementUtils;</span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 类信息工具</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">private</span> Types typeUtils;</span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 打印工具类</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">private</span> Messager mMessager;</span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 文件生成器</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">private</span> Filer mFiler;</span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 组名</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">private</span> String moduleName;</span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 生成的apt文件的路径 包名</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">private</span> String packageNameForAPT;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 临时存放路径的类 生成的时候遍历</span></span><br><span class="line"><span class="hljs-comment">     * key 组名 如app value 组的路由路径 如 ARouter$$Path$$app.class</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">private</span> Map&lt;String, List&lt;RouterBean&gt;&gt; tempPathMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 临时存放组的类</span></span><br><span class="line"><span class="hljs-comment">     * 比如 key app  value ARouter$$Path$$app</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-keyword">private</span> Map&lt;String, String&gt; tempGroupMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">(ProcessingEnvironment processingEnvironment)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.init(processingEnvironment);</span><br><span class="line">        elementUtils = processingEnv.getElementUtils();</span><br><span class="line">        typeUtils = processingEnv.getTypeUtils();</span><br><span class="line">        mMessager = processingEnv.getMessager();</span><br><span class="line">        mFiler = processingEnv.getFiler();</span><br><span class="line"></span><br><span class="line">        Map&lt;String, String&gt; options = processingEnv.getOptions();</span><br><span class="line">        mMessager.printMessage(Diagnostic.Kind.NOTE,options.toString());</span><br><span class="line">        <span class="hljs-keyword">if</span>(!EmptyUtils.isEmpty(options))&#123;</span><br><span class="line">            moduleName = options.get(Const.MODULE_NAME);</span><br><span class="line">            packageNameForAPT = options.get(Const.APT_PACKAGE);</span><br><span class="line">            mMessager.printMessage(Diagnostic.Kind.NOTE,<span class="hljs-string">"moduleName:"</span>+moduleName);</span><br><span class="line">            mMessager.printMessage(Diagnostic.Kind.NOTE,<span class="hljs-string">"packageNameForAPT:"</span>+packageNameForAPT);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span>(EmptyUtils.isEmpty(moduleName)||EmptyUtils.isEmpty(packageNameForAPT))&#123;</span><br><span class="line">            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"注解处理器需要的参数 module或packageName为空，需要在gradle中配置"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">process</span><span class="hljs-params">(Set&lt;? extends TypeElement&gt; set, RoundEnvironment roundEnvironment)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span>(!EmptyUtils.isEmpty(set))&#123;</span><br><span class="line">           <span class="hljs-comment">//获取所有被ARouter注解的元素集合</span></span><br><span class="line">            Set&lt;? extends Element&gt; elements = roundEnvironment.getElementsAnnotatedWith(ARouter.class);</span><br><span class="line">            <span class="hljs-keyword">if</span>(!EmptyUtils.isEmpty(elements))&#123;</span><br><span class="line">                <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">                    parseElements(elements);</span><br><span class="line">                &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 解析所有别ARouter注解的元素集合</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> elements</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">parseElements</span><span class="hljs-params">(Set&lt;? extends Element&gt; elements)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="hljs-comment">//通过element工具获取Activity的类型 activity的路径为 android.app.Activity</span></span><br><span class="line">        TypeElement typeElement = elementUtils.getTypeElement(Const.ACTIVITY);</span><br><span class="line">        <span class="hljs-comment">//获取activity的TypeMirror</span></span><br><span class="line">        TypeMirror activityTypeMirror = typeElement.asType();</span><br><span class="line">        <span class="hljs-keyword">for</span> (Element element : elements) &#123;</span><br><span class="line">            <span class="hljs-comment">//获取每个元素的类信息</span></span><br><span class="line">            TypeMirror elementTypeMirror = element.asType();</span><br><span class="line">            mMessager.printMessage(Diagnostic.Kind.NOTE,<span class="hljs-string">"遍历的元素信息为:"</span>+elementTypeMirror.toString());</span><br><span class="line"></span><br><span class="line">            <span class="hljs-comment">//获取每个类上的ARouter 注解对应的path值</span></span><br><span class="line">            ARouter aRouter = element.getAnnotation(ARouter.class);</span><br><span class="line">            <span class="hljs-comment">//封装RouterBean</span></span><br><span class="line">            RouterBean routerBean = <span class="hljs-keyword">new</span> RouterBean.Builder()</span><br><span class="line">                    .setGroup(aRouter.group())</span><br><span class="line">                    .setPath(aRouter.path())</span><br><span class="line">                    .setElement(element)</span><br><span class="line">                    .build();</span><br><span class="line">            <span class="hljs-comment">//防止用户乱写 判断注解是作用在activity上面</span></span><br><span class="line">            <span class="hljs-keyword">if</span>(typeUtils.isSubtype(elementTypeMirror,activityTypeMirror))&#123;</span><br><span class="line">                  routerBean.setType(RouterBean.Type.ACTIVITY);</span><br><span class="line">            &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"@ARouter 目前只能用在Activity上面"</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-comment">//存放到临时的map中 方便后面组装</span></span><br><span class="line">            valueOfPathMap(routerBean);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-comment">//ARouterLoadGroup和ARouterLoadPath的类型</span></span><br><span class="line">        TypeElement groupElementType = elementUtils.getTypeElement(Const.AROUTER_GROUP);</span><br><span class="line">        TypeElement pathElementType = elementUtils.getTypeElement(Const.AROUTER_PATH);</span><br><span class="line">        <span class="hljs-comment">//1 先生成路由的path文件 比如 ARouter$$Path$$order</span></span><br><span class="line">        createPathFile(pathElementType);</span><br><span class="line">        <span class="hljs-comment">//2 在生成路由的组文件 比如 ARouter$$GROUP$$order 因为组中用到了上面的类</span></span><br><span class="line">        createGroupFile(groupElementType,pathElementType);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 生成group对应的path ARouter$$Path$$order</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> pathElementType</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createPathFile</span><span class="hljs-params">(TypeElement pathElementType)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">if</span>(EmptyUtils.isEmpty(tempPathMap))&#123;</span><br><span class="line">           <span class="hljs-keyword">return</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="hljs-comment">//方法的返回值Map&lt;String, RouterBean&gt;</span></span><br><span class="line">        TypeName typeName = ParameterizedTypeName.get(</span><br><span class="line">                ClassName.get(Map.class),ClassName.get(String.class),ClassName.get(RouterBean.class));</span><br><span class="line">       <span class="hljs-comment">//遍历分组，每一个分组创建一个路径文件ARouter$$Path$$order</span></span><br><span class="line">        <span class="hljs-keyword">for</span> (Map.Entry&lt;String, List&lt;RouterBean&gt;&gt; entry : tempPathMap.entrySet()) &#123;</span><br><span class="line">           <span class="hljs-comment">//方法体 public Map&lt;String, RouterBean&gt; loadPath() &#123;&#125;</span></span><br><span class="line">            MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(Const.PATH_METHOD_NAME)</span><br><span class="line">                    .addAnnotation(Override.class)</span><br><span class="line">                    .addModifiers(Modifier.PUBLIC)</span><br><span class="line">                    .returns(typeName);</span><br><span class="line">            <span class="hljs-comment">//Map&lt;String, RouterBean&gt; pathMap = new HashMap&lt;&gt;();</span></span><br><span class="line">            methodBuilder.addStatement(<span class="hljs-string">"$T&lt;$T,$T&gt; $N = new $T&lt;&gt;()"</span>,ClassName.get(Map.class)</span><br><span class="line">            ,ClassName.get(String.class),ClassName.get(RouterBean.class),Const.PATH_PARAMA_NAME</span><br><span class="line">            ,HashMap.class);</span><br><span class="line">            List&lt;RouterBean&gt; values = entry.getValue();</span><br><span class="line">            <span class="hljs-keyword">for</span> (RouterBean bean : values) &#123;</span><br><span class="line">                <span class="hljs-comment">// pathMap.put("/order/Order_MainActivity",RouterBean.create(RouterBean.Type.ACTIVITY</span></span><br><span class="line">                <span class="hljs-comment">//        , Order_MainActivity.class,"/order/Order_MainActivity","order"));</span></span><br><span class="line">                methodBuilder.addStatement(<span class="hljs-string">"$N.put($S,$T.create($T.$L,$T.class,$S,$S))"</span>,</span><br><span class="line">                        Const.PATH_PARAMA_NAME,</span><br><span class="line">                        bean.getPath(),</span><br><span class="line">                        ClassName.get(RouterBean.class),</span><br><span class="line">                        ClassName.get(RouterBean.Type.class),</span><br><span class="line">                        bean.getType(),</span><br><span class="line">                        ClassName.get((TypeElement) bean.getElement()),</span><br><span class="line">                        bean.getPath(),</span><br><span class="line">                        bean.getGroup());</span><br><span class="line">            &#125;</span><br><span class="line">            methodBuilder.addStatement(<span class="hljs-string">"return $N"</span>,Const.PATH_PARAMA_NAME);</span><br><span class="line"></span><br><span class="line">            String finalClassName = Const.PATH_FILD_NAME + entry.getKey();</span><br><span class="line">            mMessager.printMessage(Diagnostic.Kind.NOTE,</span><br><span class="line">                    <span class="hljs-string">"APT生成的path类为"</span>+packageNameForAPT+finalClassName);</span><br><span class="line">            JavaFile.builder(packageNameForAPT,</span><br><span class="line">                    TypeSpec.classBuilder(finalClassName)</span><br><span class="line">                            <span class="hljs-comment">//该类实现的接口</span></span><br><span class="line">                            .addSuperinterface(ClassName.get(pathElementType))</span><br><span class="line">                            .addModifiers(Modifier.PUBLIC)</span><br><span class="line">                            <span class="hljs-comment">//方法体</span></span><br><span class="line">                            .addMethod(methodBuilder.build())</span><br><span class="line">                            .build())</span><br><span class="line">                     .build()</span><br><span class="line">            .writeTo(mFiler);</span><br><span class="line"></span><br><span class="line">            tempGroupMap.put(entry.getKey(),finalClassName);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 生成group  ARouter$$Group$$order</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> groupElementType</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> pathElementType</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createGroupFile</span><span class="hljs-params">(TypeElement groupElementType, TypeElement pathElementType)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span>(EmptyUtils.isEmpty(tempPathMap)||EmptyUtils.isEmpty(tempGroupMap))&#123;</span><br><span class="line">                <span class="hljs-keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-comment">//public Map&lt;String, Class&lt;? extends ARouterLoadPath&gt;&gt; loadGroup() &#123;</span></span><br><span class="line">        TypeName methodReturn = ParameterizedTypeName.get(ClassName.get(Map.class),ClassName.get(String.class)</span><br><span class="line">        ,ParameterizedTypeName.get(ClassName.get(Class.class),</span><br><span class="line">                        <span class="hljs-comment">//Class&lt;? extends ARouterLoadPath&gt;</span></span><br><span class="line">                        WildcardTypeName.subtypeOf(ClassName.get(pathElementType))));</span><br><span class="line">        <span class="hljs-comment">//方法体 public Map&lt;String, RouterBean&gt; loadPath() &#123;&#125;</span></span><br><span class="line">        MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(Const.GROUP_METHOD_NAME)</span><br><span class="line">                .addAnnotation(Override.class)</span><br><span class="line">                .addModifiers(Modifier.PUBLIC)</span><br><span class="line">                .returns(methodReturn);</span><br><span class="line">        <span class="hljs-comment">//  Map&lt;String, Class&lt;? extends ARouterLoadPath&gt;&gt; groupMap = new HashMap&lt;&gt;();</span></span><br><span class="line">        methodBuilder.addStatement(<span class="hljs-string">"$T&lt;$T,$T&gt; $N = new $T&lt;&gt;()"</span>,</span><br><span class="line">                ClassName.get(Map.class)</span><br><span class="line">                ,ClassName.get(String.class),</span><br><span class="line">                ParameterizedTypeName.get(ClassName.get(Class.class),</span><br><span class="line">                        WildcardTypeName.subtypeOf(ClassName.get(pathElementType))),</span><br><span class="line">                Const.GROUP_PARAMA_NAME</span><br><span class="line">                ,HashMap.class);</span><br><span class="line">        <span class="hljs-comment">//groupMap.put("order",ARouter$$Path$$order.class);</span></span><br><span class="line">        <span class="hljs-keyword">for</span> (Map.Entry&lt;String, String&gt; entry : tempGroupMap.entrySet()) &#123;</span><br><span class="line">            methodBuilder.addStatement(<span class="hljs-string">"$N.put($S,$T.class)"</span>,</span><br><span class="line">                    Const.GROUP_PARAMA_NAME,</span><br><span class="line">                    entry.getKey(),</span><br><span class="line">                    <span class="hljs-comment">//指定的包名下</span></span><br><span class="line">                    ClassName.get(packageNameForAPT,entry.getValue()));</span><br><span class="line">        &#125;</span><br><span class="line">        methodBuilder.addStatement(<span class="hljs-string">"return $N"</span>,Const.GROUP_PARAMA_NAME);</span><br><span class="line">        String finalClassName = Const.GROUP_FILD_NAME + moduleName;</span><br><span class="line">        mMessager.printMessage(Diagnostic.Kind.NOTE,</span><br><span class="line">                <span class="hljs-string">"APT生成的group类为"</span>+packageNameForAPT+finalClassName);</span><br><span class="line">        JavaFile.builder(packageNameForAPT,</span><br><span class="line">                TypeSpec.classBuilder(finalClassName)</span><br><span class="line">                        <span class="hljs-comment">//该类实现的接口</span></span><br><span class="line">                        .addSuperinterface(ClassName.get(groupElementType))</span><br><span class="line">                        .addModifiers(Modifier.PUBLIC)</span><br><span class="line">                        <span class="hljs-comment">//方法体</span></span><br><span class="line">                        .addMethod(methodBuilder.build())</span><br><span class="line">                        .build())</span><br><span class="line">                .build()</span><br><span class="line">                .writeTo(mFiler);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isExit</span><span class="hljs-params">(String pathName,List&lt;RouterBean&gt; list)</span></span>&#123;</span><br><span class="line">        <span class="hljs-keyword">for</span> (RouterBean bean : list) &#123;</span><br><span class="line">            <span class="hljs-keyword">if</span>(pathName.equalsIgnoreCase(bean.getPath()))&#123;</span><br><span class="line">                <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">valueOfPathMap</span><span class="hljs-params">(RouterBean routerBean)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span>(checkRouterPath(routerBean))&#123;</span><br><span class="line">            mMessager.printMessage(Diagnostic.Kind.NOTE,<span class="hljs-string">"routerBean对象"</span>+routerBean.toString());</span><br><span class="line">            <span class="hljs-comment">//开始放入map</span></span><br><span class="line">            List&lt;RouterBean&gt; list = tempPathMap.get(routerBean.getGroup());</span><br><span class="line">            <span class="hljs-keyword">if</span>(EmptyUtils.isEmpty(list))&#123;</span><br><span class="line">                list = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">                list.add(routerBean);</span><br><span class="line">                tempPathMap.put(routerBean.getGroup(),list);</span><br><span class="line">            &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                <span class="hljs-keyword">if</span>(!isExit(routerBean.getPath(),list))&#123;</span><br><span class="line">                    list.add(routerBean);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            mMessager.printMessage(Diagnostic.Kind.ERROR,<span class="hljs-string">"@ARouter注解没有按照规范些 /app/MainActivity"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">checkRouterPath</span><span class="hljs-params">(RouterBean routerBean)</span> </span>&#123;</span><br><span class="line">        String path = routerBean.getPath();</span><br><span class="line">        String group = routerBean.getGroup();</span><br><span class="line">        <span class="hljs-keyword">if</span>(EmptyUtils.isEmpty(path)||!path.startsWith(<span class="hljs-string">"/"</span>))&#123;</span><br><span class="line">            mMessager.printMessage(Diagnostic.Kind.ERROR,<span class="hljs-string">"@ARouter注解没有按照规范些 /app/MainActivity"</span>);</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span>(path.lastIndexOf(<span class="hljs-string">"/"</span>)== <span class="hljs-number">0</span>)&#123;</span><br><span class="line">            mMessager.printMessage(Diagnostic.Kind.ERROR,<span class="hljs-string">"@ARouter注解没有按照规范些 /app/MainActivity"</span>);</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        String finalGroup = path.substring(<span class="hljs-number">1</span>,path.indexOf(<span class="hljs-string">"/"</span>,<span class="hljs-number">1</span>));</span><br><span class="line">        mMessager.printMessage(Diagnostic.Kind.NOTE,<span class="hljs-string">"finalGroup:"</span>+finalGroup);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">if</span>(finalGroup.contains(<span class="hljs-string">"/"</span>))&#123;</span><br><span class="line">            mMessager.printMessage(Diagnostic.Kind.ERROR,<span class="hljs-string">"@ARouter注解没有按照规范些 /app/MainActivity"</span>);</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span>(!EmptyUtils.isEmpty(group)&amp;&amp;!group.equalsIgnoreCase(moduleName))&#123;</span><br><span class="line">            mMessager.printMessage(Diagnostic.Kind.ERROR,<span class="hljs-string">"group必须是当前模块的名字"</span>);</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</span><br><span class="line">        &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            routerBean.setGroup(finalGroup);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EmptyUtils</span> </span>&#123;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isEmpty</span><span class="hljs-params">(CharSequence c)</span></span>&#123;</span><br><span class="line">       <span class="hljs-keyword">return</span> c==<span class="hljs-keyword">null</span>||c.length()==<span class="hljs-number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isEmpty</span><span class="hljs-params">(Collection&lt;?&gt; c)</span></span>&#123;</span><br><span class="line">       <span class="hljs-keyword">return</span> c==<span class="hljs-keyword">null</span>||c.isEmpty();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isEmpty</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Map&lt;?,?&gt; c)</span></span>&#123;</span><br><span class="line">       <span class="hljs-keyword">return</span> c==<span class="hljs-keyword">null</span>||c.isEmpty();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//Const类中都是一些常量字符串。</span></span><br></pre></td></tr></table></figure></p>
+<p>上面类上的@SupportedOptions 这个注解可以接收从build.grale中传过来的参数。比如我们在build.gradle中把module的名字和最后生成的类的包名传过来<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//rootProject.ext.packageNameForAPT是在gradle中定义的常量com.chs.module.apt</span><br><span class="line">  javaCompileOptions &#123;</span><br><span class="line">            annotationProcessorOptions &#123;</span><br><span class="line">                arguments = [moduleName: project.getName(), packageNameForAPT: rootProject.ext.packageNameForAPT]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>在每个需要生成类的module中都引入注解和注解管理器<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">implementation project(&apos;:annotation&apos;)</span><br><span class="line">annotationProcessor project(&apos;:complier&apos;)</span><br></pre></td></tr></table></figure></p>
+<p>最后重新build工程，在对应module的build文件夹下就会生成相应的类了，比如appmodule中在路径 <code>\app\build\generated\source\apt\debug\com.chs.module.apt</code>下面就可以看到生成的类<code>ARouter$$Group$$app和ARouter$$Path$$app</code></p>
+<p>最后使用生成的类来实现跳转</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">ARouterLoadGroup group = <span class="hljs-keyword">new</span> ARouter$$Group$$order();</span><br><span class="line">       Map&lt;String, Class&lt;? extends ARouterLoadPath&gt;&gt; map = group.loadGroup();</span><br><span class="line">       <span class="hljs-comment">// 通过order组名获取对应路由路径对象</span></span><br><span class="line">       Class&lt;? extends ARouterLoadPath&gt; clazz = map.get(<span class="hljs-string">"order"</span>);</span><br><span class="line"></span><br><span class="line">       <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">           <span class="hljs-comment">// 类加载动态加载路由路径对象</span></span><br><span class="line">           ARouter$$Path$$order path = (ARouter$$Path$$order) clazz.newInstance();</span><br><span class="line">           Map&lt;String, RouterBean&gt; pathMap = path.loadPath();</span><br><span class="line">           <span class="hljs-comment">// 获取目标对象封装</span></span><br><span class="line">           RouterBean bean = pathMap.get(<span class="hljs-string">"/order/Order_MainActivity"</span>);</span><br><span class="line"></span><br><span class="line">           <span class="hljs-keyword">if</span> (bean != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">               Intent intent = <span class="hljs-keyword">new</span> Intent(<span class="hljs-keyword">this</span>, bean.getClzz());</span><br><span class="line">               intent.putExtra(<span class="hljs-string">"name"</span>, <span class="hljs-string">"lily"</span>);</span><br><span class="line">               startActivity(intent);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;</span><br><span class="line">           e.printStackTrace();</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<p>最后集成打包的时候 所有子模块app、order、integral通过APT生成的类文件都会打包到apk里面，不用担心找不到</p>
+<p>运行之后会看到跳转成功，不过跳转一次写这么多代码好像不是我们想要的啊，我们理想中的跳转应该是下面的样子<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RouterManager.getInstance().build(<span class="hljs-string">"/personal/Personal_MainActivity"</span>)</span><br><span class="line">              .withString(<span class="hljs-string">"name"</span>,<span class="hljs-string">"chs"</span>)</span><br><span class="line">              .navigation(<span class="hljs-keyword">this</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这就需要我们把前面的跳转的代码封装一下啦<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RouterManager</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span>  RouterManager instence;</span><br><span class="line">    <span class="hljs-keyword">private</span> LruCache&lt;String, ARouterLoadGroup&gt; groupCache;</span><br><span class="line">    <span class="hljs-keyword">private</span> LruCache&lt;String, ARouterLoadPath&gt;  pathCache;</span><br><span class="line">    <span class="hljs-keyword">private</span> String path;</span><br><span class="line">    <span class="hljs-keyword">private</span> String group;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String GROUP_PRFIX_NAME = <span class="hljs-string">".ARouter$$Group$$"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> RouterManager <span class="hljs-title">getInstance</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span>(instence == <span class="hljs-keyword">null</span>)&#123;</span><br><span class="line">            <span class="hljs-keyword">synchronized</span> (RouterManager.class)&#123;</span><br><span class="line">                <span class="hljs-keyword">if</span>(instence == <span class="hljs-keyword">null</span>)&#123;</span><br><span class="line">                    instence = <span class="hljs-keyword">new</span> RouterManager();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> instence;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">RouterManager</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        groupCache = <span class="hljs-keyword">new</span> LruCache&lt;&gt;(<span class="hljs-number">100</span>);</span><br><span class="line">        pathCache = <span class="hljs-keyword">new</span> LruCache&lt;&gt;(<span class="hljs-number">100</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> BundleManager <span class="hljs-title">build</span><span class="hljs-params">(String path)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (TextUtils.isEmpty(path) || !path.startsWith(<span class="hljs-string">"/"</span>)) &#123;</span><br><span class="line">            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"未按规范配置，如：/app/MainActivity"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        group = subFromPath2Group(path);</span><br><span class="line">        <span class="hljs-keyword">this</span>.path = path;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> BundleManager();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 判断path 的格式是否符合规范</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> path 需要当行的路径</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">subFromPath2Group</span><span class="hljs-params">(String path)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span>(path.lastIndexOf(<span class="hljs-string">"/"</span>) == <span class="hljs-number">0</span>)&#123;</span><br><span class="line">            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"@ARouter注解未按规范配置，如：/app/MainActivity"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        String finalGroup = path.substring(<span class="hljs-number">1</span>, path.indexOf(<span class="hljs-string">"/"</span>, <span class="hljs-number">1</span>));</span><br><span class="line">        <span class="hljs-keyword">if</span> (TextUtils.isEmpty(finalGroup)) &#123;</span><br><span class="line">            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"@ARouter注解未按规范配置，如：/app/MainActivity"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> finalGroup;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">navigation</span><span class="hljs-params">(Context context, BundleManager bundleManager, <span class="hljs-keyword">int</span> code)</span> </span>&#123;</span><br><span class="line">        String groupClassName = context.getPackageName() + <span class="hljs-string">".apt"</span> + GROUP_PRFIX_NAME + group;</span><br><span class="line">        Log.e(<span class="hljs-string">"chs &gt;&gt;&gt; "</span>, <span class="hljs-string">"groupClassName -&gt; "</span> + groupClassName);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">        ARouterLoadGroup aRouterLoadGroup = groupCache.get(groupClassName);</span><br><span class="line">            <span class="hljs-keyword">if</span>(aRouterLoadGroup == <span class="hljs-keyword">null</span>)&#123;</span><br><span class="line">                Class&lt;?&gt; clazz  = Class.forName(groupClassName);</span><br><span class="line">                aRouterLoadGroup = (ARouterLoadGroup) clazz.newInstance();</span><br><span class="line">                groupCache.put(groupClassName,aRouterLoadGroup);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-comment">// 获取路由路径类ARouter$$Path$$app 的map</span></span><br><span class="line">            <span class="hljs-keyword">if</span> (aRouterLoadGroup.loadGroup().isEmpty()) &#123;</span><br><span class="line">                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">"路由加载失败"</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            ARouterLoadPath aRouterLoadPath = pathCache.get(path);</span><br><span class="line">            <span class="hljs-keyword">if</span>(aRouterLoadPath == <span class="hljs-keyword">null</span>)&#123;</span><br><span class="line">                Class&lt;?&gt; clazz = aRouterLoadGroup.loadGroup().get(group);</span><br><span class="line">                <span class="hljs-keyword">if</span> (clazz != <span class="hljs-keyword">null</span>)&#123;</span><br><span class="line">                    aRouterLoadPath = (ARouterLoadPath) clazz.newInstance();</span><br><span class="line">                    pathCache.put(path,aRouterLoadPath);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">if</span>(aRouterLoadPath.loadPath().isEmpty())&#123;</span><br><span class="line">                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">"路由路径加载失败"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            RouterBean routerBean = aRouterLoadPath.loadPath().get(path);</span><br><span class="line">            <span class="hljs-keyword">if</span> (routerBean != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                <span class="hljs-keyword">switch</span> (routerBean.getType())&#123;</span><br><span class="line">                    <span class="hljs-keyword">case</span> ACTIVITY:</span><br><span class="line">                        Intent intent = <span class="hljs-keyword">new</span> Intent(context, routerBean.getClzz());</span><br><span class="line">                        intent.putExtras(bundleManager.getBundle());</span><br><span class="line"></span><br><span class="line">                        <span class="hljs-keyword">if</span> (bundleManager.isResult()) &#123;</span><br><span class="line">                            ((Activity) context).setResult(code, intent);</span><br><span class="line">                            ((Activity) context).finish();</span><br><span class="line">                        &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                            <span class="hljs-keyword">if</span> (code &gt; <span class="hljs-number">0</span>) &#123; <span class="hljs-comment">// 跳转时是否回调</span></span><br><span class="line">                                ((Activity) context).startActivityForResult(intent, code, bundleManager.getBundle());</span><br><span class="line">                            &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                                context.startActivity(intent, bundleManager.getBundle());</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="hljs-keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;<span class="hljs-keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面代码中的核心类其实就是前面的跳转的代码</p>
+<ul>
+<li>通过传入的path路径，截取出group的名字</li>
+<li>然后根据组的名字，包名，和定义好的前缀拼接出完成的组类的名字，然后通过类加载实例化出这个对象</li>
+<li>实例完成之后调用其loadGroup方法，根据group找出存path的map，最后拿到相关的class执行跳转。</li>
+<li>为了提高运行的效率，使用两个LruCache类来缓存组类和path类，先去这里面取，取不到在创建。</li>
+</ul>
+<p>我们在activity中跳转的时候，有时候会传递参数，所以前面的代码中创建了一个类BundleManager来管理参数，将参数封装到Bundle中传递，BundleManager类很简单就是封装了一下Bundle。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BundleManager</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> Bundle bundle = <span class="hljs-keyword">new</span> Bundle();</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> isResult;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Bundle <span class="hljs-title">getBundle</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> bundle;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isResult</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> isResult;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> BundleManager <span class="hljs-title">withString</span><span class="hljs-params">(@NonNull String key, @Nullable String value)</span> </span>&#123;</span><br><span class="line">        bundle.putString(key, value);</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> BundleManager <span class="hljs-title">withResultString</span><span class="hljs-params">(@NonNull String key, @Nullable String value)</span> </span>&#123;</span><br><span class="line">        bundle.putString(key, value);</span><br><span class="line">        isResult = <span class="hljs-keyword">true</span>;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> BundleManager <span class="hljs-title">withBoolean</span><span class="hljs-params">(@NonNull String key, <span class="hljs-keyword">boolean</span> value)</span> </span>&#123;</span><br><span class="line">        bundle.putBoolean(key, value);</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> BundleManager <span class="hljs-title">withInt</span><span class="hljs-params">(@NonNull String key, <span class="hljs-keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        bundle.putInt(key, value);</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> BundleManager <span class="hljs-title">withBundle</span><span class="hljs-params">(@NonNull Bundle bundle)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>.bundle = bundle;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">navigation</span><span class="hljs-params">(Context context)</span> </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">return</span> RouterManager.getInstance().navigation(context,<span class="hljs-keyword">this</span>,-<span class="hljs-number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">navigation</span><span class="hljs-params">(Context context,<span class="hljs-keyword">int</span> code)</span> </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">return</span> RouterManager.getInstance().navigation(context,<span class="hljs-keyword">this</span>,code);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>OK到这里一个简单的跳转路由就完成了。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/架构/">架构</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/07/13/architecture/Binder机制/">
+                <span class="level-item">Binder机制</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/07/23/architecture/Andorid组件化跳转路由/';
+        this.page.identifier = '2019/07/23/architecture/Andorid组件化跳转路由/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="CHS">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        CHS
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        只要坚持，终会有收获
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        45
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        12
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        9
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/chsmy">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="weibo" href="http://weibo.com/2504847694/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="csdn" href="https://blog.csdn.net/mingyunxiaohai">
+                
+                <i class="fab fa-wordpress"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="简书" href="https://www.jianshu.com/u/6ab3e65ba7b5">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Links
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="http://www.wanandroid.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">玩Android</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wanandroid.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">37</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Android/UI/">
+            <span class="level-start">
+                <span class="level-item">UI</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/c-c/">
+            <span class="level-start">
+                <span class="level-item">c/c++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/jetpack/">
+            <span class="level-start">
+                <span class="level-item">jetpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/源码/">
+            <span class="level-start">
+                <span class="level-item">源码</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/资料/">
+            <span class="level-start">
+                <span class="level-item">资料</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/设计模式/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/人生/">
+            <span class="level-start">
+                <span class="level-item">人生</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/人生/感悟/">
+            <span class="level-start">
+                <span class="level-item">感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/人生/读书/">
+            <span class="level-start">
+                <span class="level-item">读书</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/UI/" style="font-size: 20px;">UI</a> <a href="/tags/c-c/" style="font-size: 18.57px;">c/c++</a> <a href="/tags/jetpack/" style="font-size: 15.71px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 12.86px;">感悟</a> <a href="/tags/架构/" style="font-size: 14.29px;">架构</a> <a href="/tags/设计模式/" style="font-size: 11.43px;">设计模式</a> <a href="/tags/读书/" style="font-size: 12.86px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 17.14px;">进阶</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/07/23/architecture/Andorid组件化跳转路由/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Andorid组件化跳转路由">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-23T14:01:31.000Z">2019-07-23</time></div>
+                    <a href="/2019/07/23/architecture/Andorid组件化跳转路由/" class="has-link-black-ter is-size-6">Andorid组件化跳转路由</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/13/architecture/Binder机制/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Binder机制">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-13T05:03:03.000Z">2019-07-13</time></div>
+                    <a href="/2019/07/13/architecture/Binder机制/" class="has-link-black-ter is-size-6">Binder机制</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/07/life/高效的学习的几种方式/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="高效的学习的几种方式">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-07T14:12:41.000Z">2019-07-07</time></div>
+                    <a href="/2019/07/07/life/高效的学习的几种方式/" class="has-link-black-ter is-size-6">高效的学习的几种方式</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/人生/">人生</a> / <a class="has-link-grey -link" href="/categories/人生/读书/">读书</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/07/life/什么是拖延，拖延的根源/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="什么是拖延，拖延的根源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-07T14:07:20.000Z">2019-07-07</time></div>
+                    <a href="/2019/07/07/life/什么是拖延，拖延的根源/" class="has-link-black-ter is-size-6">什么是拖延，拖延的根源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/人生/">人生</a> / <a class="has-link-grey -link" href="/categories/人生/读书/">读书</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/07/architecture/Handler原理/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Handler机制">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-07T11:33:16.000Z">2019-07-07</time></div>
+                    <a href="/2019/07/07/architecture/Handler原理/" class="has-link-black-ter is-size-6">Handler机制</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/07/23/architecture/Andorid组件化跳转路由/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Andorid组件化跳转路由">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-23T14:01:31.000Z">2019-07-23</time></div>
+                    <a href="/2019/07/23/architecture/Andorid组件化跳转路由/" class="has-link-black-ter is-size-6">Andorid组件化跳转路由</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/13/architecture/Binder机制/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Binder机制">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-13T05:03:03.000Z">2019-07-13</time></div>
+                    <a href="/2019/07/13/architecture/Binder机制/" class="has-link-black-ter is-size-6">Binder机制</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/07/life/高效的学习的几种方式/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="高效的学习的几种方式">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-07T14:12:41.000Z">2019-07-07</time></div>
+                    <a href="/2019/07/07/life/高效的学习的几种方式/" class="has-link-black-ter is-size-6">高效的学习的几种方式</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/人生/">人生</a> / <a class="has-link-grey -link" href="/categories/人生/读书/">读书</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/07/life/什么是拖延，拖延的根源/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="什么是拖延，拖延的根源">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-07T14:07:20.000Z">2019-07-07</time></div>
+                    <a href="/2019/07/07/life/什么是拖延，拖延的根源/" class="has-link-black-ter is-size-6">什么是拖延，拖延的根源</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/人生/">人生</a> / <a class="has-link-grey -link" href="/categories/人生/读书/">读书</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/07/architecture/Handler原理/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Handler机制">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-07T11:33:16.000Z">2019-07-07</time></div>
+                    <a href="/2019/07/07/architecture/Handler原理/" class="has-link-black-ter is-size-6">Handler机制</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Andorid组件化跳转路由" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
