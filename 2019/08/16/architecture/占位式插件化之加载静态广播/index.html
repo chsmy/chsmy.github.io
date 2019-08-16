@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>占位式插件化之加载静态广播 - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="占位式插件化之加载静态广播">
+<meta name="keywords" content="架构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="占位式插件化之加载静态广播">
+<meta property="og:url" content="https://chsmy.github.io/2019/08/16/architecture/占位式插件化之加载静态广播/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="占位式插件化之加载静态广播">
+<meta property="og:locale" content="CHS">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/plugin_4.gif">
+<meta property="og:updated_time" content="2019-08-16T14:24:28.111Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="占位式插件化之加载静态广播">
+<meta name="twitter:description" content="占位式插件化之加载静态广播">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/plugin_4.gif">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="占位式插件化之加载静态广播" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-08-16T14:19:03.000Z">2019-08-16</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 minutes read (About 1813 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                占位式插件化之加载静态广播
+            
+        </h1>
+        <div class="content">
+            <p>占位式插件化之加载静态广播</p>
+<a id="more"></a>
+<p>接着前几篇文章来：由于插件中的广播是在manifest中配置的，所以就不能使用上一篇中的方法来注册广播了，首先我们需要了解一下APK的解析原理</p>
+<p>第一步我们要知道静态广播是什么时候注册的？</p>
+<p>在手机开机的时候，系统谁扫描所有的app，在重新安装一遍，这也是为啥手机开机会这么慢，这时候系统会去解析AndroidManifest文件，解析的过程中遇到静态广播后就会自动注册</p>
+<p>第二步我们来看一下应用的安装目录</p>
+<p>主要有三个目录</p>
+<p>/data/app</p>
+<blockquote>
+<p>该文件夹存放着系统中安装的第三方应用的 apk 文件，当我们调试一个app的时候，可以看到控制台输出的内容，有一项是<br>uploading …..就是上传我们的apk到这个文件夹，上传成功之后才开始安装。Android 中应用的安装就是将应用的安装包原封不动地拷贝到 /data/app 目录下，每个应用安装包本质上就是一个 zip 格式的压缩文件。为了提升应用的启动效率，Android 会将解压出来的 dex 格式的应用代码文件解析提取后，缓存在 /data/dalvik-cache 目录下。</p>
+</blockquote>
+<p>/data/data</p>
+<blockquote>
+<p>该文件夹存放存储包私有数据，对于设备中每一个安装的 App，系统都会在内部存储空间的 data/data 目录下以应用包名为名字自动创建与之对应的文件夹。<br>用户卸载 App 时，系统自动删除 data/data 目录下对应包名的文件夹及其内容。</p>
+</blockquote>
+<p>data/dalvik-cache </p>
+<blockquote>
+<p>虚拟机去加载执行指令</p>
+</blockquote>
+<p>通过上面的解释，可以知道，我们应该分析data/app这个目录，手机开机的时候就会扫描这个目录，来解析apk中的配置信息。</p>
+<p>然后就开始看看系统是怎么来解析apk文件的，系统中的包的解析都是通过PackageManagerService这个类来解析的，当系统启动的时候，首先启动Linux内核驱动，然后启动init进程，然后启动zygote孵化进程，在然后启动SystemServer进程，然后启动PackageManagerService。</p>
+<p>所以我们去PackageManagerService这个类中看看系统是怎么解析data/app中的 apk文件的</p>
+<p><strong>下面的源码是基于Android9.0的，每个版本的源码可能不一样</strong></p>
+<p>Ok 现在来到PackageManagerService这个类中</p>
+<p>我们从文件目录入手，可以看到它有几个静态的成员变量<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="hljs-comment">/** Directory where installed applications are stored */</span></span><br><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> File sAppInstallDir =</span><br><span class="line">        <span class="hljs-keyword">new</span> File(Environment.getDataDirectory(), <span class="hljs-string">"app"</span>);</span><br><span class="line"><span class="hljs-comment">/** Directory where installed application's 32-bit native libraries are copied. */</span></span><br><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> File sAppLib32InstallDir =</span><br><span class="line">        <span class="hljs-keyword">new</span> File(Environment.getDataDirectory(), <span class="hljs-string">"app-lib"</span>);</span><br><span class="line"><span class="hljs-comment">/** Directory where code and non-resource assets of forward-locked applications are stored */</span></span><br><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> File sDrmAppPrivateInstallDir =</span><br><span class="line">        <span class="hljs-keyword">new</span> File(Environment.getDataDirectory(), <span class="hljs-string">"app-private"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>其中第一个sAppInstallDir就是我们要找的安装目录data/app，所以从这里入手，看看系统是怎么解析apk文件的。</p>
+<p>全局搜索sAppInstallDir就可以找到scanDirTracedLI这个方法，从名字也能看出，它就是扫描该目录。内部也会解析manifest文件，所以从这里开始分析，我们跟随扫描的方法一步一步的往下看。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"> <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">scanDirTracedLI</span><span class="hljs-params">(File scanDir, <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> parseFlags, <span class="hljs-keyword">int</span> scanFlags, <span class="hljs-keyword">long</span> currentTime)</span> </span>&#123;</span><br><span class="line">       Trace.traceBegin(TRACE_TAG_PACKAGE_MANAGER, <span class="hljs-string">"scanDir ["</span> + scanDir.getAbsolutePath() + <span class="hljs-string">"]"</span>);</span><br><span class="line">       <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">           scanDirLI(scanDir, parseFlags, scanFlags, currentTime);</span><br><span class="line">       &#125; <span class="hljs-keyword">finally</span> &#123;</span><br><span class="line">           Trace.traceEnd(TRACE_TAG_PACKAGE_MANAGER);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">scanDirLI</span><span class="hljs-params">(File scanDir, <span class="hljs-keyword">int</span> parseFlags, <span class="hljs-keyword">int</span> scanFlags, <span class="hljs-keyword">long</span> currentTime)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">        <span class="hljs-keyword">for</span> (File file : files) &#123;</span><br><span class="line">               <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> isPackage = (isApkFile(file) || file.isDirectory())</span><br><span class="line">                       &amp;&amp; !PackageInstallerService.isStageName(file.getName());</span><br><span class="line">               <span class="hljs-keyword">if</span> (!isPackage) &#123;</span><br><span class="line">                   <span class="hljs-comment">// Ignore entries which are not packages</span></span><br><span class="line">                   <span class="hljs-keyword">continue</span>;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="hljs-comment">//开启线程池来解析</span></span><br><span class="line">               parallelPackageParser.submit(file, parseFlags);</span><br><span class="line">               fileCount++;</span><br><span class="line">           &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//mService是线程池</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">submit</span><span class="hljs-params">(File scanFile, <span class="hljs-keyword">int</span> parseFlags)</span> </span>&#123;</span><br><span class="line">       mService.submit(() -&gt; &#123;</span><br><span class="line">           ParseResult pr = <span class="hljs-keyword">new</span> ParseResult();</span><br><span class="line">           Trace.traceBegin(TRACE_TAG_PACKAGE_MANAGER, <span class="hljs-string">"parallel parsePackage ["</span> + scanFile + <span class="hljs-string">"]"</span>);</span><br><span class="line">           <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">               PackageParser pp = <span class="hljs-keyword">new</span> PackageParser();</span><br><span class="line">               pp.setSeparateProcesses(mSeparateProcesses);</span><br><span class="line">               pp.setOnlyCoreApps(mOnlyCore);</span><br><span class="line">               pp.setDisplayMetrics(mMetrics);</span><br><span class="line">               pp.setCacheDir(mCacheDir);</span><br><span class="line">               pp.setCallback(mPackageParserCallback);</span><br><span class="line">               pr.scanFile = scanFile;</span><br><span class="line">               <span class="hljs-comment">//解析包</span></span><br><span class="line">               pr.pkg = parsePackage(pp, scanFile, parseFlags);</span><br><span class="line">           &#125; <span class="hljs-keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">               pr.throwable = e;</span><br><span class="line">           &#125; <span class="hljs-keyword">finally</span> &#123;</span><br><span class="line">               Trace.traceEnd(TRACE_TAG_PACKAGE_MANAGER);</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">               mQueue.put(pr);</span><br><span class="line">           &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">               Thread.currentThread().interrupt();</span><br><span class="line">               mInterruptedInThread = Thread.currentThread().getName();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">   &#125;</span><br><span class="line"> <span class="hljs-meta">@VisibleForTesting</span></span><br><span class="line">   <span class="hljs-keyword">protected</span> PackageParser.<span class="hljs-function">Package <span class="hljs-title">parsePackage</span><span class="hljs-params">(PackageParser packageParser, File scanFile,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">           <span class="hljs-keyword">int</span> parseFlags)</span> <span class="hljs-keyword">throws</span> PackageParser.PackageParserException </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">return</span> packageParser.parsePackage(scanFile, parseFlags, <span class="hljs-keyword">true</span> <span class="hljs-comment">/* useCaches */</span>);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这一路跟随，最后到了PackageParser这个类中的parsePackage方法。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//packageFile文件包的路径</span></span><br><span class="line"> <span class="hljs-function"><span class="hljs-keyword">public</span> Package <span class="hljs-title">parsePackage</span><span class="hljs-params">(File packageFile, <span class="hljs-keyword">int</span> flags)</span> <span class="hljs-keyword">throws</span> PackageParserException </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> parsePackage(packageFile, flags, <span class="hljs-keyword">false</span> <span class="hljs-comment">/* useCaches */</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> Package <span class="hljs-title">parsePackage</span><span class="hljs-params">(File packageFile, <span class="hljs-keyword">int</span> flags, <span class="hljs-keyword">boolean</span> useCaches)</span></span></span><br><span class="line"><span class="hljs-function">            <span class="hljs-keyword">throws</span> PackageParserException </span>&#123;</span><br><span class="line">        Package parsed = useCaches ? getCachedResult(packageFile, flags) : <span class="hljs-keyword">null</span>;</span><br><span class="line">        <span class="hljs-keyword">if</span> (parsed != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">return</span> parsed;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">long</span> parseTime = LOG_PARSE_TIMINGS ? SystemClock.uptimeMillis() : <span class="hljs-number">0</span>;</span><br><span class="line">        <span class="hljs-keyword">if</span> (packageFile.isDirectory()) &#123;</span><br><span class="line">            parsed = parseClusterPackage(packageFile, flags);</span><br><span class="line">        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            parsed = parseMonolithicPackage(packageFile, flags);</span><br><span class="line">        &#125;</span><br><span class="line">         ...</span><br><span class="line">        <span class="hljs-keyword">return</span> parsed;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>到这里我们就知道系统是通过parsePackage这个方法来解析apk文件的，那么我们是不是可以反射得到这个方法来解析我们自己的apk包呢？当然可以啦，最后我们只要拿到Package这个对象就行了，这个Package对象是parsePackage的内部类，它里面包含了AndroidManifest中的所有信息包含Permission，Activity，Service，Provider，广播等等。能拿到静态广播的信息就可以给它注册了。</p>
+<p>所以现在接着前两篇文章来，在PluginManager类中添加一个解析apk获取广播并注册的方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 反射系统源码来解析自己的apk 注册广播</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">parseApkGetReceiver</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">        <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">            File file = <span class="hljs-keyword">new</span> File(Environment.getExternalStorageDirectory()+File.separator+<span class="hljs-string">"p.apk"</span>);</span><br><span class="line">            <span class="hljs-keyword">if</span>(!file.exists())&#123;</span><br><span class="line">                Log.i(TAG,<span class="hljs-string">"插件包不存在"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-comment">//执行系统 PackageParser中的parsePackage方法来解析</span></span><br><span class="line">            Class&lt;?&gt; packageParserClass = Class.forName(<span class="hljs-string">"android.content.pm.PackageParser"</span>);</span><br><span class="line">            Object packageParser = packageParserClass.newInstance();</span><br><span class="line"></span><br><span class="line">            Method parsePackage = packageParserClass.getMethod(<span class="hljs-string">"parsePackage"</span>,File.class,<span class="hljs-keyword">int</span>.class);</span><br><span class="line">            <span class="hljs-comment">//mPackage就是PackageParser中的Package类</span></span><br><span class="line">            Object mPackage = parsePackage.invoke(packageParser, file, PackageManager.GET_ACTIVITIES);</span><br><span class="line">            <span class="hljs-comment">//分析 mPackage拿到里面的广播的集合</span></span><br><span class="line">            Field receiversField = mPackage.getClass().getDeclaredField(<span class="hljs-string">"receivers"</span>);</span><br><span class="line">            <span class="hljs-comment">//本质是ArrayList集合  public final ArrayList&lt;Activity&gt; receivers = new ArrayList&lt;Activity&gt;(0);</span></span><br><span class="line">            Object receivers = receiversField.get(mPackage);</span><br><span class="line"></span><br><span class="line">            ArrayList list = (ArrayList) receivers;</span><br><span class="line">            <span class="hljs-comment">//集合内部的元素activity是PackageParse的内部类 是一个广播的封装类</span></span><br><span class="line">            <span class="hljs-keyword">for</span> (Object activity : list) &#123;</span><br><span class="line">                 <span class="hljs-comment">//拿到intentfilter</span></span><br><span class="line">                Class&lt;?&gt; componentClass = Class.forName(<span class="hljs-string">"android.content.pm.PackageParser$Component"</span>);</span><br><span class="line">                Field intentsFile = componentClass.getDeclaredField(<span class="hljs-string">"intents"</span>);</span><br><span class="line">                ArrayList&lt;IntentFilter&gt; intents = (ArrayList) intentsFile.get(activity);</span><br><span class="line"></span><br><span class="line">                Class&lt;?&gt; packageUserState = Class.forName(<span class="hljs-string">"android.content.pm.PackageUserState"</span>);</span><br><span class="line">                Class&lt;?&gt; userHandle = Class.forName(<span class="hljs-string">"android.os.UserHandle"</span>);</span><br><span class="line">                <span class="hljs-keyword">int</span>  userId = (<span class="hljs-keyword">int</span>) userHandle.getDeclaredMethod(<span class="hljs-string">"getCallingUserId"</span>).invoke(<span class="hljs-keyword">null</span>);</span><br><span class="line"></span><br><span class="line">                <span class="hljs-comment">//拿到广播的全类名</span></span><br><span class="line">                Method generateActivityInfoMethod = packageParserClass.</span><br><span class="line">                        getDeclaredMethod(<span class="hljs-string">"generateActivityInfo"</span>, activity.getClass(),</span><br><span class="line">                                <span class="hljs-keyword">int</span>.class,packageUserState,<span class="hljs-keyword">int</span>.class);</span><br><span class="line">                generateActivityInfoMethod.setAccessible(<span class="hljs-keyword">true</span>);</span><br><span class="line">                ActivityInfo activityInfo = (ActivityInfo) generateActivityInfoMethod.invoke(<span class="hljs-keyword">null</span>, activity, <span class="hljs-number">0</span>, packageUserState.newInstance(),</span><br><span class="line">                        userId);</span><br><span class="line">                <span class="hljs-comment">//插件包中的广播的全类名</span></span><br><span class="line">                String receiverClassName = activityInfo.name;</span><br><span class="line">                Class&lt;?&gt; receiverClass = getClassLoader().loadClass(receiverClassName);</span><br><span class="line">                BroadcastReceiver  broadcastReceiver = (BroadcastReceiver) receiverClass.newInstance();</span><br><span class="line">                <span class="hljs-keyword">for</span> (IntentFilter intentFilter : intents) &#123;</span><br><span class="line">                    <span class="hljs-comment">//注册广播</span></span><br><span class="line">                    mContext.registerReceiver(broadcastReceiver,intentFilter);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>写了这么多反射的代码，其实我们主要的目的只有两个<br>第一个拿到intentFilter，第二个拿到broadcastReceiver， 最后调用mContext.registerReceiver方法注册广播。其余代码都是为了找到这两个参数来服务的。</p>
+<p>在插件包中定义一个广播并注册到manifest中<br><figure class="highlight hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PluginStaticReceiver</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BroadcastReceiver</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onReceive</span><span class="hljs-params">(Context context, Intent intent)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Toast.makeText(context, <span class="hljs-string">"我是静态注册的广播，我收到广播啦"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> &lt;receiver android:name=<span class="hljs-string">".PluginStaticReceiver"</span>&gt;</span><br><span class="line"></span><br><span class="line">            &lt;intent-filter&gt;</span><br><span class="line"></span><br><span class="line">                &lt;action android:name=<span class="hljs-string">"plugin.package.PluginStaticReceiver"</span> /&gt;</span><br><span class="line"></span><br><span class="line">            &lt;/intent-filter&gt;</span><br><span class="line"></span><br><span class="line"> &lt;/receiver&gt;</span><br></pre></td></tr></table></figure></p>
+<p>最后在MainActivity中加两个按钮，加载注册广播并发送广播<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">loadStaticReceiver</span><span class="hljs-params">(View view)</span> </span>&#123;</span><br><span class="line">        PluginManager.getInstance(<span class="hljs-keyword">this</span>).parseApkGetReceiver();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendStaticReceiver</span><span class="hljs-params">(View view)</span> </span>&#123;</span><br><span class="line">        Intent intent = <span class="hljs-keyword">new</span> Intent();</span><br><span class="line">        intent.setAction(<span class="hljs-string">"plugin.package.PluginStaticReceiver"</span>);</span><br><span class="line">        sendBroadcast(intent);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>效果：</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/plugin_4.gif" alt></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/架构/">架构</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/08/16/architecture/Android-Hook入门/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Android Hook入门</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/08/13/architecture/占位式插件化之加载Service和动态广播/">
+                <span class="level-item">占位式插件化之加载Service和动态广播</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/08/16/architecture/占位式插件化之加载静态广播/';
+        this.page.identifier = '2019/08/16/architecture/占位式插件化之加载静态广播/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="CHS">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        CHS
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        只要坚持，终会有收获
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        51
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        12
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        9
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/chsmy">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="weibo" href="http://weibo.com/2504847694/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="csdn" href="https://blog.csdn.net/mingyunxiaohai">
+                
+                <i class="fab fa-wordpress"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="简书" href="https://www.jianshu.com/u/6ab3e65ba7b5">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Links
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="http://www.wanandroid.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">玩Android</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wanandroid.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">43</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Android/UI/">
+            <span class="level-start">
+                <span class="level-item">UI</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/c-c/">
+            <span class="level-start">
+                <span class="level-item">c/c++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/jetpack/">
+            <span class="level-start">
+                <span class="level-item">jetpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/源码/">
+            <span class="level-start">
+                <span class="level-item">源码</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/资料/">
+            <span class="level-start">
+                <span class="level-item">资料</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/设计模式/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/人生/">
+            <span class="level-start">
+                <span class="level-item">人生</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/人生/感悟/">
+            <span class="level-start">
+                <span class="level-item">感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/人生/读书/">
+            <span class="level-start">
+                <span class="level-item">读书</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/UI/" style="font-size: 20px;">UI</a> <a href="/tags/c-c/" style="font-size: 18.33px;">c/c++</a> <a href="/tags/jetpack/" style="font-size: 15px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 13.33px;">感悟</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/设计模式/" style="font-size: 11.67px;">设计模式</a> <a href="/tags/读书/" style="font-size: 13.33px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 16.67px;">进阶</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/08/16/architecture/Andorid-Hook进阶/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Andorid Hook进阶">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-16T14:19:40.000Z">2019-08-16</time></div>
+                    <a href="/2019/08/16/architecture/Andorid-Hook进阶/" class="has-link-black-ter is-size-6">Andorid Hook进阶</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/16/architecture/Android-Hook入门/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Hook入门">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-16T14:19:20.000Z">2019-08-16</time></div>
+                    <a href="/2019/08/16/architecture/Android-Hook入门/" class="has-link-black-ter is-size-6">Android Hook入门</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/16/architecture/占位式插件化之加载静态广播/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="占位式插件化之加载静态广播">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-16T14:19:03.000Z">2019-08-16</time></div>
+                    <a href="/2019/08/16/architecture/占位式插件化之加载静态广播/" class="has-link-black-ter is-size-6">占位式插件化之加载静态广播</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/13/architecture/占位式插件化之加载Service和动态广播/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="占位式插件化之加载Service和动态广播">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-13T13:14:15.000Z">2019-08-13</time></div>
+                    <a href="/2019/08/13/architecture/占位式插件化之加载Service和动态广播/" class="has-link-black-ter is-size-6">占位式插件化之加载Service和动态广播</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/13/architecture/占位式插件化之加载Activity/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="占位式插件化之加载Activity">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-13T13:14:00.000Z">2019-08-13</time></div>
+                    <a href="/2019/08/13/architecture/占位式插件化之加载Activity/" class="has-link-black-ter is-size-6">占位式插件化之加载Activity</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/08/16/architecture/Andorid-Hook进阶/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Andorid Hook进阶">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-16T14:19:40.000Z">2019-08-16</time></div>
+                    <a href="/2019/08/16/architecture/Andorid-Hook进阶/" class="has-link-black-ter is-size-6">Andorid Hook进阶</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/16/architecture/Android-Hook入门/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Hook入门">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-16T14:19:20.000Z">2019-08-16</time></div>
+                    <a href="/2019/08/16/architecture/Android-Hook入门/" class="has-link-black-ter is-size-6">Android Hook入门</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/16/architecture/占位式插件化之加载静态广播/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="占位式插件化之加载静态广播">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-16T14:19:03.000Z">2019-08-16</time></div>
+                    <a href="/2019/08/16/architecture/占位式插件化之加载静态广播/" class="has-link-black-ter is-size-6">占位式插件化之加载静态广播</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/13/architecture/占位式插件化之加载Service和动态广播/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="占位式插件化之加载Service和动态广播">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-13T13:14:15.000Z">2019-08-13</time></div>
+                    <a href="/2019/08/13/architecture/占位式插件化之加载Service和动态广播/" class="has-link-black-ter is-size-6">占位式插件化之加载Service和动态广播</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/13/architecture/占位式插件化之加载Activity/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="占位式插件化之加载Activity">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-13T13:14:00.000Z">2019-08-13</time></div>
+                    <a href="/2019/08/13/architecture/占位式插件化之加载Activity/" class="has-link-black-ter is-size-6">占位式插件化之加载Activity</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="占位式插件化之加载静态广播" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
