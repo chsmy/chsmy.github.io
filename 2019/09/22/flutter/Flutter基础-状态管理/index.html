@@ -16,7 +16,7 @@
 <meta property="og:description" content="Flutter基础–状态管理">
 <meta property="og:locale" content="CHS">
 <meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/flutter/flutter_state_1.gif">
-<meta property="og:updated_time" content="2019-09-22T06:41:36.244Z">
+<meta property="og:updated_time" content="2019-09-22T15:32:16.379Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flutter基础--状态管理">
 <meta name="twitter:description" content="Flutter基础–状态管理">
@@ -173,7 +173,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    10 minutes read (About 1564 words)
+                    10 minutes read (About 1562 words)
                 </span>
                 
                 
@@ -199,7 +199,7 @@
 <p>上面的代码中，StateManagerDemo有两个子部件Counter0和Counter。当我们点击按钮的时候，_count的值++，然后传递给子部件。</p>
 <p>Counter0是直接接受父部件传过来的参数。</p>
 <p>Counter不仅接收父部件传过来的参数，还有一个回调。这样点击它的时候，会执行父部件中的回调方法，也能改变自身的显示。</p>
-<h3 id="InheritedWidget"><a href="#InheritedWidget" class="headerlink" title="InheritedWidget"></a>InheritedWidget</h3><p>上面的情况是只有一层，比如Counter小部件中使用了父部件的count这个变量，假如Counter没有用到这个变量而是它的子类用到了这个变量，我们还要一层一层的传下去吗，这有点麻烦啊，这时候可以使用InheritedWidget这个类来管理。</p>
+<h3 id="InheritedWidget"><a href="#InheritedWidget" class="headerlink" title="InheritedWidget"></a>InheritedWidget</h3><p>上面的情况是只有一层，Counter小部件中使用了父部件的count这个变量，假如Counter没有用到这个变量而是它的子类用到了这个变量，我们还要一层一层的传下去吗，这有点麻烦啊，这时候可以使用InheritedWidget这个类来管理。</p>
 <figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> <span class="hljs-string">'package:flutter/material.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//使用InheritedWidget来管理状态，</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ContentProvider</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">InheritedWidget</span> </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> count;</span><br><span class="line">  <span class="hljs-keyword">final</span> VoidCallback countCallBack;</span><br><span class="line">  <span class="hljs-keyword">final</span> Widget child;</span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-title">ContentProvider</span><span class="hljs-params">(&#123;</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">    <span class="hljs-keyword">this</span>. count,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">     <span class="hljs-keyword">this</span>. countCallBack,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">    <span class="hljs-keyword">this</span>. child,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">  &#125;)</span>: <span class="hljs-title">assert</span><span class="hljs-params">(child != <span class="hljs-keyword">null</span>)</span>,</span></span><br><span class="line"><span class="hljs-function">        <span class="hljs-title">super</span><span class="hljs-params">(child: child)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">static</span> ContentProvider <span class="hljs-title">of</span><span class="hljs-params">(BuildContext context)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> context.inheritFromWidgetOfExactType(</span><br><span class="line">        ContentProvider) as ContentProvider;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-comment">//是否通知继承该小部件的小部件更新</span></span><br><span class="line">  <span class="hljs-meta">@override</span></span><br><span class="line">  <span class="hljs-function">bool <span class="hljs-title">updateShouldNotify</span><span class="hljs-params">(ContentProvider old)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StateManagerDemo</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatefulWidget</span> </span>&#123;</span><br><span class="line">  <span class="hljs-meta">@override</span></span><br><span class="line">  <span class="hljs-function">_StateManagerDemoState <span class="hljs-title">createState</span><span class="hljs-params">()</span> </span>=&gt; _StateManagerDemoState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_StateManagerDemoState</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">State</span>&lt;<span class="hljs-title">StateManagerDemo</span>&gt; </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">int</span> _count = <span class="hljs-number">0</span>;</span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">countCallBack</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    setState(() &#123;</span><br><span class="line">      _count++;</span><br><span class="line">    &#125;);</span><br><span class="line">    debugPrint(<span class="hljs-string">'$_count'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-meta">@override</span></span><br><span class="line">  <span class="hljs-function">Widget <span class="hljs-title">build</span><span class="hljs-params">(BuildContext context)</span> </span>&#123;</span><br><span class="line">  <span class="hljs-comment">//ContentProvider放在最外层，指定参数count和callback</span></span><br><span class="line">    <span class="hljs-keyword">return</span> ContentProvider(</span><br><span class="line">      count: _count,</span><br><span class="line">      countCallBack: countCallBack,</span><br><span class="line">      child: Scaffold(</span><br><span class="line">        appBar: AppBar(</span><br><span class="line">          title: Text(<span class="hljs-string">'StateManagerDemo'</span>),</span><br><span class="line">          elevation: <span class="hljs-number">0.0</span>,</span><br><span class="line">        ),</span><br><span class="line">        body: Counter1(),</span><br><span class="line">        floatingActionButton: FloatingActionButton(</span><br><span class="line">          child: Icon(Icons.add),</span><br><span class="line">          onPressed: countCallBack,</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Counter1</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="hljs-meta">@override</span></span><br><span class="line">  <span class="hljs-function">Widget <span class="hljs-title">build</span><span class="hljs-params">(BuildContext context)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">//直接使用ContentProvider中的参数</span></span><br><span class="line">    <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> count = ContentProvider.of(context).count;</span><br><span class="line">    <span class="hljs-keyword">final</span> VoidCallback voidCallback = ContentProvider.of(context).countCallBack;</span><br><span class="line">    <span class="hljs-keyword">return</span> Center(</span><br><span class="line">      child: ActionChip(</span><br><span class="line">        label: Text(<span class="hljs-string">'$count'</span>),</span><br><span class="line">        onPressed: voidCallback,</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>首先定义一个数据提供者ContentProvider继承InheritedWidget，里面定义我们需要的count和回调。提供一个of方法让外界可以拿到它的实例，方便拿到方法。</p>
 <p>然后将这个ContentProvider放在主布局的最外层，并传入需要的参数count和callBack。这样它的子部件中就都能访问到这个参数了。</p>
@@ -257,6 +257,13 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/09/28/architecture/使用ASM完成编译时插桩/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">使用ASM完成编译时插桩</span>
+            </a>
+        </div>
+        
         
         <div class="level-end">
             <a class="level level-item has-link-grey  article-nav-next" href="/2019/08/21/architecture/Hook式插件化/">
@@ -272,7 +279,7 @@
 
 <div class="card">
     <div class="card-content">
-        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        <h3 class="title is-5 has-text-weight-normal">Comentarios</h3>
         
 <script>
     var disqus_config = function () {
@@ -333,17 +340,17 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Posts
+                        Entradas
                     </p>
                     <p class="title has-text-weight-normal">
-                        53
+                        54
                     </p>
                 </div>
             </div>
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Categories
+                        Categorias
                     </p>
                     <p class="title has-text-weight-normal">
                         14
@@ -353,7 +360,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Tags
+                        Etiquetas
                     </p>
                     <p class="title has-text-weight-normal">
                         10
@@ -363,7 +370,7 @@
         </nav>
         <div class="level">
             <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
-                Follow</a>
+                SEGUIR</a>
         </div>
         
         
@@ -450,7 +457,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Categories
+                Categorias
             </h3>
             <ul class="menu-list">
             <li>
@@ -459,7 +466,7 @@
                 <span class="level-item">Android</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">44</span>
+                <span class="level-item tag">45</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Android/UI/">
@@ -491,7 +498,7 @@
                 <span class="level-item">架构</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">11</span>
+                <span class="level-item tag">12</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Android/源码/">
@@ -575,7 +582,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Tag Cloud
+            Nube de etiquetas
         </h3>
         <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/UI/" style="font-size: 18.57px;">UI</a> <a href="/tags/c-c/" style="font-size: 17.14px;">c/c++</a> <a href="/tags/jetpack/" style="font-size: 14.29px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 12.86px;">感悟</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/设计模式/" style="font-size: 11.43px;">设计模式</a> <a href="/tags/读书/" style="font-size: 12.86px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 15.71px;">进阶</a>
     </div>
@@ -589,8 +596,27 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recent
+            Recientes
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/09/28/architecture/使用ASM完成编译时插桩/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用ASM完成编译时插桩">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-28T09:21:24.000Z">2019-09-28</time></div>
+                    <a href="/2019/09/28/architecture/使用ASM完成编译时插桩/" class="has-link-black-ter is-size-6">使用ASM完成编译时插桩</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -668,25 +694,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/08/16/architecture/占位式插件化之加载静态广播/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="占位式插件化之加载静态广播">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-16T14:19:03.000Z">2019-08-16</time></div>
-                    <a href="/2019/08/16/architecture/占位式插件化之加载静态广播/" class="has-link-black-ter is-size-6">占位式插件化之加载静态广播</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -695,7 +702,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Archives
+            Archivos
         </h3>
         <ul class="menu-list">
         
@@ -705,7 +712,7 @@
                     <span class="level-item">September 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -796,7 +803,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Tags
+                Etiquetas
             </h3>
             <div class="field is-grouped is-grouped-multiline">
                 
@@ -838,7 +845,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/架构/">
                         <span class="tag">架构</span>
-                        <span class="tag is-grey">11</span>
+                        <span class="tag is-grey">12</span>
                     </a>
                 </div>
                 
@@ -890,8 +897,27 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recent
+            Recientes
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/09/28/architecture/使用ASM完成编译时插桩/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用ASM完成编译时插桩">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-28T09:21:24.000Z">2019-09-28</time></div>
+                    <a href="/2019/09/28/architecture/使用ASM完成编译时插桩/" class="has-link-black-ter is-size-6">使用ASM完成编译时插桩</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -969,25 +995,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/08/16/architecture/占位式插件化之加载静态广播/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="占位式插件化之加载静态广播">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-16T14:19:03.000Z">2019-08-16</time></div>
-                    <a href="/2019/08/16/architecture/占位式插件化之加载静态广播/" class="has-link-black-ter is-size-6">占位式插件化之加载静态广播</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -996,7 +1003,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Archives
+            Archivos
         </h3>
         <ul class="menu-list">
         
@@ -1006,7 +1013,7 @@
                     <span class="level-item">September 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1097,7 +1104,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Tags
+                Etiquetas
             </h3>
             <div class="field is-grouped is-grouped-multiline">
                 
@@ -1139,7 +1146,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/架构/">
                         <span class="tag">架构</span>
-                        <span class="tag is-grey">11</span>
+                        <span class="tag is-grey">12</span>
                     </a>
                 </div>
                 
@@ -1346,10 +1353,10 @@ document.addEventListener('DOMContentLoaded', function () {
     (function (window) {
         var INSIGHT_CONFIG = {
             TRANSLATION: {
-                POSTS: 'Posts',
+                POSTS: 'Entradas',
                 PAGES: 'Pages',
-                CATEGORIES: 'Categories',
-                TAGS: 'Tags',
+                CATEGORIES: 'Categorias',
+                TAGS: 'Etiquetas',
                 UNTITLED: '(Untitled)',
             },
             CONTENT_URL: '/content.json',

@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>使用ASM完成编译时插桩 - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="使用ASM完成编译时插桩">
+<meta name="keywords" content="架构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用ASM完成编译时插桩">
+<meta property="og:url" content="https://chsmy.github.io/2019/09/28/architecture/使用ASM完成编译时插桩/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="使用ASM完成编译时插桩">
+<meta property="og:locale" content="CHS">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/asm_0.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/asm_1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/asm_2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/asm_3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/asm_4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/asm_5.png">
+<meta property="og:updated_time" content="2019-09-28T09:28:35.847Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用ASM完成编译时插桩">
+<meta name="twitter:description" content="使用ASM完成编译时插桩">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/asm_0.png">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="使用ASM完成编译时插桩" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-09-28T09:21:24.000Z">2019-09-28</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    25 minutes read (About 3691 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                使用ASM完成编译时插桩
+            
+        </h1>
+        <div class="content">
+            <p>使用ASM完成编译时插桩</p>
+<a id="more"></a>
+<p>ASM，是一个跟AspectJ功能类似比AspectJ更强大的编译时插桩框架。功能虽强大，不过用起来比AspectJ麻烦不少。</p>
+<p>其实这个框架在Java中用的很多，对于Android开发者来说如果之前没有开发过Java就有点陌生了</p>
+<p>官网 <a href="https://asm.ow2.io/" target="_blank" rel="noopener">https://asm.ow2.io/</a></p>
+<ul>
+<li>ASM是一个通用的Java字节码操作和分析框架，可以用它来动态的生成类后者增强现有类的功能。</li>
+<li>ASM可以直接产生二进制的class文件，也可以在类被加载到Java虚拟机之前动态改变类的行为。</li>
+<li>Java Class的类文件的信息存储在.class文件中，ASM可以读取.class文件中的类信息，改变类行为，分析类信息，甚至生成新的类。</li>
+</ul>
+<p>Andorid java文件打包流程:</p>
+<p>.java文件-&gt;.class文件-&gt;.dex文件。想要编译时插桩一般有两种方式</p>
+<ul>
+<li>更改java文件：APT，AndroidAnnotation 都是这个层面的dagger,butterknife等框架就是这个层面的应用。</li>
+<li>更改class文件：AspectJ，ASM，javassisit等，功能更加强大</li>
+</ul>
+<p>下面练习一个小例子，使用ASM来统计Application中onCreate执行的时间。</p>
+<p>我们需要两大步来完成：</p>
+<p>第一步拿到所有的.class文件，第二步交给ASM动态插入代码。</p>
+<h4 id="第一步找到class文件"><a href="#第一步找到class文件" class="headerlink" title="第一步找到class文件"></a>第一步找到class文件</h4><p>如何能拿到呢？Google官方在Adnroid Gradle1.5.0版本提供了Transform API，允许第三方Plugin在打包dex文件之前的编译过程中操作.class文件。所以我们就可以使用Transform，拿到所有的.class文件。</p>
+<p>想要使用Transform API，这时候就得自定义一个Gradle的插件了</p>
+<ul>
+<li>新建一个项目，然后建一个新的module来写插件代码</li>
+<li>因为gradle是用groovy写的，所以需要在main文件夹下在新建一个入口文件夹groovy。</li>
+<li>告诉gradle哪个是我们自定义的插件，在main目录下新建resources目录，然后在resources目录里面再新建META-INF目录，再在META-INF里面新建gradle-plugins目录。最后在gradle-plugins目录里面新建properties文件</li>
+<li>properties文件的名字可以随便取，后面用到的时候就用这个取好的名字。在properties文件中指明我们自定义的插件的类<code>implementation-class=com.hsm.asmplugin.AsmPlugin</code></li>
+</ul>
+<p>最后的目录结构是这样的</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/asm_0.png" alt></p>
+<p>下面去到当前module下面的build.gradle添加相关的依赖<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="hljs-string">'groovy'</span></span><br><span class="line">apply plugin: <span class="hljs-string">'maven'</span></span><br><span class="line"></span><br><span class="line">repositories &#123;</span><br><span class="line">    mavenCentral()</span><br><span class="line">    jcenter()</span><br><span class="line">&#125;</span><br><span class="line">dependencies &#123;</span><br><span class="line">    <span class="hljs-comment">//gradle sdk</span></span><br><span class="line">    <span class="hljs-function">implementation <span class="hljs-title">gradleApi</span><span class="hljs-params">()</span></span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-comment">//groovy sdk</span></span></span><br><span class="line"><span class="hljs-function">    implementation <span class="hljs-title">localGroovy</span><span class="hljs-params">()</span></span></span><br><span class="line"><span class="hljs-function"></span></span><br><span class="line"><span class="hljs-function">    implementation 'com.android.tools.build:gradle:3.5.0'</span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-comment">//ASM相关依赖</span></span></span><br><span class="line"><span class="hljs-function">    implementation 'org.ow2.asm:asm:7.1'</span></span><br><span class="line"><span class="hljs-function">    implementation 'org.ow2.asm:asm-commons:7.1'</span></span><br><span class="line"><span class="hljs-function">&#125;</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-comment">//uploadArchives是将已经自定义好了插件打包到本地Maven库里面去了，</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-comment">// 你也可以选择打包到远程服务器中。其中，</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-comment">// group和version是我们之后配置插件地址时要用到的。</span></span></span><br><span class="line"><span class="hljs-function">group</span>=<span class="hljs-string">'com.chs.asm.plugin'</span></span><br><span class="line">version=<span class="hljs-string">'1.0'</span></span><br><span class="line">uploadArchives &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        mavenDeployer &#123;</span><br><span class="line">            <span class="hljs-comment">//本地的Maven地址:当前工程下</span></span><br><span class="line">            repository(url: uri(<span class="hljs-string">'./my-plugin'</span>))</span><br><span class="line"></span><br><span class="line">            <span class="hljs-comment">//提交到远程服务器：</span></span><br><span class="line">            <span class="hljs-comment">// repository(url: "http://www.xxx.com/repos") &#123;</span></span><br><span class="line">            <span class="hljs-comment">//    authentication(userName: "admin", password: "admin")</span></span><br><span class="line">            <span class="hljs-comment">// &#125;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>因为打包的时候需要用到maven，所以添加maven相关的依赖，uploadArchives是将已经自定义好了插件打包到本地Maven库里面去，也可以打包到远程服务器。group和version是使用的时候需要的组名和版本信息。</p>
+<p>配置完成了，下面开始写代码，在groovy文件夹下写我们自己的插件继承Plugin<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> com.hsm.asmplugin</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> com.android.build.gradle.AppExtension</span><br><span class="line"><span class="hljs-keyword">import</span> org.gradle.api.Plugin</span><br><span class="line"><span class="hljs-keyword">import</span> org.gradle.api.Project</span><br><span class="line"><span class="hljs-keyword">import</span> org.jetbrains.annotations.NotNull</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AsmPlugin</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Plugin</span>&lt;<span class="hljs-title">Project</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">apply</span><span class="hljs-params">(@NotNull Project project)</span> </span>&#123;</span><br><span class="line">        def android = project.extensions.getByType(AppExtension)</span><br><span class="line">        println <span class="hljs-string">'----------- 开始注册 &gt;&gt;&gt;&gt;&gt; -----------'</span></span><br><span class="line">        AsmTransform transform = <span class="hljs-keyword">new</span> AsmTransform()</span><br><span class="line">        android.registerTransform(transform)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>获取project中的AppExtension类型extension，然后注册我们自己定义的Transform。</p>
+<p> 啥是AppExtension，我们app的gradle中最上面都有这个插件<code>apply plugin: &#39;com.android.application</code>如果依赖了这个插件，AppExtension就存在。</p>
+<p>下面来看AsmTransform<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> com.hsm.asmplugin</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> com.android.build.api.transform.*</span><br><span class="line"><span class="hljs-keyword">import</span> com.android.build.gradle.internal.pipeline.TransformManager</span><br><span class="line"><span class="hljs-keyword">import</span> com.chs.asm.LogVisitor</span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.commons.codec.digest.DigestUtils</span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.commons.io.FileUtils</span><br><span class="line"><span class="hljs-keyword">import</span> org.apache.commons.io.IOUtils</span><br><span class="line"><span class="hljs-keyword">import</span> org.objectweb.asm.ClassReader</span><br><span class="line"><span class="hljs-keyword">import</span> org.objectweb.asm.ClassVisitor</span><br><span class="line"><span class="hljs-keyword">import</span> org.objectweb.asm.ClassWriter</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> java.util.jar.JarEntry</span><br><span class="line"><span class="hljs-keyword">import</span> java.util.jar.JarFile</span><br><span class="line"><span class="hljs-keyword">import</span> java.util.jar.JarOutputStream</span><br><span class="line"><span class="hljs-keyword">import</span> java.util.zip.ZipEntry</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AsmTransform</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Transform</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 设置我们自定义的Transform对应的Task名称 </span></span><br><span class="line">    <span class="hljs-comment">// 编译的时候可以在控制台看到 比如：Task :app:transformClassesWithAsmTransformForDebug</span></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-string">"AsmTransform"</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-comment">// 指定输入的类型，通过这里的设定，可以指定我们要处理的文件类型</span></span><br><span class="line">    <span class="hljs-comment">// 这样确保其他类型的文件不会传入</span></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-keyword">public</span> Set&lt;QualifiedContent.ContentType&gt; getInputTypes() &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> TransformManager.CONTENT_CLASS;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-comment">// 指定Transform的作用范围</span></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-keyword">public</span> Set&lt;? <span class="hljs-keyword">super</span> QualifiedContent.Scope&gt; getScopes() &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> TransformManager.SCOPE_FULL_PROJECT</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isIncremental</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">transform</span><span class="hljs-params">(TransformInvocation transformInvocation)</span> <span class="hljs-keyword">throws</span> TransformException, InterruptedException, IOException </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">long</span> startTime = System.currentTimeMillis()</span><br><span class="line">        println <span class="hljs-string">'----------- startTime &lt;'</span> + startTime + <span class="hljs-string">'&gt; -----------'</span></span><br><span class="line">        <span class="hljs-comment">//拿到所有的class文件</span></span><br><span class="line">        Collection&lt;TransformInput&gt; inputs = transformInvocation.inputs;</span><br><span class="line">        TransformOutputProvider outputProvider = transformInvocation.outputProvider;</span><br><span class="line">        <span class="hljs-keyword">if</span> (outputProvider != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            outputProvider.deleteAll()</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-comment">//遍历inputs Transform的inputs有两种类型，一种是目录，一种是jar包，要分开遍历</span></span><br><span class="line">        inputs.each &#123; TransformInput input -&gt;</span><br><span class="line">            <span class="hljs-comment">//遍历directoryInputs(文件夹中的class文件) directoryInputs代表着以源码方式参与项目编译的所有目录结构及其目录下的源码文件</span></span><br><span class="line">            <span class="hljs-comment">// 比如我们手写的类以及R.class、BuildConfig.class以及R$XXX.class等</span></span><br><span class="line">            input.directoryInputs.each &#123; DirectoryInput directoryInput -&gt;</span><br><span class="line">                <span class="hljs-comment">//文件夹中的class文件</span></span><br><span class="line">                handDirectoryInput(directoryInput, outputProvider)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-comment">//遍历jar包中的class文件 jarInputs代表以jar包方式参与项目编译的所有本地jar包或远程jar包</span></span><br><span class="line">            input.jarInputs.each &#123; JarInput jarInput -&gt;</span><br><span class="line">                <span class="hljs-comment">//处理jar包中的class文件</span></span><br><span class="line">                handJarInput(jarInput, outputProvider)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">//遍历directoryInputs  得到对应的class  交给ASM处理</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handDirectoryInput</span><span class="hljs-params">(DirectoryInput input, TransformOutputProvider outputProvider)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">//是否是文件夹</span></span><br><span class="line">        <span class="hljs-keyword">if</span> (input.file.isDirectory()) &#123;</span><br><span class="line">            <span class="hljs-comment">//列出目录所有文件（包含子文件夹，子文件夹内文件）</span></span><br><span class="line">            input.file.eachFileRecurse &#123; File file -&gt;</span><br><span class="line">                String name = file.name</span><br><span class="line">                <span class="hljs-comment">//需要插桩class 根据自己的需求来------------- 这里判断是否是我们自己写的Application</span></span><br><span class="line">                <span class="hljs-keyword">if</span> (<span class="hljs-string">"MyApp.class"</span>.equals(name)) &#123;</span><br><span class="line">                    ClassReader classReader = <span class="hljs-keyword">new</span> ClassReader(file.bytes)</span><br><span class="line">                    <span class="hljs-comment">//传入COMPUTE_MAXS  ASM会自动计算本地变量表和操作数栈</span></span><br><span class="line">                    ClassWriter classWriter = <span class="hljs-keyword">new</span> ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)</span><br><span class="line">                    <span class="hljs-comment">//创建类访问器   并交给它去处理</span></span><br><span class="line">                    ClassVisitor classVisitor = <span class="hljs-keyword">new</span> LogVisitor(classWriter)</span><br><span class="line">                    classReader.accept(classVisitor, ClassReader.EXPAND_FRAMES)</span><br><span class="line">                    <span class="hljs-keyword">byte</span>[] code = classWriter.toByteArray()</span><br><span class="line">                    FileOutputStream fos = <span class="hljs-keyword">new</span> FileOutputStream(file.parentFile.absolutePath + File.separator + name)</span><br><span class="line">                    fos.write(code)</span><br><span class="line">                    fos.close()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-comment">//处理完输入文件后把输出传给下一个文件</span></span><br><span class="line">        def dest = outputProvider.getContentLocation(input.name, input.contentTypes, input.scopes, Format.DIRECTORY)</span><br><span class="line">        FileUtils.copyDirectory(input.file, dest)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-comment">//遍历jarInputs 得到对应的class 交给ASM处理</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handJarInput</span><span class="hljs-params">(JarInput jarInput, TransformOutputProvider outputProvider)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (jarInput.file.getAbsolutePath().endsWith(<span class="hljs-string">".jar"</span>)) &#123;</span><br><span class="line">            <span class="hljs-comment">//重名名输出文件,因为可能同名,会覆盖</span></span><br><span class="line">            def jarName = jarInput.name</span><br><span class="line">            def md5Name = DigestUtils.md5Hex(jarInput.file.getAbsolutePath())</span><br><span class="line">            <span class="hljs-keyword">if</span> (jarName.endsWith(<span class="hljs-string">".jar"</span>)) &#123;</span><br><span class="line">                jarName = jarName.substring(<span class="hljs-number">0</span>, jarName.length() - <span class="hljs-number">4</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            JarFile jarFile = <span class="hljs-keyword">new</span> JarFile(jarInput.file)</span><br><span class="line">            Enumeration enumeration = jarFile.entries()</span><br><span class="line">            File tmpFile = <span class="hljs-keyword">new</span> File(jarInput.file.getParent() + File.separator + <span class="hljs-string">"classes_temp.jar"</span>)</span><br><span class="line">            <span class="hljs-comment">//避免上次的缓存被重复插入</span></span><br><span class="line">            <span class="hljs-keyword">if</span> (tmpFile.exists()) &#123;</span><br><span class="line">                tmpFile.delete()</span><br><span class="line">            &#125;</span><br><span class="line">            JarOutputStream jarOutputStream = <span class="hljs-keyword">new</span> JarOutputStream(<span class="hljs-keyword">new</span> FileOutputStream(tmpFile))</span><br><span class="line">            <span class="hljs-comment">//用于保存</span></span><br><span class="line">            <span class="hljs-keyword">while</span> (enumeration.hasMoreElements()) &#123;</span><br><span class="line">                JarEntry jarEntry = (JarEntry) enumeration.nextElement()</span><br><span class="line">                String entryName = jarEntry.getName()</span><br><span class="line">                ZipEntry zipEntry = <span class="hljs-keyword">new</span> ZipEntry(entryName)</span><br><span class="line">                InputStream inputStream = jarFile.getInputStream(jarEntry)</span><br><span class="line">                <span class="hljs-comment">//需要插桩class 根据自己的需求来-------------</span></span><br><span class="line">                <span class="hljs-keyword">if</span> (<span class="hljs-string">"androidx/fragment/app/FragmentActivity.class"</span>.equals(entryName)) &#123;</span><br><span class="line">                    <span class="hljs-comment">//class文件处理</span></span><br><span class="line">                    println <span class="hljs-string">'----------- jar class  &lt;'</span> + entryName + <span class="hljs-string">'&gt; -----------'</span></span><br><span class="line">                    jarOutputStream.putNextEntry(zipEntry)</span><br><span class="line">                    ClassReader classReader = <span class="hljs-keyword">new</span> ClassReader(IOUtils.toByteArray(inputStream))</span><br><span class="line">                    ClassWriter classWriter = <span class="hljs-keyword">new</span> ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)</span><br><span class="line">                    <span class="hljs-comment">//创建类访问器   并交给它去处理</span></span><br><span class="line">                    ClassVisitor cv = <span class="hljs-keyword">new</span> LogVisitor(classWriter)</span><br><span class="line">                    classReader.accept(cv, ClassReader.EXPAND_FRAMES)</span><br><span class="line">                    <span class="hljs-keyword">byte</span>[] code = classWriter.toByteArray()</span><br><span class="line">                    jarOutputStream.write(code)</span><br><span class="line">                &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                    jarOutputStream.putNextEntry(zipEntry)</span><br><span class="line">                    jarOutputStream.write(IOUtils.toByteArray(inputStream))</span><br><span class="line">                &#125;</span><br><span class="line">                jarOutputStream.closeEntry()</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-comment">//结束</span></span><br><span class="line">            jarOutputStream.close()</span><br><span class="line">            jarFile.close()</span><br><span class="line">            <span class="hljs-comment">//获取output目录</span></span><br><span class="line">            def dest = outputProvider.getContentLocation(jarName + md5Name,</span><br><span class="line">                    jarInput.contentTypes, jarInput.scopes, Format.JAR)</span><br><span class="line">            FileUtils.copyFile(tmpFile, dest)</span><br><span class="line">            tmpFile.delete()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面类上的注释很清楚啦，Transform的inputs有两种类型，一种是源码目录，一种是jar包，分别遍历这两个，找到我们需要处理的class类型。比如上面的代码中源码部遍历筛选的是我们自己的Application-&gt;MyApp.class。jar包部分处理所有的FragmentActivity。这些都可以根据自己的需求来筛选。</p>
+<p>然后通过ClassReader读取，通过ClassWriter交给我们自定义的类访问器LogVisitor来处理</p>
+<p>ASM核心类</p>
+<ul>
+<li>ClassReader 用来解析编译过的字节码文件</li>
+<li>ClassWriter 用来重新构建编译后的类，比如修改类名，属性，方法或者生成新类的字节码文件</li>
+<li>ClassVisitor 用来访问类成员信息，包括标记在类上的注解，类的构造方法，类的字段，方法，静态代码块</li>
+<li>MethodVisitor 用来访问方法的信息，用来进行具体的方法字节码操作。</li>
+<li>AdviceAdapter 用来访问方法的信息，用来进行具体的方法字节码操作。是MethodVisitor的增强实现</li>
+</ul>
+<h4 id="第二步动态插入代码"><a href="#第二步动态插入代码" class="headerlink" title="第二步动态插入代码"></a>第二步动态插入代码</h4><p>第一步中通过Transform，遍历所有的class文件，筛选出我们想要处理的class，然后交给了类访问器来处理，下面就来看怎么处理<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> com.chs.asm;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> org.objectweb.asm.ClassVisitor;</span><br><span class="line"><span class="hljs-keyword">import</span> org.objectweb.asm.MethodVisitor;</span><br><span class="line"><span class="hljs-keyword">import</span> org.objectweb.asm.Opcodes;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LogVisitor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ClassVisitor</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">private</span> String mClassName;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">LogVisitor</span><span class="hljs-params">(ClassVisitor classVisitor)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>(Opcodes.ASM5, classVisitor);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">visit</span><span class="hljs-params">(<span class="hljs-keyword">int</span> version, <span class="hljs-keyword">int</span> access, String name, String signature, String superName, String[] interfaces)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="hljs-string">"LogVisitor : visit -----&gt; started:"</span> + name);</span><br><span class="line">        <span class="hljs-keyword">this</span>.mClassName = name;</span><br><span class="line">        <span class="hljs-keyword">super</span>.visit(version, access, name, signature, superName, interfaces);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-comment">//定义一个方法， 返回的MethodVisitor用于生成方法相关的信息</span></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> MethodVisitor <span class="hljs-title">visitMethod</span><span class="hljs-params">(<span class="hljs-keyword">int</span> access, String name, String desc, String signature, String[] exceptions)</span> </span>&#123;</span><br><span class="line">        MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);</span><br><span class="line">        <span class="hljs-keyword">if</span> (<span class="hljs-string">"com/hsm/asmtext/MyApp"</span>.equals(<span class="hljs-keyword">this</span>.mClassName)) &#123;</span><br><span class="line">            <span class="hljs-keyword">if</span> (<span class="hljs-string">"onCreate"</span>.equals(name)) &#123;</span><br><span class="line">                <span class="hljs-comment">//处理onCreate</span></span><br><span class="line">                System.out.println(<span class="hljs-string">"LogVisitor : visitMethod method ----&gt; "</span> + name);</span><br><span class="line">                <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> OnCreateVisitor(mv);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> mv;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-comment">//访问结束</span></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">visitEnd</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="hljs-string">"LogVisitor : visit -----&gt; end"</span>);</span><br><span class="line">        <span class="hljs-keyword">super</span>.visitEnd();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在visitMethod方法中筛选出我们想要操作的方法。比如这里操作onCreate方法。筛选出来之后交给自定义的方法访问者OnCreateVisitor来处理</p>
+<p>怎么处理呢？假如我们想要在Application的onCreate方法执行前插入一行记录时间的代码，在onCreate之后在插入一行代码如下</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class MyApp extends Application &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onCreate() &#123;</span><br><span class="line">        long startTime = System.currentTimeMillis();</span><br><span class="line">        super.onCreate();</span><br><span class="line">        ...一堆操作..</span><br><span class="line">        long interval = System.currentTimeMillis()-startTime;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么使用ASM插入的方式如下<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> com.chs.asm;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> org.objectweb.asm.Label;</span><br><span class="line"><span class="hljs-keyword">import</span> org.objectweb.asm.MethodVisitor;</span><br><span class="line"><span class="hljs-keyword">import</span> org.objectweb.asm.Opcodes;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OnCreateVisitor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">MethodVisitor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">OnCreateVisitor</span><span class="hljs-params">(MethodVisitor methodVisitor)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>(Opcodes.ASM5, methodVisitor);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-comment">//开始访问方法</span></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">visitCode</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.visitCode();</span><br><span class="line"></span><br><span class="line">        mv.visitMethodInsn(Opcodes.INVOKESTATIC, <span class="hljs-string">"java/lang/System"</span>, <span class="hljs-string">"currentTimeMillis"</span>, <span class="hljs-string">"()J"</span>, <span class="hljs-keyword">false</span>);</span><br><span class="line">        mv.visitVarInsn(Opcodes.LSTORE, <span class="hljs-number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">visitInsn</span><span class="hljs-params">(<span class="hljs-keyword">int</span> opcode)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">//判断内部操作指令</span></span><br><span class="line">        <span class="hljs-comment">//当前指令是RETURN，表示方法内部的代码已经执行完</span></span><br><span class="line">        <span class="hljs-keyword">if</span> (opcode == Opcodes.RETURN) &#123;</span><br><span class="line">            mv.visitMethodInsn(Opcodes.INVOKESTATIC, <span class="hljs-string">"java/lang/System"</span>, <span class="hljs-string">"currentTimeMillis"</span>, <span class="hljs-string">"()J"</span>, <span class="hljs-keyword">false</span>);</span><br><span class="line">            mv.visitVarInsn(Opcodes.LLOAD, <span class="hljs-number">1</span>);</span><br><span class="line">            mv.visitInsn(Opcodes.LSUB);</span><br><span class="line">            mv.visitVarInsn(Opcodes.LSTORE, <span class="hljs-number">3</span>);</span><br><span class="line">            Label l3 = <span class="hljs-keyword">new</span> Label();</span><br><span class="line">            mv.visitLabel(l3);</span><br><span class="line">            mv.visitLineNumber(<span class="hljs-number">20</span>, l3);</span><br><span class="line">            mv.visitLdcInsn(<span class="hljs-string">"TAG"</span>);</span><br><span class="line">            mv.visitTypeInsn(Opcodes.NEW, <span class="hljs-string">"java/lang/StringBuilder"</span>);</span><br><span class="line">            mv.visitInsn(Opcodes.DUP);</span><br><span class="line">            mv.visitMethodInsn(Opcodes.INVOKESPECIAL, <span class="hljs-string">"java/lang/StringBuilder"</span>, <span class="hljs-string">"&lt;init&gt;"</span>, <span class="hljs-string">"()V"</span>, <span class="hljs-keyword">false</span>);</span><br><span class="line">            mv.visitLdcInsn(<span class="hljs-string">"interval:"</span>);</span><br><span class="line">            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, <span class="hljs-string">"java/lang/StringBuilder"</span>, <span class="hljs-string">"append"</span>, <span class="hljs-string">"(Ljava/lang/String;)Ljava/lang/StringBuilder;"</span>, <span class="hljs-keyword">false</span>);</span><br><span class="line">            mv.visitVarInsn(Opcodes.LLOAD, <span class="hljs-number">3</span>);</span><br><span class="line">            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, <span class="hljs-string">"java/lang/StringBuilder"</span>, <span class="hljs-string">"append"</span>, <span class="hljs-string">"(J)Ljava/lang/StringBuilder;"</span>, <span class="hljs-keyword">false</span>);</span><br><span class="line">            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, <span class="hljs-string">"java/lang/StringBuilder"</span>, <span class="hljs-string">"toString"</span>, <span class="hljs-string">"()Ljava/lang/String;"</span>, <span class="hljs-keyword">false</span>);</span><br><span class="line">            mv.visitMethodInsn(Opcodes.INVOKESTATIC, <span class="hljs-string">"android/util/Log"</span>, <span class="hljs-string">"i"</span>, <span class="hljs-string">"(Ljava/lang/String;Ljava/lang/String;)I"</span>, <span class="hljs-keyword">false</span>);</span><br><span class="line">            mv.visitInsn(Opcodes.POP);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">super</span>.visitInsn(opcode);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">visitEnd</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.visitEnd();</span><br><span class="line">        <span class="hljs-comment">//访问结束</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其实到这里就完事了，之后就是打包发布到maven然后供我们的主工程使用了，不过上面的代码是个什么鬼，啥意思啊，我们该怎么写出来啊。</p>
+<p>想要弄懂上面的代码，需要对java字节码和JVM的指令有一定的了解，上面就是组装一个方法的代码，需要用到包名啊，方法签名等。</p>
+<p>如果我们不了解JVM指令可以写出上面的代码吗？当然可以，有牛逼的前辈早已经写出了插件来生成这样的代码，上面的代码就是生成出来的。</p>
+<p>打开AndroidStudio的安装插件的界面，搜索ASM Bytecode Outline这个插件安装。</p>
+<p>怎么使用呢</p>
+<p>先写一个空的Application如下<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.onCreate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后鼠标右击，选择Show Bytecode Outline，就能看到这几行代码的字节码了。</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/asm_1.png" alt></p>
+<p>然后在里面加上我们要插入的代码，在执行同样的操作<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">long</span> startTime = System.currentTimeMillis();</span><br><span class="line">        <span class="hljs-keyword">super</span>.onCreate();</span><br><span class="line">        <span class="hljs-keyword">long</span> interval = System.currentTimeMillis()-startTime;</span><br><span class="line">        Log.i(<span class="hljs-string">"TAG"</span>,<span class="hljs-string">"interval："</span>+interval);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>又能看到当前几行代码的字节码。然后牛逼的功能又来了，点击ASMified这个tab，里面有个show differences</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/asm_2.png" alt></p>
+<p>就能看到前后两次操作生成的指令的区别在哪里了。这样就能很清晰的知道该怎么写了如下。</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/asm_3.png" alt></p>
+<p>OK，下面开始发布上传，之前build.gradle中已经配置好了maven的本地仓库地址了。下面直接使用AndroidSrudio的快捷键上传</p>
+<p>打开最右边的Gradle面板，然后点击uploadArchives上传，</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/asm_4.png" alt></p>
+<p>OK之后就可以在对应目录看到我们上传的jar包了。本项目配置的仓库在当前目录下的my-plugin文件夹，最后生成目录如下</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/asm_5.png" alt></p>
+<p>在当前工程目录引入本地maven仓库地址和我们自己写的插件，插件的包名和版本号就是之前插件build.gradle中配置的<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        google()</span><br><span class="line">        jcenter()</span><br><span class="line">        maven &#123;</span><br><span class="line">            <span class="hljs-comment">//本地仓库地址</span></span><br><span class="line">            <span class="hljs-function">url <span class="hljs-title">uri</span><span class="hljs-params">(<span class="hljs-string">'D:/androiddemo/5/ASMText/asmplugin/my-plugin'</span>)</span></span></span><br><span class="line"><span class="hljs-function">        &#125;</span></span><br><span class="line"><span class="hljs-function">    &#125;</span></span><br><span class="line"><span class="hljs-function">    dependencies </span>&#123;</span><br><span class="line">        classpath <span class="hljs-string">'com.android.tools.build:gradle:3.5.0'</span></span><br><span class="line">        <span class="hljs-comment">//自己写的插件</span></span><br><span class="line">        classpath <span class="hljs-string">'com.chs.asm.plugin:asmplugin:1.0'</span></span><br><span class="line">        <span class="hljs-comment">// <span class="hljs-doctag">NOTE:</span> Do not place your application dependencies here; they belong</span></span><br><span class="line">        <span class="hljs-comment">// in the individual module build.gradle files</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        google()</span><br><span class="line">        jcenter()</span><br><span class="line">        maven &#123;</span><br><span class="line">            <span class="hljs-comment">//本地仓库地址</span></span><br><span class="line">            <span class="hljs-function">url <span class="hljs-title">uri</span><span class="hljs-params">(<span class="hljs-string">'D:/androiddemo/5/ASMText/asmplugin/my-plugin'</span>)</span></span></span><br><span class="line"><span class="hljs-function">        &#125;</span></span><br><span class="line"><span class="hljs-function">    &#125;</span></span><br><span class="line"><span class="hljs-function">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>然后去app中build.gradle中引入插件<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &apos;com.chs.asm-plugin&apos;</span><br></pre></td></tr></table></figure></p>
+<p>OK大工完成，在onCreate中添加个耗时代码用来测试，运行app<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.onCreate();</span><br><span class="line">        <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="hljs-number">1000</span>);</span><br><span class="line">        &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果如下<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2019-09-26 11:09:28.838 28745-28745/com.hsm.asmtext I/TAG: interval:1002</span><br></pre></td></tr></table></figure></p>
+<p>到这里ASM的简单用法就算入门了，想要自如的操控我们的代码，还需要继续系统的学习一下gradle和ASM的知识。多多练习多熟悉。</p>
+<p>参考博文</p>
+<p><a href="https://blog.csdn.net/huachao1001/article/details/51810328" target="_blank" rel="noopener">在AndroidStudio中自定义Gradle插件</a></p>
+<p><a href="https://www.jianshu.com/p/16ed4d233fd1" target="_blank" rel="noopener">【Android】函数插桩（Gradle + ASM）</a></p>
+<p><a href="https://www.jianshu.com/p/9039a3e46dbc" target="_blank" rel="noopener">Android ASM自动埋点方案实践</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/架构/">架构</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/09/22/flutter/Flutter基础-状态管理/">
+                <span class="level-item">Flutter基础--状态管理</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comentarios</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/09/28/architecture/使用ASM完成编译时插桩/';
+        this.page.identifier = '2019/09/28/architecture/使用ASM完成编译时插桩/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="CHS">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        CHS
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        只要坚持，终会有收获
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Entradas
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        54
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categorias
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        14
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Etiquetas
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        10
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
+                SEGUIR</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/chsmy">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="weibo" href="http://weibo.com/2504847694/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="csdn" href="https://blog.csdn.net/mingyunxiaohai">
+                
+                <i class="fab fa-wordpress"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="简书" href="https://www.jianshu.com/u/6ab3e65ba7b5">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Links
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="http://www.wanandroid.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">玩Android</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wanandroid.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categorias
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">45</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Android/UI/">
+            <span class="level-start">
+                <span class="level-item">UI</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/c-c/">
+            <span class="level-start">
+                <span class="level-item">c/c++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/jetpack/">
+            <span class="level-start">
+                <span class="level-item">jetpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/源码/">
+            <span class="level-start">
+                <span class="level-item">源码</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/资料/">
+            <span class="level-start">
+                <span class="level-item">资料</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/设计模式/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/flutter/">
+            <span class="level-start">
+                <span class="level-item">flutter</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/flutter/读书/">
+            <span class="level-start">
+                <span class="level-item">读书</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/人生/">
+            <span class="level-start">
+                <span class="level-item">人生</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/人生/感悟/">
+            <span class="level-start">
+                <span class="level-item">感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/人生/读书/">
+            <span class="level-start">
+                <span class="level-item">读书</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Nube de etiquetas
+        </h3>
+        <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/UI/" style="font-size: 18.57px;">UI</a> <a href="/tags/c-c/" style="font-size: 17.14px;">c/c++</a> <a href="/tags/jetpack/" style="font-size: 14.29px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 12.86px;">感悟</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/设计模式/" style="font-size: 11.43px;">设计模式</a> <a href="/tags/读书/" style="font-size: 12.86px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 15.71px;">进阶</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recientes
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/09/28/architecture/使用ASM完成编译时插桩/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用ASM完成编译时插桩">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-28T09:21:24.000Z">2019-09-28</time></div>
+                    <a href="/2019/09/28/architecture/使用ASM完成编译时插桩/" class="has-link-black-ter is-size-6">使用ASM完成编译时插桩</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/09/22/flutter/Flutter基础-状态管理/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Flutter基础--状态管理">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-22T06:32:23.000Z">2019-09-22</time></div>
+                    <a href="/2019/09/22/flutter/Flutter基础-状态管理/" class="has-link-black-ter is-size-6">Flutter基础--状态管理</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/flutter/">flutter</a> / <a class="has-link-grey -link" href="/categories/flutter/读书/">读书</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/21/architecture/Hook式插件化/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Hook式插件化">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-21T12:38:15.000Z">2019-08-21</time></div>
+                    <a href="/2019/08/21/architecture/Hook式插件化/" class="has-link-black-ter is-size-6">Hook式插件化</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/16/architecture/Andorid-Hook进阶/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Andorid Hook进阶">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-16T14:19:40.000Z">2019-08-16</time></div>
+                    <a href="/2019/08/16/architecture/Andorid-Hook进阶/" class="has-link-black-ter is-size-6">Andorid Hook进阶</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/16/architecture/Android-Hook入门/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Hook入门">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-16T14:19:20.000Z">2019-08-16</time></div>
+                    <a href="/2019/08/16/architecture/Android-Hook入门/" class="has-link-black-ter is-size-6">Android Hook入门</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archivos
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Etiquetas
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recientes
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/09/28/architecture/使用ASM完成编译时插桩/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="使用ASM完成编译时插桩">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-28T09:21:24.000Z">2019-09-28</time></div>
+                    <a href="/2019/09/28/architecture/使用ASM完成编译时插桩/" class="has-link-black-ter is-size-6">使用ASM完成编译时插桩</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/09/22/flutter/Flutter基础-状态管理/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Flutter基础--状态管理">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-22T06:32:23.000Z">2019-09-22</time></div>
+                    <a href="/2019/09/22/flutter/Flutter基础-状态管理/" class="has-link-black-ter is-size-6">Flutter基础--状态管理</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/flutter/">flutter</a> / <a class="has-link-grey -link" href="/categories/flutter/读书/">读书</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/21/architecture/Hook式插件化/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Hook式插件化">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-21T12:38:15.000Z">2019-08-21</time></div>
+                    <a href="/2019/08/21/architecture/Hook式插件化/" class="has-link-black-ter is-size-6">Hook式插件化</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/16/architecture/Andorid-Hook进阶/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Andorid Hook进阶">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-16T14:19:40.000Z">2019-08-16</time></div>
+                    <a href="/2019/08/16/architecture/Andorid-Hook进阶/" class="has-link-black-ter is-size-6">Andorid Hook进阶</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/16/architecture/Android-Hook入门/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Hook入门">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-16T14:19:20.000Z">2019-08-16</time></div>
+                    <a href="/2019/08/16/architecture/Android-Hook入门/" class="has-link-black-ter is-size-6">Android Hook入门</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archivos
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Etiquetas
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">8</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="使用ASM完成编译时插桩" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Entradas',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categorias',
+                TAGS: 'Etiquetas',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
