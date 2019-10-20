@@ -15,10 +15,13 @@
 <meta property="og:site_name" content="小草喔">
 <meta property="og:description" content="快速排序">
 <meta property="og:locale" content="CHS">
-<meta property="og:updated_time" content="2019-10-20T13:38:58.730Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/helan.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/quick_sort.png">
+<meta property="og:updated_time" content="2019-10-20T14:00:19.139Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="快速排序">
 <meta name="twitter:description" content="快速排序">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/helan.png">
 
 
 
@@ -171,7 +174,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    7 minutes read (About 1063 words)
+                    7 minutes read (About 1113 words)
                 </span>
                 
                 
@@ -201,6 +204,7 @@
 <li>如果当前元素大于num，more的前一个元素跟cur位置的元素交换。交换完成之后，此时交换回来的元素我们不知道它大于num还是小于num，所以cur位置不变，继续比较</li>
 <li>如果当前元素的值等于num，cur直接加一，比较下一个。</li>
 </ul>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/helan.png" alt></p>
 <p>代码如下</p>
 <figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span>[] partition(<span class="hljs-keyword">int</span>[] arr, <span class="hljs-keyword">int</span> num) &#123;</span><br><span class="line">      <span class="hljs-keyword">if</span>(arr == <span class="hljs-keyword">null</span> || arr.length &lt; <span class="hljs-number">2</span>)&#123;</span><br><span class="line">          <span class="hljs-keyword">return</span> arr;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="hljs-comment">//less从数组第一个元素的前一个元素开始</span></span><br><span class="line">      <span class="hljs-keyword">int</span> less = -<span class="hljs-number">1</span>;</span><br><span class="line">      <span class="hljs-comment">//more从数组的最后一个元素的后一个元素开始</span></span><br><span class="line">      <span class="hljs-keyword">int</span> more = arr.length;</span><br><span class="line">      <span class="hljs-comment">//cur 当前比较的位置</span></span><br><span class="line">      <span class="hljs-keyword">int</span> cur = <span class="hljs-number">0</span>;</span><br><span class="line">      <span class="hljs-keyword">while</span> (cur &lt; more) &#123;</span><br><span class="line">          <span class="hljs-keyword">if</span> (arr[cur] &lt; num) &#123;</span><br><span class="line">              <span class="hljs-comment">//less的后一个位置和cur位置元素交换</span></span><br><span class="line">              <span class="hljs-comment">//交换之后，cur加一</span></span><br><span class="line">              swap(arr, ++less, cur++);</span><br><span class="line">          &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (arr[cur] &gt; num) &#123;</span><br><span class="line">              <span class="hljs-comment">//cur和more位置的前一个交换</span></span><br><span class="line">              swap(arr, --more, cur);</span><br><span class="line">          &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">              cur++;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="hljs-comment">//返回等于num数据的位置</span></span><br><span class="line">      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[] &#123; less + <span class="hljs-number">1</span>, more - <span class="hljs-number">1</span> &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">swap</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr, <span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">      <span class="hljs-keyword">int</span> temp = arr[i];</span><br><span class="line">      arr[i] = arr[j];</span><br><span class="line">      arr[j] = temp;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 <p>快速排序跟荷兰国旗算法的思想差不多，不同的是荷兰国旗算法是给了一个num值用来比较，快速排序中，我们自己从数组中随便找一个数来作为比较值。数组分成两部分之后，这两部分按照同样的方式递归在分自己，最后完成排序</p>
@@ -211,8 +215,10 @@
 <li>需要注意，如果需要排序的数据本来就是一个有序的数组，那么如果一直选择最后的点作为参考点，那么每次分区得到的两个区间是不相等的，每次都要进行n次分区操作，每次分区大约扫描n/2个元素，时间复杂度会退化为O(N²)</li>
 <li>解决方式，每次不在取最后一个，从数组中随机取一个数，然后跟最后一个元素交换，在按照前的方式循环。改成随机事件，就从概率上降低了时间复杂度</li>
 </ul>
-<p>代码如下<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">quickSort</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (arr == <span class="hljs-keyword">null</span> || arr.length &lt; <span class="hljs-number">2</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        quickSort(arr, <span class="hljs-number">0</span>, arr.length - <span class="hljs-number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">quickSort</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr,<span class="hljs-keyword">int</span> left,<span class="hljs-keyword">int</span> right)</span></span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span>(left&lt;right)&#123;</span><br><span class="line">            <span class="hljs-comment">//在经典快排中，一般取最后一个位置的点作为参考点，但是加入数据本来就是有序的时候，快排的时间复杂度会退化到O(N²)</span></span><br><span class="line">            <span class="hljs-comment">//所以，可以在数组中随机找一个数来作为参考点，使用这种方法来降低时间复杂度</span></span><br><span class="line">            <span class="hljs-comment">//在left到right的范围中随机取一个数，把它放到最后一个位置</span></span><br><span class="line">            swap(arr,left + (<span class="hljs-keyword">int</span>)(Math.random()*(right-left+<span class="hljs-number">1</span>)),right);</span><br><span class="line">            <span class="hljs-comment">//选一个参考点，把数组分区，比如选数组的最后一个点</span></span><br><span class="line">            <span class="hljs-comment">//把比它小的放到它的左边，比它大的放到它右边，相等的不动</span></span><br><span class="line">            <span class="hljs-comment">//返回的p数组中包含两个元素，这两个元素就是跟参考点相等的数的左边界和右边界</span></span><br><span class="line">            <span class="hljs-keyword">int</span> []p = partition(arr,left,right);</span><br><span class="line">            <span class="hljs-comment">//递归分区</span></span><br><span class="line">            quickSort(arr,left,p[<span class="hljs-number">0</span>]-<span class="hljs-number">1</span>);</span><br><span class="line">            quickSort(arr,p[<span class="hljs-number">1</span>]+<span class="hljs-number">1</span>,right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span>[] partition(<span class="hljs-keyword">int</span>[] arr, <span class="hljs-keyword">int</span> left, <span class="hljs-keyword">int</span> right) &#123;</span><br><span class="line">        <span class="hljs-comment">//左边指针 最开始在数组最左边的前一个位置 也就是 -1 位置</span></span><br><span class="line">        <span class="hljs-keyword">int</span> less = left-<span class="hljs-number">1</span>;</span><br><span class="line">        <span class="hljs-comment">//右边指针，最开始在数组最右边的位置（所以最后位置的那个数不参与循环）</span></span><br><span class="line">        <span class="hljs-keyword">int</span> more = right;</span><br><span class="line">        <span class="hljs-comment">// left变量 作为当前指针的位置</span></span><br><span class="line">        <span class="hljs-keyword">while</span> (left&lt;more)&#123;</span><br><span class="line">            <span class="hljs-comment">//以数组最右边的数值为参考点</span></span><br><span class="line">            <span class="hljs-comment">//如果当前指针的位置的数小于参考点的数</span></span><br><span class="line">            <span class="hljs-keyword">if</span>(arr[left]&lt;arr[right])&#123;</span><br><span class="line">                <span class="hljs-comment">//左边指针的下一个位置的数和当前指针位置的数交换，然后当前位置加一</span></span><br><span class="line">                <span class="hljs-comment">//比如第一次的时候其实是数组第一个元素和自己交换</span></span><br><span class="line">                swap(arr,++less,left++);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-comment">//如果当前指针的位置的数大于参考点的数</span></span><br><span class="line">            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(arr[left]&gt;arr[right])&#123;</span><br><span class="line">                <span class="hljs-comment">//当前指针位置的元素和数组最后一个元素交换</span></span><br><span class="line">                swap(arr,left,--more);</span><br><span class="line">            &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                <span class="hljs-comment">//如果相等，当前位置的指针加一</span></span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-comment">//因为数组最后位置的数是最为参考点来的，没有参与循环，最后需要把它交换到正确的位置</span></span><br><span class="line">        swap(arr,more,right);</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]&#123;less+<span class="hljs-number">1</span>,more&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">swap</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr,<span class="hljs-keyword">int</span> left,<span class="hljs-keyword">int</span> right)</span></span>&#123;</span><br><span class="line">        <span class="hljs-keyword">int</span> temp = arr[left];</span><br><span class="line">        arr[left] = arr[right];</span><br><span class="line">        arr[right] = temp;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/quick_sort.png" alt></p>
+<p>代码如下</p>
+<p>代码中直接使用left这个变量代替cur，可以省一个变量</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">quickSort</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (arr == <span class="hljs-keyword">null</span> || arr.length &lt; <span class="hljs-number">2</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        quickSort(arr, <span class="hljs-number">0</span>, arr.length - <span class="hljs-number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">quickSort</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr,<span class="hljs-keyword">int</span> left,<span class="hljs-keyword">int</span> right)</span></span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span>(left&lt;right)&#123;</span><br><span class="line">            <span class="hljs-comment">//在经典快排中，一般取最后一个位置的点作为参考点，但是加入数据本来就是有序的时候，快排的时间复杂度会退化到O(N²)</span></span><br><span class="line">            <span class="hljs-comment">//所以，可以在数组中随机找一个数来作为参考点，使用这种方法来降低时间复杂度</span></span><br><span class="line">            <span class="hljs-comment">//在left到right的范围中随机取一个数，把它放到最后一个位置</span></span><br><span class="line">            swap(arr,left + (<span class="hljs-keyword">int</span>)(Math.random()*(right-left+<span class="hljs-number">1</span>)),right);</span><br><span class="line">            <span class="hljs-comment">//选一个参考点，把数组分区，比如选数组的最后一个点</span></span><br><span class="line">            <span class="hljs-comment">//把比它小的放到它的左边，比它大的放到它右边，相等的不动</span></span><br><span class="line">            <span class="hljs-comment">//返回的p数组中包含两个元素，这两个元素就是跟参考点相等的数的左边界和右边界</span></span><br><span class="line">            <span class="hljs-keyword">int</span> []p = partition(arr,left,right);</span><br><span class="line">            <span class="hljs-comment">//递归分区</span></span><br><span class="line">            quickSort(arr,left,p[<span class="hljs-number">0</span>]-<span class="hljs-number">1</span>);</span><br><span class="line">            quickSort(arr,p[<span class="hljs-number">1</span>]+<span class="hljs-number">1</span>,right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span>[] partition(<span class="hljs-keyword">int</span>[] arr, <span class="hljs-keyword">int</span> left, <span class="hljs-keyword">int</span> right) &#123;</span><br><span class="line">        <span class="hljs-comment">//左边指针 最开始在数组最左边的前一个位置 也就是 -1 位置</span></span><br><span class="line">        <span class="hljs-keyword">int</span> less = left-<span class="hljs-number">1</span>;</span><br><span class="line">        <span class="hljs-comment">//右边指针，最开始在数组最右边的位置（所以最后位置的那个数不参与循环）</span></span><br><span class="line">        <span class="hljs-keyword">int</span> more = right;</span><br><span class="line">        <span class="hljs-comment">// left变量 作为当前指针的位置</span></span><br><span class="line">        <span class="hljs-keyword">while</span> (left&lt;more)&#123;</span><br><span class="line">            <span class="hljs-comment">//以数组最右边的数值为参考点</span></span><br><span class="line">            <span class="hljs-comment">//如果当前指针的位置的数小于参考点的数</span></span><br><span class="line">            <span class="hljs-keyword">if</span>(arr[left]&lt;arr[right])&#123;</span><br><span class="line">                <span class="hljs-comment">//左边指针的下一个位置的数和当前指针位置的数交换，然后当前位置加一</span></span><br><span class="line">                <span class="hljs-comment">//比如第一次的时候其实是数组第一个元素和自己交换</span></span><br><span class="line">                swap(arr,++less,left++);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-comment">//如果当前指针的位置的数大于参考点的数</span></span><br><span class="line">            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(arr[left]&gt;arr[right])&#123;</span><br><span class="line">                <span class="hljs-comment">//当前指针位置的元素和数组最后一个元素交换</span></span><br><span class="line">                swap(arr,left,--more);</span><br><span class="line">            &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                <span class="hljs-comment">//如果相等，当前位置的指针加一</span></span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-comment">//因为数组最后位置的数是最为参考点来的，没有参与循环，最后需要把它交换到正确的位置</span></span><br><span class="line">        swap(arr,more,right);</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]&#123;less+<span class="hljs-number">1</span>,more&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">swap</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr,<span class="hljs-keyword">int</span> left,<span class="hljs-keyword">int</span> right)</span></span>&#123;</span><br><span class="line">        <span class="hljs-keyword">int</span> temp = arr[left];</span><br><span class="line">        arr[left] = arr[right];</span><br><span class="line">        arr[right] = temp;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -255,7 +261,7 @@
 
 <div class="card">
     <div class="card-content">
-        <h3 class="title is-5 has-text-weight-normal">Commentaires</h3>
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
         
 <script>
     var disqus_config = function () {
@@ -316,7 +322,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Articles
+                        Posts
                     </p>
                     <p class="title has-text-weight-normal">
                         55
@@ -326,7 +332,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Catégories
+                        Categories
                     </p>
                     <p class="title has-text-weight-normal">
                         14
@@ -346,7 +352,7 @@
         </nav>
         <div class="level">
             <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
-                SUIVRE</a>
+                Follow</a>
         </div>
         
         
@@ -395,7 +401,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Liens
+            Links
         </h3>
         <ul class="menu-list">
         
@@ -433,7 +439,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Catégories
+                Categories
             </h3>
             <ul class="menu-list">
             <li>
@@ -558,7 +564,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Nuage de tags
+            Tag Cloud
         </h3>
         <a href="/tags/Flutter/" style="font-size: 10px;">Flutter</a> <a href="/tags/UI/" style="font-size: 18.33px;">UI</a> <a href="/tags/c-c/" style="font-size: 16.67px;">c/c++</a> <a href="/tags/jetpack/" style="font-size: 15px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 13.33px;">感悟</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/设计模式/" style="font-size: 11.67px;">设计模式</a> <a href="/tags/读书/" style="font-size: 13.33px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 16.67px;">进阶</a>
     </div>
@@ -572,7 +578,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Récents
+            Recent
         </h3>
         
         <article class="media">
@@ -884,7 +890,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Récents
+            Recent
         </h3>
         
         <article class="media">
@@ -1351,9 +1357,9 @@ document.addEventListener('DOMContentLoaded', function () {
     (function (window) {
         var INSIGHT_CONFIG = {
             TRANSLATION: {
-                POSTS: 'Articles',
+                POSTS: 'Posts',
                 PAGES: 'Pages',
-                CATEGORIES: 'Catégories',
+                CATEGORIES: 'Categories',
                 TAGS: 'Tags',
                 UNTITLED: '(Untitled)',
             },
