@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Android Jetpack之Paging - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="Android Jetpack之Paging">
+<meta name="keywords" content="jetpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Jetpack之Paging">
+<meta property="og:url" content="https://chsmy.github.io/2020/02/10/technology/Android-Jetpack之Paging/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="Android Jetpack之Paging">
+<meta property="og:locale" content="CHS">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/10/1702e1ad92288fe1?w=268&h=561&f=gif&s=983140">
+<meta property="og:updated_time" content="2020-02-10T08:05:43.048Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Jetpack之Paging">
+<meta name="twitter:description" content="Android Jetpack之Paging">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2020/2/10/1702e1ad92288fe1?w=268&h=561&f=gif&s=983140">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Android Jetpack之Paging" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-02-10T08:04:20.000Z">2020-02-10</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    33 minutes read (About 5000 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Android Jetpack之Paging
+            
+        </h1>
+        <div class="content">
+            <p>Android Jetpack之Paging</p>
+<a id="more"></a>
+<p>Jetpack中的Paging组件可以轻松的给RecyclerView增加分页加载的功能，通过预加载实现无限滑动的效果。</p>
+<p>先说一下这无限滑动效果，项目中的分页加载一般分两大种情况：</p>
+<ol>
+<li>一种是滑到底部上拉松手后加载或者滑到底部后自动显示一个加载动画加载。</li>
+<li>一种是当还没滑动到底部的时候就开始加载了，当滑到底部的时候数据可能已经加载完成并续上了，这样就有一种无限滑动的感觉，Paging默认就是这种模式。</li>
+</ol>
+<h3 id="1-简单例子"><a href="#1-简单例子" class="headerlink" title="1 简单例子"></a>1 简单例子</h3><p>下面先写个简单的小例子看看怎么用，然后在去看原理，使用鸿神的<a href="https://wanandroid.com/blog/show/2" target="_blank" rel="noopener">玩安卓网站</a>的首页内容的api来完成这个小例子</p>
+<p>引入最新的依赖：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">implementation &quot;androidx.paging:paging-runtime:2.1.0&quot;</span><br></pre></td></tr></table></figure></p>
+<p>想要完成一个分页加载的列表，一般写三个部分，1. 数据部分 2.adapter部分 3.activity/fragment</p>
+<p>Paging使用的时候当然要配合JetPack组件中的其他组件来使用了，用起来更酸爽，单独使用它没有意义。这里就配合LiveData和ViewModel</p>
+<h4 id="1-1-数据来源"><a href="#1-1-数据来源" class="headerlink" title="1.1 数据来源"></a>1.1 数据来源</h4><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PagingViewModel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ViewModel</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String TAG = PagingViewModel.class.getSimpleName();</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> LiveData&lt;PagedList&lt;ArticleResponse.DataBean.DatasBean&gt;&gt; articleRes = <span class="hljs-keyword">null</span>;</span><br><span class="line">    <span class="hljs-keyword">private</span> ArticleDataSource mDataSource;</span><br><span class="line">    <span class="hljs-comment">//是否有数据</span></span><br><span class="line">    <span class="hljs-keyword">private</span> MutableLiveData&lt;Boolean&gt; boundaryPageData = <span class="hljs-keyword">new</span> MutableLiveData&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">public</span> LiveData&lt;PagedList&lt;ArticleResponse.DataBean.DatasBean&gt;&gt; getArticleLiveData() &#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (articleRes == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            PagedList.Config config = <span class="hljs-keyword">new</span> PagedList.Config.Builder()</span><br><span class="line">                    .setPageSize(<span class="hljs-number">20</span>)</span><br><span class="line">                    .setInitialLoadSizeHint(<span class="hljs-number">22</span>)</span><br><span class="line">                    .build();</span><br><span class="line">            articleRes = <span class="hljs-keyword">new</span> LivePagedListBuilder&lt;Integer, ArticleResponse.DataBean.DatasBean&gt;(mFactory, config)</span><br><span class="line">                    .setBoundaryCallback(mBoundaryCallback)</span><br><span class="line">                    .build();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> articleRes;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> DataSource.Factory mFactory = <span class="hljs-keyword">new</span> DataSource.Factory() &#123;</span><br><span class="line">        <span class="hljs-meta">@NonNull</span></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> DataSource <span class="hljs-title">create</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">if</span> (mDataSource == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                mDataSource = <span class="hljs-keyword">new</span> ArticleDataSource();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">return</span> mDataSource;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">//监听数据边界</span></span><br><span class="line">    <span class="hljs-keyword">private</span> PagedList.BoundaryCallback mBoundaryCallback = <span class="hljs-keyword">new</span> PagedList.BoundaryCallback&lt;ArticleResponse.DataBean.DatasBean&gt;() &#123;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onZeroItemsLoaded</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">super</span>.onZeroItemsLoaded();</span><br><span class="line">            <span class="hljs-comment">//初始化数据</span></span><br><span class="line">            boundaryPageData.postValue(<span class="hljs-keyword">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onItemAtFrontLoaded</span><span class="hljs-params">(@NonNull ArticleResponse.DataBean.DatasBean itemAtFront)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">super</span>.onItemAtFrontLoaded(itemAtFront);</span><br><span class="line">            <span class="hljs-comment">//正在添加数据</span></span><br><span class="line">            boundaryPageData.postValue(<span class="hljs-keyword">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onItemAtEndLoaded</span><span class="hljs-params">(@NonNull ArticleResponse.DataBean.DatasBean itemAtEnd)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">super</span>.onItemAtEndLoaded(itemAtEnd);</span><br><span class="line">            <span class="hljs-comment">//没有数据加载了</span></span><br><span class="line">            boundaryPageData.postValue(<span class="hljs-keyword">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> ArticleDataSource <span class="hljs-title">getDataSource</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> mDataSource;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> MutableLiveData&lt;Boolean&gt; <span class="hljs-title">getBoundaryPageData</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> boundaryPageData;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">loadData</span><span class="hljs-params">(<span class="hljs-keyword">int</span> currentPage, PageKeyedDataSource.LoadInitialCallback&lt;Integer, ArticleResponse.DataBean.DatasBean&gt; initialCallback</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            , PageKeyedDataSource.LoadCallback&lt;Integer, ArticleResponse.DataBean.DatasBean&gt; callback)</span> </span>&#123;</span><br><span class="line">        String url = <span class="hljs-string">"https://www.wanandroid.com/article/list/"</span> + currentPage + <span class="hljs-string">"/json"</span>;</span><br><span class="line">        OkGo.&lt;String&gt;get(url)</span><br><span class="line">                .execute(<span class="hljs-keyword">new</span> StringCallback() &#123;</span><br><span class="line">                    <span class="hljs-meta">@Override</span></span><br><span class="line">                    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onSuccess</span><span class="hljs-params">(Response&lt;String&gt; response)</span> </span>&#123;</span><br><span class="line">                        Gson gson = <span class="hljs-keyword">new</span> Gson();</span><br><span class="line">                        ArticleResponse articleResponse = gson.fromJson(response.body(), ArticleResponse.class);</span><br><span class="line">                        <span class="hljs-keyword">if</span> (initialCallback != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                            initialCallback.onResult(articleResponse.getData().getDatas(), -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>);</span><br><span class="line">                        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                            callback.onResult(articleResponse.getData().getDatas(), currentPage);</span><br><span class="line">                        &#125;</span><br><span class="line">                        boundaryPageData.postValue(articleResponse.getData().getDatas().size() &lt;= <span class="hljs-number">0</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ArticleDataSource</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">PageKeyedDataSource</span>&lt;<span class="hljs-title">Integer</span>, <span class="hljs-title">ArticleResponse</span>.<span class="hljs-title">DataBean</span>.<span class="hljs-title">DatasBean</span>&gt; </span>&#123;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">loadInitial</span><span class="hljs-params">(@NonNull LoadInitialParams&lt;Integer&gt; params, @NonNull LoadInitialCallback&lt;Integer, ArticleResponse.DataBean.DatasBean&gt; callback)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-comment">//开始加载数据</span></span><br><span class="line">            loadData(<span class="hljs-number">0</span>, callback, <span class="hljs-keyword">null</span>);</span><br><span class="line">            Log.d(TAG, <span class="hljs-string">"loadInitial"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">loadBefore</span><span class="hljs-params">(@NonNull LoadParams&lt;Integer&gt; params, @NonNull LoadCallback&lt;Integer, ArticleResponse.DataBean.DatasBean&gt; callback)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-comment">//往前加载数据</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">loadAfter</span><span class="hljs-params">(@NonNull LoadParams&lt;Integer&gt; params, @NonNull LoadCallback&lt;Integer, ArticleResponse.DataBean.DatasBean&gt; callback)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-comment">//往后加载数据</span></span><br><span class="line">            loadData(params.key + <span class="hljs-number">1</span>, <span class="hljs-keyword">null</span>, callback);</span><br><span class="line">            Log.d(TAG, <span class="hljs-string">"loadAfter"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>前面的代码主要就是干了两件事：</p>
+<ol>
+<li>如何创建一个数据集</li>
+<li>如何请求网络获取数据给数据集</li>
+</ol>
+<p>数据集使用LiveData观察，使用<strong>PagedList</strong>保存，PagedList顾名思义页面集合或者说是数据集合，配合LiveData观察者可以很方便的增加数据。</p>
+<p>创建数据集使用<strong>LivePagedListBuilder</strong>来创建，它需要两个参数<strong>数据工厂和分页配置</strong></p>
+<p>分页配置：通过<strong>PagedList.Config</strong>类来实现，可以通过构建者来给它设置不同的属性</p>
+<ul>
+<li>setPageSize() 设置每次分页加载的数量</li>
+<li>setInitialLoadSizeHint()  设置初始化数据的时候加载数据的数量</li>
+<li>setPrefetchDistance() 指定提前预加载的时机（跟最后一条的距离）</li>
+<li>setMaxSize() 指定数据源最大可以加载的数量</li>
+<li>setEnablePlaceholders() 是否使用占位符，配合setMaxSize()使用，未加载出来的部分使用占位符代替</li>
+</ul>
+<p>数据工厂：<strong>DataSource.Factory</strong>主要是用来创建数据源 <strong>DataSource</strong> ，Paging框架主要提供了3种数据源类型。</p>
+<ul>
+<li>PageKeyedDataSource ：主要用于使用页码分页的情况每加载一次page++，上面的小demo就是使用的这种数据源</li>
+<li>ItemKeyedDataSource：下一页的加载需要前面的某个item的信息来加载。比如传入某个item的id，通过这个id来获取该item后面的数据</li>
+<li>PositionalDataSource ：数据源固定，通过特定位置来加载数据</li>
+</ul>
+<p>demo中用的是PageKeyedDataSource，它是个抽象类，有三个抽象方法</p>
+<ol>
+<li>loadInitial：初始化第一页数据</li>
+<li>loadBefore：往前分页加载</li>
+<li>loadAfter：往后分页加载</li>
+</ol>
+<p>在loadInitial方法中开始第一页的数据，在loadAfter中开始往后分页加载，数据加载完成后保存在PagedList中</p>
+<p>上面代码中还设置了一个<strong>PagedList.BoundaryCallback</strong>，它是数据加载的边界回调，它有三个回到方法分别是初始化数据，正在添加数据，数据没有了加载结束。</p>
+<h4 id="1-2-adapter"><a href="#1-2-adapter" class="headerlink" title="1.2 adapter"></a>1.2 adapter</h4><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PagingAdapter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">PagedListAdapter</span>&lt;<span class="hljs-title">ArticleResponse</span>.<span class="hljs-title">DataBean</span>.<span class="hljs-title">DatasBean</span>, <span class="hljs-title">PagingAdapter</span>.<span class="hljs-title">ViewHolder</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-title">PagingAdapter</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>(<span class="hljs-keyword">new</span> DiffUtil.ItemCallback&lt;ArticleResponse.DataBean.DatasBean&gt;() &#123;</span><br><span class="line">            <span class="hljs-meta">@Override</span></span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">areItemsTheSame</span><span class="hljs-params">(@NonNull ArticleResponse.DataBean.DatasBean oldItem, @NonNull ArticleResponse.DataBean.DatasBean newItem)</span> </span>&#123;</span><br><span class="line">                <span class="hljs-keyword">return</span> oldItem.getId() == newItem.getId();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-meta">@Override</span></span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">areContentsTheSame</span><span class="hljs-params">(@NonNull ArticleResponse.DataBean.DatasBean oldItem, @NonNull ArticleResponse.DataBean.DatasBean newItem)</span> </span>&#123;</span><br><span class="line">                <span class="hljs-keyword">return</span> oldItem.equals(newItem);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@NonNull</span></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> ViewHolder <span class="hljs-title">onCreateViewHolder</span><span class="hljs-params">(@NonNull ViewGroup parent, <span class="hljs-keyword">int</span> viewType)</span> </span>&#123;</span><br><span class="line">        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item,parent,<span class="hljs-keyword">false</span>);</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ViewHolder(view);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onBindViewHolder</span><span class="hljs-params">(@NonNull ViewHolder holder, <span class="hljs-keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">        ArticleResponse.DataBean.DatasBean bean = getItem(position);</span><br><span class="line">          holder.tvname.setText(bean.getTitle());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ViewHolder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">RecyclerView</span>.<span class="hljs-title">ViewHolder</span> </span>&#123;</span><br><span class="line">        TextView tvname;</span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ViewHolder</span><span class="hljs-params">(@NonNull View itemView)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">super</span>(itemView);</span><br><span class="line">            tvname = itemView.findViewById(R.id.tvname);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用Paging框架就必须要继承PagedListAdapter了，它强制要求传入一个DiffUtil.ItemCallback，它是用来对新旧数据之间进行差分计算，这样Paging框架就有差量更新的能力了。DiffUtil.ItemCallback的两个实现方法中我们需要自己定义一下差分规则。</p>
+<p>剩下的就是跟正常写一个RecyclerView.Adapter一样了。onBindViewHolder中通过PagedListAdapter提供的<code>getItem(position);</code>方法拿到当前item的数据对象</p>
+<h4 id="1-3-activity中使用"><a href="#1-3-activity中使用" class="headerlink" title="1.3 activity中使用"></a>1.3 activity中使用</h4><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PagingActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">private</span> SmartRefreshLayout refreshLayout;</span><br><span class="line">    <span class="hljs-keyword">private</span> RecyclerView recyclerView;</span><br><span class="line">    <span class="hljs-keyword">private</span> PagingAdapter mAdapter;</span><br><span class="line">    <span class="hljs-keyword">private</span> PagingViewModel viewModel;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_paging);</span><br><span class="line">        refreshLayout = findViewById(R.id.refreshLayout);</span><br><span class="line">        recyclerView = findViewById(R.id.recyclerView);</span><br><span class="line">        recyclerView.setLayoutManager(<span class="hljs-keyword">new</span> LinearLayoutManager(<span class="hljs-keyword">this</span>));</span><br><span class="line">        recyclerView.addItemDecoration(<span class="hljs-keyword">new</span> DividerItemDecoration(<span class="hljs-keyword">this</span>,DividerItemDecoration.VERTICAL));</span><br><span class="line"></span><br><span class="line">        mAdapter  = <span class="hljs-keyword">new</span> PagingAdapter();</span><br><span class="line">        recyclerView.setAdapter(mAdapter);</span><br><span class="line"></span><br><span class="line">        viewModel = <span class="hljs-keyword">new</span> ViewModelProvider(<span class="hljs-keyword">this</span>).get(PagingViewModel.class);</span><br><span class="line">        viewModel.getArticleLiveData().observe(<span class="hljs-keyword">this</span>, <span class="hljs-keyword">new</span> Observer&lt;PagedList&lt;ArticleResponse.DataBean.DatasBean&gt;&gt;() &#123;</span><br><span class="line">            <span class="hljs-meta">@Override</span></span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onChanged</span><span class="hljs-params">(PagedList&lt;ArticleResponse.DataBean.DatasBean&gt; datasBeans)</span> </span>&#123;</span><br><span class="line">                   mAdapter.submitList(datasBeans);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        viewModel.getBoundaryPageData().observe(<span class="hljs-keyword">this</span>, <span class="hljs-keyword">new</span> Observer&lt;Boolean&gt;() &#123;</span><br><span class="line">            <span class="hljs-meta">@Override</span></span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onChanged</span><span class="hljs-params">(Boolean haData)</span> </span>&#123;</span><br><span class="line">                <span class="hljs-keyword">if</span>(!haData)&#123;</span><br><span class="line">                    refreshLayout.finishLoadMore();</span><br><span class="line">                    refreshLayout.finishRefresh();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过viewModel.getArticleLiveData()方法拿到前面定义的LiveData然后调用它的observe方法，就能监听到数据的改变了，在其回调中调用adapter的submitList方法将返回的数据提交到adapter中，就能自动刷新加载了。</p>
+<p>OK 到这里一个简单的Paging使用就完成了下面看看效果如何，这个接口每次默认返回20条数据。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/2/10/1702e1ad92288fe1?w=268&amp;h=561&amp;f=gif&amp;s=983140" alt></p>
+<h3 id="2-原理分析"><a href="#2-原理分析" class="headerlink" title="2 原理分析"></a>2 原理分析</h3><p>知道怎么用了只是第一步，还需要去看看它的源码到底是怎么个流程，毕竟这只是一个通用框架，跟业务结合的时候保不准哪里就不吻合，需要自己改造一下。或者用的时候发现该框架有什么地方不合理，比如Paging框架如果有一次分页失败，就不继续分页了，如果是接口的问题，此时我们肯定希望能继续分页。</p>
+<h4 id="2-1-如何初始化第一次加载的"><a href="#2-1-如何初始化第一次加载的" class="headerlink" title="2.1 如何初始化第一次加载的"></a>2.1 如何初始化第一次加载的</h4><p>下面看看主干流程，从Activity中开始看源码：</p>
+<p>前面我们知道，调用 viewModel.getArticleLiveData()方法拿到一个LiveData对象，调用其observe方法就能监听到数据的改变了。这个LiveData对象是通过LivePagedListBuilder这个类build出来的。那就从这个build方法开始。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> LiveData&lt;PagedList&lt;Value&gt;&gt; build() &#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> create(mInitialLoadKey, mConfig, mBoundaryCallback, mDataSourceFactory,</span><br><span class="line">        ArchTaskExecutor.getMainThreadExecutor(), mFetchExecutor);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>调用了create方法，传入的参数我们也都很熟悉，有我们自定义的PagedList的配置，数据源工厂，还有线程池等<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> &lt;Key, Value&gt; LiveData&lt;PagedList&lt;Value&gt;&gt; create(</span><br><span class="line">         <span class="hljs-meta">@Nullable</span> <span class="hljs-keyword">final</span> Key initialLoadKey,</span><br><span class="line">         <span class="hljs-meta">@NonNull</span> <span class="hljs-keyword">final</span> PagedList.Config config,</span><br><span class="line">         <span class="hljs-meta">@Nullable</span> <span class="hljs-keyword">final</span> PagedList.BoundaryCallback boundaryCallback,</span><br><span class="line">         <span class="hljs-meta">@NonNull</span> <span class="hljs-keyword">final</span> DataSource.Factory&lt;Key, Value&gt; dataSourceFactory,</span><br><span class="line">         <span class="hljs-meta">@NonNull</span> <span class="hljs-keyword">final</span> Executor notifyExecutor,</span><br><span class="line">         <span class="hljs-meta">@NonNull</span> <span class="hljs-keyword">final</span> Executor fetchExecutor) &#123;</span><br><span class="line">     <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ComputableLiveData&lt;PagedList&lt;Value&gt;&gt;(fetchExecutor) &#123;</span><br><span class="line">         <span class="hljs-meta">@Nullable</span></span><br><span class="line">         <span class="hljs-keyword">private</span> PagedList&lt;Value&gt; mList;</span><br><span class="line">         <span class="hljs-meta">@Nullable</span></span><br><span class="line">         <span class="hljs-keyword">private</span> DataSource&lt;Key, Value&gt; mDataSource;</span><br><span class="line"></span><br><span class="line">         <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> DataSource.InvalidatedCallback mCallback =</span><br><span class="line">                 <span class="hljs-keyword">new</span> DataSource.InvalidatedCallback() &#123;</span><br><span class="line">                     <span class="hljs-meta">@Override</span></span><br><span class="line">                     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onInvalidated</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">                         invalidate();</span><br><span class="line">                     &#125;</span><br><span class="line">                 &#125;;</span><br><span class="line"></span><br><span class="line">         <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>) <span class="hljs-comment">// for casting getLastKey to Key</span></span><br><span class="line">         <span class="hljs-meta">@Override</span></span><br><span class="line">         <span class="hljs-function"><span class="hljs-keyword">protected</span> PagedList&lt;Value&gt; <span class="hljs-title">compute</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">             <span class="hljs-meta">@Nullable</span> Key initializeKey = initialLoadKey;</span><br><span class="line">             <span class="hljs-keyword">if</span> (mList != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                 initializeKey = (Key) mList.getLastKey();</span><br><span class="line">             &#125;</span><br><span class="line"></span><br><span class="line">             <span class="hljs-keyword">do</span> &#123;</span><br><span class="line">                 <span class="hljs-keyword">if</span> (mDataSource != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                     mDataSource.removeInvalidatedCallback(mCallback);</span><br><span class="line">                 &#125;</span><br><span class="line">                 mDataSource = dataSourceFactory.create();</span><br><span class="line">                 mDataSource.addInvalidatedCallback(mCallback);</span><br><span class="line"></span><br><span class="line">                 mList = <span class="hljs-keyword">new</span> PagedList.Builder&lt;&gt;(mDataSource, config)</span><br><span class="line">                         .setNotifyExecutor(notifyExecutor)</span><br><span class="line">                         .setFetchExecutor(fetchExecutor)</span><br><span class="line">                         .setBoundaryCallback(boundaryCallback)</span><br><span class="line">                         .setInitialKey(initializeKey)</span><br><span class="line">                         .build();</span><br><span class="line">             &#125; <span class="hljs-keyword">while</span> (mList.isDetached());</span><br><span class="line">             <span class="hljs-keyword">return</span> mList;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;.getLiveData();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>new 了一个ComputableLiveData，最后调用其getLiveData()返回最终的LiveData对象。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ComputableLiveData</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"WeakerAccess"</span>) <span class="hljs-comment">/* synthetic access */</span></span><br><span class="line">    <span class="hljs-keyword">final</span> Executor mExecutor;</span><br><span class="line">    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"WeakerAccess"</span>) <span class="hljs-comment">/* synthetic access */</span></span><br><span class="line">    <span class="hljs-keyword">final</span> LiveData&lt;T&gt; mLiveData;</span><br><span class="line">    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"WeakerAccess"</span>) <span class="hljs-comment">/* synthetic access */</span></span><br><span class="line">    <span class="hljs-keyword">final</span> AtomicBoolean mInvalid = <span class="hljs-keyword">new</span> AtomicBoolean(<span class="hljs-keyword">true</span>);</span><br><span class="line">    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"WeakerAccess"</span>) <span class="hljs-comment">/* synthetic access */</span></span><br><span class="line">    <span class="hljs-keyword">final</span> AtomicBoolean mComputing = <span class="hljs-keyword">new</span> AtomicBoolean(<span class="hljs-keyword">false</span>);</span><br><span class="line">    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"WeakerAccess"</span>)</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ComputableLiveData</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>(ArchTaskExecutor.getIOThreadExecutor());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"WeakerAccess"</span>)</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ComputableLiveData</span><span class="hljs-params">(@NonNull Executor executor)</span> </span>&#123;</span><br><span class="line">        mExecutor = executor;</span><br><span class="line">        mLiveData = <span class="hljs-keyword">new</span> LiveData&lt;T&gt;() &#123;</span><br><span class="line">            <span class="hljs-meta">@Override</span></span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onActive</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">                mExecutor.execute(mRefreshRunnable);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@NonNull</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> LiveData&lt;T&gt; <span class="hljs-title">getLiveData</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> mLiveData;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@VisibleForTesting</span></span><br><span class="line">    <span class="hljs-keyword">final</span> Runnable mRefreshRunnable = <span class="hljs-keyword">new</span> Runnable() &#123;</span><br><span class="line">        <span class="hljs-meta">@WorkerThread</span></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">boolean</span> computed;</span><br><span class="line">            <span class="hljs-keyword">do</span> &#123;</span><br><span class="line">                computed = <span class="hljs-keyword">false</span>;</span><br><span class="line">                <span class="hljs-comment">// 计算智能在一个线程池中进行</span></span><br><span class="line">                <span class="hljs-keyword">if</span> (mComputing.compareAndSet(<span class="hljs-keyword">false</span>, <span class="hljs-keyword">true</span>)) &#123;</span><br><span class="line">                    <span class="hljs-comment">// as long as it is invalid, keep computing.</span></span><br><span class="line">                    <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">                        T value = <span class="hljs-keyword">null</span>;</span><br><span class="line">                        <span class="hljs-keyword">while</span> (mInvalid.compareAndSet(<span class="hljs-keyword">true</span>, <span class="hljs-keyword">false</span>)) &#123;</span><br><span class="line">                            computed = <span class="hljs-keyword">true</span>;</span><br><span class="line">                            value = compute();</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="hljs-keyword">if</span> (computed) &#123;</span><br><span class="line">                            mLiveData.postValue(value);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="hljs-keyword">finally</span> &#123;</span><br><span class="line">                        <span class="hljs-comment">// release compute lock</span></span><br><span class="line">                        mComputing.set(<span class="hljs-keyword">false</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="hljs-keyword">while</span> (computed &amp;&amp; mInvalid.get());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@VisibleForTesting</span></span><br><span class="line">    <span class="hljs-keyword">final</span> Runnable mInvalidationRunnable = <span class="hljs-keyword">new</span> Runnable() &#123;</span><br><span class="line">        <span class="hljs-meta">@MainThread</span></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">boolean</span> isActive = mLiveData.hasActiveObservers();</span><br><span class="line">            <span class="hljs-keyword">if</span> (mInvalid.compareAndSet(<span class="hljs-keyword">false</span>, <span class="hljs-keyword">true</span>)) &#123;</span><br><span class="line">                <span class="hljs-keyword">if</span> (isActive) &#123;</span><br><span class="line">                    mExecutor.execute(mRefreshRunnable);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="hljs-comment">//该方法会重新触发compute()方法</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">invalidate</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        ArchTaskExecutor.getInstance().executeOnMainThread(mInvalidationRunnable);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@WorkerThread</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">abstract</span> T <span class="hljs-title">compute</span><span class="hljs-params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到这个ComputableLiveData类并不是一个真正的LiveData，而是包装了一个LiveData，在其构造方法中初始了成员变量mLiveData，并重写了其onActive()方法。</p>
+<p>这个地方需要对LiveData有一点了解，可以看之前的文章<a href="https://blog.csdn.net/mingyunxiaohai/article/details/89429932" target="_blank" rel="noopener">Android Jetpack之LiveData</a>。当LiveData对象处于活动状态的时候会回调onActive()方法。LiveData是生命周期感知组件，它处于活跃状态，说明当前Activity或者Fragment处于活跃状态，也就是肯定在onStart()生命周期后面。所以这里会立马执行onActive()方法。</p>
+<p>手动调用invalidate()方法，可以手动触发onActive方法中的逻辑。</p>
+<p>onActive()方法中调用了<code>mExecutor.execute(mRefreshRunnable);</code>去线程池中执行mRefreshRunnable这个Runnable对象，run方法中执行了compute()这个抽象方法，这个方法的唯一实现是在前面new ComputableLiveData的时候实现的。在复制过来看一下<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">protected</span> PagedList&lt;Value&gt; <span class="hljs-title">compute</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">             <span class="hljs-meta">@Nullable</span> Key initializeKey = initialLoadKey;</span><br><span class="line">             <span class="hljs-keyword">if</span> (mList != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                 initializeKey = (Key) mList.getLastKey();</span><br><span class="line">             &#125;</span><br><span class="line"></span><br><span class="line">             <span class="hljs-keyword">do</span> &#123;</span><br><span class="line">                 <span class="hljs-keyword">if</span> (mDataSource != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                     mDataSource.removeInvalidatedCallback(mCallback);</span><br><span class="line">                 &#125;</span><br><span class="line">              <span class="hljs-comment">//拿到我们传入的DataSource</span></span><br><span class="line">             mDataSource = dataSourceFactory.create();</span><br><span class="line">             <span class="hljs-comment">//给DataSource注册一个回调，用来监听DataSource被置为无效事件 </span></span><br><span class="line">             mDataSource.addInvalidatedCallback(mCallback);</span><br><span class="line"></span><br><span class="line">             mList = <span class="hljs-keyword">new</span> PagedList.Builder&lt;&gt;(mDataSource, config)</span><br><span class="line">                         .setNotifyExecutor(notifyExecutor)</span><br><span class="line">                         .setFetchExecutor(fetchExecutor)</span><br><span class="line">                         .setBoundaryCallback(boundaryCallback)</span><br><span class="line">                         .setInitialKey(initializeKey)</span><br><span class="line">                         .build();</span><br><span class="line">             &#125; <span class="hljs-keyword">while</span> (mList.isDetached());</span><br><span class="line">             <span class="hljs-keyword">return</span> mList;</span><br><span class="line">         &#125;</span><br></pre></td></tr></table></figure></p>
+<p>拿到我们传入的DataSource，然后给它添加一个回调用来监听DataSource被置为无效事件。坚挺到无效事件之后会重新触发compute()方法。最后通过PagedList.Builder构建一个PagedList对象。</p>
+<p>跟进它的build方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> PagedList&lt;Value&gt; <span class="hljs-title">build</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (mNotifyExecutor == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"MainThreadExecutor required"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (mFetchExecutor == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"BackgroundThreadExecutor required"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> PagedList.create(mDataSource,mNotifyExecutor,mFetchExecutor, mBoundaryCallback,mConfig,mInitialKey);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>先判断传入的线程池不能为null，然后PagedList.create方法创建<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">static</span> &lt;K, T&gt; <span class="hljs-function">PagedList&lt;T&gt; <span class="hljs-title">create</span><span class="hljs-params">(@NonNull DataSource&lt;K, T&gt; dataSource,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">        @NonNull Executor notifyExecutor,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">        @NonNull Executor fetchExecutor,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">        @Nullable BoundaryCallback&lt;T&gt; boundaryCallback,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">        @NonNull Config config,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">        @Nullable K key)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (dataSource.isContiguous() || !config.enablePlaceholders) &#123;</span><br><span class="line">        <span class="hljs-keyword">int</span> lastLoad = ContiguousPagedList.LAST_LOAD_UNSPECIFIED;</span><br><span class="line">        <span class="hljs-keyword">if</span> (!dataSource.isContiguous()) &#123;</span><br><span class="line">            <span class="hljs-comment">//noinspection unchecked</span></span><br><span class="line">            dataSource = (DataSource&lt;K, T&gt;) ((PositionalDataSource&lt;T&gt;) dataSource)</span><br><span class="line">                    .wrapAsContiguousWithoutPlaceholders();</span><br><span class="line">            <span class="hljs-keyword">if</span> (key != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                lastLoad = (Integer) key;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ContiguousDataSource&lt;K, T&gt; contigDataSource = (ContiguousDataSource&lt;K, T&gt;) dataSource;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ContiguousPagedList&lt;&gt;(contigDataSource,</span><br><span class="line">                notifyExecutor,</span><br><span class="line">                fetchExecutor,</span><br><span class="line">                boundaryCallback,</span><br><span class="line">                config,</span><br><span class="line">                key,</span><br><span class="line">                lastLoad);</span><br><span class="line">    &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> TiledPagedList&lt;&gt;((PositionalDataSource&lt;T&gt;) dataSource,</span><br><span class="line">                notifyExecutor,</span><br><span class="line">                fetchExecutor,</span><br><span class="line">                boundaryCallback,</span><br><span class="line">                config,</span><br><span class="line">                (key != <span class="hljs-keyword">null</span>) ? (Integer) key : <span class="hljs-number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这段代码就是判断该创建哪种DataSource的PagedList。前面我们知道系统默认有三种DataSource分别是PageKeyedDataSource、ItemKeyedDataSource、PositionalDataSource。</p>
+<p><code>dataSource.isContiguous()</code>这个判断PageKeyedDataSource、ItemKeyedDataSource返回的是true，PositionalDataSource返回的是false，前面demo中使用的是PageKeyedDataSource所以这里返回true，最终进入到if判断中创建了一个ContiguousPagedList对象。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">ContiguousPagedList(</span><br><span class="line">            <span class="hljs-meta">@NonNull</span> ContiguousDataSource&lt;K, V&gt; dataSource,</span><br><span class="line">            <span class="hljs-meta">@NonNull</span> Executor mainThreadExecutor,</span><br><span class="line">            <span class="hljs-meta">@NonNull</span> Executor backgroundThreadExecutor,</span><br><span class="line">            <span class="hljs-meta">@Nullable</span> BoundaryCallback&lt;V&gt; boundaryCallback,</span><br><span class="line">            <span class="hljs-meta">@NonNull</span> Config config,</span><br><span class="line">            <span class="hljs-keyword">final</span> <span class="hljs-meta">@Nullable</span> K key,</span><br><span class="line">            <span class="hljs-keyword">int</span> lastLoad) &#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>(<span class="hljs-keyword">new</span> PagedStorage&lt;V&gt;(), mainThreadExecutor, backgroundThreadExecutor,</span><br><span class="line">                boundaryCallback, config);</span><br><span class="line">        mDataSource = dataSource;</span><br><span class="line">        mLastLoad = lastLoad;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">if</span> (mDataSource.isInvalid()) &#123;</span><br><span class="line">            detach();</span><br><span class="line">        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            mDataSource.dispatchLoadInitial(key,</span><br><span class="line">                    mConfig.initialLoadSizeHint,</span><br><span class="line">                    mConfig.pageSize,</span><br><span class="line">                    mConfig.enablePlaceholders,</span><br><span class="line">                    mMainThreadExecutor,</span><br><span class="line">                    mReceiver);</span><br><span class="line">        &#125;</span><br><span class="line">        mShouldTrim = mDataSource.supportsPageDropping()</span><br><span class="line">                &amp;&amp; mConfig.maxSize != Config.MAX_SIZE_UNBOUNDED;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果mDataSource是无效的就执行<code>detach()</code>方法，detach方法注释上说了，该方法尝试把DataSource从PagedList中分离，并且尝试不在加载数据。当数据无法加载的时候mDataSource.isInvalid()就会被置为true，也就不会再继续帮我们分页了</p>
+<p>网络数据加载异常是经常发生的事情，那怎么解决呢，有一种办法就是从当前adapter中拿出所有的PagedList数据和配置，然后手动触发请求网络的代码，拿到数据之后，将连个数据合并，并创建一个新的PagedList，最后调用submitList方法。</p>
+<p>如果DataSource是有效的就执行<code>mDataSource.dispatchLoadInitial</code>方法来分发原始加载，然后就来到PageKeyedDataSource类中的dispatchLoadInitial方法，记住最后一个参数mReceiver，加载完数据后就使用它将数据回调回来。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Override</span></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dispatchLoadInitial</span><span class="hljs-params">(@Nullable Key key, <span class="hljs-keyword">int</span> initialLoadSize, <span class="hljs-keyword">int</span> pageSize,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">          <span class="hljs-keyword">boolean</span> enablePlaceholders, @NonNull Executor mainThreadExecutor,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">          @NonNull PageResult.Receiver&lt;Value&gt; receiver)</span> </span>&#123;</span><br><span class="line">      LoadInitialCallbackImpl&lt;Key, Value&gt; callback =</span><br><span class="line">              <span class="hljs-keyword">new</span> LoadInitialCallbackImpl&lt;&gt;(<span class="hljs-keyword">this</span>, enablePlaceholders, receiver);</span><br><span class="line">      loadInitial(<span class="hljs-keyword">new</span> LoadInitialParams&lt;Key&gt;(initialLoadSize, enablePlaceholders), callback);</span><br><span class="line"></span><br><span class="line">      callback.mCallbackHelper.setPostExecutor(mainThreadExecutor);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建了一个LoadInitialCallbackImpl对象然后调用loadInitial方法来加载初始化的数据</p>
+<p>这里loadInitial是一个抽象方法，最终就调用了我们最开始第一步中自定义的ArticleDataSource中的loadInitial开始加载原始数据</p>
+<p>数据加载完成之后，通过<code>initialCallback.onResult</code>方法将数据回调，也就是到了LoadInitialCallbackImpl类中的onResult方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoadInitialCallbackImpl</span>&lt;<span class="hljs-title">Key</span>, <span class="hljs-title">Value</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">LoadInitialCallback</span>&lt;<span class="hljs-title">Key</span>, <span class="hljs-title">Value</span>&gt; </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">final</span> LoadCallbackHelper&lt;Value&gt; mCallbackHelper;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> PageKeyedDataSource&lt;Key, Value&gt; mDataSource;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> mCountingEnabled;</span><br><span class="line">    LoadInitialCallbackImpl(<span class="hljs-meta">@NonNull</span> PageKeyedDataSource&lt;Key, Value&gt; dataSource,</span><br><span class="line">            <span class="hljs-keyword">boolean</span> countingEnabled, <span class="hljs-meta">@NonNull</span> PageResult.Receiver&lt;Value&gt; receiver) &#123;</span><br><span class="line">        mCallbackHelper = <span class="hljs-keyword">new</span> LoadCallbackHelper&lt;&gt;(</span><br><span class="line">                dataSource, PageResult.INIT, <span class="hljs-keyword">null</span>, receiver);</span><br><span class="line">        mDataSource = dataSource;</span><br><span class="line">        mCountingEnabled = countingEnabled;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onResult</span><span class="hljs-params">(@NonNull List&lt;Value&gt; data, <span class="hljs-keyword">int</span> position, <span class="hljs-keyword">int</span> totalCount,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            @Nullable Key previousPageKey, @Nullable Key nextPageKey)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (!mCallbackHelper.dispatchInvalidResultIfInvalid()) &#123;</span><br><span class="line">            LoadCallbackHelper.validateInitialLoadParams(data, position, totalCount);</span><br><span class="line"></span><br><span class="line">            <span class="hljs-comment">// setup keys before dispatching data, so guaranteed to be ready</span></span><br><span class="line">            mDataSource.initKeys(previousPageKey, nextPageKey);</span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">int</span> trailingUnloadedCount = totalCount - position - data.size();</span><br><span class="line">            <span class="hljs-keyword">if</span> (mCountingEnabled) &#123;</span><br><span class="line">                mCallbackHelper.dispatchResultToReceiver(<span class="hljs-keyword">new</span> PageResult&lt;&gt;(</span><br><span class="line">                        data, position, trailingUnloadedCount, <span class="hljs-number">0</span>));</span><br><span class="line">            &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                mCallbackHelper.dispatchResultToReceiver(<span class="hljs-keyword">new</span> PageResult&lt;&gt;(data, position));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onResult</span><span class="hljs-params">(@NonNull List&lt;Value&gt; data, @Nullable Key previousPageKey,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            @Nullable Key nextPageKey)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (!mCallbackHelper.dispatchInvalidResultIfInvalid()) &#123;</span><br><span class="line">            mDataSource.initKeys(previousPageKey, nextPageKey);</span><br><span class="line">            mCallbackHelper.dispatchResultToReceiver(<span class="hljs-keyword">new</span> PageResult&lt;&gt;(data, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>onResult方法还有个重载的方法，还有各种判断，不过最终都会走到<code>mCallbackHelper.dispatchResultToReceiver</code>方法，分发结果。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dispatchResultToReceiver</span><span class="hljs-params">(<span class="hljs-keyword">final</span> @NonNull PageResult&lt;T&gt; result)</span> </span>&#123;</span><br><span class="line">          Executor executor;</span><br><span class="line">          <span class="hljs-comment">//一个callback只能调用一次</span></span><br><span class="line">          <span class="hljs-keyword">synchronized</span> (mSignalLock) &#123;</span><br><span class="line">              <span class="hljs-keyword">if</span> (mHasSignalled) &#123;</span><br><span class="line">                  <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(</span><br><span class="line">                          <span class="hljs-string">"callback.onResult already called, cannot call again."</span>);</span><br><span class="line">              &#125;</span><br><span class="line">              mHasSignalled = <span class="hljs-keyword">true</span>;</span><br><span class="line">              executor = mPostExecutor;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          <span class="hljs-keyword">if</span> (executor != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">              executor.execute(<span class="hljs-keyword">new</span> Runnable() &#123;</span><br><span class="line">                  <span class="hljs-meta">@Override</span></span><br><span class="line">                  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">                      mReceiver.onPageResult(mResultType, result);</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;);</span><br><span class="line">          &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">              mReceiver.onPageResult(mResultType, result);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里可以看到最终通过mReceiver的onPageResult方法把数据回调会去，mReceiver就是前面调用dispatchLoadInitial方法的时候传过来的。</p>
+<p>onPageResult方法中把回调回来的数据保存在<strong>PagedStorage</strong>中的成员变量<code>private final ArrayList&lt;List&lt;T&gt;&gt; mPages;</code>中完毕。</p>
+<h4 id="2-2-如何触发分页加载的"><a href="#2-2-如何触发分页加载的" class="headerlink" title="2.2 如何触发分页加载的"></a>2.2 如何触发分页加载的</h4><p>分页加载的逻辑就应该在跟RecyclerView有关的adapter中触发了，在adapter的onBindViewHolder方法中，我们使用<code>getItem(position)</code>方法获取当前item的对象。这个方法时PagedListAdapter提供的。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">protected</span> T <span class="hljs-title">getItem</span><span class="hljs-params">(<span class="hljs-keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">     <span class="hljs-keyword">return</span> mDiffer.getItem(position);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>mDiffer是AsyncPagedListDiffer的对象，所以调用AsyncPagedListDiffer中的getItem方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">getItem</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">      <span class="hljs-keyword">if</span> (mPagedList == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">          <span class="hljs-keyword">if</span> (mSnapshot == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">              <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IndexOutOfBoundsException(</span><br><span class="line">                      <span class="hljs-string">"Item count is zero, getItem() call is invalid"</span>);</span><br><span class="line">          &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">              <span class="hljs-keyword">return</span> mSnapshot.get(index);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      mPagedList.loadAround(index);</span><br><span class="line">      <span class="hljs-keyword">return</span> mPagedList.get(index);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果mPagedList不为null，就调用mPagedList.loadAround方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">loadAround</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (index &lt; <span class="hljs-number">0</span> || index &gt;= size()) &#123;</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IndexOutOfBoundsException(<span class="hljs-string">"Index: "</span> + index + <span class="hljs-string">", Size: "</span> + size());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mLastLoad = index + getPositionOffset();</span><br><span class="line">    loadAroundInternal(index);</span><br><span class="line"></span><br><span class="line">    mLowestIndexAccessed = Math.min(mLowestIndexAccessed, index);</span><br><span class="line">    mHighestIndexAccessed = Math.max(mHighestIndexAccessed, index);</span><br><span class="line">    </span><br><span class="line">    tryDispatchBoundaryCallbacks(<span class="hljs-keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>又调用了loadAroundInternal方法，它是一个抽象方法，最终调用到PagedList的子类ContiguousPagedList中的loadAroundInternal方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">loadAroundInternal</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">int</span> prependItems = getPrependItemsRequested(mConfig.prefetchDistance, index,</span><br><span class="line">               mStorage.getLeadingNullCount());</span><br><span class="line">       <span class="hljs-keyword">int</span> appendItems = getAppendItemsRequested(mConfig.prefetchDistance, index,</span><br><span class="line">               mStorage.getLeadingNullCount() + mStorage.getStorageCount());</span><br><span class="line"></span><br><span class="line">       mPrependItemsRequested = Math.max(prependItems, mPrependItemsRequested);</span><br><span class="line">       <span class="hljs-comment">//如果向前预加载是数量大于0</span></span><br><span class="line">       <span class="hljs-keyword">if</span> (mPrependItemsRequested &gt; <span class="hljs-number">0</span>) &#123;</span><br><span class="line">           schedulePrepend();</span><br><span class="line">       &#125;</span><br><span class="line">       mAppendItemsRequested = Math.max(appendItems, mAppendItemsRequested);</span><br><span class="line">       <span class="hljs-comment">//如果向后预加载的数量大于0</span></span><br><span class="line">       <span class="hljs-keyword">if</span> (mAppendItemsRequested &gt; <span class="hljs-number">0</span>) &#123;</span><br><span class="line">           scheduleAppend();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果向前预加载是数量大于0，就调用<code>schedulePrepend();</code>方法，该方法最终会调用到DataSource中的loadBefore方法。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">schedulePrepend</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">       ......</span><br><span class="line">       mBackgroundThreadExecutor.execute(<span class="hljs-keyword">new</span> Runnable() &#123;</span><br><span class="line">           <span class="hljs-meta">@Override</span></span><br><span class="line">           <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">               <span class="hljs-keyword">if</span> (isDetached()) &#123;</span><br><span class="line">                   <span class="hljs-keyword">return</span>;</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="hljs-keyword">if</span> (mDataSource.isInvalid()) &#123;</span><br><span class="line">                   detach();</span><br><span class="line">               &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                   mDataSource.dispatchLoadBefore(position, item, mConfig.pageSize,</span><br><span class="line">                           mMainThreadExecutor, mReceiver);</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">   &#125;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">   <span class="hljs-function"><span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dispatchLoadBefore</span><span class="hljs-params">(<span class="hljs-keyword">int</span> currentBeginIndex, @NonNull Value currentBeginItem,<span class="hljs-keyword">int</span> pageSize, @NonNull Executor mainThreadExecutor,@NonNull PageResult.Receiver&lt;Value&gt; receiver)</span> </span>&#123;</span><br><span class="line">       <span class="hljs-meta">@Nullable</span> Key key = getPreviousKey();</span><br><span class="line">       <span class="hljs-keyword">if</span> (key != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">           loadBefore(<span class="hljs-keyword">new</span> LoadParams&lt;&gt;(key, pageSize),</span><br><span class="line">                   <span class="hljs-keyword">new</span> LoadCallbackImpl&lt;&gt;(<span class="hljs-keyword">this</span>, PageResult.PREPEND, mainThreadExecutor, receiver));</span><br><span class="line">       &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">           receiver.onPageResult(PageResult.PREPEND, PageResult.&lt;Value&gt;getEmptyResult());</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果是向后预加载会调用<code>scheduleAppend();</code>方法，该方法最终会调用到DataSource中的loadAfter方法，最终触发分页加载<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">scheduleAppend</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    ......</span><br><span class="line">     mBackgroundThreadExecutor.execute(<span class="hljs-keyword">new</span> Runnable() &#123;</span><br><span class="line">         <span class="hljs-meta">@Override</span></span><br><span class="line">         <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">             <span class="hljs-keyword">if</span> (isDetached()) &#123;</span><br><span class="line">                 <span class="hljs-keyword">return</span>;</span><br><span class="line">             &#125;</span><br><span class="line">             <span class="hljs-keyword">if</span> (mDataSource.isInvalid()) &#123;</span><br><span class="line">                 detach();</span><br><span class="line">             &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                 mDataSource.dispatchLoadAfter(position, item, mConfig.pageSize,</span><br><span class="line">                         mMainThreadExecutor, mReceiver);</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="hljs-function"><span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dispatchLoadAfter</span><span class="hljs-params">(<span class="hljs-keyword">int</span> currentEndIndex, @NonNull Value currentEndItem,<span class="hljs-keyword">int</span> pageSize, @NonNull Executor mainThreadExecutor,@NonNull PageResult.Receiver&lt;Value&gt; receiver)</span> </span>&#123;</span><br><span class="line">     <span class="hljs-meta">@Nullable</span> Key key = getNextKey();</span><br><span class="line">     <span class="hljs-keyword">if</span> (key != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">         loadAfter(<span class="hljs-keyword">new</span> LoadParams&lt;&gt;(key, pageSize),</span><br><span class="line">                 <span class="hljs-keyword">new</span> LoadCallbackImpl&lt;&gt;(<span class="hljs-keyword">this</span>, PageResult.APPEND, mainThreadExecutor, receiver));</span><br><span class="line">     &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">         receiver.onPageResult(PageResult.APPEND, PageResult.&lt;Value&gt;getEmptyResult());</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>调用loadAfter的时候传入了一个回调的实现类LoadCallbackImpl，当loadAfter中的数据加载完成之后，会通过这个类把结果回调回来<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoadCallbackImpl</span>&lt;<span class="hljs-title">Key</span>, <span class="hljs-title">Value</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">LoadCallback</span>&lt;<span class="hljs-title">Key</span>, <span class="hljs-title">Value</span>&gt; </span>&#123;</span><br><span class="line">     <span class="hljs-keyword">final</span> LoadCallbackHelper&lt;Value&gt; mCallbackHelper;</span><br><span class="line">     <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> PageKeyedDataSource&lt;Key, Value&gt; mDataSource;</span><br><span class="line">     LoadCallbackImpl(<span class="hljs-meta">@NonNull</span> PageKeyedDataSource&lt;Key, Value&gt; dataSource,</span><br><span class="line">             <span class="hljs-meta">@PageResult</span>.ResultType <span class="hljs-keyword">int</span> type, <span class="hljs-meta">@Nullable</span> Executor mainThreadExecutor,</span><br><span class="line">             <span class="hljs-meta">@NonNull</span> PageResult.Receiver&lt;Value&gt; receiver) &#123;</span><br><span class="line">         mCallbackHelper = <span class="hljs-keyword">new</span> LoadCallbackHelper&lt;&gt;(</span><br><span class="line">                 dataSource, type, mainThreadExecutor, receiver);</span><br><span class="line">         mDataSource = dataSource;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="hljs-meta">@Override</span></span><br><span class="line">     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onResult</span><span class="hljs-params">(@NonNull List&lt;Value&gt; data, @Nullable Key adjacentPageKey)</span> </span>&#123;</span><br><span class="line">         <span class="hljs-keyword">if</span> (!mCallbackHelper.dispatchInvalidResultIfInvalid()) &#123;</span><br><span class="line">             <span class="hljs-keyword">if</span> (mCallbackHelper.mResultType == PageResult.APPEND) &#123;</span><br><span class="line">                 mDataSource.setNextKey(adjacentPageKey);</span><br><span class="line">             &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                 mDataSource.setPreviousKey(adjacentPageKey);</span><br><span class="line">             &#125;</span><br><span class="line">             mCallbackHelper.dispatchResultToReceiver(<span class="hljs-keyword">new</span> PageResult&lt;&gt;(data, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>));</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>最终会跟初始化数据一样，调用<code>mCallbackHelper.dispatchResultToReceiver</code>方法，将数据保存在PagedList的成员变量PagedStorage中。</p>
+<p>到这里初始化的流程和分页加载的流程就都了解了，本文是以PageKeyedDataSource为例往下跟的，其他两个ItemKeyedDataSource、PositionalDataSource原理基本一样。</p>
+<h4 id="2-3-如何刷新RecyclerView"><a href="#2-3-如何刷新RecyclerView" class="headerlink" title="2.3 如何刷新RecyclerView"></a>2.3 如何刷新RecyclerView</h4><p>这个要从Activity中<code>mAdapter.submitList(datasBeans);</code>开始看了。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">submitList</span><span class="hljs-params">(@Nullable PagedList&lt;T&gt; pagedList)</span> </span>&#123;</span><br><span class="line">       mDiffer.submitList(pagedList);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>也是调用了AsyncPagedListDiffer中的submitList。其实可以看到PagedListAdapter其实只是继承了RecyclerView.Adapter，它内部跟Paging有关的操作都交给了AsyncPagedListDiffer这个类取做了。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">submitList</span><span class="hljs-params">(@Nullable <span class="hljs-keyword">final</span> PagedList&lt;T&gt; pagedList)</span> </span>&#123;</span><br><span class="line">       submitList(pagedList, <span class="hljs-keyword">null</span>);</span><br><span class="line">   &#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">submitList</span><span class="hljs-params">(@Nullable <span class="hljs-keyword">final</span> PagedList&lt;T&gt; pagedList,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">        @Nullable <span class="hljs-keyword">final</span> Runnable commitCallback)</span> </span>&#123;</span><br><span class="line">         </span><br><span class="line">         ......</span><br><span class="line">         </span><br><span class="line">           <span class="hljs-keyword">if</span> (mPagedList == <span class="hljs-keyword">null</span> &amp;&amp; mSnapshot == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">           <span class="hljs-comment">// fast simple first insert</span></span><br><span class="line">           mPagedList = pagedList;</span><br><span class="line">           pagedList.addWeakCallback(<span class="hljs-keyword">null</span>, mPagedListCallback);</span><br><span class="line"></span><br><span class="line">           <span class="hljs-comment">// dispatch update callback after updating mPagedList/mSnapshot</span></span><br><span class="line">           mUpdateCallback.onInserted(<span class="hljs-number">0</span>, pagedList.size());</span><br><span class="line"></span><br><span class="line">           onCurrentListChanged(<span class="hljs-keyword">null</span>, pagedList, commitCallback);</span><br><span class="line">           <span class="hljs-keyword">return</span>;</span><br><span class="line">       &#125;</span><br><span class="line">         <span class="hljs-keyword">if</span> (mPagedList != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">           mPagedList.removeWeakCallback(mPagedListCallback);</span><br><span class="line">           mSnapshot = (PagedList&lt;T&gt;) mPagedList.snapshot();</span><br><span class="line">           mPagedList = <span class="hljs-keyword">null</span>;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="hljs-keyword">if</span> (mSnapshot == <span class="hljs-keyword">null</span> || mPagedList != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">           <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"must be in snapshot state to diff"</span>);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="hljs-keyword">final</span> PagedList&lt;T&gt; oldSnapshot = mSnapshot;</span><br><span class="line">       <span class="hljs-keyword">final</span> PagedList&lt;T&gt; newSnapshot = (PagedList&lt;T&gt;) pagedList.snapshot();</span><br><span class="line">       mConfig.getBackgroundThreadExecutor().execute(<span class="hljs-keyword">new</span> Runnable() &#123;</span><br><span class="line">           <span class="hljs-meta">@Override</span></span><br><span class="line">           <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">               <span class="hljs-keyword">final</span> DiffUtil.DiffResult result;</span><br><span class="line">               result = PagedStorageDiffHelper.computeDiff(</span><br><span class="line">                       oldSnapshot.mStorage,</span><br><span class="line">                       newSnapshot.mStorage,</span><br><span class="line">                       mConfig.getDiffCallback());</span><br><span class="line">                mMainThreadExecutor.execute(<span class="hljs-keyword">new</span> Runnable() &#123;</span><br><span class="line">                   <span class="hljs-meta">@Override</span></span><br><span class="line">                   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">                       <span class="hljs-keyword">if</span> (mMaxScheduledGeneration == runGeneration) &#123;</span><br><span class="line">                           latchPagedList(pagedList, newSnapshot, result,</span><br><span class="line">                                   oldSnapshot.mLastLoad, commitCallback);</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;);</span><br><span class="line">             </span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>如果mPagedList为null或者他的快照为null</strong>，说明这是第一次初始化数据，调用<code>mUpdateCallback.onInserted(0, pagedList.size());</code>方法将数据插入到列表中。</p>
+<p>这个mUpdateCallback是在AsyncPagedListDiffer构造方法中初始化的，是AdapterListUpdateCallback类型。AdapterListUpdateCallback是RecyclerView包中的类，内部调用了RecyclerView.Adapter的各种notify的方法来刷新界面。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AdapterListUpdateCallback</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ListUpdateCallback</span> </span>&#123;</span><br><span class="line">    <span class="hljs-meta">@NonNull</span></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> RecyclerView.Adapter mAdapter;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AdapterListUpdateCallback</span><span class="hljs-params">(@NonNull RecyclerView.Adapter adapter)</span> </span>&#123;</span><br><span class="line">        mAdapter = adapter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onInserted</span><span class="hljs-params">(<span class="hljs-keyword">int</span> position, <span class="hljs-keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">        mAdapter.notifyItemRangeInserted(position, count);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onRemoved</span><span class="hljs-params">(<span class="hljs-keyword">int</span> position, <span class="hljs-keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">        mAdapter.notifyItemRangeRemoved(position, count);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onMoved</span><span class="hljs-params">(<span class="hljs-keyword">int</span> fromPosition, <span class="hljs-keyword">int</span> toPosition)</span> </span>&#123;</span><br><span class="line">        mAdapter.notifyItemMoved(fromPosition, toPosition);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onChanged</span><span class="hljs-params">(<span class="hljs-keyword">int</span> position, <span class="hljs-keyword">int</span> count, Object payload)</span> </span>&#123;</span><br><span class="line">        mAdapter.notifyItemRangeChanged(position, count, payload);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>如果mPagedList不为null</strong>，说明是分页加载数据，调用<code>PagedStorageDiffHelper.computeDiff</code>方法计算出差分结果后，切换到主线程调用<code>latchPagedList</code>方法刷新<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">latchPagedList</span><span class="hljs-params">(</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            @NonNull PagedList&lt;T&gt; newList,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            @NonNull PagedList&lt;T&gt; diffSnapshot,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            @NonNull DiffUtil.DiffResult diffResult,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            <span class="hljs-keyword">int</span> lastAccessIndex,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            @Nullable Runnable commitCallback)</span> </span>&#123;</span><br><span class="line">               </span><br><span class="line">               ......</span><br><span class="line">                PagedStorageDiffHelper.dispatchDiff(mUpdateCallback,</span><br><span class="line">                previousSnapshot.mStorage, newList.mStorage, diffResult);</span><br><span class="line">                </span><br><span class="line">               ......</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后也是通过mUpdateCallback的各种回调来最后更新列表的。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>总结一下Paging框架的工作流程：</p>
+<p>初始化数据：</p>
+<ul>
+<li><code>LivePagedListBuilder#build()</code>-&gt;<code>LivePagedListBuilder#create</code>创建一个ComputableLiveData最后返回一个LiveData数据观察者</li>
+<li>LiveData的<code>onActive()</code>方法会根据activity/fragment的生命周期自动触发，加载的逻辑也在这开始</li>
+<li><code>ComputableLiveData#compute</code>-<code>PagedList#build</code>-&gt;<code>PagedList#create</code>。根据我们传入的不同的DataSource返回不同的PagedList。ContiguousPagedList或者TiledPagedList</li>
+<li>在创建出来的ContiguousPagedList或者TiledPagedList的构造方法中进行初始数据的分发和加载</li>
+<li>数据加载完成之后，通过<code>LoadInitialCallbackImpl#onResult</code>回调回来最终保存在PagedList的成员变量PagedStorage中</li>
+</ul>
+<p>分页加载数据：</p>
+<ul>
+<li><code>PagedListAdapter#getItem</code>-&gt;<code>AsyncPagedListDiffer#getItem</code>-&gt;<code>PagedList#loadAround</code>-<code>&gt;PagedList#loadAroundInternal</code>。loadAroundInternal是抽象方法</li>
+<li>在子类ContiguousPagedList或者TiledPagedList的loadAroundInternal方法中计算出需要向前加载还是向后加载，并触发相关方法</li>
+<li>数据加载完成之后，通过<code>LoadCallbackImpl#onResult</code>方法回调结果，最终保存在PagedList的成员变量PagedStorage中</li>
+</ul>
+<p>刷新列表</p>
+<ul>
+<li><code>mAdapter#submitList;</code>-&gt;<code>AsyncPagedListDiffer#submitList</code></li>
+<li><code>AdapterListUpdateCallback#onInserted</code>，<code>AdapterListUpdateCallback#onRemoved</code> ……</li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/jetpack/">jetpack</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/01/16/life/这个世界你不孤单/">
+                <span class="level-item">这个世界你不孤单</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comentarios</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2020/02/10/technology/Android-Jetpack之Paging/';
+        this.page.identifier = '2020/02/10/technology/Android-Jetpack之Paging/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="CHS">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        CHS
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        只要坚持，终会有收获
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Entradas
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        65
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categorias
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        16
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Etiquetas
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        11
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
+                SEGUIR</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/chsmy">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="weibo" href="http://weibo.com/2504847694/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="csdn" href="https://blog.csdn.net/mingyunxiaohai">
+                
+                <i class="fab fa-wordpress"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="简书" href="https://www.jianshu.com/u/6ab3e65ba7b5">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Links
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="http://www.wanandroid.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">玩Android</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wanandroid.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categorias
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">54</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Android/UI/">
+            <span class="level-start">
+                <span class="level-item">UI</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/c-c/">
+            <span class="level-start">
+                <span class="level-item">c/c++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/jetpack/">
+            <span class="level-start">
+                <span class="level-item">jetpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/kotlin/">
+            <span class="level-start">
+                <span class="level-item">kotlin</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/性能优化/">
+            <span class="level-start">
+                <span class="level-item">性能优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">16</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/源码/">
+            <span class="level-start">
+                <span class="level-item">源码</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/资料/">
+            <span class="level-start">
+                <span class="level-item">资料</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/设计模式/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/flutter/">
+            <span class="level-start">
+                <span class="level-item">flutter</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/flutter/跨平台/">
+            <span class="level-start">
+                <span class="level-item">跨平台</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/人生/">
+            <span class="level-start">
+                <span class="level-item">人生</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/人生/感悟/">
+            <span class="level-start">
+                <span class="level-item">感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/人生/读书/">
+            <span class="level-start">
+                <span class="level-item">读书</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Nube de etiquetas
+        </h3>
+        <a href="/tags/Flutter/" style="font-size: 11.43px;">Flutter</a> <a href="/tags/UI/" style="font-size: 18.57px;">UI</a> <a href="/tags/c-c/" style="font-size: 15.71px;">c/c++</a> <a href="/tags/jetpack/" style="font-size: 14.29px;">jetpack</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/感悟/" style="font-size: 12.86px;">感悟</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/设计模式/" style="font-size: 11.43px;">设计模式</a> <a href="/tags/读书/" style="font-size: 12.86px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 17.14px;">进阶</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recientes
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/02/10/technology/Android-Jetpack之Paging/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Jetpack之Paging">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-10T08:04:20.000Z">2020-02-10</time></div>
+                    <a href="/2020/02/10/technology/Android-Jetpack之Paging/" class="has-link-black-ter is-size-6">Android Jetpack之Paging</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/01/16/life/这个世界你不孤单/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="这个世界你不孤单">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-16T15:09:45.000Z">2020-01-16</time></div>
+                    <a href="/2020/01/16/life/这个世界你不孤单/" class="has-link-black-ter is-size-6">这个世界你不孤单</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/01/16/technology/Retrofit加kotlin协程为何如此优雅/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Retrofit加kotlin协程为何如此优雅">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-16T14:20:27.000Z">2020-01-16</time></div>
+                    <a href="/2020/01/16/technology/Retrofit加kotlin协程为何如此优雅/" class="has-link-black-ter is-size-6">Retrofit加kotlin协程为何如此优雅</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/kotlin/">kotlin</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/20/technology/Andorid加载大图，双击放大，手势缩放/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Andorid加载大图，双击放大，手势缩放">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-20T13:01:40.000Z">2019-12-20</time></div>
+                    <a href="/2019/12/20/technology/Andorid加载大图，双击放大，手势缩放/" class="has-link-black-ter is-size-6">Andorid加载大图，双击放大，手势缩放</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/UI/">UI</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/20/optimize/APP瘦身优化/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="APP瘦身优化">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-20T12:41:10.000Z">2019-12-20</time></div>
+                    <a href="/2019/12/20/optimize/APP瘦身优化/" class="has-link-black-ter is-size-6">APP瘦身优化</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/性能优化/">性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archivos
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Etiquetas
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/性能优化/">
+                        <span class="tag">性能优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recientes
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/02/10/technology/Android-Jetpack之Paging/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android Jetpack之Paging">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-10T08:04:20.000Z">2020-02-10</time></div>
+                    <a href="/2020/02/10/technology/Android-Jetpack之Paging/" class="has-link-black-ter is-size-6">Android Jetpack之Paging</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/01/16/life/这个世界你不孤单/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="这个世界你不孤单">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-16T15:09:45.000Z">2020-01-16</time></div>
+                    <a href="/2020/01/16/life/这个世界你不孤单/" class="has-link-black-ter is-size-6">这个世界你不孤单</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/01/16/technology/Retrofit加kotlin协程为何如此优雅/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Retrofit加kotlin协程为何如此优雅">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-16T14:20:27.000Z">2020-01-16</time></div>
+                    <a href="/2020/01/16/technology/Retrofit加kotlin协程为何如此优雅/" class="has-link-black-ter is-size-6">Retrofit加kotlin协程为何如此优雅</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/kotlin/">kotlin</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/20/technology/Andorid加载大图，双击放大，手势缩放/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Andorid加载大图，双击放大，手势缩放">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-20T13:01:40.000Z">2019-12-20</time></div>
+                    <a href="/2019/12/20/technology/Andorid加载大图，双击放大，手势缩放/" class="has-link-black-ter is-size-6">Andorid加载大图，双击放大，手势缩放</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/UI/">UI</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/20/optimize/APP瘦身优化/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="APP瘦身优化">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-20T12:41:10.000Z">2019-12-20</time></div>
+                    <a href="/2019/12/20/optimize/APP瘦身优化/" class="has-link-black-ter is-size-6">APP瘦身优化</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/性能优化/">性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archivos
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Etiquetas
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/性能优化/">
+                        <span class="tag">性能优化</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Android Jetpack之Paging" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Entradas',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categorias',
+                TAGS: 'Etiquetas',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
