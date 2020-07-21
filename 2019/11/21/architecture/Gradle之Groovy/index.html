@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Gradle之Groovy - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="Gradle之Groovy">
+<meta name="keywords" content="架构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle之Groovy">
+<meta property="og:url" content="https://chsmy.github.io/2019/11/21/architecture/Gradle之Groovy/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="Gradle之Groovy">
+<meta property="og:locale" content="CHS">
+<meta property="og:updated_time" content="2019-11-21T14:05:38.203Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gradle之Groovy">
+<meta name="twitter:description" content="Gradle之Groovy">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Gradle之Groovy" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-11-21T13:53:35.000Z">2019-11-21</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    25 minutes read (About 3733 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Gradle之Groovy
+            
+        </h1>
+        <div class="content">
+            <p>Gradle之Groovy</p>
+<a id="more"></a>
+<p>作为一名Android开发者，每天使用AndroidStudio,对于项目中build.gradle文件肯定不陌生，里面有各种各样的配置。对于一些常用的配置我们肯定烂熟于心，不过有时候去看一些大厂的代码的时候，经常会发现他们的项目中有很多的gradle的代码，我们往往因为不了解这些而对了解优秀的项目而带来一些障碍。</p>
+<p>百度百科：Gradle是一个基于Apache Ant和Apache Maven概念的项目自动化构建开源工具。它使用一种基于Groovy的特定领域语言(DSL)来声明项目设置，目前也增加了基于Kotlin语言的kotlin-based DSL，抛弃了基于XML的各种繁琐配置。</p>
+<h3 id="1-DSL语言介绍"><a href="#1-DSL语言介绍" class="headerlink" title="1 DSL语言介绍"></a>1 DSL语言介绍</h3><p>domain specific language(领域特定语言 ) </p>
+<p>DSL语言特点：解决计算机某一特定领域的问题</p>
+<p>核心思想：求专不求多</p>
+<p>我们常见的UML,XML,HTML等都是DSL语言，他们都是专注于特定的领域来解决特定的问题。比如HTML就是为了布局UI。因为专注，所以有很多优点比如代码少，效率高。</p>
+<h3 id="2-groovy语言"><a href="#2-groovy语言" class="headerlink" title="2 groovy语言"></a>2 groovy语言</h3><p>啥是groovy</p>
+<ul>
+<li>groovy是一种基于JVM的敏捷开发语言</li>
+<li>结合了Python Ruby Smalltalk等语言的强大特性</li>
+<li>groovy可以和Java完美结合，可以使用Java所有的类库，也能用于扩展现有代码。</li>
+</ul>
+<p>groovy的特性</p>
+<ul>
+<li>语法上支持动态类型，闭包等新一代语言的特性</li>
+<li>可以无缝集成左右已经存在的Java的类库</li>
+<li>即支持面向对象编程，也支持面向过程编程</li>
+</ul>
+<p>groovy的优势</p>
+<ul>
+<li>它是一种更加敏捷的编程语言，可以用更少的代码完成Java同样的功能</li>
+<li>对于Java程序员来说，入门容易，功能强大</li>
+<li>即可以作为编程语言，也可以作为脚本语言</li>
+</ul>
+<h3 id="3-groovy环境搭建"><a href="#3-groovy环境搭建" class="headerlink" title="3 groovy环境搭建"></a>3 groovy环境搭建</h3><p>官网：<a href="http://www.groovy-lang.org/" target="_blank" rel="noopener">http://www.groovy-lang.org/</a></p>
+<p><a href="https://groovy.apache.org/download.html" target="_blank" rel="noopener">https://groovy.apache.org/download.html</a></p>
+<ol>
+<li>安装JDK</li>
+<li>到官网下载groovySDK,解压到合适位置</li>
+<li>配置环境变量</li>
+</ol>
+<p>无论mac/linux还是window都是这三步只不过每个平台上的步骤不一样，学啥语言的都跑不过这几步。</p>
+<h3 id="4-Hello-Groovy"><a href="#4-Hello-Groovy" class="headerlink" title="4 Hello Groovy"></a>4 Hello Groovy</h3><p>学习一个语言基本都是从Hello World开始</p>
+<p>开发一个Groovy程序可以使用intellij idea这个编译器，<a href="https://www.jetbrains.com/idea/" target="_blank" rel="noopener">https://www.jetbrains.com/idea/</a> 直接去官网下载社区版就可以了，社区版支持Groovy程序的开发。</p>
+<p>Groovy和Java完全兼容，所以我们完全可以使用Java代码来编写Groovy程序</p>
+<p>在intellij idea中新建一个Groovy程序（在新建项目面板的右上角，Groovy library选项中添加下载的groovySDK的路径），在src文件夹下面新建一个Groovy的class类，写下面Java代码<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GroovyTest</span> </span>&#123;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>&#123;</span><br><span class="line">        System.out.print(<span class="hljs-string">"Hello Groovy"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以直接运行，输出： Hello Groovy</p>
+<p>不过我们是来学Groovy语言的，当然用Groovy来写会更简单，简单到啥程度呢，把上面代码全删了，写下面一句。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="hljs-string">"Hello Groovy"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>直接运行 输出：Hello Groovy</p>
+<p>看起来很爽啊！</p>
+<h3 id="5-Groovy-语法练习"><a href="#5-Groovy-语法练习" class="headerlink" title="5 Groovy 语法练习"></a>5 Groovy 语法练习</h3><h4 id="5-1-变量"><a href="#5-1-变量" class="headerlink" title="5.1 变量"></a>5.1 变量</h4><p>groovy中的变量包括 基本类型 ，对象类型，不过groovy中所有类型都是对象类型。基本类型也会被自动装箱成对象类型比如：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> a = <span class="hljs-number">2</span>;</span><br><span class="line">print(a.class)</span><br><span class="line"></span><br><span class="line">输出结果：<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">java</span>.<span class="hljs-title">lang</span>.<span class="hljs-title">Integer</span></span></span><br></pre></td></tr></table></figure></p>
+<p>变量的定义：</p>
+<p>定义一个变量不仅可以使用强类型定义，也可以使用弱类型定义。比如即可以使用int,double这些来修饰一个变量，也可以直接用def来修饰一个变量，使用def修饰，系统会自动推导类型，比如：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">def b = <span class="hljs-number">3</span></span><br><span class="line">println b.class</span><br><span class="line">def c = <span class="hljs-number">3.14</span></span><br><span class="line">println c.class</span><br><span class="line">def d = <span class="hljs-string">"groovy"</span></span><br><span class="line">println d.class</span><br><span class="line"></span><br><span class="line">输出结果：</span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">java</span>.<span class="hljs-title">lang</span>.<span class="hljs-title">Integerclass</span> <span class="hljs-title">java</span>.<span class="hljs-title">lang</span>.<span class="hljs-title">Integer</span></span></span><br><span class="line"><span class="hljs-class"><span class="hljs-title">class</span> <span class="hljs-title">java</span>.<span class="hljs-title">math</span>.<span class="hljs-title">BigDecimal</span></span></span><br><span class="line"><span class="hljs-class"><span class="hljs-title">class</span> <span class="hljs-title">java</span>.<span class="hljs-title">lang</span>.<span class="hljs-title">String</span></span></span><br></pre></td></tr></table></figure></p>
+<p>一般情况下，如果我们是自己在写一个程序，使用def来定义一个变量会很简单，如果程序还需要提供给外部人员使用，那使用强类型来定义比较好，不然外部人员可能会比较疑惑需要传什么类型的变量。</p>
+<h4 id="5-2-字符串"><a href="#5-2-字符串" class="headerlink" title="5.2 字符串"></a>5.2 字符串</h4><p>Java中是String </p>
+<p>Groovy中是GString</p>
+<h5 id="5-2-1-Groovy常用的定义方式："><a href="#5-2-1-Groovy常用的定义方式：" class="headerlink" title="5.2.1 Groovy常用的定义方式："></a>5.2.1 Groovy常用的定义方式：</h5><ul>
+<li>使用单引号<code>def name1 = &#39;i am name1&#39;</code>效果和java中一模一样（不可扩展）</li>
+<li>使用三个引号<code>def  name = &#39;&#39;&#39;i am name&#39;&#39;&#39;</code>,使用三个引号的字符串我们可以在字符串内部保留字符串的格式，比如可以随便换行</li>
+<li>使用双引号定义字符串 <code>def name3 = &quot;i am name3&quot;</code>（可扩展）</li>
+</ul>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">def name1 = <span class="hljs-string">'i am name1'</span></span><br><span class="line"></span><br><span class="line">def name2 = <span class="hljs-string">''</span><span class="hljs-string">'i am name2</span></span><br><span class="line"><span class="hljs-string">hello  name2</span></span><br><span class="line"><span class="hljs-string">hai name2</span></span><br><span class="line"><span class="hljs-string">'</span><span class="hljs-string">''</span></span><br><span class="line">println(name2)</span><br><span class="line">def name3 = <span class="hljs-string">"i am name3"</span></span><br><span class="line">def name4 = <span class="hljs-string">"$&#123;name3&#125; 哈哈"</span></span><br><span class="line">println(name4)</span><br><span class="line"><span class="hljs-comment">//$&#123;&#125;中可以是任意的表达式，比如</span></span><br><span class="line">def sum = <span class="hljs-string">"2加3=$&#123;2+3&#125;"</span></span><br><span class="line">println(sum)</span><br><span class="line">println(name3.class)</span><br><span class="line">println(sum.class)</span><br><span class="line"></span><br><span class="line">输出：</span><br><span class="line"></span><br><span class="line">i am name2</span><br><span class="line">hello  name2</span><br><span class="line">hai name2</span><br><span class="line">i am name3 哈哈</span><br><span class="line"><span class="hljs-number">2</span>加<span class="hljs-number">3</span>=<span class="hljs-number">5</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">java</span>.<span class="hljs-title">lang</span>.<span class="hljs-title">String</span></span></span><br><span class="line"><span class="hljs-class"><span class="hljs-title">class</span> <span class="hljs-title">org</span>.<span class="hljs-title">codehaus</span>.<span class="hljs-title">groovy</span>.<span class="hljs-title">runtime</span>.<span class="hljs-title">GStringImpl</span></span></span><br></pre></td></tr></table></figure>
+<p>从上面的输出内容还可以看出：一个双引号定义的字符串的类型是java.lang.String，当经过${}符号运算过之后变成了org.codehaus.groovy.runtime.GStringImpl类型。虽然类型变了，在平时的程序中这两个类型一般可以互相使用。</p>
+<h5 id="5-2-2-GString的操作符"><a href="#5-2-2-GString的操作符" class="headerlink" title="5.2.2 GString的操作符"></a>5.2.2 GString的操作符</h5><p>GString的操作符比Java中的String中的方法多，只要来源是：</p>
+<ul>
+<li>java.long.String</li>
+<li>DefaultGroovyMethods</li>
+<li>StringGroovyMethods（继承DefaultGroovyMethods）包括普通类型的参数和闭包类型的参数</li>
+</ul>
+<p>常用的普通类型参数：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">def str = <span class="hljs-string">"hello groovy"</span></span><br><span class="line">def str1 = <span class="hljs-string">"hello"</span></span><br><span class="line">def str2 = <span class="hljs-string">"123"</span></span><br><span class="line"></span><br><span class="line">println(str.center(<span class="hljs-number">15</span>,<span class="hljs-string">'a'</span>))<span class="hljs-comment">//总长度15，在原字符串两端加a</span></span><br><span class="line">println(str.padLeft(<span class="hljs-number">15</span>,<span class="hljs-string">'a'</span>))<span class="hljs-comment">//总长度15，在原字符串左边加a</span></span><br><span class="line">println(str&gt;str1)</span><br><span class="line">println(str[<span class="hljs-number">0</span>])</span><br><span class="line">println(str[<span class="hljs-number">0</span>..<span class="hljs-number">1</span>])</span><br><span class="line">println(str.reverse())</span><br><span class="line">println(str.capitalize())</span><br><span class="line">println(str2.isNumber())</span><br><span class="line">println(str2.toInteger())</span><br><span class="line"></span><br><span class="line">输出：</span><br><span class="line"></span><br><span class="line">ahello groovyaa</span><br><span class="line">aaahello groovy</span><br><span class="line"><span class="hljs-keyword">true</span></span><br><span class="line">h</span><br><span class="line">he</span><br><span class="line">yvoorg olleh</span><br><span class="line">Hello groovy</span><br><span class="line"><span class="hljs-keyword">true</span></span><br><span class="line"><span class="hljs-number">123</span></span><br></pre></td></tr></table></figure>
+<h4 id="5-3-逻辑控制"><a href="#5-3-逻辑控制" class="headerlink" title="5.3 逻辑控制"></a>5.3 逻辑控制</h4><p>switch/case 和java中不一样 比java中更强大</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">def x = <span class="hljs-number">12</span></span><br><span class="line">def res</span><br><span class="line"><span class="hljs-keyword">switch</span> (x)&#123;</span><br><span class="line">    <span class="hljs-keyword">case</span> <span class="hljs-string">'string'</span>:</span><br><span class="line">        res = <span class="hljs-string">'string'</span></span><br><span class="line">        <span class="hljs-keyword">break</span></span><br><span class="line">    <span class="hljs-keyword">case</span> [<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-string">"haha"</span>]:<span class="hljs-comment">//列表类型</span></span><br><span class="line">        res = <span class="hljs-string">'string'</span></span><br><span class="line">        <span class="hljs-keyword">break</span></span><br><span class="line">    <span class="hljs-keyword">case</span> Integer:</span><br><span class="line">        res = <span class="hljs-string">'Integer'</span></span><br><span class="line">        <span class="hljs-keyword">break</span></span><br><span class="line">    <span class="hljs-keyword">case</span> BigDecimal:</span><br><span class="line">        res = <span class="hljs-string">'BigDecimal'</span></span><br><span class="line">        <span class="hljs-keyword">break</span></span><br><span class="line">    <span class="hljs-keyword">case</span> <span class="hljs-number">9</span>..<span class="hljs-number">30</span>: <span class="hljs-comment">//表示一个范围</span></span><br><span class="line">        res = <span class="hljs-string">'string'</span></span><br><span class="line">        <span class="hljs-keyword">break</span></span><br><span class="line">   <span class="hljs-keyword">default</span>: <span class="hljs-string">'default'</span></span><br><span class="line">&#125;</span><br><span class="line">println(res)</span><br></pre></td></tr></table></figure>
+<p>for循环<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//循环一个范围</span></span><br><span class="line"><span class="hljs-keyword">for</span> (i in <span class="hljs-number">0</span>..<span class="hljs-number">9</span>)&#123;</span><br><span class="line">    println(i)</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//循环一个list</span></span><br><span class="line"><span class="hljs-keyword">for</span> (i in [<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>,<span class="hljs-number">0</span>])&#123;</span><br><span class="line">    println(i)</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//循环一个map</span></span><br><span class="line"><span class="hljs-keyword">for</span> (i in [<span class="hljs-string">"lily"</span>:<span class="hljs-number">18</span>,<span class="hljs-string">"divad"</span>:<span class="hljs-number">19</span>,<span class="hljs-string">"xiaoming"</span>:<span class="hljs-number">20</span>])&#123;</span><br><span class="line">    println(i.key)</span><br><span class="line">    println(i.value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>while循环、if/else和java中一样</p>
+<h4 id="5-4-闭包"><a href="#5-4-闭包" class="headerlink" title="5.4 闭包"></a>5.4 闭包</h4><p>闭包是groovy最强大的功能之一</p>
+<h5 id="5-4-1-闭包的概念：就是一个代码块"><a href="#5-4-1-闭包的概念：就是一个代码块" class="headerlink" title="5.4.1 闭包的概念：就是一个代码块"></a>5.4.1 闭包的概念：就是一个代码块</h5><p>闭包的定义和调用：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def closure = &#123;println <span class="hljs-string">"hello groovy"</span>&#125;</span><br><span class="line"><span class="hljs-comment">//两种调用的方法</span></span><br><span class="line">closure.call()</span><br><span class="line">closure()</span><br></pre></td></tr></table></figure></p>
+<p>闭包的参数：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def closure2 = &#123; println <span class="hljs-string">"hello $&#123;it&#125;"</span>&#125;</span><br><span class="line">closure2(<span class="hljs-string">"groovy"</span>)</span><br><span class="line">def closure1 = &#123;String name,<span class="hljs-keyword">int</span> age -&gt; println <span class="hljs-string">"hello $&#123;name&#125;,age $&#123;age&#125;"</span>&#125;</span><br><span class="line">closure1(<span class="hljs-string">"groovy"</span>,<span class="hljs-number">15</span>)</span><br></pre></td></tr></table></figure></p>
+<p>会有一个默认的参数，可以使用<code>it</code>这个关键字来接收，如果有多个参数可以使用<code>-&gt;</code>来隔开</p>
+<p>闭包的返回值<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def closure2 = &#123; <span class="hljs-keyword">return</span>  <span class="hljs-string">"hello $&#123;it&#125;"</span>&#125;</span><br><span class="line">def b = closure2(<span class="hljs-string">"groovy"</span>)</span><br><span class="line">println(b)</span><br></pre></td></tr></table></figure></p>
+<p>如果不定义return，默认返回的是null</p>
+<h5 id="5-4-2-闭包的使用"><a href="#5-4-2-闭包的使用" class="headerlink" title="5.4.2  闭包的使用"></a>5.4.2  闭包的使用</h5><p>闭包与基本类型结合使用：</p>
+<p>常用方法：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">def x = <span class="hljs-number">5</span></span><br><span class="line"><span class="hljs-comment">//求阶乘</span></span><br><span class="line"><span class="hljs-function">def <span class="hljs-title">jiecheng</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> res = <span class="hljs-number">1</span></span><br><span class="line">    <span class="hljs-comment">//upto里面实现了循环</span></span><br><span class="line">    <span class="hljs-number">1</span>.upto(num,&#123;n -&gt; res*=n&#125;)</span><br><span class="line">    <span class="hljs-keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//求阶乘</span></span><br><span class="line"><span class="hljs-function">def <span class="hljs-title">jiecheng1</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> res = <span class="hljs-number">1</span></span><br><span class="line">    num.downto(<span class="hljs-number">1</span>)&#123;</span><br><span class="line">        n -&gt; res *= n</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//累加</span></span><br><span class="line"><span class="hljs-function">def <span class="hljs-title">leijia</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> res = <span class="hljs-number">1</span></span><br><span class="line">    num.times &#123;n -&gt; res +=n&#125;</span><br><span class="line">    <span class="hljs-keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line">println(jiecheng(x))</span><br><span class="line">println(jiecheng1(x))</span><br><span class="line">println(leijia(<span class="hljs-number">5</span>))</span><br></pre></td></tr></table></figure></p>
+<p>闭包与字符串结合使用：</p>
+<p>常用方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">def str = <span class="hljs-string">'hello groovy 1 2 3'</span></span><br><span class="line"><span class="hljs-comment">//each 遍历</span></span><br><span class="line">str.each &#123; String tem -&gt; println(tem.capitalize()) &#125;</span><br><span class="line"><span class="hljs-comment">//找到第一个满足条件的 并返回</span></span><br><span class="line">println str.find&#123; String tem -&gt; tem.isNumber()&#125;</span><br><span class="line"><span class="hljs-comment">//找到所有满足条件的 并返回</span></span><br><span class="line">println str.findAll()&#123; String tem -&gt; tem.isNumber()&#125;</span><br><span class="line"><span class="hljs-comment">//只要字符串中存在数字 就返回true</span></span><br><span class="line">println str.any&#123; String s -&gt; s.isNumber()&#125;</span><br><span class="line"><span class="hljs-comment">//字符串每个元素都是数字 就返回true</span></span><br><span class="line">println(str.every &#123;String s -&gt; s.isNumber()&#125;)</span><br><span class="line"><span class="hljs-comment">//搜集所有字符 并大写 放到list中返回</span></span><br><span class="line">println str.collect &#123;String s -&gt; s.toUpperCase()&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="5-4-3-闭包的进阶"><a href="#5-4-3-闭包的进阶" class="headerlink" title="5.4.3  闭包的进阶"></a>5.4.3  闭包的进阶</h5><p>闭包关键变量 this， owner，delegate</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">def clouser = &#123;</span><br><span class="line">    println(<span class="hljs-string">"this:"</span> + <span class="hljs-keyword">this</span>)</span><br><span class="line">    println(<span class="hljs-string">"owner:"</span> + owner)</span><br><span class="line">    println(<span class="hljs-string">"delegate:"</span> + delegate)</span><br><span class="line">&#125;</span><br><span class="line">clouser.call()</span><br><span class="line">输出：</span><br><span class="line"><span class="hljs-keyword">this</span>:GroovyTest@<span class="hljs-number">741</span>a8937</span><br><span class="line">owner:GroovyTest@<span class="hljs-number">741</span>a8937</span><br><span class="line">delegate:GroovyTest@<span class="hljs-number">741</span>a8937</span><br></pre></td></tr></table></figure>
+<p>从打印来看都是一样的，那他们有什么区别呢？</p>
+<p>this：代表闭包定义处的类</p>
+<p>owner：代表闭包定义处的类或者对象</p>
+<p>delegate：代表任意对象 默认是owner</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">def outClouser = &#123;</span><br><span class="line">    def innerClouser = &#123;</span><br><span class="line">        println(<span class="hljs-string">"this:"</span> + <span class="hljs-keyword">this</span>)</span><br><span class="line">        println(<span class="hljs-string">"owner:"</span> + owner)</span><br><span class="line">        println(<span class="hljs-string">"delegate:"</span> + delegate)</span><br><span class="line">    &#125;</span><br><span class="line">    innerClouser.call()</span><br><span class="line">&#125;</span><br><span class="line">outClouser.call()</span><br><span class="line">输出：</span><br><span class="line"><span class="hljs-keyword">this</span>:GroovyTest@<span class="hljs-number">306e95</span>ec</span><br><span class="line">owner:GroovyTest$_run_closure1@<span class="hljs-number">43</span>dac38f</span><br><span class="line">delegate:GroovyTest$_run_closure1@<span class="hljs-number">43</span>dac38f</span><br></pre></td></tr></table></figure>
+<p>闭包的委托策略：</p>
+<p>delegate可以动态的改变，改变之后可以让一个对象指向另一个对象。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Teacher</span></span>&#123;</span><br><span class="line">    String name</span><br><span class="line">    def nameStr = &#123;<span class="hljs-string">"my name is $&#123;name&#125;"</span>&#125;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function">String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> nameStr.call()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span></span>&#123;</span><br><span class="line">    String name</span><br><span class="line">&#125;</span><br><span class="line">Teacher teacher = <span class="hljs-keyword">new</span> Teacher(name: <span class="hljs-string">"teacher"</span>)</span><br><span class="line">Student student = <span class="hljs-keyword">new</span> Student(name: <span class="hljs-string">"student"</span>)</span><br><span class="line">teacher.nameStr.delegate = student</span><br><span class="line">teacher.nameStr.resolveStrategy = Closure.DELEGATE_FIRST</span><br><span class="line">println teacher.toString()</span><br><span class="line">输出：</span><br><span class="line">my name is student</span><br></pre></td></tr></table></figure>
+<h4 id="5-5-常用的数据结构"><a href="#5-5-常用的数据结构" class="headerlink" title="5.5 常用的数据结构"></a>5.5 常用的数据结构</h4><h5 id="5-5-1-列表"><a href="#5-5-1-列表" class="headerlink" title="5.5.1 列表"></a>5.5.1 列表</h5><p>列表的定义</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//java的方式定义</span></span><br><span class="line">def list = <span class="hljs-keyword">new</span> ArrayList()</span><br><span class="line"><span class="hljs-comment">//groovy的方式定义 它默认也是一个ArrayList</span></span><br><span class="line">def list1 = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]</span><br><span class="line"><span class="hljs-comment">//定义一个数组</span></span><br><span class="line">def arr = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>] as <span class="hljs-keyword">int</span>[]</span><br><span class="line"><span class="hljs-keyword">int</span>[] arr1 = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]</span><br></pre></td></tr></table></figure>
+<p>列表的操作</p>
+<p>增删</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">def list = [<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">1</span>,<span class="hljs-number">5</span>,<span class="hljs-number">9</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>]</span><br><span class="line">list.add(<span class="hljs-number">0</span>)</span><br><span class="line"><span class="hljs-comment">//追加</span></span><br><span class="line">list.leftShift(<span class="hljs-number">6</span>)</span><br><span class="line"><span class="hljs-comment">//追加</span></span><br><span class="line">list &lt;&lt; <span class="hljs-number">6</span></span><br><span class="line"><span class="hljs-comment">//删除</span></span><br><span class="line"><span class="hljs-comment">//list.remove(1)</span></span><br><span class="line"><span class="hljs-comment">//list.removeAt(1)</span></span><br><span class="line"><span class="hljs-comment">//删除所有偶数</span></span><br><span class="line">list.removeAll &#123;<span class="hljs-keyword">return</span> it%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>&#125;</span><br><span class="line">println(list)</span><br></pre></td></tr></table></figure>
+<p>排序操作</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//java中的排序----------</span></span><br><span class="line">def sortList = [<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,-<span class="hljs-number">3</span>,-<span class="hljs-number">6</span>,-<span class="hljs-number">4</span>]</span><br><span class="line"><span class="hljs-comment">//Collections.sort(sortList)</span></span><br><span class="line"><span class="hljs-comment">//println(sortList)</span></span><br><span class="line"><span class="hljs-comment">//自定义排序规则</span></span><br><span class="line"><span class="hljs-comment">//Comparator comparator = &#123;a,b-&gt;a==b?0:Math.abs(a)&gt;Math.abs(b)?1:-1&#125;</span></span><br><span class="line"><span class="hljs-comment">//Collections.sort(sortList,comparator)</span></span><br><span class="line"><span class="hljs-comment">//println(sortList)</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//groovy中的排序-----------</span></span><br><span class="line">sortList.sort()</span><br><span class="line"><span class="hljs-comment">//自定义排序规则</span></span><br><span class="line">sortList.sort()&#123;a,b-&gt;a==b?<span class="hljs-number">0</span>:Math.abs(a)&gt;Math.abs(b)?<span class="hljs-number">1</span>:-<span class="hljs-number">1</span>&#125;</span><br><span class="line">println(sortList)</span><br><span class="line"><span class="hljs-comment">//字符串列表</span></span><br><span class="line">def stringList = [<span class="hljs-string">'hello'</span>,<span class="hljs-string">'ab'</span>,<span class="hljs-string">'a'</span>,<span class="hljs-string">'cde'</span>,<span class="hljs-string">'groovy'</span>]</span><br><span class="line">stringList.sort()&#123;it -&gt; <span class="hljs-keyword">return</span>  it.size()&#125;</span><br><span class="line">println(stringList)</span><br><span class="line"></span><br><span class="line">def findList = [<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">9</span>,<span class="hljs-number">8</span>]</span><br><span class="line"><span class="hljs-comment">//查找第一个奇数</span></span><br><span class="line">def res = findList.find()&#123;<span class="hljs-keyword">return</span> it%<span class="hljs-number">2</span> == <span class="hljs-number">1</span>&#125;</span><br><span class="line"><span class="hljs-comment">//查找所有的奇数</span></span><br><span class="line">def res1 = findList.findAll()&#123;<span class="hljs-keyword">return</span> it%<span class="hljs-number">2</span> == <span class="hljs-number">1</span>&#125;</span><br><span class="line"><span class="hljs-comment">//判断是否有奇数</span></span><br><span class="line">def res2 = findList.any()&#123;<span class="hljs-keyword">return</span> it%<span class="hljs-number">2</span> == <span class="hljs-number">1</span>&#125;</span><br><span class="line"><span class="hljs-comment">//判断是不是全是奇数</span></span><br><span class="line">def res3 = findList.every()&#123;<span class="hljs-keyword">return</span> it%<span class="hljs-number">2</span> == <span class="hljs-number">1</span>&#125;</span><br><span class="line">println(res3)</span><br><span class="line">println(findList.min())</span><br><span class="line">println(findList.max())</span><br><span class="line">println(findList.min&#123;<span class="hljs-keyword">return</span>  Math.abs(it)&#125;)</span><br><span class="line"><span class="hljs-comment">//统计查找偶数的个数</span></span><br><span class="line">def num = findList.count&#123; <span class="hljs-keyword">return</span> it%<span class="hljs-number">2</span>==<span class="hljs-number">0</span> &#125;</span><br><span class="line">println(num)</span><br></pre></td></tr></table></figure>
+<h5 id="5-5-1-Map"><a href="#5-5-1-Map" class="headerlink" title="5.5.1 Map"></a>5.5.1 Map</h5><p>Map的定义和使用</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//java方式</span></span><br><span class="line">def map = <span class="hljs-keyword">new</span> HashMap()</span><br><span class="line"><span class="hljs-comment">//groovy方式 </span></span><br><span class="line">def map1 = [<span class="hljs-string">'lily'</span>:<span class="hljs-number">15</span>,<span class="hljs-string">'jack'</span>:<span class="hljs-number">16</span>,<span class="hljs-string">'divad'</span>:<span class="hljs-number">17</span>]</span><br><span class="line"><span class="hljs-comment">//查找元素</span></span><br><span class="line">println(map1[<span class="hljs-string">'lily'</span>])</span><br><span class="line"><span class="hljs-comment">//添加元素</span></span><br><span class="line">map1.xiaoming = <span class="hljs-number">18</span></span><br><span class="line">println(map1.toMapString())</span><br><span class="line"><span class="hljs-comment">//添加不同类型的元素</span></span><br><span class="line">map1.sub = [<span class="hljs-string">'a'</span>:<span class="hljs-number">1</span>,<span class="hljs-string">'b'</span>:<span class="hljs-number">2</span>]</span><br><span class="line">println(map1.toMapString())</span><br></pre></td></tr></table></figure>
+<p>groovy中的Map默认是Java中LinkedHashMap</p>
+<p>Map的常用操作<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">def map = [<span class="hljs-string">'lily'</span>:<span class="hljs-number">15</span>,<span class="hljs-string">'jack'</span>:<span class="hljs-number">16</span>,<span class="hljs-string">'divad'</span>:<span class="hljs-number">17</span>,<span class="hljs-string">'xiao'</span>:<span class="hljs-number">14</span>]</span><br><span class="line"><span class="hljs-comment">//遍历</span></span><br><span class="line">map.each &#123;def person -&gt; println <span class="hljs-string">"key:$&#123;person.key&#125; value:$&#123;person.value&#125;"</span>&#125;</span><br><span class="line">map.each &#123;key,value -&gt; println <span class="hljs-string">"key:$&#123;key&#125; value:$&#123;value&#125;"</span>&#125;</span><br><span class="line"><span class="hljs-comment">//有下标的遍历</span></span><br><span class="line">map.eachWithIndex &#123;def person ,<span class="hljs-keyword">int</span> index -&gt; println <span class="hljs-string">"key:$&#123;person.key&#125; value:$&#123;person.value&#125; index:$&#123;index&#125;"</span>&#125;</span><br><span class="line">map.eachWithIndex&#123;key,value,index -&gt; println <span class="hljs-string">"key:$&#123;key&#125; value:$&#123;value&#125; index:$&#123;index&#125;"</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//查找第一个年龄大于15的</span></span><br><span class="line">def res = map.find&#123;def person -&gt; person.value&gt;<span class="hljs-number">15</span>&#125;</span><br><span class="line"><span class="hljs-comment">//查找所有年龄大于15的</span></span><br><span class="line">def res1 = map.findAll&#123;def person -&gt; person.value&gt;<span class="hljs-number">15</span>&#125;</span><br><span class="line"><span class="hljs-comment">//统计大于年龄15的个数</span></span><br><span class="line">def num = map.count &#123;<span class="hljs-keyword">return</span> it.value&gt;<span class="hljs-number">15</span>&#125;</span><br><span class="line"><span class="hljs-comment">//查找并分组</span></span><br><span class="line">def group = map.groupBy &#123;<span class="hljs-keyword">return</span>  it.value&gt;<span class="hljs-number">15</span>?<span class="hljs-string">'man'</span>:<span class="hljs-string">'child'</span>&#125;</span><br><span class="line">println(group.toMapString())</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//排序</span></span><br><span class="line">def sort = map.sort&#123; def v1,def v2 -&gt;</span><br><span class="line">    <span class="hljs-keyword">return</span> v1.value == v2.value?<span class="hljs-number">0</span>:v1.value&gt;v2.value?<span class="hljs-number">1</span>:-<span class="hljs-number">1</span></span><br><span class="line">&#125;</span><br><span class="line">println(sort)</span><br></pre></td></tr></table></figure></p>
+<h4 id="5-6-范围-Range"><a href="#5-6-范围-Range" class="headerlink" title="5.6 范围 Range"></a>5.6 范围 Range</h4><p>Range是一个轻量级的list，在有些简单的地方使用会比list更加方便</p>
+<p>Range的定义和使用</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">def range = <span class="hljs-number">1</span>..<span class="hljs-number">10</span></span><br><span class="line">println(range[<span class="hljs-number">0</span>])</span><br><span class="line">println(range.from)</span><br><span class="line">println(range.to)</span><br><span class="line">println(range.contains(<span class="hljs-number">11</span>))</span><br><span class="line">range.each &#123;println(it)&#125;</span><br><span class="line"><span class="hljs-keyword">for</span> (i in range) &#123;</span><br><span class="line">    println(i)</span><br><span class="line">&#125;</span><br><span class="line">def res = getGrade(<span class="hljs-number">85</span>)</span><br><span class="line">println(res)</span><br><span class="line"><span class="hljs-function">def <span class="hljs-title">getGrade</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span></span>&#123;</span><br><span class="line">    def result</span><br><span class="line">    <span class="hljs-keyword">switch</span> (num)&#123;</span><br><span class="line">      <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>..<span class="hljs-number">60</span>:</span><br><span class="line">          result = <span class="hljs-string">'及格'</span></span><br><span class="line">            <span class="hljs-keyword">break</span></span><br><span class="line">        <span class="hljs-keyword">case</span> <span class="hljs-number">60</span>..<span class="hljs-number">80</span>:</span><br><span class="line">            result = <span class="hljs-string">'良好'</span></span><br><span class="line">            <span class="hljs-keyword">break</span></span><br><span class="line">        <span class="hljs-keyword">case</span> <span class="hljs-number">80</span>..<span class="hljs-number">100</span>:</span><br><span class="line">            result = <span class="hljs-string">'优秀'</span></span><br><span class="line">            <span class="hljs-keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">return</span>  result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="5-7-面向对象"><a href="#5-7-面向对象" class="headerlink" title="5.7 面向对象"></a>5.7 面向对象</h4><p>类默认都是public的</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IAction</span> </span>&#123;</span><br><span class="line">     <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">eat</span><span class="hljs-params">()</span></span></span><br><span class="line"><span class="hljs-function"></span></span><br><span class="line"><span class="hljs-function">    <span class="hljs-keyword">void</span> <span class="hljs-title">drink</span><span class="hljs-params">()</span></span></span><br><span class="line"><span class="hljs-function">&#125;</span></span><br><span class="line"><span class="hljs-function">class Person implements IAction</span>&#123;</span><br><span class="line">    String name</span><br><span class="line">    <span class="hljs-keyword">int</span> age</span><br><span class="line">    <span class="hljs-function">def <span class="hljs-title">increaseAge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span></span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>.age += num</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">eat</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">drink</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">def person = <span class="hljs-keyword">new</span> Person(name: <span class="hljs-string">'lily'</span>,age: <span class="hljs-number">15</span>)</span><br><span class="line">person.increaseAge(<span class="hljs-number">10</span>)</span><br><span class="line">println(<span class="hljs-string">"name: $&#123;person.name&#125; age: $&#123;person.age&#125;"</span>)</span><br></pre></td></tr></table></figure>
+<p>groovy中元编程</p>
+<p>当调用一个类的方法的时候：</p>
+<ol>
+<li>该类中是否有此方法 有直接调用，没有去MetaClass中查找是否有</li>
+<li>MetaClass中有调用MeatClass中的方法，没有看是否重写了methodMissing()方法，写了调用该方法，没写，看是否重写了invoke()方法</li>
+<li>写了自行invoke方法，没写抛出异常（MissingMethodExecption）</li>
+</ol>
+<p>动态添加属性或者方法，可以扩展一些引入的第三方包中的类</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">def person = <span class="hljs-keyword">new</span> Person(name: <span class="hljs-string">'lily'</span>,age: <span class="hljs-number">15</span>)</span><br><span class="line">person.increaseAge(<span class="hljs-number">10</span>)</span><br><span class="line">person.cry()</span><br><span class="line"><span class="hljs-comment">//给一个类动态注入一个属性</span></span><br><span class="line">Person.metaClass.sex = <span class="hljs-string">'male'</span></span><br><span class="line">def person1 = <span class="hljs-keyword">new</span> Person(name: <span class="hljs-string">'lily'</span>,age: <span class="hljs-number">15</span>)</span><br><span class="line">println(person1.sex)</span><br><span class="line"><span class="hljs-comment">//给一个类动态添加一个方法</span></span><br><span class="line">Person.metaClass.sexUpperCase = &#123; -&gt; sex.toUpperCase()&#125;</span><br><span class="line">def person2 = <span class="hljs-keyword">new</span> Person(name: <span class="hljs-string">'lily'</span>,age: <span class="hljs-number">15</span>)</span><br><span class="line">println(person2.sexUpperCase())</span><br><span class="line"><span class="hljs-comment">//给一个类动态添加一个静态方法</span></span><br><span class="line">Person.metaClass.<span class="hljs-keyword">static</span>.createPerson = &#123;</span><br><span class="line">    name,age -&gt; <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Person(name:name,age: age)</span><br><span class="line">&#125;</span><br><span class="line">def person3 = Person.createPerson(<span class="hljs-string">'lily'</span>,<span class="hljs-number">15</span>)</span><br><span class="line">println(<span class="hljs-string">"name:$&#123;person3.name&#125;"</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="6-Groovy高级语法"><a href="#6-Groovy高级语法" class="headerlink" title="6 Groovy高级语法"></a>6 Groovy高级语法</h3><h4 id="6-1-groovy-对-json的操作"><a href="#6-1-groovy-对-json的操作" class="headerlink" title="6.1 groovy 对 json的操作"></a>6.1 groovy 对 json的操作</h4><p>groovy中自带的操作json的方式非常简单</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">def list = [<span class="hljs-keyword">new</span> Person(name: <span class="hljs-string">'lily'</span>,age: <span class="hljs-number">15</span>),<span class="hljs-keyword">new</span> Person(name: <span class="hljs-string">'jack'</span>,age: <span class="hljs-number">16</span>)]</span><br><span class="line"><span class="hljs-comment">//对象转成json</span></span><br><span class="line">String json = JsonOutput.toJson(list)</span><br><span class="line">println(json)</span><br><span class="line"><span class="hljs-comment">//json转成对象</span></span><br><span class="line">def jsonSlurper = <span class="hljs-keyword">new</span> JsonSlurper()</span><br><span class="line">println jsonSlurper.parseText(json)</span><br><span class="line"><span class="hljs-comment">//parse方法有很多重载的方法，可传入不同的值</span></span><br><span class="line">jsonSlurper.parse()</span><br></pre></td></tr></table></figure>
+<p>jsonSlurper.parse()方法有很多重载的方法，可传入不同的值</p>
+<h4 id="6-2-groovy处理xml"><a href="#6-2-groovy处理xml" class="headerlink" title="6.2 groovy处理xml"></a>6.2 groovy处理xml</h4><p>解析xml的数据<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">final</span> String xml = <span class="hljs-string">''</span><span class="hljs-string">'&lt;apps&gt;</span></span><br><span class="line"><span class="hljs-string">    &lt;app&gt;</span></span><br><span class="line"><span class="hljs-string">        &lt;id&gt;1&lt;/id&gt;</span></span><br><span class="line"><span class="hljs-string">        &lt;name&gt;Google Maps&lt;/name&gt;</span></span><br><span class="line"><span class="hljs-string">        &lt;virsion&gt;1.0&lt;/virsion&gt;</span></span><br><span class="line"><span class="hljs-string">    &lt;/app&gt;</span></span><br><span class="line"><span class="hljs-string">    &lt;app&gt;</span></span><br><span class="line"><span class="hljs-string">        &lt;id&gt;2&lt;/id&gt;</span></span><br><span class="line"><span class="hljs-string">        &lt;name&gt;Chrome&lt;/name&gt;</span></span><br><span class="line"><span class="hljs-string">        &lt;version&gt;2.1&lt;/version&gt;</span></span><br><span class="line"><span class="hljs-string">    &lt;/app&gt;</span></span><br><span class="line"><span class="hljs-string">    &lt;app&gt;</span></span><br><span class="line"><span class="hljs-string">        &lt;id&gt;3&lt;/id&gt;</span></span><br><span class="line"><span class="hljs-string">        &lt;name&gt;Google Play&lt;/name&gt;</span></span><br><span class="line"><span class="hljs-string">        &lt;version&gt;2.3&lt;/version&gt;</span></span><br><span class="line"><span class="hljs-string">    &lt;/app&gt;</span></span><br><span class="line"><span class="hljs-string">&lt;/apps&gt;</span></span><br><span class="line"><span class="hljs-string">'</span><span class="hljs-string">''</span></span><br><span class="line">def xmlSlurper = <span class="hljs-keyword">new</span> XmlSlurper()</span><br><span class="line"><span class="hljs-comment">//返回的是xml的根节点</span></span><br><span class="line">def apps = xmlSlurper.parseText(xml)</span><br><span class="line">println(apps.app[<span class="hljs-number">0</span>].name.text())</span><br><span class="line"><span class="hljs-comment">//深度遍历</span></span><br><span class="line">def  res = apps.depthFirst().findAll &#123; app -&gt;</span><br><span class="line">    <span class="hljs-keyword">return</span> app.name.text()</span><br><span class="line">&#125;</span><br><span class="line">def res1 = apps.children().findAll &#123; app -&gt; app.name() == <span class="hljs-string">'app'</span> &#125;.collect &#123;</span><br><span class="line">    app -&gt; <span class="hljs-keyword">return</span> app.name.text()</span><br><span class="line">&#125;</span><br><span class="line">println(res)</span><br><span class="line">println(res1)</span><br></pre></td></tr></table></figure></p>
+<p>生成xml的数据<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> groovy.xml.MarkupBuilder</span><br><span class="line"></span><br><span class="line">def sw = <span class="hljs-keyword">new</span> StringWriter()</span><br><span class="line">def xmlBuilder = <span class="hljs-keyword">new</span> MarkupBuilder()</span><br><span class="line">xmlBuilder.apps(type:<span class="hljs-string">'1'</span>)&#123;</span><br><span class="line">     app()&#123;</span><br><span class="line">         id(<span class="hljs-number">1</span>)</span><br><span class="line">         name(<span class="hljs-string">'Google Maps'</span>)</span><br><span class="line">         version(<span class="hljs-number">2.0</span>)</span><br><span class="line">     &#125;</span><br><span class="line">    app()&#123;</span><br><span class="line">        id(<span class="hljs-number">2</span>)</span><br><span class="line">        name(<span class="hljs-string">'Chrome'</span>)</span><br><span class="line">        version(<span class="hljs-number">1.0</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    app()&#123;</span><br><span class="line">        id(<span class="hljs-number">3</span>)</span><br><span class="line">        name(<span class="hljs-string">'Google Play'</span>)</span><br><span class="line">        version(<span class="hljs-number">3.0</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">println(sw)</span><br></pre></td></tr></table></figure></p>
+<p>通过类自动生成xml<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> groovy.xml.MarkupBuilder</span><br><span class="line"></span><br><span class="line">def sw = <span class="hljs-keyword">new</span> StringWriter()</span><br><span class="line">def xmlBuilder = <span class="hljs-keyword">new</span> MarkupBuilder()</span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">apps</span></span>&#123;</span><br><span class="line">    String type = <span class="hljs-string">'1'</span></span><br><span class="line">    def apps = [<span class="hljs-keyword">new</span> appsub(id: <span class="hljs-number">1</span>,name: <span class="hljs-string">'Google Play'</span>,version: <span class="hljs-string">'1.0'</span>),</span><br><span class="line">                <span class="hljs-keyword">new</span> appsub(id: <span class="hljs-number">1</span>,name: <span class="hljs-string">'java'</span>,version: <span class="hljs-string">'2.0'</span>),</span><br><span class="line">                <span class="hljs-keyword">new</span> appsub(id: <span class="hljs-number">1</span>,name: <span class="hljs-string">'Google map'</span>,version: <span class="hljs-string">'3.0'</span>)]</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">appsub</span></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> id</span><br><span class="line">    String name</span><br><span class="line">    String version</span><br><span class="line">&#125;</span><br><span class="line">def apps = <span class="hljs-keyword">new</span> apps()</span><br><span class="line">xmlBuilder.apps(type:apps.type)&#123;</span><br><span class="line">    apps.apps.each &#123; sub -&gt;</span><br><span class="line">        appsub()&#123;</span><br><span class="line">            id(sub.id)</span><br><span class="line">            name(sub.name)</span><br><span class="line">            version(sub.version)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">println(sw)</span><br></pre></td></tr></table></figure></p>
+<h4 id="6-3-groovy处理文件"><a href="#6-3-groovy处理文件" class="headerlink" title="6.3 groovy处理文件"></a>6.3 groovy处理文件</h4><p>所有java中的处理文件的方式都可以使用<br>groovy中也有自己的封装的简单的方法</p>
+<p>读取项目跟目录下的一个文件并遍历<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def file = <span class="hljs-keyword">new</span> File(<span class="hljs-string">'../MyGroovy.iml'</span>)</span><br><span class="line">file.each &#123;line -&gt; println(line)&#125;</span><br></pre></td></tr></table></figure></p>
+<p>读取内容为一个text<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def text = file.getText()</span><br><span class="line">println(text)</span><br></pre></td></tr></table></figure></p>
+<p>读取部分内容<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def reader = file.withReader &#123; reader -&gt;</span><br><span class="line">    <span class="hljs-keyword">char</span>[] buffer = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[<span class="hljs-number">100</span>]</span><br><span class="line">    reader.read(buffer)</span><br><span class="line">    <span class="hljs-keyword">return</span> buffer</span><br><span class="line">&#125;</span><br><span class="line">println(reader)</span><br></pre></td></tr></table></figure></p>
+<p>文件写入<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">def <span class="hljs-title">copy</span><span class="hljs-params">(String fromDir,String toDir)</span></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">        <span class="hljs-comment">//创建目标文件</span></span><br><span class="line">       def toFile = <span class="hljs-keyword">new</span> File(toDir)</span><br><span class="line">        <span class="hljs-keyword">if</span>(!toFile.exists())&#123;</span><br><span class="line">            toFile.createNewFile()</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-comment">//开始copy</span></span><br><span class="line">        def fromFile = <span class="hljs-keyword">new</span> File(fromDir);</span><br><span class="line">        <span class="hljs-keyword">if</span>(fromFile.exists())&#123;</span><br><span class="line">            fromFile.withReader &#123; reader -&gt;</span><br><span class="line">                def  lines = reader.readLines()</span><br><span class="line">                toFile.withWriter &#123; write-&gt;</span><br><span class="line">                    lines.each &#123;</span><br><span class="line">                        line-&gt;</span><br><span class="line">                            write.append(line + <span class="hljs-string">"\r\n"</span>)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span></span><br><span class="line">    &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;</span><br><span class="line">        e.printStackTrace()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span></span><br><span class="line">&#125;</span><br><span class="line">def copres = copy(<span class="hljs-string">'../MyGroovy.iml'</span>,<span class="hljs-string">'../MyGroovy.iml2'</span>)</span><br><span class="line">println(copres)</span><br></pre></td></tr></table></figure></p>
+<p>对象的保存和读取<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//保存对象</span></span><br><span class="line"><span class="hljs-function">def <span class="hljs-title">saveObject</span><span class="hljs-params">(Object obj,String path)</span></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">        <span class="hljs-comment">//创建目标文件</span></span><br><span class="line">       def toFile = <span class="hljs-keyword">new</span> File(path)</span><br><span class="line">        <span class="hljs-keyword">if</span>(!toFile.exists())&#123;</span><br><span class="line">            toFile.createNewFile()</span><br><span class="line">        &#125;</span><br><span class="line">        toFile.withObjectOutputStream &#123;out-&gt;</span><br><span class="line">            out.writeObject(obj)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span></span><br><span class="line">    &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;</span><br><span class="line">        e.printStackTrace()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//读取对象</span></span><br><span class="line"><span class="hljs-function">def <span class="hljs-title">readObj</span><span class="hljs-params">(String path)</span></span>&#123;</span><br><span class="line">    def obj = <span class="hljs-keyword">null</span></span><br><span class="line">    <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">        def file = <span class="hljs-keyword">new</span> File(path)</span><br><span class="line">        <span class="hljs-keyword">if</span>(file==<span class="hljs-keyword">null</span>||!file.exists()) <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span></span><br><span class="line">        file.withObjectInputStream &#123;</span><br><span class="line">            input-&gt;</span><br><span class="line">                obj = input.readObject()</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> obj</span><br><span class="line">    &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;</span><br><span class="line">        e.printStackTrace()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span></span><br><span class="line">&#125;</span><br><span class="line">def person = <span class="hljs-keyword">new</span> Person(name: <span class="hljs-string">'大海'</span>,age: <span class="hljs-number">15</span>)</span><br><span class="line">def res = saveObject(person,<span class="hljs-string">'../person.bin'</span>)</span><br><span class="line">println(res)</span><br><span class="line">def personRes = (Person)readObj(<span class="hljs-string">'../person.bin'</span>)</span><br><span class="line">println(personRes.name)</span><br></pre></td></tr></table></figure></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/架构/">架构</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/11/21/architecture/Gradle之Project，Task/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Gradle之Project，Task</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/10/20/architecture/Android中使用Protocol-Buffer/">
+                <span class="level-item">Android中使用Protocol Buffer</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">コメント</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/11/21/architecture/Gradle之Groovy/';
+        this.page.identifier = '2019/11/21/architecture/Gradle之Groovy/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="CHS">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        CHS
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        只要坚持，终会有收获
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        投稿
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        74
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        カテゴリ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        16
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        タグ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        11
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
+                フォローする</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/chsmy">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="weibo" href="http://weibo.com/2504847694/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="csdn" href="https://blog.csdn.net/mingyunxiaohai">
+                
+                <i class="fab fa-wordpress"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="简书" href="https://www.jianshu.com/u/6ab3e65ba7b5">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            リンク
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="http://www.wanandroid.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">玩Android</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wanandroid.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                カテゴリ
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">61</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Android/UI/">
+            <span class="level-start">
+                <span class="level-item">UI</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/c-c/">
+            <span class="level-start">
+                <span class="level-item">c/c++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/jetpack/">
+            <span class="level-start">
+                <span class="level-item">jetpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/kotlin/">
+            <span class="level-start">
+                <span class="level-item">kotlin</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">16</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/测试和性能优化/">
+            <span class="level-start">
+                <span class="level-item">测试和性能优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/源码/">
+            <span class="level-start">
+                <span class="level-item">源码</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/资料/">
+            <span class="level-start">
+                <span class="level-item">资料</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/设计模式/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/人生/">
+            <span class="level-start">
+                <span class="level-item">人生</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/人生/感悟/">
+            <span class="level-start">
+                <span class="level-item">感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/人生/读书/">
+            <span class="level-start">
+                <span class="level-item">读书</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/跨平台/">
+            <span class="level-start">
+                <span class="level-item">跨平台</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/跨平台/flutter/">
+            <span class="level-start">
+                <span class="level-item">flutter</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            タグクラウド
+        </h3>
+        <a href="/tags/Flutter/" style="font-size: 11.25px;">Flutter</a> <a href="/tags/UI/" style="font-size: 18.75px;">UI</a> <a href="/tags/c-c/" style="font-size: 16.25px;">c/c++</a> <a href="/tags/jetpack/" style="font-size: 16.25px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 13.75px;">感悟</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/测试和性能优化/" style="font-size: 15px;">测试和性能优化</a> <a href="/tags/设计模式/" style="font-size: 11.25px;">设计模式</a> <a href="/tags/读书/" style="font-size: 12.5px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 17.5px;">进阶</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Gradle之Groovy" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '投稿',
+                PAGES: 'Pages',
+                CATEGORIES: 'カテゴリ',
+                TAGS: 'タグ',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

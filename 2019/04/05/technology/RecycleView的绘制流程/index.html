@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>RecycleView的绘制流程 - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="RecycleView的绘制流程">
+<meta name="keywords" content="进阶">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RecycleView的绘制流程">
+<meta property="og:url" content="https://chsmy.github.io/2019/04/05/technology/RecycleView的绘制流程/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="RecycleView的绘制流程">
+<meta property="og:locale" content="CHS">
+<meta property="og:updated_time" content="2019-04-05T04:02:54.396Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RecycleView的绘制流程">
+<meta name="twitter:description" content="RecycleView的绘制流程">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="RecycleView的绘制流程" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-04-05T02:59:58.000Z">2019-04-05</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/源码/">源码</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    21 minutes read (About 3219 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                RecycleView的绘制流程
+            
+        </h1>
+        <div class="content">
+            <p>RecycleView的绘制流程</p>
+<a id="more"></a>
+<p>RecycleView继承自ViewGroup，绘制流程肯定也是遵循View的，测量(onMeasure),布局(onLayout),绘制(onDdraw)三大流程。所以从这三个地方开始查看，本篇是27.1.1版本的源码<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onMeasure</span><span class="hljs-params">(<span class="hljs-keyword">int</span> widthSpec, <span class="hljs-keyword">int</span> heightSpec)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">//mLayout是LayoutManager如果为null，就走默认测量然后返回</span></span><br><span class="line">        <span class="hljs-keyword">if</span> (mLayout == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            defaultOnMeasure(widthSpec, heightSpec);</span><br><span class="line">            <span class="hljs-keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-comment">//是否自动测量，比如常用的LinearLayoutManager和GridLayoutManager中默认直接返回true</span></span><br><span class="line">        <span class="hljs-keyword">if</span> (mLayout.isAutoMeasureEnabled()) &#123;</span><br><span class="line">            <span class="hljs-comment">//获取长宽的测量规格</span></span><br><span class="line">            <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> widthMode = MeasureSpec.getMode(widthSpec);</span><br><span class="line">            <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> heightMode = MeasureSpec.getMode(heightSpec);</span><br><span class="line">            <span class="hljs-comment">//内部还是调用了mRecyclerView.defaultOnMeasure走默认测量</span></span><br><span class="line">            mLayout.onMeasure(mRecycler, mState, widthSpec, heightSpec);</span><br><span class="line">            <span class="hljs-comment">//判断宽高的测量模式是不是精确测量</span></span><br><span class="line">            <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> measureSpecModeIsExactly =</span><br><span class="line">                    widthMode == MeasureSpec.EXACTLY &amp;&amp; heightMode == MeasureSpec.EXACTLY;</span><br><span class="line">            <span class="hljs-comment">//如果测量模式是精确值比如match_partent，写死的值或者adapter是null，结束测量</span></span><br><span class="line">            <span class="hljs-keyword">if</span> (measureSpecModeIsExactly || mAdapter == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                <span class="hljs-keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            如果测量步骤是开始</span><br><span class="line">            <span class="hljs-keyword">if</span> (mState.mLayoutStep == State.STEP_START) &#123;</span><br><span class="line">                <span class="hljs-comment">//布局的第一步，更新适配器，决定运行哪个动画，保存有关当前视图的信息，如果有必要，运行预测布局并保存其信息。</span></span><br><span class="line">                dispatchLayoutStep1();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-comment">// 在第二步设置尺寸，预布局和旧尺寸要一致</span></span><br><span class="line">            mLayout.setMeasureSpecs(widthSpec, heightSpec);</span><br><span class="line">            mState.mIsMeasuring = <span class="hljs-keyword">true</span>;</span><br><span class="line">            dispatchLayoutStep2();</span><br><span class="line"></span><br><span class="line">            <span class="hljs-comment">//现在可以从子元素中得到宽和高</span></span><br><span class="line">            mLayout.setMeasuredDimensionFromChildren(widthSpec, heightSpec);</span><br><span class="line"></span><br><span class="line">            <span class="hljs-comment">// 如果RecyclerView 没有精确的高度和宽度，并且只有一个孩子</span></span><br><span class="line">            <span class="hljs-comment">// 我们需要重新测量</span></span><br><span class="line">            <span class="hljs-keyword">if</span> (mLayout.shouldMeasureTwice()) &#123;</span><br><span class="line">                mLayout.setMeasureSpecs(</span><br><span class="line">                        MeasureSpec.makeMeasureSpec(getMeasuredWidth(), MeasureSpec.EXACTLY),</span><br><span class="line">                        MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.EXACTLY));</span><br><span class="line">                mState.mIsMeasuring = <span class="hljs-keyword">true</span>;</span><br><span class="line">                dispatchLayoutStep2();</span><br><span class="line">                <span class="hljs-comment">// now we can get the width and height from the children.</span></span><br><span class="line">                mLayout.setMeasuredDimensionFromChildren(widthSpec, heightSpec);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            <span class="hljs-comment">//如果子view的大小不影响recycleview的大小</span></span><br><span class="line">            <span class="hljs-keyword">if</span> (mHasFixedSize) &#123;</span><br><span class="line">                mLayout.onMeasure(mRecycler, mState, widthSpec, heightSpec);</span><br><span class="line">                <span class="hljs-keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-comment">// 自定义测量</span></span><br><span class="line">            <span class="hljs-keyword">if</span> (mAdapterUpdateDuringMeasure) &#123;</span><br><span class="line">                startInterceptRequestLayout();</span><br><span class="line">                onEnterLayoutOrScroll();</span><br><span class="line">                processAdapterUpdatesAndSetAnimationFlags();</span><br><span class="line">                onExitLayoutOrScroll();</span><br><span class="line"></span><br><span class="line">                <span class="hljs-keyword">if</span> (mState.mRunPredictiveAnimations) &#123;</span><br><span class="line">                    mState.mInPreLayout = <span class="hljs-keyword">true</span>;</span><br><span class="line">                &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                    <span class="hljs-comment">// consume remaining updates to provide a consistent state with the layout pass.</span></span><br><span class="line">                    mAdapterHelper.consumeUpdatesInOnePass();</span><br><span class="line">                    mState.mInPreLayout = <span class="hljs-keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                mAdapterUpdateDuringMeasure = <span class="hljs-keyword">false</span>;</span><br><span class="line">                stopInterceptRequestLayout(<span class="hljs-keyword">false</span>);</span><br><span class="line">            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (mState.mRunPredictiveAnimations) &#123;</span><br><span class="line">                setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight());</span><br><span class="line">                <span class="hljs-keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">if</span> (mAdapter != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                mState.mItemCount = mAdapter.getItemCount();</span><br><span class="line">            &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                mState.mItemCount = <span class="hljs-number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            startInterceptRequestLayout();</span><br><span class="line">            mLayout.onMeasure(mRecycler, mState, widthSpec, heightSpec);</span><br><span class="line">            stopInterceptRequestLayout(<span class="hljs-keyword">false</span>);</span><br><span class="line">            mState.mInPreLayout = <span class="hljs-keyword">false</span>; <span class="hljs-comment">// clear</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>从上面的代码来看，先判断LayoutManager是否为null，如果是结束测量，然后判断测量模式是不是精确模式，也就是布局文件中设置match_parent和写死固定值，如果是结束测量。如果是wrap_content继续执行下面的方法。</p>
+<p>如果是刚开始测量的状态，执行 dispatchLayoutStep1()方法，如果判断不是精准模式，在执行dispatchLayoutStep2()方法。dispatchLayoutStep1()主要是做一些清空和初始化操作，dispatchLayoutStep2()是真正的测量子view的宽高来决定recycleview的宽高。</p>
+<p>初始化操作的代码就不看了，从dispatchLayoutStep1()的注释来看主要做了以下步骤：1. adapter的更新 2.决定应该运行哪个动画 3. 保存视图当前的信息 4. 如果需要，运行预测布局并保存信息。</p>
+<p>下面来看dispatchLayoutStep2()方法</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dispatchLayoutStep2</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">//开始中断布局请求</span></span><br><span class="line">    startInterceptRequestLayout();</span><br><span class="line">    onEnterLayoutOrScroll();</span><br><span class="line">    <span class="hljs-comment">//设置状态为 布局和动画状态</span></span><br><span class="line">    mState.assertLayoutStep(State.STEP_LAYOUT | State.STEP_ANIMATIONS);</span><br><span class="line">    mAdapterHelper.consumeUpdatesInOnePass();</span><br><span class="line">    mState.mItemCount = mAdapter.getItemCount();</span><br><span class="line">    mState.mDeletedInvisibleItemCountSincePreviousLayout = <span class="hljs-number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 开始布局</span></span><br><span class="line">    mState.mInPreLayout = <span class="hljs-keyword">false</span>;</span><br><span class="line">    mLayout.onLayoutChildren(mRecycler, mState);</span><br><span class="line"></span><br><span class="line">    mState.mStructureChanged = <span class="hljs-keyword">false</span>;</span><br><span class="line">    mPendingSavedState = <span class="hljs-keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 是否禁用动画</span></span><br><span class="line">    mState.mRunSimpleAnimations = mState.mRunSimpleAnimations &amp;&amp; mItemAnimator != <span class="hljs-keyword">null</span>;</span><br><span class="line">    mState.mLayoutStep = State.STEP_ANIMATIONS;</span><br><span class="line">    onExitLayoutOrScroll();</span><br><span class="line">    stopInterceptRequestLayout(<span class="hljs-keyword">false</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面代码可以看到，开始布局那mLayout是LayoutManager对象，调用了LayoutManager中的onLayoutChildren方法，所以从这里我们可以知道，最终的布局是交给LayoutManager来完成的，系统提供了三个LayoutManager，线性的，网格的和瀑布流的，我们也可以自己继承LayoutManager来实现我们自己的LayoutManager。</p>
+<p>所有item的布局都是在onLayoutChildren中实现，下面看LinearLayoutManager中的实现<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onLayoutChildren</span><span class="hljs-params">(RecyclerView.Recycler recycler, RecyclerView.State state)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">// layout algorithm:</span></span><br><span class="line">        <span class="hljs-comment">// 1) 通过检子view和其他变量找到一个锚点坐标和锚点位置</span></span><br><span class="line">        <span class="hljs-comment">// 2) 从底部开始填充</span></span><br><span class="line">        <span class="hljs-comment">// 3) 从顶部开始填充</span></span><br><span class="line">        <span class="hljs-comment">// 4) 处理2和3两种方式的滚动</span></span><br><span class="line">    ......</span><br><span class="line">    <span class="hljs-keyword">final</span> View focused = getFocusedChild();</span><br><span class="line">        <span class="hljs-keyword">if</span> (!mAnchorInfo.mValid || mPendingScrollPosition != NO_POSITION</span><br><span class="line">                || mPendingSavedState != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            mAnchorInfo.reset();</span><br><span class="line">            mAnchorInfo.mLayoutFromEnd = mShouldReverseLayout ^ mStackFromEnd;</span><br><span class="line">            <span class="hljs-comment">// 计算锚点的位置</span></span><br><span class="line">            updateAnchorInfoForLayout(recycler, state, mAnchorInfo);</span><br><span class="line">            mAnchorInfo.mValid = <span class="hljs-keyword">true</span>;</span><br><span class="line">            &#125;<span class="hljs-keyword">else</span>&#123;......&#125;</span><br><span class="line">     ......</span><br><span class="line">      <span class="hljs-comment">//一般情况下会选取最上（反向布局则是最下）的子View作为锚点参考</span></span><br><span class="line">      <span class="hljs-keyword">if</span> (mAnchorInfo.mLayoutFromEnd) &#123;</span><br><span class="line">            <span class="hljs-comment">// 更新锚点坐标</span></span><br><span class="line">            updateLayoutStateToFillStart(mAnchorInfo);</span><br><span class="line">            <span class="hljs-comment">//设置开始位置</span></span><br><span class="line">            mLayoutState.mExtra = extraForStart;</span><br><span class="line">            <span class="hljs-comment">//开始填充</span></span><br><span class="line">            fill(recycler, mLayoutState, state, <span class="hljs-keyword">false</span>);</span><br><span class="line">            startOffset = mLayoutState.mOffset;</span><br><span class="line">            <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> firstElement = mLayoutState.mCurrentPosition;</span><br><span class="line">            <span class="hljs-keyword">if</span> (mLayoutState.mAvailable &gt; <span class="hljs-number">0</span>) &#123;</span><br><span class="line">                extraForEnd += mLayoutState.mAvailable;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-comment">// 更新锚点坐标</span></span><br><span class="line">            updateLayoutStateToFillEnd(mAnchorInfo);</span><br><span class="line">            <span class="hljs-comment">//设置结束位置</span></span><br><span class="line">            mLayoutState.mExtra = extraForEnd;</span><br><span class="line">            mLayoutState.mCurrentPosition += mLayoutState.mItemDirection;</span><br><span class="line">             <span class="hljs-comment">//开始填充</span></span><br><span class="line">            fill(recycler, mLayoutState, state, <span class="hljs-keyword">false</span>);</span><br><span class="line">            endOffset = mLayoutState.mOffset;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">if</span> (mLayoutState.mAvailable &gt; <span class="hljs-number">0</span>) &#123;</span><br><span class="line">                <span class="hljs-comment">// end could not consume all. add more items towards start</span></span><br><span class="line">                extraForStart = mLayoutState.mAvailable;</span><br><span class="line">                updateLayoutStateToFillStart(firstElement, startOffset);</span><br><span class="line">                mLayoutState.mExtra = extraForStart;</span><br><span class="line">                fill(recycler, mLayoutState, state, <span class="hljs-keyword">false</span>);</span><br><span class="line">                startOffset = mLayoutState.mOffset;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="hljs-keyword">else</span>&#123;</span><br><span class="line">            ......</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这段代码比较多，本篇省略缓存的部分，只看绘制，主要是通过子view和其他变量找到锚点信息，通过锚点信息判断出是从下往上填充还是从上往下填充，updateLayoutStateToFillStart和updateLayoutStateToFillEnd不断更新锚点的值，其实就是计算屏幕的上方或者下方是否还有剩余的空间，在调用fill方法填充的时候，如果空间不足就不会执行填充的方法。然后在fill(recycler, mLayoutState, state, false)方法中填充View。</p>
+<p>mAnchorInfo是AnchorInfo类用来保存锚点的信息，它有三个主要变量</p>
+<ol>
+<li>int mPosition;//锚点参考view在整个布局中的位置，是第几个</li>
+<li>int mCoordinate; //锚点的起始坐标</li>
+<li>boolean mLayoutFromEnd; 是否从尾部开始布局默认是false</li>
+</ol>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">   <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * 填充由layoutState给定的布局，它独立于LinearLayoutManager之外，稍微改一下可以用于我们的自定义的LayoutManager</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> recycler        当前的回收对象</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> layoutState     记录如何填充空间</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> state           控制滚动的步骤</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> stopOnFocusable 如果为true，则在第一个可聚焦的新子元素中停止填充</span></span><br><span class="line"><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 它添加的像素数。适用于滚动函数</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">fill</span><span class="hljs-params">(RecyclerView.Recycler recycler, LayoutState layoutState,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            RecyclerView.State state, <span class="hljs-keyword">boolean</span> stopOnFocusable)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">// 我们应该设置最大偏移量是 mFastScroll + available</span></span><br><span class="line">        <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> start = layoutState.mAvailable;</span><br><span class="line">        <span class="hljs-keyword">if</span> (layoutState.mScrollingOffset != LayoutState.SCROLLING_OFFSET_NaN) &#123;</span><br><span class="line">            <span class="hljs-comment">// TODO ugly bug fix. should not happen</span></span><br><span class="line">            <span class="hljs-keyword">if</span> (layoutState.mAvailable &lt; <span class="hljs-number">0</span>) &#123;</span><br><span class="line">                layoutState.mScrollingOffset += layoutState.mAvailable;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-comment">//回收掉已经滑出屏幕的View</span></span><br><span class="line">            recycleByLayoutState(recycler, layoutState);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">int</span> remainingSpace = layoutState.mAvailable + layoutState.mExtra;</span><br><span class="line">        LayoutChunkResult layoutChunkResult = mLayoutChunkResult;</span><br><span class="line">        <span class="hljs-comment">//循环填充：进入条件有足够的空白空间和有更多数据</span></span><br><span class="line">        <span class="hljs-keyword">while</span> ((layoutState.mInfinite || remainingSpace &gt; <span class="hljs-number">0</span>) &amp;&amp; layoutState.hasMore(state)) &#123;</span><br><span class="line">            layoutChunkResult.resetInternal();</span><br><span class="line">            <span class="hljs-keyword">if</span> (VERBOSE_TRACING) &#123;</span><br><span class="line">                TraceCompat.beginSection(<span class="hljs-string">"LLM LayoutChunk"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-comment">//向屏幕上填充一个View</span></span><br><span class="line">            layoutChunk(recycler, state, layoutState, layoutChunkResult);</span><br><span class="line">            <span class="hljs-keyword">if</span> (VERBOSE_TRACING) &#123;</span><br><span class="line">                TraceCompat.endSection();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">if</span> (layoutChunkResult.mFinished) &#123;</span><br><span class="line">                <span class="hljs-keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            layoutState.mOffset += layoutChunkResult.mConsumed * layoutState.mLayoutDirection;</span><br><span class="line">            <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">             * Consume the available space if:</span></span><br><span class="line"><span class="hljs-comment">             * * layoutChunk did not request to be ignored</span></span><br><span class="line"><span class="hljs-comment">             * * OR we are laying out scrap children</span></span><br><span class="line"><span class="hljs-comment">             * * OR we are not doing pre-layout</span></span><br><span class="line"><span class="hljs-comment">             */</span></span><br><span class="line">            <span class="hljs-keyword">if</span> (!layoutChunkResult.mIgnoreConsumed || mLayoutState.mScrapList != <span class="hljs-keyword">null</span></span><br><span class="line">                    || !state.isPreLayout()) &#123;</span><br><span class="line">                <span class="hljs-comment">//如果进行了填充，减去填充使用的空间</span></span><br><span class="line">                layoutState.mAvailable -= layoutChunkResult.mConsumed;</span><br><span class="line">                <span class="hljs-comment">// 保留一个单独的剩余空间，因为mAvailable对于回收非常重要</span></span><br><span class="line">                remainingSpace -= layoutChunkResult.mConsumed;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">if</span> (layoutState.mScrollingOffset != LayoutState.SCROLLING_OFFSET_NaN) &#123;</span><br><span class="line">                layoutState.mScrollingOffset += layoutChunkResult.mConsumed;</span><br><span class="line">                <span class="hljs-keyword">if</span> (layoutState.mAvailable &lt; <span class="hljs-number">0</span>) &#123;</span><br><span class="line">                    layoutState.mScrollingOffset += layoutState.mAvailable;</span><br><span class="line">                &#125;</span><br><span class="line">                recycleByLayoutState(recycler, layoutState);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">if</span> (stopOnFocusable &amp;&amp; layoutChunkResult.mFocusable) &#123;</span><br><span class="line">                <span class="hljs-keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (DEBUG) &#123;</span><br><span class="line">            validateChildOrder();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> start - layoutState.mAvailable;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>fill()方法中回收移除不可见的View，在屏幕上堆叠出可见的Viw，堆叠的原理就是看看当前界面有没有剩余的空间，如果有就拿一个新的View填充上去，填充工作使用layoutChunk(recycler, state, layoutState, layoutChunkResult)方法。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">layoutChunk</span><span class="hljs-params">(RecyclerView.Recycler recycler, RecyclerView.State state,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">           LayoutState layoutState, LayoutChunkResult result)</span> </span>&#123;</span><br><span class="line">         <span class="hljs-comment">//找到将要布局的View,先从缓存中找找不到在创建</span></span><br><span class="line">         View view = layoutState.next(recycler);        </span><br><span class="line">       ......</span><br><span class="line">        LayoutParams params = (LayoutParams) view.getLayoutParams();</span><br><span class="line">        <span class="hljs-comment">//如果ViewHolder的列表不为null</span></span><br><span class="line">       <span class="hljs-keyword">if</span> (layoutState.mScrapList == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">           <span class="hljs-keyword">if</span> (mShouldReverseLayout == (layoutState.mLayoutDirection</span><br><span class="line">                   == LayoutState.LAYOUT_START)) &#123;</span><br><span class="line">               <span class="hljs-comment">//添加view，最终调用ViewGroup的addView方法</span></span><br><span class="line">               addView(view);</span><br><span class="line">           &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">               <span class="hljs-comment">//添加view， 最终调用ViewGroup的addView方法</span></span><br><span class="line">               addView(view, <span class="hljs-number">0</span>);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">           <span class="hljs-keyword">if</span> (mShouldReverseLayout == (layoutState.mLayoutDirection</span><br><span class="line">                   == LayoutState.LAYOUT_START)) &#123;</span><br><span class="line">               <span class="hljs-comment">//将要消失的view</span></span><br><span class="line">               addDisappearingView(view);</span><br><span class="line">           &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">               <span class="hljs-comment">//将要消失的view</span></span><br><span class="line">               addDisappearingView(view, <span class="hljs-number">0</span>);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="hljs-comment">//测量子view</span></span><br><span class="line">       measureChildWithMargins(view, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);</span><br><span class="line">       result.mConsumed = mOrientationHelper.getDecoratedMeasurement(view);</span><br><span class="line">        <span class="hljs-keyword">int</span> left, top, right, bottom;</span><br><span class="line">       <span class="hljs-comment">//横排和竖排不同模式下 子view的四个边的边距</span></span><br><span class="line">       <span class="hljs-keyword">if</span> (mOrientation == VERTICAL) &#123;</span><br><span class="line">           <span class="hljs-keyword">if</span> (isLayoutRTL()) &#123;</span><br><span class="line">               right = getWidth() - getPaddingRight();</span><br><span class="line">               left = right - mOrientationHelper.getDecoratedMeasurementInOther(view);</span><br><span class="line">           &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">               left = getPaddingLeft();</span><br><span class="line">               right = left + mOrientationHelper.getDecoratedMeasurementInOther(view);</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="hljs-keyword">if</span> (layoutState.mLayoutDirection == LayoutState.LAYOUT_START) &#123;</span><br><span class="line">               bottom = layoutState.mOffset;</span><br><span class="line">               top = layoutState.mOffset - result.mConsumed;</span><br><span class="line">           &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">               top = layoutState.mOffset;</span><br><span class="line">               bottom = layoutState.mOffset + result.mConsumed;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">           top = getPaddingTop();</span><br><span class="line">           bottom = top + mOrientationHelper.getDecoratedMeasurementInOther(view);</span><br><span class="line"></span><br><span class="line">           <span class="hljs-keyword">if</span> (layoutState.mLayoutDirection == LayoutState.LAYOUT_START) &#123;</span><br><span class="line">               right = layoutState.mOffset;</span><br><span class="line">               left = layoutState.mOffset - result.mConsumed;</span><br><span class="line">           &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">               left = layoutState.mOffset;</span><br><span class="line">               right = layoutState.mOffset + result.mConsumed;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="hljs-comment">//布局这个子view</span></span><br><span class="line">       layoutDecoratedWithMargins(view, left, top, right, bottom);</span><br><span class="line">       </span><br><span class="line">       ......</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>layoutChunk方法就是找到一个子view，寻找子view是先去缓存中寻找找不到在通过调用createViewHolder()创建一个新的，缓存的逻辑此篇不往下看，只看绘制流程</li>
+<li>找到view之后，通过addView方法，加入到ViewGroup中</li>
+<li>通过measureChildWithMargins方法测量一个子view，会把我们通过recycleview.addItemDecoration方法设置的分割线的大小也计算进去，之后计算子view的四个边的边距</li>
+<li>最后通过layoutDecoratedWithMargins方法布局一个子view。layoutDecoratedWithMargins中调用就是view的layout方法。</li>
+</ul>
+<p>到此dispatchLayoutStep2()这个方法算是看完了，到此所有子view的测量（measure）和布局（layout），然后执行dispatchLayoutStep2()这个方法后面的方法 mLayout.setMeasuredDimensionFromChildren(widthSpec, heightSpec) 根据子view的大小来设置自身（RecycleView）的大小。</p>
+<p>RecycleView的onMeasure方法看完了，下面来看一下它的onLayout方法。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onLayout</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> changed, <span class="hljs-keyword">int</span> l, <span class="hljs-keyword">int</span> t, <span class="hljs-keyword">int</span> r, <span class="hljs-keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">      TraceCompat.beginSection(TRACE_ON_LAYOUT_TAG);</span><br><span class="line">      dispatchLayout();</span><br><span class="line">      TraceCompat.endSection();</span><br><span class="line">      mFirstLayoutComplete = <span class="hljs-keyword">true</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>里面调用了 dispatchLayout()方法<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">void dispatchLayout() &#123;</span><br><span class="line">        if (mAdapter == null) &#123;</span><br><span class="line">            Log.e(TAG, &quot;No adapter attached; skipping layout&quot;);</span><br><span class="line">            // leave the state in START</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        if (mLayout == null) &#123;</span><br><span class="line">            Log.e(TAG, &quot;No layout manager attached; skipping layout&quot;);</span><br><span class="line">            // leave the state in START</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        mState.mIsMeasuring = false;</span><br><span class="line">        //如果状态还是开始状态，那么从新走一遍dispatchLayoutStep1();和dispatchLayoutStep2();</span><br><span class="line">        if (mState.mLayoutStep == State.STEP_START) &#123;</span><br><span class="line">            dispatchLayoutStep1();</span><br><span class="line">            mLayout.setExactMeasureSpecsFrom(this);</span><br><span class="line">            dispatchLayoutStep2();</span><br><span class="line">        &#125; else if (mAdapterHelper.hasUpdates() || mLayout.getWidth() != getWidth()</span><br><span class="line">                || mLayout.getHeight() != getHeight()) &#123;</span><br><span class="line">            // 数据更改后重新执行dispatchLayoutStep2();</span><br><span class="line">            mLayout.setExactMeasureSpecsFrom(this);</span><br><span class="line">            dispatchLayoutStep2();</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 确保是精准模式</span><br><span class="line">            mLayout.setExactMeasureSpecsFrom(this);</span><br><span class="line">        &#125;</span><br><span class="line">        dispatchLayoutStep3();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>在onMeasure的源码中我们知道，如果RecycleView设置的是精准模式（比如match_partent，写死的值）就直接返回了，那么它的状态还是State.STEP_START，到了onLayout方法后还是会执行dispatchLayoutStep1()和dispatchLayoutStep2()方法。</p>
+<p>也就是说如果RecycleView设置的wrap_content，那么就先去测量和布局子view，根据子view的宽高来确定自身的宽高，反之如果RecycleView设置的是精准模式，就在onLayou中去测量和布局子veiw。</p>
+<p>这里有出来一个dispatchLayoutStep3()，第三步</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dispatchLayoutStep3</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        mState.assertLayoutStep(State.STEP_ANIMATIONS);</span><br><span class="line">        startInterceptRequestLayout();<span class="hljs-comment">//开始中断布局</span></span><br><span class="line">        onEnterLayoutOrScroll();</span><br><span class="line">        mState.mLayoutStep = State.STEP_START;</span><br><span class="line">        <span class="hljs-keyword">if</span> (mState.mRunSimpleAnimations) &#123;</span><br><span class="line">            <span class="hljs-comment">// 找到当前的位置，并处理更改动画</span></span><br><span class="line">            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = mChildHelper.getChildCount() - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) &#123;</span><br><span class="line">                ViewHolder holder = getChildViewHolderInt(mChildHelper.getChildAt(i));</span><br><span class="line">                <span class="hljs-keyword">if</span> (holder.shouldIgnore()) &#123;</span><br><span class="line">                    <span class="hljs-keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="hljs-keyword">long</span> key = getChangedHolderKey(holder);</span><br><span class="line">                <span class="hljs-keyword">final</span> ItemHolderInfo animationInfo = mItemAnimator</span><br><span class="line">                        .recordPostLayoutInformation(mState, holder);</span><br><span class="line">                ViewHolder oldChangeViewHolder = mViewInfoStore.getFromOldChangeHolders(key);</span><br><span class="line">                <span class="hljs-keyword">if</span> (oldChangeViewHolder != <span class="hljs-keyword">null</span> &amp;&amp; !oldChangeViewHolder.shouldIgnore()) &#123;</span><br><span class="line">                   <span class="hljs-comment">//运行一个变更动画</span></span><br><span class="line">                    <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> oldDisappearing = mViewInfoStore.isDisappearing(</span><br><span class="line">                            oldChangeViewHolder);</span><br><span class="line">                    <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> newDisappearing = mViewInfoStore.isDisappearing(holder);</span><br><span class="line">                    <span class="hljs-keyword">if</span> (oldDisappearing &amp;&amp; oldChangeViewHolder == holder) &#123;</span><br><span class="line">                        <span class="hljs-comment">// run disappear animation instead of change</span></span><br><span class="line">                        mViewInfoStore.addToPostLayout(holder, animationInfo);</span><br><span class="line">                    &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                        <span class="hljs-keyword">final</span> ItemHolderInfo preInfo = mViewInfoStore.popFromPreLayout(</span><br><span class="line">                                oldChangeViewHolder);</span><br><span class="line">                        <span class="hljs-comment">// we add and remove so that any post info is merged.</span></span><br><span class="line">                        mViewInfoStore.addToPostLayout(holder, animationInfo);</span><br><span class="line">                        ItemHolderInfo postInfo = mViewInfoStore.popFromPostLayout(holder);</span><br><span class="line">                        <span class="hljs-keyword">if</span> (preInfo == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                            handleMissingPreInfoForChangeError(key, holder, oldChangeViewHolder);</span><br><span class="line">                        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                            animateChange(oldChangeViewHolder, holder, preInfo, postInfo,</span><br><span class="line">                                    oldDisappearing, newDisappearing);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                    mViewInfoStore.addToPostLayout(holder, animationInfo);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-comment">// 触发动画</span></span><br><span class="line">            mViewInfoStore.process(mViewInfoProcessCallback);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mLayout.removeAndRecycleScrapInt(mRecycler);</span><br><span class="line">        mState.mPreviousLayoutItemCount = mState.mItemCount;</span><br><span class="line">        mDataSetHasChangedAfterLayout = <span class="hljs-keyword">false</span>;</span><br><span class="line">        mDispatchItemsChangedEvent = <span class="hljs-keyword">false</span>;</span><br><span class="line">        mState.mRunSimpleAnimations = <span class="hljs-keyword">false</span>;</span><br><span class="line"></span><br><span class="line">        mState.mRunPredictiveAnimations = <span class="hljs-keyword">false</span>;</span><br><span class="line">        mLayout.mRequestedSimpleAnimations = <span class="hljs-keyword">false</span>;</span><br><span class="line">        <span class="hljs-keyword">if</span> (mRecycler.mChangedScrap != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            mRecycler.mChangedScrap.clear();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (mLayout.mPrefetchMaxObservedInInitialPrefetch) &#123;</span><br><span class="line">            <span class="hljs-comment">// Initial prefetch has expanded cache, so reset until next prefetch.</span></span><br><span class="line">            <span class="hljs-comment">// This prevents initial prefetches from expanding the cache permanently.</span></span><br><span class="line">            mLayout.mPrefetchMaxCountObserved = <span class="hljs-number">0</span>;</span><br><span class="line">            mLayout.mPrefetchMaxObservedInInitialPrefetch = <span class="hljs-keyword">false</span>;</span><br><span class="line">            mRecycler.updateViewCacheSize();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-comment">//布局完成</span></span><br><span class="line">        mLayout.onLayoutCompleted(mState);</span><br><span class="line">        onExitLayoutOrScroll();</span><br><span class="line">        stopInterceptRequestLayout(<span class="hljs-keyword">false</span>);</span><br><span class="line">        mViewInfoStore.clear();</span><br><span class="line">        <span class="hljs-keyword">if</span> (didChildRangeChange(mMinMaxLayoutPositions[<span class="hljs-number">0</span>], mMinMaxLayoutPositions[<span class="hljs-number">1</span>])) &#123;</span><br><span class="line">            dispatchOnScrolled(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        recoverFocusFromState();</span><br><span class="line">        resetFocusInfo();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，dispatchLayoutStep3()主要做了一些收尾的工作，这是布局的最后一步，保存视图和动画的信息，并做一些清理的工作。</p>
+<p>onLayout方法就完了，最后看onDraw()方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onDraw</span><span class="hljs-params">(Canvas c)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">super</span>.onDraw(c);</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> count = mItemDecorations.size();</span><br><span class="line">    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">        mItemDecorations.get(i).onDraw(c, <span class="hljs-keyword">this</span>, mState);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>onDraw方法很简单，就是绘制分割线，我们通过recycleview.addItemDecoration方法设置的分割线就在这里开始绘制，调用的是我们自定义分割线的时候里面写的onDraw方法。绘制的区域就是我们在自定义分割线的时候重写的getItemOffsets方法中的设置的偏移。这部分的测量工作在dispatchLayoutStep2()-&gt;onLayoutChildren-&gt;fill-&gt;layoutChunk-&gt;measureChildWithMargins这个方法中。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">measureChildWithMargins</span><span class="hljs-params">(View child, <span class="hljs-keyword">int</span> widthUsed, <span class="hljs-keyword">int</span> heightUsed)</span> </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">final</span> LayoutParams lp = (LayoutParams) child.getLayoutParams();</span><br><span class="line">       <span class="hljs-comment">//获取装饰线条  就是我们添加的分割线</span></span><br><span class="line">       <span class="hljs-keyword">final</span> Rect insets = mRecyclerView.getItemDecorInsetsForChild(child);</span><br><span class="line">       widthUsed += insets.left + insets.right;</span><br><span class="line">       heightUsed += insets.top + insets.bottom;</span><br><span class="line">       <span class="hljs-comment">//计算长和宽的测量模式  加上margin，padding 和 分隔线的长宽</span></span><br><span class="line">       <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> widthSpec = getChildMeasureSpec(getWidth(), getWidthMode(),</span><br><span class="line">               getPaddingLeft() + getPaddingRight()</span><br><span class="line">                       + lp.leftMargin + lp.rightMargin + widthUsed, lp.width,</span><br><span class="line">               canScrollHorizontally());</span><br><span class="line">       <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> heightSpec = getChildMeasureSpec(getHeight(), getHeightMode(),</span><br><span class="line">               getPaddingTop() + getPaddingBottom()</span><br><span class="line">                       + lp.topMargin + lp.bottomMargin + heightUsed, lp.height,</span><br><span class="line">               canScrollVertically());</span><br><span class="line">       <span class="hljs-keyword">if</span> (shouldMeasureChild(child, widthSpec, heightSpec, lp)) &#123;</span><br><span class="line">           child.measure(widthSpec, heightSpec);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面代码中就是获取线条的长宽，然后子veiw的可使用的宽高要减去这部分的值。</p>
+<p>OK到这里RecycleView的绘制流程查看完成。</p>
+<p>参考文章</p>
+<p><a href="https://www.jianshu.com/p/f91b41c8f487" target="_blank" rel="noopener">https://www.jianshu.com/p/f91b41c8f487</a></p>
+<p><a href="https://www.jianshu.com/p/0c41bf63072a" target="_blank" rel="noopener">https://www.jianshu.com/p/0c41bf63072a</a></p>
+<p><a href="https://www.jianshu.com/p/616ca453aa17" target="_blank" rel="noopener">https://www.jianshu.com/p/616ca453aa17</a></p>
+<p><a href="https://www.jianshu.com/p/8fa71076179d" target="_blank" rel="noopener">https://www.jianshu.com/p/8fa71076179d</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/进阶/">进阶</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/04/05/technology/RecycleView的缓存原理/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">RecycleView的缓存原理</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/04/05/technology/Android刘海屏适配/">
+                <span class="level-item">Android刘海屏适配</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">コメント</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/04/05/technology/RecycleView的绘制流程/';
+        this.page.identifier = '2019/04/05/technology/RecycleView的绘制流程/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="CHS">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        CHS
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        只要坚持，终会有收获
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        投稿
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        74
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        カテゴリ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        16
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        タグ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        11
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
+                フォローする</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/chsmy">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="weibo" href="http://weibo.com/2504847694/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="csdn" href="https://blog.csdn.net/mingyunxiaohai">
+                
+                <i class="fab fa-wordpress"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="简书" href="https://www.jianshu.com/u/6ab3e65ba7b5">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            リンク
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="http://www.wanandroid.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">玩Android</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wanandroid.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                カテゴリ
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">61</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Android/UI/">
+            <span class="level-start">
+                <span class="level-item">UI</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/c-c/">
+            <span class="level-start">
+                <span class="level-item">c/c++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/jetpack/">
+            <span class="level-start">
+                <span class="level-item">jetpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/kotlin/">
+            <span class="level-start">
+                <span class="level-item">kotlin</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">16</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/测试和性能优化/">
+            <span class="level-start">
+                <span class="level-item">测试和性能优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/源码/">
+            <span class="level-start">
+                <span class="level-item">源码</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/资料/">
+            <span class="level-start">
+                <span class="level-item">资料</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/设计模式/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/人生/">
+            <span class="level-start">
+                <span class="level-item">人生</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/人生/感悟/">
+            <span class="level-start">
+                <span class="level-item">感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/人生/读书/">
+            <span class="level-start">
+                <span class="level-item">读书</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/跨平台/">
+            <span class="level-start">
+                <span class="level-item">跨平台</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/跨平台/flutter/">
+            <span class="level-start">
+                <span class="level-item">flutter</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            タグクラウド
+        </h3>
+        <a href="/tags/Flutter/" style="font-size: 11.25px;">Flutter</a> <a href="/tags/UI/" style="font-size: 18.75px;">UI</a> <a href="/tags/c-c/" style="font-size: 16.25px;">c/c++</a> <a href="/tags/jetpack/" style="font-size: 16.25px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 13.75px;">感悟</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/测试和性能优化/" style="font-size: 15px;">测试和性能优化</a> <a href="/tags/设计模式/" style="font-size: 11.25px;">设计模式</a> <a href="/tags/读书/" style="font-size: 12.5px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 17.5px;">进阶</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="RecycleView的绘制流程" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '投稿',
+                PAGES: 'Pages',
+                CATEGORIES: 'カテゴリ',
+                TAGS: 'タグ',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

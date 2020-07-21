@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Android Jetpack之Navigation - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="Android Jetpack之Navigation">
+<meta name="keywords" content="jetpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Jetpack之Navigation">
+<meta property="og:url" content="https://chsmy.github.io/2020/02/20/technology/Android-Jetpack之Navigation/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="Android Jetpack之Navigation">
+<meta property="og:locale" content="CHS">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/20/17062ea4589cc13e?w=268&h=558&f=gif&s=100890">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/20/17062e87272110a7?w=1349&h=851&f=png&s=68448">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/20/17062e994ccd187c?w=505&h=391&f=png&s=23581">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/20/17062eafca393caf?w=266&h=559&f=gif&s=70163">
+<meta property="og:updated_time" content="2020-02-20T14:42:15.399Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Jetpack之Navigation">
+<meta name="twitter:description" content="Android Jetpack之Navigation">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2020/2/20/17062ea4589cc13e?w=268&h=558&f=gif&s=100890">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Android Jetpack之Navigation" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-02-20T14:07:00.000Z">2020-02-20</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    40 minutes read (About 6071 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Android Jetpack之Navigation
+            
+        </h1>
+        <div class="content">
+            <p>Android Jetpack之Navigation</p>
+<a id="more"></a>
+<h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1 前言"></a>1 前言</h3><p>Android Jetpack 的导航组件Navigation可以很方便的管理fragment/activity的导航。</p>
+<blockquote>
+<p>注意：如果您要在 Android Studio 中使用 Navigation 组件，则必须使用 Android Studio 3.3 或更高版本。</p>
+</blockquote>
+<p>导航组件有三个关键部分</p>
+<ol>
+<li>NavGraph：导航图，包含一组页面和它们之间的跳转关系，比如A页面跳到B页面 B页面跳到C页面这样的关系信息</li>
+<li>NavHost：一个可以显示导航页面的空白容器，系统默认实现了一个NavHostFragment</li>
+<li>NavController：管理应用导航的对象，<strong>用来控制NavHost容器中当前应该显示的页面</strong></li>
+</ol>
+<h3 id="2-页面跳转简单使用"><a href="#2-页面跳转简单使用" class="headerlink" title="2 页面跳转简单使用"></a>2 页面跳转简单使用</h3><p>下面先来一个简单的小例子了解一下基本使用效果如下：FirstFragment-&gt;SecondFragment；SecondFragment-&gt;ThirdFragment；ThirdFragment-&gt;FirstFragment；ThirdFragment-&gt;SecondFragment</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/2/20/17062ea4589cc13e?w=268&amp;h=558&amp;f=gif&amp;s=100890" alt></p>
+<p>添加最新依赖：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">implementation &quot;androidx.navigation:navigation-fragment:2.1.0&quot;</span><br><span class="line">implementation &quot;androidx.navigation:navigation-ui:2.1.0&quot;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-1-创建导航图"><a href="#2-1-创建导航图" class="headerlink" title="2.1 创建导航图"></a>2.1 创建导航图</h3><ul>
+<li>右键res文件夹</li>
+<li>依次选择New-&gt;Android Resource File</li>
+<li>第一行File name 中输入一个文件名 比如 nav_graph</li>
+<li>第二行在Resource type 下拉列表中选择 Navigation，然后点击 OK。</li>
+</ul>
+<p>点击OK之后，Android Studio 会在 res 目录内创建一个 navigation 资源目录，这里面有我们刚才创建的文件。</p>
+<p>双击该文件可以打开该文件如下图，我们可以使用图像化界面编辑，也可以使用代码来编辑，右下角可以切换。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/2/20/17062e87272110a7?w=1349&amp;h=851&amp;f=png&amp;s=68448" alt></p>
+<p>点击上图1处的加号，把刚才创建的3个Fragment都添加进来，页面跳转关系可以直接手动连线，比如从FirstFragment连一个箭头到SecondFragment，就表示从FirstFragment跳转到SecondFragment。</p>
+<p>如果点解了某条线，上图最右边会显示该线的属性信息，我们可以自己定义，包括线的id，将要导航的目的地，页面切换的动画，动画系统内置了几个，我们也可以自己定义补间画。弹出的时候切换到哪个页面等。</p>
+<p>切换到编码栏可以看到最后生成的代码如下：<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">navigation</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">xmlns:tools</span>=<span class="hljs-string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/nav_demo_1"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">app:startDestination</span>=<span class="hljs-string">"@id/firstFragment"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">fragment</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/firstFragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:name</span>=<span class="hljs-string">"com.chs.androiddailytext.jetpack.navigation.FirstFragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:label</span>=<span class="hljs-string">"fragment_frist"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">tools:layout</span>=<span class="hljs-string">"@layout/fragment_frist"</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">action</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/action_firstFragment_to_secondFragment"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:destination</span>=<span class="hljs-string">"@id/secondFragment"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:enterAnim</span>=<span class="hljs-string">"@anim/slide_in_right"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:exitAnim</span>=<span class="hljs-string">"@anim/slide_out_left"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:popEnterAnim</span>=<span class="hljs-string">"@anim/slide_in_left"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:popExitAnim</span>=<span class="hljs-string">"@anim/slide_out_right"</span> /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">fragment</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">fragment</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/secondFragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:name</span>=<span class="hljs-string">"com.chs.androiddailytext.jetpack.navigation.SecondFragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:label</span>=<span class="hljs-string">"fragment_second"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">tools:layout</span>=<span class="hljs-string">"@layout/fragment_second"</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">action</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/action_secondFragment_to_thirdFragment"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:destination</span>=<span class="hljs-string">"@id/thirdFragment"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:enterAnim</span>=<span class="hljs-string">"@anim/slide_in_right"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:exitAnim</span>=<span class="hljs-string">"@anim/slide_out_left"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:popEnterAnim</span>=<span class="hljs-string">"@anim/slide_in_left"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:popExitAnim</span>=<span class="hljs-string">"@anim/slide_out_right"</span> /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">fragment</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">fragment</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/thirdFragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:name</span>=<span class="hljs-string">"com.chs.androiddailytext.jetpack.navigation.ThirdFragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:label</span>=<span class="hljs-string">"fragment_third"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">tools:layout</span>=<span class="hljs-string">"@layout/fragment_third"</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">action</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/action_thirdFragment_to_firstFragment"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:enterAnim</span>=<span class="hljs-string">"@anim/slide_in_right"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:exitAnim</span>=<span class="hljs-string">"@anim/slide_out_left"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:popEnterAnim</span>=<span class="hljs-string">"@anim/slide_in_left"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:popExitAnim</span>=<span class="hljs-string">"@anim/slide_out_right"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:popUpTo</span>=<span class="hljs-string">"@id/firstFragment"</span> /&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">action</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/action_thirdFragment_to_secondFragment"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:enterAnim</span>=<span class="hljs-string">"@anim/slide_in_right"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:exitAnim</span>=<span class="hljs-string">"@anim/slide_out_left"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:popEnterAnim</span>=<span class="hljs-string">"@anim/slide_in_left"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:popExitAnim</span>=<span class="hljs-string">"@anim/slide_out_right"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">app:popUpTo</span>=<span class="hljs-string">"@+id/secondFragment"</span> /&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">deepLink</span> <span class="hljs-attr">app:uri</span>=<span class="hljs-string">"www.chs.com/&#123;userName&#125;"</span> /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">fragment</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">navigation</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>根标签是navigation，它需要有一个属性startDestination，表示默认第一个显示的界面，这里设置FirstFragment</li>
+<li>每个fragment标签代表一个fragment类，其实不止可以写fragment标签，还可以写activity/dialog标签，代表着Naviagtion的默认能力，既可以导航Fragment，也可以导航Activity，DialogFragment。</li>
+<li>每个action标签就相当于上图中的每条线，代表了执行切换的时候的目的地，切换动画等信息。</li>
+<li>页面切换的动画就是简单的补间动画非常简单，比如定义一个从右边滑入的动画如下<figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">set</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">translate</span> <span class="hljs-attr">android:fromXDelta</span>=<span class="hljs-string">"-100%"</span> <span class="hljs-attr">android:toXDelta</span>=<span class="hljs-string">"0%"</span></span></span><br><span class="line"><span class="hljs-tag">               <span class="hljs-attr">android:fromYDelta</span>=<span class="hljs-string">"0%"</span> <span class="hljs-attr">android:toYDelta</span>=<span class="hljs-string">"0%"</span></span></span><br><span class="line"><span class="hljs-tag">               <span class="hljs-attr">android:duration</span>=<span class="hljs-string">"200"</span>/&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">set</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2-2-给activity添加NavHost"><a href="#2-2-给activity添加NavHost" class="headerlink" title="2.2 给activity添加NavHost"></a>2.2 给activity添加NavHost</h3><p>创建一个Activity，在其xml文件中添加FragmentNavHost<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">FrameLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:orientation</span>=<span class="hljs-string">"vertical"</span> <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">fragment</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/fragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:name</span>=<span class="hljs-string">"androidx.navigation.fragment.NavHostFragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:defaultNavHost</span>=<span class="hljs-string">"true"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:navGraph</span>=<span class="hljs-string">"@navigation/nav_graph"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">FrameLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>标签为fragment，android:name就是NavHost的实现类，这里是NavHostFragment</li>
+<li><code>app:navGraph</code> 属性就是我们前面在res文件夹下创建的文件</li>
+<li><code>app:defaultNavHost=&quot;true&quot;</code> 意思是可以拦截系统的返回键，这样我们点击手机返回按钮的时候就能跟activity一样回到上一个页面了。</li>
+</ul>
+<h3 id="2-3-开启导航"><a href="#2-3-开启导航" class="headerlink" title="2.3 开启导航"></a>2.3 开启导航</h3><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">view.findViewById(R.id.button).setOnClickListener(v -&gt; &#123;</span><br><span class="line">    Bundle bundle = <span class="hljs-keyword">new</span> Bundle();</span><br><span class="line">    bundle.putString(<span class="hljs-string">"title"</span>,<span class="hljs-string">"我是前面传过来的"</span>);</span><br><span class="line">    Navigation.findNavController(v).navigate(R.id.action_firstFragment_to_secondFragment,bundle);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>开启导航非常简单，就一句话，通过<code>Navigation#findNavController</code>方法找到NavController，调用它的navigate方法开始导航。</p>
+<ul>
+<li>第一个参数是action的id。</li>
+<li>第二个参数是bundle，用于两个界面之间传递参数，可以不传。在目标页面通过<code>getArguments()</code>方法来检索是否有bundle并获取数据。</li>
+</ul>
+<p><strong>除了直接使用Bundle来传递数据，Google更推荐我们使用<a href="https://developer.android.google.cn/guide/navigation/navigation-pass-data#Safe-args" target="_blank" rel="noopener">Safe Args</a>来传递数据，因为他可以确保数据的类型安全。</strong></p>
+<p>使用afe Args，首先在工程的build.gradle文件夹中添加afe Args的gradle插件的依赖<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classpath &quot;androidx.navigation:navigation-safe-args-gradle-plugin:2.1.0&quot;</span><br></pre></td></tr></table></figure></p>
+<p>然后在app下的build.gradle文件中引入插件<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &quot;androidx.navigation.safeargs&quot;</span><br><span class="line">//kotlin使用下面方式引入</span><br><span class="line">apply plugin: &quot;androidx.navigation.safeargs.kotlin&quot;</span><br></pre></td></tr></table></figure></p>
+<p>然后在最开始创建的nav_graph导航图文件中添加argument标签如下<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">fragment</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/firstFragment"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:name</span>=<span class="hljs-string">"com.chs.androiddailytext.jetpack.navigation.FirstFragment"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:label</span>=<span class="hljs-string">"fragment_frist"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">tools:layout</span>=<span class="hljs-string">"@layout/fragment_frist"</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">action</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/action_firstFragment_to_secondFragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:destination</span>=<span class="hljs-string">"@id/secondFragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:enterAnim</span>=<span class="hljs-string">"@anim/slide_in_right"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:exitAnim</span>=<span class="hljs-string">"@anim/slide_out_left"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:popEnterAnim</span>=<span class="hljs-string">"@anim/slide_in_left"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:popExitAnim</span>=<span class="hljs-string">"@anim/slide_out_right"</span> /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">argument</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">"title"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:defaultValue</span>=<span class="hljs-string">"i am title"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:argType</span>=<span class="hljs-string">"string"</span>/&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">fragment</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>argument标签中添加参数名，参数类型和默认值。添加完之后重新编译，插件就会自动给我们生成几个类，位置在 \app\build\generated\source\navigation-args\debug 如下图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/2/20/17062e994ccd187c?w=505&amp;h=391&amp;f=png&amp;s=23581" alt></p>
+<p>下面开始使用这几个类，首先在FirstFragment中，直接通过FirstFragmentArgs.Builder()方法来创建bundle对象<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">view.findViewById(R.id.button).setOnClickListener(v -&gt; &#123;</span><br><span class="line">  Bundle bundle = <span class="hljs-keyword">new</span> FirstFragmentArgs.Builder().setTitle(<span class="hljs-string">"我是前面传过来的"</span>).build().toBundle();</span><br><span class="line">  Navigation.findNavController(v).navigate(R.id.action_firstFragment_to_secondFragment,bundle);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure></p>
+<p>然后在SecondFragment中使用FirstFragmentArgs.fromBundle方法来接收值<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Bundle arguments = getArguments();</span><br><span class="line">      <span class="hljs-keyword">if</span>(arguments!=<span class="hljs-keyword">null</span>)&#123;</span><br><span class="line">          String title = FirstFragmentArgs.fromBundle(getArguments()).getTitle();</span><br><span class="line">          tvTitle.setText(title);</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样也能正常接收到正确的传参，并且是类型安全的。</p>
+<p>对于传递参数这块，由于这几个fragment在同一个activity中，所以我们还可以使用Jetpack组件库中的<strong>ViewModel和LiveData</strong>来共享参数。这样不仅可以保证类型安全，还可以在屏幕旋转导致的activity重建的时候保持数据不丢失。数据共享之前文章有<a href="https://blog.csdn.net/mingyunxiaohai/article/details/89429946" target="_blank" rel="noopener">Android Jetpack之ViewModel</a>。</p>
+<h4 id="2-3-Activity跳转"><a href="#2-3-Activity跳转" class="headerlink" title="2.3 Activity跳转"></a>2.3 Activity跳转</h4><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">NavController navController = <span class="hljs-keyword">new</span> NavController(<span class="hljs-keyword">this</span>);</span><br><span class="line">NavigatorProvider navigatorProvider = navController.getNavigatorProvider();</span><br><span class="line">NavGraph navGraph = <span class="hljs-keyword">new</span> NavGraph(<span class="hljs-keyword">new</span> NavGraphNavigator(navigatorProvider));</span><br><span class="line">ActivityNavigator navigator = navigatorProvider.getNavigator(ActivityNavigator.class);</span><br><span class="line">ActivityNavigator.Destination destination = navigator.createDestination();</span><br><span class="line"><span class="hljs-comment">//id可以随便一个资源id</span></span><br><span class="line">destination.setId(R.id.bottom_nav_activity);</span><br><span class="line">destination.setComponentName(<span class="hljs-keyword">new</span> ComponentName(getApplication().getPackageName(),</span><br><span class="line">        <span class="hljs-string">"com.chs.androiddailytext.jetpack.botton_navigation.BottomNavActivity"</span>));</span><br><span class="line">navGraph.addDestination(destination);</span><br><span class="line">navGraph.setStartDestination(destination.getId());</span><br><span class="line">navController.setGraph(navGraph);</span><br></pre></td></tr></table></figure>
+<p>NavController并不直接执行具体的导航操作，而是交给Navigator的子类具体的ActivityNavigator，FragmentNavigator，DialogFragmentNavigator去做，甚至可以自己继承一个Navigator来完成一个不一样的跳转。</p>
+<p>这里跳转Activity就创建一个ActivityNavigator，使用它的全类名进行跳转。</p>
+<p>Activity的跳转看起来还是挺麻烦的，直接一个startActivity不就完事了。那有啥用啊。</p>
+<p>首先这部分代码可以封装一下会简单很多，其次把Activity和Fragment的跳转方式统一，最后，在组件化项目开发中，不同模块之间如果没有依赖关系，两者之间如果想要相互跳转的时候，就需要使用Activity的全类名来进行跳转了。之前组件化开发项目的时候可能会引入阿里的ARouter路由框架或者别的或者自己写路由框架，现在其实也可以直接使用Navigation，稍微改造一下也能很方便的实现组件之间跳转。</p>
+<h4 id="2-4-deepLink"><a href="#2-4-deepLink" class="headerlink" title="2.4 deepLink"></a>2.4 deepLink</h4><p>deepLink：深层链接，就是直接跳转到应用中的某个页面，比如从通知栏直接跳转到详情页面。</p>
+<p>Navigation 可以创建两种不同的深层链接：显示深层链接和隐式深层链接</p>
+<p>显示深层链接使用PendingIntent来导航到特定页面,比如可以在通知栏，快捷方式等地方跳转，比如下面的通过通知跳转。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">view.findViewById(R.id.button1).setOnClickListener(v -&gt; &#123;</span><br><span class="line">       Bundle bundle = <span class="hljs-keyword">new</span> Bundle();</span><br><span class="line">       bundle.putString(<span class="hljs-string">"userName"</span>,<span class="hljs-string">"大海"</span>);</span><br><span class="line"><span class="hljs-comment">//     PendingIntent pendingIntent = Navigation.findNavController(v).createDeepLink().setArguments(bundle)</span></span><br><span class="line"><span class="hljs-comment">//     .setDestination(R.id.thirdFragment)</span></span><br><span class="line"><span class="hljs-comment">//     .createPendingIntent();</span></span><br><span class="line">       PendingIntent pendingIntent = <span class="hljs-keyword">new</span> NavDeepLinkBuilder(requireContext())</span><br><span class="line">               .setGraph(R.navigation.nav_graph)</span><br><span class="line">               .setDestination(R.id.thirdFragment)</span><br><span class="line">               .setArguments(bundle)</span><br><span class="line">               .createPendingIntent();</span><br><span class="line">       NotificationManagerCompat notificationManager = NotificationManagerCompat.from(requireContext());</span><br><span class="line">       <span class="hljs-keyword">if</span>(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.O)&#123;</span><br><span class="line">           notificationManager.createNotificationChannel(<span class="hljs-keyword">new</span> NotificationChannel(</span><br><span class="line">                   <span class="hljs-string">"deepLink"</span>,<span class="hljs-string">"deepLinkName"</span>, NotificationManager.IMPORTANCE_HIGH</span><br><span class="line">           ));</span><br><span class="line">       &#125;</span><br><span class="line">       NotificationCompat.Builder builder = <span class="hljs-keyword">new</span> NotificationCompat.Builder(requireContext(), <span class="hljs-string">"deepLink"</span>)</span><br><span class="line">               .setSmallIcon(R.drawable.ic_launcher_foreground)</span><br><span class="line">               .setContentTitle(<span class="hljs-string">"测试deepLink"</span>)</span><br><span class="line">               .setContentText(<span class="hljs-string">"哈哈哈"</span>)</span><br><span class="line">               .setContentIntent(pendingIntent)</span><br><span class="line">               .setPriority(NotificationCompat.PRIORITY_DEFAULT);</span><br><span class="line">       notificationManager.notify(<span class="hljs-number">10</span>,builder.build());</span><br><span class="line">   &#125;);</span><br></pre></td></tr></table></figure></p>
+<p>可以使用<code>Navigation.findNavController(v).createDeepLink()</code>或者<code>new NavDeepLinkBuilder(context)</code>两种方法来创建一个深层链接的PendingIntent。</p>
+<blockquote>
+<p>注意使用显示深层链接打开应用的时候，当前堆栈会被清空，替换为当前深层上的结点。当为嵌套图表的时候（就是<navigation>标签里面还有<navigation>标签）那么每个<navigation>都会添加到相应的堆栈中。</navigation></navigation></navigation></p>
+</blockquote>
+<p>隐式链接是当用户点击某个链接的时候，通过URI跳转到某个页面。<br>建立隐式链接，首先在最开始创建的nav_graph.xml文件中给某个fragment添加deepLink标签。前面nav_graph.xml文件中已经添加<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;deepLink app:uri=&quot;www.chs.com/&#123;userName&#125;&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>该uri没有声明是http还是https，那么这两个都能匹配。大括号内的是传递的参数。</p>
+<p>然后去manifest.xml 文件中给当前的activity添加一个<code>&lt;nav-graph&gt;</code>属性<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">activity</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">".jetpack.navigation.NavigationActivity"</span>&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;<span class="hljs-name">nav-graph</span> <span class="hljs-attr">android:value</span>=<span class="hljs-string">"@navigation/nav_graph"</span>/&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在build的时候，Navigation 组件会将 <code>&lt;nav-graph&gt;</code> 元素替换为生成的 <code>&lt;intent-filter&gt;</code> 元素来匹配深层链接。其实我们在studio中双击打开apk就能在看到manifest.xml中替换完成的样子如下：<br>apk路径：app - &gt; build - &gt; outputs - &gt; apk - &gt; debug - &gt; app-debug.apk<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">activity</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:name</span>=<span class="hljs-string">"com.chs.androiddailytext.jetpack.navigation.NavigationActivity"</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">intent-filter</span>&gt;</span></span><br><span class="line">            <span class="hljs-tag">&lt;<span class="hljs-name">action</span></span></span><br><span class="line"><span class="hljs-tag">                <span class="hljs-attr">android:name</span>=<span class="hljs-string">"android.intent.action.VIEW"</span> /&gt;</span></span><br><span class="line">            <span class="hljs-tag">&lt;<span class="hljs-name">category</span></span></span><br><span class="line"><span class="hljs-tag">                <span class="hljs-attr">android:name</span>=<span class="hljs-string">"android.intent.category.DEFAULT"</span> /&gt;</span></span><br><span class="line">            <span class="hljs-tag">&lt;<span class="hljs-name">category</span></span></span><br><span class="line"><span class="hljs-tag">                <span class="hljs-attr">android:name</span>=<span class="hljs-string">"android.intent.category.BROWSABLE"</span> /&gt;</span></span><br><span class="line">            <span class="hljs-tag">&lt;<span class="hljs-name">data</span></span></span><br><span class="line"><span class="hljs-tag">                <span class="hljs-attr">android:scheme</span>=<span class="hljs-string">"http"</span> /&gt;</span></span><br><span class="line">            <span class="hljs-tag">&lt;<span class="hljs-name">data</span></span></span><br><span class="line"><span class="hljs-tag">                <span class="hljs-attr">android:scheme</span>=<span class="hljs-string">"https"</span> /&gt;</span></span><br><span class="line">            <span class="hljs-tag">&lt;<span class="hljs-name">data</span></span></span><br><span class="line"><span class="hljs-tag">                <span class="hljs-attr">android:host</span>=<span class="hljs-string">"www.chs.com"</span> /&gt;</span></span><br><span class="line">            <span class="hljs-tag">&lt;<span class="hljs-name">data</span></span></span><br><span class="line"><span class="hljs-tag">                <span class="hljs-attr">android:pathPrefix</span>=<span class="hljs-string">"/"</span> /&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;/<span class="hljs-name">intent-filter</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>可以通过adb来测试隐式深层链接的效果，打开命令行输入<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am start -a android.intent.action.VIEW -d &quot;http://www.chs.com/Divad&quot;</span><br></pre></td></tr></table></figure></p>
+<p>在系统弹出的窗口中，选择使用我们的应用打开，就能跳转到对应的页面了。</p>
+<h4 id="2-5-底部导航"><a href="#2-5-底部导航" class="headerlink" title="2.5 底部导航"></a>2.5 底部导航</h4><p>使用Navigation还可以完成顶部应用栏的导航，侧滑抽屉的导航，底部导航。</p>
+<p>下面来完成一个最常用的底部导航，底部导航非常容易实现，因为有现成的模板，只需在某个包下面右击鼠标，new-&gt;activity-&gt;Bottom Navigaton Activity就能直接创建一个带有底部导航的Activity。</p>
+<p>不过我们学习阶段就不这么搞了，自己建议空白的Activity，一点点的添加进去，走一遍流程更容易熟悉。</p>
+<p>创建一个BottomNavActivity和三个fragment：OneFragment，TowFragment，ThreeFragment。</p>
+<ol>
+<li>在res-&gt;navigation文件夹下新创建一个导航图命名为nav_bottom_graph.xml。这个图里的fragment彼此没有关系，所以也不用写action，最终很简单：<figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">navigation</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">xmlns:tools</span>=<span class="hljs-string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/nav_bottom_graph"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">app:startDestination</span>=<span class="hljs-string">"@id/oneFragment"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">fragment</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/oneFragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:name</span>=<span class="hljs-string">"com.chs.androiddailytext.jetpack.botton_navigation.OneFragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:label</span>=<span class="hljs-string">"fragment_one"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">tools:layout</span>=<span class="hljs-string">"@layout/fragment_one"</span> /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">fragment</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/towFragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:name</span>=<span class="hljs-string">"com.chs.androiddailytext.jetpack.botton_navigation.TowFragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:label</span>=<span class="hljs-string">"fragment_tow"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">tools:layout</span>=<span class="hljs-string">"@layout/fragment_tow"</span> /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">fragment</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/threeFragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:name</span>=<span class="hljs-string">"com.chs.androiddailytext.jetpack.botton_navigation.ThreeFragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:label</span>=<span class="hljs-string">"fragment_three"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">tools:layout</span>=<span class="hljs-string">"@layout/fragment_three"</span> /&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">navigation</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>如果引用有ActionBar，<code>android:label</code>属性的内容就会显示在标题栏，成为该页面的标题。</p>
+<ol start="2">
+<li>创建一个menu，menu中就是我们的底部菜单的各个子项的信息</li>
+</ol>
+<ul>
+<li>右键res文件夹</li>
+<li>依次选择New-&gt;Android Resource File</li>
+<li>第一行File name 中输入一个文件名 比如 bottom_nav.xml</li>
+<li>第二行在Resource type 下拉列表中选择 Menu，然后点击 OK。</li>
+</ul>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</span><br><span class="line">    &lt;item</span><br><span class="line">        android:id=&quot;@+id/oneFragment&quot;</span><br><span class="line">        android:icon=&quot;@drawable/ic_home&quot;</span><br><span class="line">        android:contentDescription=&quot;首页&quot;</span><br><span class="line">        android:title=&quot;首页&quot; /&gt;</span><br><span class="line">    &lt;item</span><br><span class="line">        android:id=&quot;@+id/towFragment&quot;</span><br><span class="line">        android:icon=&quot;@drawable/ic_list&quot;</span><br><span class="line">        android:contentDescription=&quot;二页&quot;</span><br><span class="line">        android:title=&quot;二页&quot; /&gt;</span><br><span class="line">    &lt;item</span><br><span class="line">        android:id=&quot;@+id/threeFragment&quot;</span><br><span class="line">        android:icon=&quot;@drawable/ic_feedback&quot;</span><br><span class="line">        android:contentDescription=&quot;三页&quot;</span><br><span class="line">        android:title=&quot;三页&quot; /&gt;</span><br><span class="line">&lt;/menu&gt;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>在BottomNavActivity的布局文件中引入BottomNavigationView和NavHostFragment<figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:orientation</span>=<span class="hljs-string">"vertical"</span> <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">fragment</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/bottom_fragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:name</span>=<span class="hljs-string">"androidx.navigation.fragment.NavHostFragment"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"0dp"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_weight</span>=<span class="hljs-string">"1"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:defaultNavHost</span>=<span class="hljs-string">"true"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:navGraph</span>=<span class="hljs-string">"@navigation/nav_bottom_graph"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">com.google.android.material.bottomnavigation.BottomNavigationView</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/bottom_nav"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"wrap_content"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:menu</span>=<span class="hljs-string">"@menu/bottom_nav"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>NavHostFragment通过<code>app:navGraph</code>属性关联导航图，BottomNavigationView通过<code>app:menu</code>属性关联前面创建的menu</p>
+<ol start="4">
+<li>最后去Activity中使用<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BottomNavActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(@Nullable Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_bottom_navigation);</span><br><span class="line">         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);</span><br><span class="line">        <span class="hljs-comment">//导航控制器</span></span><br><span class="line">        NavController controller = Navigation.findNavController(<span class="hljs-keyword">this</span>,R.id.bottom_fragment);</span><br><span class="line">        <span class="hljs-comment">//底部导航的配置</span></span><br><span class="line">        AppBarConfiguration configuration = <span class="hljs-keyword">new</span> AppBarConfiguration.Builder(bottomNavigationView.getMenu()).build();</span><br><span class="line">        <span class="hljs-comment">//关联控制器和底部导航的配置</span></span><br><span class="line">        NavigationUI.setupActionBarWithNavController(<span class="hljs-keyword">this</span>,controller,configuration);</span><br><span class="line">        <span class="hljs-comment">//关联底部bottomNavigationView和控制器</span></span><br><span class="line">        NavigationUI.setupWithNavController(bottomNavigationView,controller);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>OK 底部导航视图建立完毕，效果</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/2/20/17062eafca393caf?w=266&amp;h=559&amp;f=gif&amp;s=70163" alt></p>
+<h3 id="3-原理分析"><a href="#3-原理分析" class="headerlink" title="3 原理分析"></a>3 原理分析</h3><p>下面根据第一个跳转的小例子来看一下Navigation的工作流程。</p>
+<h4 id="3-1-NavHostFragment-onCreate"><a href="#3-1-NavHostFragment-onCreate" class="headerlink" title="3.1 NavHostFragment#onCreate"></a>3.1 NavHostFragment#onCreate</h4><p>从Activity中开始，Activity中就一个布局文件，内部有一个NavHostFragment，它是页面的承载区域，那就从它的onCreate方法开始分析。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(@Nullable Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        <span class="hljs-keyword">final</span> Context context = requireContext();</span><br><span class="line"></span><br><span class="line">        mNavController = <span class="hljs-keyword">new</span> NavHostController(context);</span><br><span class="line">        mNavController.setLifecycleOwner(<span class="hljs-keyword">this</span>);</span><br><span class="line">        mNavController.setOnBackPressedDispatcher(requireActivity().getOnBackPressedDispatcher());</span><br><span class="line">        <span class="hljs-comment">// Set the default state - this will be updated whenever</span></span><br><span class="line">        <span class="hljs-comment">// onPrimaryNavigationFragmentChanged() is called</span></span><br><span class="line">        mNavController.enableOnBackPressed(</span><br><span class="line">                mIsPrimaryBeforeOnCreate != <span class="hljs-keyword">null</span> &amp;&amp; mIsPrimaryBeforeOnCreate);</span><br><span class="line">        mIsPrimaryBeforeOnCreate = <span class="hljs-keyword">null</span>;</span><br><span class="line">        mNavController.setViewModelStore(getViewModelStore());</span><br><span class="line">        onCreateNavController(mNavController);</span><br><span class="line"></span><br><span class="line">        Bundle navState = <span class="hljs-keyword">null</span>;</span><br><span class="line">        <span class="hljs-keyword">if</span> (savedInstanceState != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            navState = savedInstanceState.getBundle(KEY_NAV_CONTROLLER_STATE);</span><br><span class="line">            <span class="hljs-keyword">if</span> (savedInstanceState.getBoolean(KEY_DEFAULT_NAV_HOST, <span class="hljs-keyword">false</span>)) &#123;</span><br><span class="line">                mDefaultNavHost = <span class="hljs-keyword">true</span>;</span><br><span class="line">                getParentFragmentManager().beginTransaction()</span><br><span class="line">                        .setPrimaryNavigationFragment(<span class="hljs-keyword">this</span>)</span><br><span class="line">                        .commit();</span><br><span class="line">            &#125;</span><br><span class="line">            mGraphId = savedInstanceState.getInt(KEY_GRAPH_ID);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">if</span> (navState != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            <span class="hljs-comment">// Navigation controller state overrides arguments</span></span><br><span class="line">            mNavController.restoreState(navState);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (mGraphId != <span class="hljs-number">0</span>) &#123;</span><br><span class="line">            <span class="hljs-comment">// Set from onInflate()</span></span><br><span class="line">            mNavController.setGraph(mGraphId);</span><br><span class="line">        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            <span class="hljs-comment">// See if it was set by NavHostFragment.create()</span></span><br><span class="line">            <span class="hljs-keyword">final</span> Bundle args = getArguments();</span><br><span class="line">            <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> graphId = args != <span class="hljs-keyword">null</span> ? args.getInt(KEY_GRAPH_ID) : <span class="hljs-number">0</span>;</span><br><span class="line">            <span class="hljs-keyword">final</span> Bundle startDestinationArgs = args != <span class="hljs-keyword">null</span></span><br><span class="line">                    ? args.getBundle(KEY_START_DESTINATION_ARGS)</span><br><span class="line">                    : <span class="hljs-keyword">null</span>;</span><br><span class="line">            <span class="hljs-keyword">if</span> (graphId != <span class="hljs-number">0</span>) &#123;</span><br><span class="line">                mNavController.setGraph(graphId, startDestinationArgs);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建了一个NavHostController类，并关联Fragment的生命周期，设置各种属性，<strong>先看一下NavHostController的构造方法</strong><br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">NavHostController</span><span class="hljs-params">(@NonNull Context context)</span> </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">super</span>(context);</span><br><span class="line">   &#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">NavController</span><span class="hljs-params">(@NonNull Context context)</span> </span>&#123;</span><br><span class="line">       mContext = context;</span><br><span class="line">       <span class="hljs-keyword">while</span> (context <span class="hljs-keyword">instanceof</span> ContextWrapper) &#123;</span><br><span class="line">           <span class="hljs-keyword">if</span> (context <span class="hljs-keyword">instanceof</span> Activity) &#123;</span><br><span class="line">               mActivity = (Activity) context;</span><br><span class="line">               <span class="hljs-keyword">break</span>;</span><br><span class="line">           &#125;</span><br><span class="line">           context = ((ContextWrapper) context).getBaseContext();</span><br><span class="line">       &#125;</span><br><span class="line">       mNavigatorProvider.addNavigator(<span class="hljs-keyword">new</span> NavGraphNavigator(mNavigatorProvider));</span><br><span class="line">       mNavigatorProvider.addNavigator(<span class="hljs-keyword">new</span> ActivityNavigator(mContext));</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>往NavigatorProvider中添加了两个Navigator：NavGraphNavigator和ActivityNavigator</p>
+<ul>
+<li><strong>NavGraphNavigator</strong>：我们前面创建一个导航图NavGraph的时候会指定一个默认的第一个显示的页面（startDestination）该导航器就是用来导航到这个页面，</li>
+<li><strong>ActivityNavigator</strong>：顾名思义，用来给Activity导航的</li>
+</ul>
+<p>回到NavHostFragment的onCreate方法中继续往下看，可以看到<code>onCreateNavController(mNavController);</code>方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreateNavController</span><span class="hljs-params">(@NonNull NavController navController)</span> </span>&#123;</span><br><span class="line">      navController.getNavigatorProvider().addNavigator(</span><br><span class="line">              <span class="hljs-keyword">new</span> DialogFragmentNavigator(requireContext(), getChildFragmentManager()));</span><br><span class="line">      navController.getNavigatorProvider().addNavigator(createFragmentNavigator());</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里又往NavigatorProvider添加了两个Navigator：</p>
+<ul>
+<li><strong>DialogFragmentNavigator</strong>：用来给DialogFragment导航</li>
+<li><strong>FragmentNavigator</strong>：用来给Fragment导航</li>
+</ul>
+<h4 id="3-2-Navigator"><a href="#3-2-Navigator" class="headerlink" title="3.2 Navigator"></a>3.2 Navigator</h4><p>NavigatorProvider内部有个HashMap用来存储这几个Navigator。<strong>NavGraphNavigator，ActivityNavigator，DialogFragmentNavigator，FragmentNavigator</strong>，这几个类是专门用来导航的，那就先来了解一下这几个类，首先看其父类：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Navigator</span>&lt;<span class="hljs-title">D</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">NavDestination</span>&gt; </span>&#123;</span><br><span class="line">    <span class="hljs-meta">@Retention</span>(RUNTIME)</span><br><span class="line">    <span class="hljs-meta">@Target</span>(&#123;TYPE&#125;)</span><br><span class="line">    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"UnknownNullness"</span>) <span class="hljs-comment">// TODO https://issuetracker.google.com/issues/112185120</span></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Name &#123;</span><br><span class="line">        <span class="hljs-function">String <span class="hljs-title">value</span><span class="hljs-params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@NonNull</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> D <span class="hljs-title">createDestination</span><span class="hljs-params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Nullable</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> NavDestination <span class="hljs-title">navigate</span><span class="hljs-params">(@NonNull D destination, @Nullable Bundle args,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            @Nullable NavOptions navOptions, @Nullable Extras navigatorExtras)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">popBackStack</span><span class="hljs-params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Nullable</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Bundle <span class="hljs-title">onSaveState</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onRestoreState</span><span class="hljs-params">(@NonNull Bundle savedState)</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Extras</span> </span>&#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>该类的泛型是NavDestination的子类，NavDestination其实就是一个一个的页面。</li>
+<li>Navigator子类需要添加Name注解，比如ActivityNavigator中天街了@Navigator.Name(“activity”) ，FragmentNavigator中添加了@Navigator.Name(“fragment”)，用来往NavigatorProvider中的HashMap中存放的时候最为key来使用</li>
+<li>createDestination创造一个Destination（目标），也就是一个页面，抽象方法由子类实现</li>
+<li>navigate方法，导航到目标页面，抽象方法由子类实现</li>
+<li>onSaveState，onRestoreState 保存状态，恢复状态</li>
+<li>Extras 提供一些额外的行为，比如转场动画等</li>
+</ul>
+<p>父类看完，在来看看子类 就看比较常用的ActivityNavigator和FragmentNavigator，NavGraphNavigator，并且主要看它们实现的父类的哪两个抽象方法：createDestination和navigate</p>
+<h4 id="3-3-ActivityNavigator"><a href="#3-3-ActivityNavigator" class="headerlink" title="3.3 ActivityNavigator"></a>3.3 ActivityNavigator</h4><p><strong>ActivityNavigator#createDestination</strong>方法创建了一个ActivityNavigator.Destination对象<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Destination</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">NavDestination</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">private</span> Intent mIntent;</span><br><span class="line">        <span class="hljs-keyword">private</span> String mDataPattern;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Destination</span><span class="hljs-params">(@NonNull NavigatorProvider navigatorProvider)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">this</span>(navigatorProvider.getNavigator(ActivityNavigator.class));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Destination</span><span class="hljs-params">(@NonNull Navigator&lt;? extends Destination&gt; activityNavigator)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">super</span>(activityNavigator);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@CallSuper</span></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onInflate</span><span class="hljs-params">(@NonNull Context context, @NonNull AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">super</span>.onInflate(context, attrs);</span><br><span class="line">            TypedArray a = context.getResources().obtainAttributes(attrs,</span><br><span class="line">                    R.styleable.ActivityNavigator);</span><br><span class="line">            String targetPackage = a.getString(R.styleable.ActivityNavigator_targetPackage);</span><br><span class="line">            <span class="hljs-keyword">if</span> (targetPackage != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                targetPackage = targetPackage.replace(NavInflater.APPLICATION_ID_PLACEHOLDER,</span><br><span class="line">                        context.getPackageName());</span><br><span class="line">            &#125;</span><br><span class="line">            setTargetPackage(targetPackage);</span><br><span class="line">            String className = a.getString(R.styleable.ActivityNavigator_android_name);</span><br><span class="line">            <span class="hljs-keyword">if</span> (className != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                <span class="hljs-keyword">if</span> (className.charAt(<span class="hljs-number">0</span>) == <span class="hljs-string">'.'</span>) &#123;</span><br><span class="line">                    className = context.getPackageName() + className;</span><br><span class="line">                &#125;</span><br><span class="line">                setComponentName(<span class="hljs-keyword">new</span> ComponentName(context, className));</span><br><span class="line">            &#125;</span><br><span class="line">            setAction(a.getString(R.styleable.ActivityNavigator_action));</span><br><span class="line">            String data = a.getString(R.styleable.ActivityNavigator_data);</span><br><span class="line">            <span class="hljs-keyword">if</span> (data != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                setData(Uri.parse(data));</span><br><span class="line">            &#125;</span><br><span class="line">            setDataPattern(a.getString(R.styleable.ActivityNavigator_dataPattern));</span><br><span class="line">            a.recycle();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-meta">@NonNull</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Destination <span class="hljs-title">setIntent</span><span class="hljs-params">(@Nullable Intent intent)</span> </span>&#123;</span><br><span class="line">            mIntent = intent;</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@NonNull</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Destination <span class="hljs-title">setTargetPackage</span><span class="hljs-params">(@Nullable String packageName)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">if</span> (mIntent == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                mIntent = <span class="hljs-keyword">new</span> Intent();</span><br><span class="line">            &#125;</span><br><span class="line">            mIntent.setPackage(packageName);</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-meta">@NonNull</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Destination <span class="hljs-title">setComponentName</span><span class="hljs-params">(@Nullable ComponentName name)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">if</span> (mIntent == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                mIntent = <span class="hljs-keyword">new</span> Intent();</span><br><span class="line">            &#125;</span><br><span class="line">            mIntent.setComponent(name);</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-meta">@NonNull</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Destination <span class="hljs-title">setAction</span><span class="hljs-params">(@Nullable String action)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">if</span> (mIntent == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                mIntent = <span class="hljs-keyword">new</span> Intent();</span><br><span class="line">            &#125;</span><br><span class="line">            mIntent.setAction(action);</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-meta">@NonNull</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Destination <span class="hljs-title">setData</span><span class="hljs-params">(@Nullable Uri data)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">if</span> (mIntent == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                mIntent = <span class="hljs-keyword">new</span> Intent();</span><br><span class="line">            &#125;</span><br><span class="line">            mIntent.setData(data);</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-meta">@NonNull</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Destination <span class="hljs-title">setDataPattern</span><span class="hljs-params">(@Nullable String dataPattern)</span> </span>&#123;</span><br><span class="line">            mDataPattern = dataPattern;</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">       ......</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>构造方法中把当前Navigator的全类名保存到Destination的父类的成员变量中。</p>
+<p>ActivityNavigator.Destination类内部还有很多跟<strong>Intent</strong>相关的方法比如setAction,setData等，用来创建Intent和给Intent设置参数。</p>
+<p><strong>ActivityNavigator#navigate</strong><br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> NavDestination <span class="hljs-title">navigate</span><span class="hljs-params">(@NonNull Destination destination, @Nullable Bundle args,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            @Nullable NavOptions navOptions, @Nullable Navigator.Extras navigatorExtras)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (destination.getIntent() == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"Destination "</span> + destination.getId()</span><br><span class="line">                    + <span class="hljs-string">" does not have an Intent set."</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        Intent intent = <span class="hljs-keyword">new</span> Intent(destination.getIntent());</span><br><span class="line">        <span class="hljs-keyword">if</span> (args != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            intent.putExtras(args);</span><br><span class="line">            String dataPattern = destination.getDataPattern();</span><br><span class="line">            <span class="hljs-keyword">if</span> (!TextUtils.isEmpty(dataPattern)) &#123;</span><br><span class="line">                <span class="hljs-comment">// Fill in the data pattern with the args to build a valid URI</span></span><br><span class="line">                StringBuffer data = <span class="hljs-keyword">new</span> StringBuffer();</span><br><span class="line">                Pattern fillInPattern = Pattern.compile(<span class="hljs-string">"\\&#123;(.+?)\\&#125;"</span>);</span><br><span class="line">                Matcher matcher = fillInPattern.matcher(dataPattern);</span><br><span class="line">                <span class="hljs-keyword">while</span> (matcher.find()) &#123;</span><br><span class="line">                    String argName = matcher.group(<span class="hljs-number">1</span>);</span><br><span class="line">                    <span class="hljs-keyword">if</span> (args.containsKey(argName)) &#123;</span><br><span class="line">                        matcher.appendReplacement(data, <span class="hljs-string">""</span>);</span><br><span class="line">                        <span class="hljs-comment">//noinspection ConstantConditions</span></span><br><span class="line">                        data.append(Uri.encode(args.get(argName).toString()));</span><br><span class="line">                    &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"Could not find "</span> + argName + <span class="hljs-string">" in "</span></span><br><span class="line">                                + args + <span class="hljs-string">" to fill data pattern "</span> + dataPattern);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                matcher.appendTail(data);</span><br><span class="line">                intent.setData(Uri.parse(data.toString()));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (navigatorExtras <span class="hljs-keyword">instanceof</span> Extras) &#123;</span><br><span class="line">            Extras extras = (Extras) navigatorExtras;</span><br><span class="line">            intent.addFlags(extras.getFlags());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (!(mContext <span class="hljs-keyword">instanceof</span> Activity)) &#123;</span><br><span class="line">            <span class="hljs-comment">// If we're not launching from an Activity context we have to launch in a new task.</span></span><br><span class="line">            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (navOptions != <span class="hljs-keyword">null</span> &amp;&amp; navOptions.shouldLaunchSingleTop()) &#123;</span><br><span class="line">            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (mHostActivity != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">final</span> Intent hostIntent = mHostActivity.getIntent();</span><br><span class="line">            <span class="hljs-keyword">if</span> (hostIntent != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> hostCurrentId = hostIntent.getIntExtra(EXTRA_NAV_CURRENT, <span class="hljs-number">0</span>);</span><br><span class="line">                <span class="hljs-keyword">if</span> (hostCurrentId != <span class="hljs-number">0</span>) &#123;</span><br><span class="line">                    intent.putExtra(EXTRA_NAV_SOURCE, hostCurrentId);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> destId = destination.getId();</span><br><span class="line">        intent.putExtra(EXTRA_NAV_CURRENT, destId);</span><br><span class="line">        <span class="hljs-keyword">if</span> (navOptions != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            <span class="hljs-comment">// For use in applyPopAnimationsToPendingTransition()</span></span><br><span class="line">            intent.putExtra(EXTRA_POP_ENTER_ANIM, navOptions.getPopEnterAnim());</span><br><span class="line">            intent.putExtra(EXTRA_POP_EXIT_ANIM, navOptions.getPopExitAnim());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (navigatorExtras <span class="hljs-keyword">instanceof</span> Extras) &#123;</span><br><span class="line">            Extras extras = (Extras) navigatorExtras;</span><br><span class="line">            ActivityOptionsCompat activityOptions = extras.getActivityOptions();</span><br><span class="line">            <span class="hljs-keyword">if</span> (activityOptions != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                ActivityCompat.startActivity(mContext, intent, activityOptions.toBundle());</span><br><span class="line">            &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                mContext.startActivity(intent);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            mContext.startActivity(intent);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (navOptions != <span class="hljs-keyword">null</span> &amp;&amp; mHostActivity != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">int</span> enterAnim = navOptions.getEnterAnim();</span><br><span class="line">            <span class="hljs-keyword">int</span> exitAnim = navOptions.getExitAnim();</span><br><span class="line">            <span class="hljs-keyword">if</span> (enterAnim != -<span class="hljs-number">1</span> || exitAnim != -<span class="hljs-number">1</span>) &#123;</span><br><span class="line">                enterAnim = enterAnim != -<span class="hljs-number">1</span> ? enterAnim : <span class="hljs-number">0</span>;</span><br><span class="line">                exitAnim = exitAnim != -<span class="hljs-number">1</span> ? exitAnim : <span class="hljs-number">0</span>;</span><br><span class="line">                mHostActivity.overridePendingTransition(enterAnim, exitAnim);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>Activity的启动当然需要一个Intent对象，上面代码中可以看到，ActivityNavigator的navigate方法中就是通过Destination获取到Intent对象，然后设置传递的参数，设置Activity的启动模式，设置切换动画等，最后通过startActivity方法来启动一个Activity。</p>
+<h4 id="3-4-FragmentNavigator"><a href="#3-4-FragmentNavigator" class="headerlink" title="3.4 FragmentNavigator"></a>3.4 FragmentNavigator</h4><p><strong>FragmentNavigator#createDestination</strong>创建了一个FragmentNavigator.Destination对象</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Destination</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">NavDestination</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">private</span> String mClassName;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Destination</span><span class="hljs-params">(@NonNull NavigatorProvider navigatorProvider)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">this</span>(navigatorProvider.getNavigator(FragmentNavigator.class));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Destination</span><span class="hljs-params">(@NonNull Navigator&lt;? extends Destination&gt; fragmentNavigator)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">super</span>(fragmentNavigator);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@CallSuper</span></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onInflate</span><span class="hljs-params">(@NonNull Context context, @NonNull AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">super</span>.onInflate(context, attrs);</span><br><span class="line">            TypedArray a = context.getResources().obtainAttributes(attrs,</span><br><span class="line">                    R.styleable.FragmentNavigator);</span><br><span class="line">            String className = a.getString(R.styleable.FragmentNavigator_android_name);</span><br><span class="line">            <span class="hljs-keyword">if</span> (className != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                setClassName(className);</span><br><span class="line">            &#125;</span><br><span class="line">            a.recycle();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@NonNull</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Destination <span class="hljs-title">setClassName</span><span class="hljs-params">(@NonNull String className)</span> </span>&#123;</span><br><span class="line">            mClassName = className;</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">     ......</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这里面的代码比ActivityNavigator中的少了很多，主要是设置ClassName的方法。后面根据ClassName反射创建出一个fragment对象。</p>
+<p><strong>FragmentNavigator#navigate</strong>方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> NavDestination <span class="hljs-title">navigate</span><span class="hljs-params">(@NonNull Destination destination, @Nullable Bundle args,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            @Nullable NavOptions navOptions, @Nullable Navigator.Extras navigatorExtras)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (mFragmentManager.isStateSaved()) &#123;</span><br><span class="line">            Log.i(TAG, <span class="hljs-string">"Ignoring navigate() call: FragmentManager has already"</span></span><br><span class="line">                    + <span class="hljs-string">" saved its state"</span>);</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        String className = destination.getClassName();</span><br><span class="line">        <span class="hljs-keyword">if</span> (className.charAt(<span class="hljs-number">0</span>) == <span class="hljs-string">'.'</span>) &#123;</span><br><span class="line">            className = mContext.getPackageName() + className;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">final</span> Fragment frag = instantiateFragment(mContext, mFragmentManager,</span><br><span class="line">                className, args);</span><br><span class="line">        frag.setArguments(args);</span><br><span class="line">        <span class="hljs-keyword">final</span> FragmentTransaction ft = mFragmentManager.beginTransaction();</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">int</span> enterAnim = navOptions != <span class="hljs-keyword">null</span> ? navOptions.getEnterAnim() : -<span class="hljs-number">1</span>;</span><br><span class="line">        <span class="hljs-keyword">int</span> exitAnim = navOptions != <span class="hljs-keyword">null</span> ? navOptions.getExitAnim() : -<span class="hljs-number">1</span>;</span><br><span class="line">        <span class="hljs-keyword">int</span> popEnterAnim = navOptions != <span class="hljs-keyword">null</span> ? navOptions.getPopEnterAnim() : -<span class="hljs-number">1</span>;</span><br><span class="line">        <span class="hljs-keyword">int</span> popExitAnim = navOptions != <span class="hljs-keyword">null</span> ? navOptions.getPopExitAnim() : -<span class="hljs-number">1</span>;</span><br><span class="line">        <span class="hljs-keyword">if</span> (enterAnim != -<span class="hljs-number">1</span> || exitAnim != -<span class="hljs-number">1</span> || popEnterAnim != -<span class="hljs-number">1</span> || popExitAnim != -<span class="hljs-number">1</span>) &#123;</span><br><span class="line">            enterAnim = enterAnim != -<span class="hljs-number">1</span> ? enterAnim : <span class="hljs-number">0</span>;</span><br><span class="line">            exitAnim = exitAnim != -<span class="hljs-number">1</span> ? exitAnim : <span class="hljs-number">0</span>;</span><br><span class="line">            popEnterAnim = popEnterAnim != -<span class="hljs-number">1</span> ? popEnterAnim : <span class="hljs-number">0</span>;</span><br><span class="line">            popExitAnim = popExitAnim != -<span class="hljs-number">1</span> ? popExitAnim : <span class="hljs-number">0</span>;</span><br><span class="line">            ft.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ft.replace(mContainerId, frag);</span><br><span class="line">        ft.setPrimaryNavigationFragment(frag);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">final</span> <span class="hljs-meta">@IdRes</span> <span class="hljs-keyword">int</span> destId = destination.getId();</span><br><span class="line">        <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> initialNavigation = mBackStack.isEmpty();</span><br><span class="line">        <span class="hljs-comment">// TODO Build first class singleTop behavior for fragments</span></span><br><span class="line">        <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> isSingleTopReplacement = navOptions != <span class="hljs-keyword">null</span> &amp;&amp; !initialNavigation</span><br><span class="line">                &amp;&amp; navOptions.shouldLaunchSingleTop()</span><br><span class="line">                &amp;&amp; mBackStack.peekLast() == destId;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">boolean</span> isAdded;</span><br><span class="line">        <span class="hljs-keyword">if</span> (initialNavigation) &#123;</span><br><span class="line">            isAdded = <span class="hljs-keyword">true</span>;</span><br><span class="line">        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (isSingleTopReplacement) &#123;</span><br><span class="line">            <span class="hljs-comment">// Single Top means we only want one instance on the back stack</span></span><br><span class="line">            <span class="hljs-keyword">if</span> (mBackStack.size() &gt; <span class="hljs-number">1</span>) &#123;</span><br><span class="line">                <span class="hljs-comment">// If the Fragment to be replaced is on the FragmentManager's</span></span><br><span class="line">                <span class="hljs-comment">// back stack, a simple replace() isn't enough so we</span></span><br><span class="line">                <span class="hljs-comment">// remove it from the back stack and put our replacement</span></span><br><span class="line">                <span class="hljs-comment">// on the back stack in its place</span></span><br><span class="line">                mFragmentManager.popBackStack(</span><br><span class="line">                        generateBackStackName(mBackStack.size(), mBackStack.peekLast()),</span><br><span class="line">                        FragmentManager.POP_BACK_STACK_INCLUSIVE);</span><br><span class="line">                ft.addToBackStack(generateBackStackName(mBackStack.size(), destId));</span><br><span class="line">            &#125;</span><br><span class="line">            isAdded = <span class="hljs-keyword">false</span>;</span><br><span class="line">        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            ft.addToBackStack(generateBackStackName(mBackStack.size() + <span class="hljs-number">1</span>, destId));</span><br><span class="line">            isAdded = <span class="hljs-keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (navigatorExtras <span class="hljs-keyword">instanceof</span> Extras) &#123;</span><br><span class="line">            Extras extras = (Extras) navigatorExtras;</span><br><span class="line">            <span class="hljs-keyword">for</span> (Map.Entry&lt;View, String&gt; sharedElement : extras.getSharedElements().entrySet()) &#123;</span><br><span class="line">                ft.addSharedElement(sharedElement.getKey(), sharedElement.getValue());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ft.setReorderingAllowed(<span class="hljs-keyword">true</span>);</span><br><span class="line">        ft.commit();</span><br><span class="line">        <span class="hljs-comment">// The commit succeeded, update our view of the world</span></span><br><span class="line">        <span class="hljs-keyword">if</span> (isAdded) &#123;</span><br><span class="line">            mBackStack.add(destId);</span><br><span class="line">            <span class="hljs-keyword">return</span> destination;</span><br><span class="line">        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过Destination拿到ClassName，instantiateFragment方法内通过ClassName加载出class对象并通过反射创建出fragment，最后通过FragmentTransaction的replace方法将创建出来的fragment放到相应的容器里面。</p>
+<p><strong>这里使用的是replace，我们知道replace方法每次都会重新创建fragment，所以使用Navigation创建的底部导航页面，每次点击切换页面当前fragment都会重建，这就不太友好了。解决思路可以继承FragmentNavigator 重写navigate方法，自己将replace改为hide和show</strong></p>
+<h4 id="3-5-NavGraphNavigator"><a href="#3-5-NavGraphNavigator" class="headerlink" title="3.5 NavGraphNavigator"></a>3.5 NavGraphNavigator</h4><p><strong>NavGraphNavigator#createDestination</strong><br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> NavGraph <span class="hljs-title">createDestination</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> NavGraph(<span class="hljs-keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NavGraph</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">NavDestination</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Iterable</span>&lt;<span class="hljs-title">NavDestination</span>&gt; </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">final</span> SparseArrayCompat&lt;NavDestination&gt; mNodes = <span class="hljs-keyword">new</span> SparseArrayCompat&lt;&gt;();</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到NavGraphNavigator的createDestination，并没有直接创建一个NavDestination对象，而是创建了一个NavGraph对象，它内部有个集合mNodes来保存了一组的NavDestination对象。</p>
+<p>这个NavGraph对象其实就是最开始创建的那个nav_graph.xml解析并创建出来的。mNodes集合中保存的就是nav_graph.xml中的一个一个的结点，其实就是一个一个的页面。</p>
+<p>那么nav_graph.xml文件是在哪里被解析的呢？这就得回到我们最开始看源码的地方NavHostFragment的onCreate方法中，有一句话 <code>mNavController.setGraph(mGraphId)</code>参数是nav_graph.xml文件的id<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setGraph</span><span class="hljs-params">(@NavigationRes <span class="hljs-keyword">int</span> graphResId)</span> </span>&#123;</span><br><span class="line">        setGraph(graphResId, <span class="hljs-keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setGraph</span><span class="hljs-params">(@NavigationRes <span class="hljs-keyword">int</span> graphResId, @Nullable Bundle startDestinationArgs)</span> </span>&#123;</span><br><span class="line">        setGraph(getNavInflater().inflate(graphResId), startDestinationArgs);</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setGraph</span><span class="hljs-params">(@NonNull NavGraph graph, @Nullable Bundle startDestinationArgs)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (mGraph != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            <span class="hljs-comment">// Pop everything from the old graph off the back stack</span></span><br><span class="line">            popBackStackInternal(mGraph.getId(), <span class="hljs-keyword">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        mGraph = graph;</span><br><span class="line">        onGraphCreated(startDestinationArgs);</span><br><span class="line">    &#125;</span><br><span class="line">```java</span><br><span class="line">可以看到在其第二个重载的方法中，通过`getNavInflater().inflate`方法创建出一个NavGraph对象，传到第三个重载的方法中，并赋值给成员变量mGraph，最后在onGraphCreated方法中将第一个页面显示出来。</span><br><span class="line"></span><br><span class="line">到这里我们知道，我们最开始创建的那个nav_graph.xml文件，最终会被解析成为一个NavGraph对象，然后个人NavController关联。所以即使没有该文件，我们也可以自己根据需要的参数<span class="hljs-keyword">new</span>一个NavGraph对象，毕竟xml中配置不是很灵活。</span><br><span class="line"></span><br><span class="line">怎么解析的，下面看一个inflate方法</span><br><span class="line">```java</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> NavGraph <span class="hljs-title">inflate</span><span class="hljs-params">(@NavigationRes <span class="hljs-keyword">int</span> graphResId)</span> </span>&#123;</span><br><span class="line">        Resources res = mContext.getResources();</span><br><span class="line">        XmlResourceParser parser = res.getXml(graphResId);</span><br><span class="line">        <span class="hljs-keyword">final</span> AttributeSet attrs = Xml.asAttributeSet(parser);</span><br><span class="line">         ......</span><br><span class="line">            String rootElement = parser.getName();</span><br><span class="line">            NavDestination destination = inflate(res, parser, attrs, graphResId);</span><br><span class="line">            <span class="hljs-keyword">if</span> (!(destination <span class="hljs-keyword">instanceof</span> NavGraph)) &#123;</span><br><span class="line">                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"Root element &lt;"</span> + rootElement + <span class="hljs-string">"&gt;"</span></span><br><span class="line">                        + <span class="hljs-string">" did not inflate into a NavGraph"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">return</span> (NavGraph) destination;</span><br><span class="line">        ......</span><br></pre></td></tr></table></figure></p>
+<p>NavGraph是NavDestination的子类，创建出一个NavDestination对象，并判断是不是NavGraph对象，如果是强转成NavGraph并返回，如果不是，就抛出异常。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> NavDestination <span class="hljs-title">inflate</span><span class="hljs-params">(@NonNull Resources res, @NonNull XmlResourceParser parser,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            @NonNull AttributeSet attrs, <span class="hljs-keyword">int</span> graphResId)</span></span></span><br><span class="line"><span class="hljs-function">            <span class="hljs-keyword">throws</span> XmlPullParserException, IOException </span>&#123;</span><br><span class="line">        Navigator&lt;?&gt; navigator = mNavigatorProvider.getNavigator(parser.getName());</span><br><span class="line">        <span class="hljs-keyword">final</span> NavDestination dest = navigator.createDestination();</span><br><span class="line"></span><br><span class="line">        dest.onInflate(mContext, attrs);</span><br><span class="line"></span><br><span class="line">      <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> innerDepth = parser.getDepth() + <span class="hljs-number">1</span>;</span><br><span class="line">        <span class="hljs-keyword">int</span> type;</span><br><span class="line">        <span class="hljs-keyword">int</span> depth;</span><br><span class="line">        <span class="hljs-keyword">while</span> ((type = parser.next()) != XmlPullParser.END_DOCUMENT</span><br><span class="line">                &amp;&amp; ((depth = parser.getDepth()) &gt;= innerDepth</span><br><span class="line">                || type != XmlPullParser.END_TAG)) &#123;</span><br><span class="line">            <span class="hljs-keyword">if</span> (type != XmlPullParser.START_TAG) &#123;</span><br><span class="line">                <span class="hljs-keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">if</span> (depth &gt; innerDepth) &#123;</span><br><span class="line">                <span class="hljs-keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">final</span> String name = parser.getName();</span><br><span class="line">            <span class="hljs-comment">//解析各种标签 argument ，deepLink action ...</span></span><br><span class="line">            <span class="hljs-keyword">if</span> (TAG_ARGUMENT.equals(name)) &#123;</span><br><span class="line">                inflateArgumentForDestination(res, dest, attrs, graphResId);</span><br><span class="line">            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (TAG_DEEP_LINK.equals(name)) &#123;</span><br><span class="line">                inflateDeepLink(res, dest, attrs);</span><br><span class="line">            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (TAG_ACTION.equals(name)) &#123;</span><br><span class="line">                inflateAction(res, dest, attrs, parser, graphResId);</span><br><span class="line">            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (TAG_INCLUDE.equals(name) &amp;&amp; dest <span class="hljs-keyword">instanceof</span> NavGraph) &#123;</span><br><span class="line">                <span class="hljs-keyword">final</span> TypedArray a = res.obtainAttributes(attrs, R.styleable.NavInclude);</span><br><span class="line">                <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> id = a.getResourceId(R.styleable.NavInclude_graph, <span class="hljs-number">0</span>);</span><br><span class="line">                ((NavGraph) dest).addDestination(inflate(id));</span><br><span class="line">                a.recycle();</span><br><span class="line">            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (dest <span class="hljs-keyword">instanceof</span> NavGraph) &#123;</span><br><span class="line">                ((NavGraph) dest).addDestination(inflate(res, parser, attrs, graphResId));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">return</span> dest;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>先解析navigation根标签，它解析出来是个NavGraph对象，所以调用它的addDestination方法，将子标签解析出来的对象放入到成员你变量mNodes中。</p>
+<p><strong>NavGraphNavigator#navigate</strong><br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> NavDestination <span class="hljs-title">navigate</span><span class="hljs-params">(@NonNull NavGraph destination, @Nullable Bundle args,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">        @Nullable NavOptions navOptions, @Nullable Extras navigatorExtras)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> startId = destination.getStartDestination();</span><br><span class="line">    <span class="hljs-keyword">if</span> (startId == <span class="hljs-number">0</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"no start destination defined via"</span></span><br><span class="line">                + <span class="hljs-string">" app:startDestination for "</span></span><br><span class="line">                + destination.getDisplayName());</span><br><span class="line">    &#125;</span><br><span class="line">    NavDestination startDestination = destination.findNode(startId, <span class="hljs-keyword">false</span>);</span><br><span class="line">    <span class="hljs-keyword">if</span> (startDestination == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">final</span> String dest = destination.getStartDestDisplayName();</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"navigation destination "</span> + dest</span><br><span class="line">                + <span class="hljs-string">" is not a direct child of this NavGraph"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Navigator&lt;NavDestination&gt; navigator = mNavigatorProvider.getNavigator(</span><br><span class="line">            startDestination.getNavigatorName());</span><br><span class="line">    <span class="hljs-keyword">return</span> navigator.navigate(startDestination, startDestination.addInDefaultArgs(args),</span><br><span class="line">            navOptions, navigatorExtras);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>先找到第一个需要启动的页面的id，创建出一个NavDestination，通过标签的名字去mNavigatorProvider这个HashMap中拿到对应的Navigation。NavGraphNavigator并不是最终的执行者，它还是会把执行的任务交给特定的比如ActivityNavigator，FragmentNavigator和DialogFragmentNavigator去做。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>到这里Navigation的工作流程就走完了，总结一下：</p>
+<ul>
+<li>首先需要有一个承载页面的容器NavHost，系统有个默认是现实NavHostFragment它内部初始化了NavController</li>
+<li>想要完成导航必须要有一个导航控制器NavController</li>
+<li>它里面有两个非常重要的东西NavGraph和NavigatorProvider</li>
+<li>NavGraph里面包含了一组NavDestination，每个NavDestination就是一个一个的页面，也就是导航目的地</li>
+<li>NavigatorProvider内部有个HashMap，用来存放Navigator，Navigator它是个抽象类，有三个比较重要的子类FragmentNavigator，ActivityNavigator，DialogFragmentNavigator分别用来导航Fragment，Activity,DialogFragment，还有一个子类NavGraphNavigator，用来解析我们在xml中编写的文件，解析成一个NavGraph，并关联NavController，显示出第一个页面。</li>
+<li>这三个类都分别实现了父类的两个方法，一个是<code>createDestination</code>方法用来创建一个目的地，一个是<code>navigate</code>方法真正的用来导航</li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/jetpack/">jetpack</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/03/09/optimize/Android自动化测试入门-一-Monkey和MonkeyRunner/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Android自动化测试入门(一)Monkey和MonkeyRunner</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/02/10/technology/Android-Jetpack之Paging/">
+                <span class="level-item">Android Jetpack之Paging</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">コメント</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2020/02/20/technology/Android-Jetpack之Navigation/';
+        this.page.identifier = '2020/02/20/technology/Android-Jetpack之Navigation/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="CHS">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        CHS
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        只要坚持，终会有收获
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        投稿
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        74
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        カテゴリ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        16
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        タグ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        11
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
+                フォローする</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/chsmy">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="weibo" href="http://weibo.com/2504847694/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="csdn" href="https://blog.csdn.net/mingyunxiaohai">
+                
+                <i class="fab fa-wordpress"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="简书" href="https://www.jianshu.com/u/6ab3e65ba7b5">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            リンク
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="http://www.wanandroid.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">玩Android</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wanandroid.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                カテゴリ
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">61</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Android/UI/">
+            <span class="level-start">
+                <span class="level-item">UI</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/c-c/">
+            <span class="level-start">
+                <span class="level-item">c/c++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/jetpack/">
+            <span class="level-start">
+                <span class="level-item">jetpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/kotlin/">
+            <span class="level-start">
+                <span class="level-item">kotlin</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">16</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/测试和性能优化/">
+            <span class="level-start">
+                <span class="level-item">测试和性能优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/源码/">
+            <span class="level-start">
+                <span class="level-item">源码</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/资料/">
+            <span class="level-start">
+                <span class="level-item">资料</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/设计模式/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/人生/">
+            <span class="level-start">
+                <span class="level-item">人生</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/人生/感悟/">
+            <span class="level-start">
+                <span class="level-item">感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/人生/读书/">
+            <span class="level-start">
+                <span class="level-item">读书</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/跨平台/">
+            <span class="level-start">
+                <span class="level-item">跨平台</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/跨平台/flutter/">
+            <span class="level-start">
+                <span class="level-item">flutter</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            タグクラウド
+        </h3>
+        <a href="/tags/Flutter/" style="font-size: 11.25px;">Flutter</a> <a href="/tags/UI/" style="font-size: 18.75px;">UI</a> <a href="/tags/c-c/" style="font-size: 16.25px;">c/c++</a> <a href="/tags/jetpack/" style="font-size: 16.25px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 13.75px;">感悟</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/测试和性能优化/" style="font-size: 15px;">测试和性能优化</a> <a href="/tags/设计模式/" style="font-size: 11.25px;">设计模式</a> <a href="/tags/读书/" style="font-size: 12.5px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 17.5px;">进阶</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Android Jetpack之Navigation" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '投稿',
+                PAGES: 'Pages',
+                CATEGORIES: 'カテゴリ',
+                TAGS: 'タグ',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

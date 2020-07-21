@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>JetPack之使用CameraX完成拍照和拍视频 - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="JetPack之使用CameraX完成拍照和拍视频">
+<meta name="keywords" content="jetpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JetPack之使用CameraX完成拍照和拍视频">
+<meta property="og:url" content="https://chsmy.github.io/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="JetPack之使用CameraX完成拍照和拍视频">
+<meta property="og:locale" content="CHS">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/5/31/17269951359a2f81?w=283&h=644&f=gif&s=3490075">
+<meta property="og:updated_time" content="2020-05-31T07:33:02.257Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JetPack之使用CameraX完成拍照和拍视频">
+<meta name="twitter:description" content="JetPack之使用CameraX完成拍照和拍视频">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2020/5/31/17269951359a2f81?w=283&h=644&f=gif&s=3490075">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="JetPack之使用CameraX完成拍照和拍视频" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    18 minutes read (About 2742 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                JetPack之使用CameraX完成拍照和拍视频
+            
+        </h1>
+        <div class="content">
+            <p>JetPack之使用CameraX完成拍照和拍视频</p>
+<a id="more"></a>
+<p>前段时间CameraX的Beta版发布了，这几天有时间也来尝试一下。Beta版本是对外测试版本，意味着它已经走出实验室走向生产，API的调用基本稳定不会大改了，bug也会更少可以用于生成环境。</p>
+<p>之前使用Camera1和Camera2开发相机功能的时候需要调用非常复杂的API，而且由于Android手机的碎片化严重，不同手机对相机功能的支持度也不一样，因此很多做相机相关应用的公司都会封装自己的相机库来简化相机的使用步骤和处理兼容性问题。</p>
+<p>CameraX其实就是Google开发的一个用来简化相机开发时候API的调用和处理各种兼容性问题的库。最多兼容到Android 5.0，底层调用的也是Camera2，不过比Camera2用起来更简单，而且可以绑定生命周期，从而可以自动的处理相机的开启释放等工作。</p>
+<p>下面开始来尝试吧</p>
+<p>添加依赖<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">   // CameraX 核心库使用 camera2 实现</span><br><span class="line">    implementation &quot;androidx.camera:camera-camera2:1.0.0-beta03&quot;</span><br><span class="line">    // 可以使用CameraView</span><br><span class="line">    implementation &quot;androidx.camera:camera-view:1.0.0-alpha10&quot;</span><br><span class="line">    // 可以使用供应商扩展</span><br><span class="line">    implementation &quot;androidx.camera:camera-extensions:1.0.0-alpha10&quot;</span><br><span class="line">    //camerax的生命周期库</span><br><span class="line">    implementation &quot;androidx.camera:camera-lifecycle:1.0.0-beta03&quot;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果想要使用CameraX拍照非常简单，只需要配置不同的使用状态，然后绑定到生命周期中即可。比如预览需要设置预览相关的状态，拍照需要设置拍照相关的状态，录制视频需要设置录制相关的状态。</p>
+<h4 id="配置状态"><a href="#配置状态" class="headerlink" title="配置状态"></a>配置状态</h4><p>预览配置：Preview用于相机预览的时候显示预览画面。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Preview preview = <span class="hljs-keyword">new</span> Preview.Builder()</span><br><span class="line">                <span class="hljs-comment">//设置宽高比</span></span><br><span class="line">                .setTargetAspectRatio(screenAspectRatio)</span><br><span class="line">                <span class="hljs-comment">//设置当前屏幕的旋转</span></span><br><span class="line">                .setTargetRotation(rotation)</span><br><span class="line">                .build();</span><br></pre></td></tr></table></figure></p>
+<p>照相配置：ImageCapture 用于拍照，并将图片保存<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ImageCapture imageCapture = <span class="hljs-keyword">new</span> ImageCapture.Builder()</span><br><span class="line">                <span class="hljs-comment">//优化捕获速度，可能降低图片质量</span></span><br><span class="line">                .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)</span><br><span class="line">                <span class="hljs-comment">//设置宽高比</span></span><br><span class="line">                .setTargetAspectRatio(screenAspectRatio)</span><br><span class="line">                <span class="hljs-comment">//设置初始的旋转角度</span></span><br><span class="line">                .setTargetRotation(rotation)</span><br><span class="line">                .build();</span><br></pre></td></tr></table></figure></p>
+<p>录制视频设置：VideoCapture 用来录制视频和保存视频，宽高比和分辨率设置一个就可以了，不要同时设置否则报错。根据实际的需求来设置，如果对宽高比要求高就设置宽高比，反之就设置分辨率<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">VideoCapture videoCapture = <span class="hljs-keyword">new</span> VideoCaptureConfig.Builder()</span><br><span class="line">               <span class="hljs-comment">//设置当前旋转</span></span><br><span class="line">               .setTargetRotation(rotation)</span><br><span class="line">               <span class="hljs-comment">//设置宽高比</span></span><br><span class="line">               .setTargetAspectRatio(screenAspectRatio)</span><br><span class="line">               <span class="hljs-comment">//分辨率</span></span><br><span class="line">               <span class="hljs-comment">//.setTargetResolution(resolution)</span></span><br><span class="line">               <span class="hljs-comment">//视频帧率  越高视频体积越大</span></span><br><span class="line">               .setVideoFrameRate(<span class="hljs-number">25</span>)</span><br><span class="line">               <span class="hljs-comment">//bit率  越大视频体积越大</span></span><br><span class="line">               .setBitRate(<span class="hljs-number">3</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>)</span><br><span class="line">               .build();</span><br></pre></td></tr></table></figure></p>
+<p>绑定到生命周期：ProcessCameraProvider 是一个单例类，可以把相机的生命周期绑定到任何LifecycleOwner类中。AppCompatActivity和Fragment都是LifecycleOwner<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//Future表示一个异步的任务，ListenableFuture可以监听这个任务，当任务完成的时候执行回调</span></span><br><span class="line"> ListenableFuture&lt;ProcessCameraProvider&gt; cameraProviderFuture =</span><br><span class="line">                ProcessCameraProvider.getInstance(<span class="hljs-keyword">this</span>);</span><br><span class="line">ProcessCameraProvider cameraProvider = cameraProviderFuture.get();</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//重新绑定之前必须先取消绑定</span></span><br><span class="line">cameraProvider.unbindAll();</span><br><span class="line"></span><br><span class="line">Camera camera = cameraProvider.bindToLifecycle(CameraActivity.<span class="hljs-keyword">this</span>,</span><br><span class="line">                cameraSelector,preview,imageCapture,videoCapture);</span><br></pre></td></tr></table></figure></p>
+<p>OK预览，照相，录视频的配置和绑定到生命周期的工作就完成了</p>
+<p>预览的时候需要显示到一个View控件上吧，CameraX中提供了一个PreviewView用来显示预览画面。其内部封装了TextureView和SurfaceView，可以根据不同的模式来选择其内部使用TextureView还是SurfaceView来显示。</p>
+<p>xml中添加PreviewView，并在代码中将其附加到前面创建出来的Preview这个实例上<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">androidx.camera.view.PreviewView</span></span></span><br><span class="line"><span class="hljs-tag">       <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/view_finder"</span></span></span><br><span class="line"><span class="hljs-tag">       <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">       <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">preview.setSurfaceProvider(mPreviewView.createSurfaceProvider(camera .getCameraInfo()));</span><br></pre></td></tr></table></figure></p>
+<p>这样当我们进入该页面的时候就可以看到相机的预览效果呢，接下来就是执行拍照和录制的功能了</p>
+<h4 id="执行拍照录像"><a href="#执行拍照录像" class="headerlink" title="执行拍照录像"></a>执行拍照录像</h4><p>拍照：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"> <span class="hljs-comment">//创建图片保存的文件地址</span></span><br><span class="line">  File file = <span class="hljs-keyword">new</span> File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath(),</span><br><span class="line">          System.currentTimeMillis() + <span class="hljs-string">".jpeg"</span>);</span><br><span class="line">  ImageCapture.OutputFileOptions outputFileOptions = <span class="hljs-keyword">new</span> ImageCapture.OutputFileOptions.Builder(file).build();</span><br><span class="line">  mImageCapture.takePicture(outputFileOptions,mExecutorService , <span class="hljs-keyword">new</span> ImageCapture.OnImageSavedCallback() &#123;</span><br><span class="line">      <span class="hljs-meta">@Override</span></span><br><span class="line">      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onImageSaved</span><span class="hljs-params">(@NonNull ImageCapture.OutputFileResults outputFileResults)</span> </span>&#123;</span><br><span class="line">          Uri savedUri = outputFileResults.getSavedUri();</span><br><span class="line">          <span class="hljs-keyword">if</span>(savedUri == <span class="hljs-keyword">null</span>)&#123;</span><br><span class="line">              savedUri = Uri.fromFile(file);</span><br><span class="line">          &#125;</span><br><span class="line">          outputFilePath = file.getAbsolutePath();</span><br><span class="line">          onFileSaved(savedUri);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="hljs-meta">@Override</span></span><br><span class="line">      <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onError</span><span class="hljs-params">(@NonNull ImageCaptureException exception)</span> </span>&#123;</span><br><span class="line">          Log.e(TAG, <span class="hljs-string">"Photo capture failed: "</span>+exception.getMessage(), exception);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;);</span><br><span class="line"><span class="hljs-comment">//将前面保存的文件添加到媒体中</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onFileSaved</span><span class="hljs-params">(Uri savedUri)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.N) &#123;</span><br><span class="line">            sendBroadcast(<span class="hljs-keyword">new</span> Intent(android.hardware.Camera.ACTION_NEW_PICTURE, savedUri));</span><br><span class="line">        &#125;</span><br><span class="line">        String mimeTypeFromExtension = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap</span><br><span class="line">                .getFileExtensionFromUrl(savedUri.getPath()));</span><br><span class="line">        MediaScannerConnection.scanFile(getApplicationContext(),</span><br><span class="line">                <span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-keyword">new</span> File(savedUri.getPath()).getAbsolutePath()&#125;,</span><br><span class="line">                <span class="hljs-keyword">new</span> String[]&#123;mimeTypeFromExtension&#125;, <span class="hljs-keyword">new</span> MediaScannerConnection.OnScanCompletedListener() &#123;</span><br><span class="line">                    <span class="hljs-meta">@Override</span></span><br><span class="line">                    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onScanCompleted</span><span class="hljs-params">(String path, Uri uri)</span> </span>&#123;</span><br><span class="line">                        Log.d(TAG, <span class="hljs-string">"Image capture scanned into media store: $uri"</span>+uri);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">        PreviewActivity.start(<span class="hljs-keyword">this</span>, outputFilePath, !takingPicture);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>调用ImageCapture的takePicture方法来拍照</li>
+<li>传入一个文件地址用来保存拍好的照片</li>
+<li>onImageSaved方法是照片已经拍好并存好之后的回调</li>
+<li>onFileSaved方法中将前面保存的文件添加到媒体中，最后跳转到预览界面。</li>
+</ul>
+<p>录视频：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">  <span class="hljs-comment">//创建视频保存的文件地址</span></span><br><span class="line">File file = <span class="hljs-keyword">new</span> File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath(),</span><br><span class="line">        System.currentTimeMillis() + <span class="hljs-string">".mp4"</span>);</span><br><span class="line">mVideoCapture.startRecording(file, Executors.newSingleThreadExecutor(), <span class="hljs-keyword">new</span> VideoCapture.OnVideoSavedCallback() &#123;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onVideoSaved</span><span class="hljs-params">(@NonNull File file)</span> </span>&#123;</span><br><span class="line">        outputFilePath = file.getAbsolutePath();</span><br><span class="line">        onFileSaved(Uri.fromFile(file));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onError</span><span class="hljs-params">(<span class="hljs-keyword">int</span> videoCaptureError, @NonNull String message, @Nullable Throwable cause)</span> </span>&#123;</span><br><span class="line">        Log.i(TAG,message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>使用VideoCapture的startRecording方法来录视频</li>
+<li>传入一个File文件用来保存视频，</li>
+<li>录制完成之后回调onVideoSaved方法，并返回该文件的实例。</li>
+<li>调用onFileSaved方法将前面保存的文件添加到媒体中，最后跳转到预览界面。</li>
+<li>到达录制时间的时候，需要调用<code>videoCapture.stopRecording();</code>方法来停止录像。</li>
+</ul>
+<p>到这里使用CameraX拍照和录制视频的功能都能完成了，是不是非常简单。下面来点题外的，自定义一个View，实现点击拍照，长按录像的效果。效果如下：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/5/31/17269951359a2f81?w=283&amp;h=644&amp;f=gif&amp;s=3490075" alt></p>
+<p>代码：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RecordView</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">View</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">View</span>.<span class="hljs-title">OnLongClickListener</span>, <span class="hljs-title">View</span>.<span class="hljs-title">OnClickListener</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> PROGRESS_INTERVAL = <span class="hljs-number">100</span>;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> mBgColor;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> mStrokeColor;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> mStrokeWidth;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> mDuration;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> mWidth;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> mHeight;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> mRadius;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> mProgressValue;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> isRecording;</span><br><span class="line">    <span class="hljs-keyword">private</span> RectF mArcRectF;</span><br><span class="line">    <span class="hljs-keyword">private</span> Paint mBgPaint, mProgressPaint;</span><br><span class="line">    <span class="hljs-keyword">private</span> OnRecordListener mOnRecordListener;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> mStartRecordTime;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setOnRecordListener</span><span class="hljs-params">(OnRecordListener onRecordListener)</span> </span>&#123;</span><br><span class="line">        mOnRecordListener = onRecordListener;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">RecordView</span><span class="hljs-params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>(context, <span class="hljs-keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">RecordView</span><span class="hljs-params">(Context context, @Nullable AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>(context, attrs, <span class="hljs-number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">RecordView</span><span class="hljs-params">(Context context, @Nullable AttributeSet attrs, <span class="hljs-keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RecordView);</span><br><span class="line">        mBgColor = typedArray.getColor(R.styleable.RecordView_bg_color, Color.WHITE);</span><br><span class="line">        mStrokeColor = typedArray.getColor(R.styleable.RecordView_stroke_color, Color.RED);</span><br><span class="line">        mStrokeWidth = typedArray.getDimensionPixelOffset(R.styleable.RecordView_stroke_width, SizeUtils.dp2px(<span class="hljs-number">5</span>));</span><br><span class="line">        mDuration = typedArray.getInteger(R.styleable.RecordView_duration, <span class="hljs-number">10</span>);</span><br><span class="line">        mRadius = typedArray.getDimensionPixelOffset(R.styleable.RecordView_radius, SizeUtils.dp2px(<span class="hljs-number">40</span>));</span><br><span class="line">        typedArray.recycle();</span><br><span class="line"></span><br><span class="line">        mBgPaint = <span class="hljs-keyword">new</span> Paint(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">        mBgPaint.setStyle(Paint.Style.FILL);</span><br><span class="line">        mBgPaint.setColor(mBgColor);</span><br><span class="line"></span><br><span class="line">        mProgressPaint = <span class="hljs-keyword">new</span> Paint(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">        mProgressPaint.setStyle(Paint.Style.STROKE);</span><br><span class="line">        mProgressPaint.setColor(mStrokeColor);</span><br><span class="line">        mProgressPaint.setStrokeWidth(mStrokeWidth);</span><br><span class="line"></span><br><span class="line">        setEvent();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setEvent</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        Handler handler = <span class="hljs-keyword">new</span> Handler(Looper.getMainLooper()) &#123;</span><br><span class="line">            <span class="hljs-meta">@Override</span></span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleMessage</span><span class="hljs-params">(@NonNull Message msg)</span> </span>&#123;</span><br><span class="line">                <span class="hljs-keyword">super</span>.handleMessage(msg);</span><br><span class="line">                mProgressValue++;</span><br><span class="line">                postInvalidate();</span><br><span class="line">                <span class="hljs-keyword">if</span> (mProgressValue &lt; mDuration*<span class="hljs-number">10</span>) &#123;</span><br><span class="line">                    sendEmptyMessageDelayed(<span class="hljs-number">0</span>, PROGRESS_INTERVAL);</span><br><span class="line">                &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                    finishRecord();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        setOnTouchListener(<span class="hljs-keyword">new</span> OnTouchListener() &#123;</span><br><span class="line">            <span class="hljs-meta">@Override</span></span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">onTouch</span><span class="hljs-params">(View v, MotionEvent event)</span> </span>&#123;</span><br><span class="line">                <span class="hljs-keyword">if</span>(event.getAction() == MotionEvent.ACTION_DOWN)&#123;</span><br><span class="line">                    mStartRecordTime = System.currentTimeMillis();</span><br><span class="line">                    handler.sendEmptyMessage(<span class="hljs-number">0</span>);</span><br><span class="line">                &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(event.getAction() == MotionEvent.ACTION_UP)&#123;</span><br><span class="line">                    <span class="hljs-keyword">long</span> duration = System.currentTimeMillis() - mStartRecordTime;</span><br><span class="line">                    <span class="hljs-comment">//是否大于系统设定的最小长按时间</span></span><br><span class="line">                    <span class="hljs-keyword">if</span>(duration &gt; ViewConfiguration.getLongPressTimeout())&#123;</span><br><span class="line">                        finishRecord();</span><br><span class="line">                    &#125;</span><br><span class="line">                    handler.removeCallbacksAndMessages(<span class="hljs-keyword">null</span>);</span><br><span class="line">                    isRecording = <span class="hljs-keyword">false</span>;</span><br><span class="line">                    mStartRecordTime = <span class="hljs-number">0</span>;</span><br><span class="line">                    mProgressValue = <span class="hljs-number">0</span>;</span><br><span class="line">                    postInvalidate();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        setOnClickListener(<span class="hljs-keyword">this</span>);</span><br><span class="line">        setOnLongClickListener(<span class="hljs-keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">finishRecord</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">         <span class="hljs-keyword">if</span>(mOnRecordListener!=<span class="hljs-keyword">null</span>)&#123;</span><br><span class="line">             mOnRecordListener.onFinish();</span><br><span class="line">         &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onSizeChanged</span><span class="hljs-params">(<span class="hljs-keyword">int</span> w, <span class="hljs-keyword">int</span> h, <span class="hljs-keyword">int</span> oldw, <span class="hljs-keyword">int</span> oldh)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.onSizeChanged(w, h, oldw, oldh);</span><br><span class="line">        mWidth = w;</span><br><span class="line">        mHeight = w;</span><br><span class="line">        mArcRectF = <span class="hljs-keyword">new</span> RectF(mStrokeWidth / <span class="hljs-number">2f</span>, mStrokeWidth / <span class="hljs-number">2f</span>,</span><br><span class="line">                mWidth - mStrokeWidth / <span class="hljs-number">2f</span>, mHeight - mStrokeWidth / <span class="hljs-number">2f</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onDraw</span><span class="hljs-params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.onDraw(canvas);</span><br><span class="line"></span><br><span class="line">        canvas.drawCircle(mWidth / <span class="hljs-number">2f</span>, mHeight / <span class="hljs-number">2f</span>, mRadius, mBgPaint);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">if</span> (isRecording) &#123;</span><br><span class="line">            canvas.drawCircle(mWidth / <span class="hljs-number">2f</span>, mHeight / <span class="hljs-number">2f</span>, mRadius/<span class="hljs-number">10f</span>*<span class="hljs-number">11</span>, mBgPaint);</span><br><span class="line">            <span class="hljs-keyword">float</span> sweepAngle = <span class="hljs-number">360f</span> * mProgressValue / (mDuration*<span class="hljs-number">10</span>);</span><br><span class="line">            Log.i(<span class="hljs-string">"sweepAngle"</span>,sweepAngle+<span class="hljs-string">""</span>);</span><br><span class="line">            canvas.drawArc(mArcRectF, -<span class="hljs-number">90</span>, sweepAngle, <span class="hljs-keyword">false</span>, mProgressPaint);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">onLongClick</span><span class="hljs-params">(View v)</span> </span>&#123;</span><br><span class="line">        isRecording = <span class="hljs-keyword">true</span>;</span><br><span class="line">        <span class="hljs-keyword">if</span>(mOnRecordListener!=<span class="hljs-keyword">null</span>)&#123;</span><br><span class="line">            mOnRecordListener.onRecordVideo();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onClick</span><span class="hljs-params">(View v)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span>(mOnRecordListener!=<span class="hljs-keyword">null</span>)&#123;</span><br><span class="line">            mOnRecordListener.onTackPicture();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">OnRecordListener</span> </span>&#123;</span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">onTackPicture</span><span class="hljs-params">()</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">onRecordVideo</span><span class="hljs-params">()</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">onFinish</span><span class="hljs-params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>实现起来也非常简单，首先绘制一个圆，监听该View的点击和长按事件，长按的时候在根据总录制时长和当前录制时间算出需要绘制的角度，就可以在圆上面绘制进度了。</p>
+<p>最后通过接口将点击 长按和录制完成的事件返回，跟前面的拍照，录制，录制完成的代码结合起来就完成上面的效果了。</p>
+<h4 id="CameraView"><a href="#CameraView" class="headerlink" title="CameraView"></a>CameraView</h4><p>如果觉得前面的初始化还不够简单，那么可以使用CameraX提供的CameraView了，这里面将PreviewView,Preview,ImageCapture,VideoCapture等都封装起来了，而且还能实现缩放，裁剪，旋转等功能，使用起来更加简单。</p>
+<p>首先xml文件中添加CameraView<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">androidx.camera.view.CameraView</span></span></span><br><span class="line"><span class="hljs-tag">     <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/view_finder"</span></span></span><br><span class="line"><span class="hljs-tag">     <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">     <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">     /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>然后在Activity中实例化CameraView，直接绑定当前生命周期就可以了。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mBtnCameraSwitch = findViewById(R.id.camera_switch_button);</span><br><span class="line">mCameraView.bindToLifecycle(<span class="hljs-keyword">this</span>);</span><br></pre></td></tr></table></figure></p>
+<p>只需两句话就完成了前面的初始工作。然后就可以愉快的拍照和录制视频了。</p>
+<p>拍照和录制的代码跟前面一样只不过全都是通过CamerView对象来调用<code>mCameraView.takePicture</code> , <code>mCameraView.startRecording</code>，调用之前需要通过<code>mCameraView.setCaptureMode(CameraView.CaptureMode.IMAGE)</code>来切换当前的模式是拍照还是录像。</p>
+<p>将前面的自定义的RecordView加入布局文件中，跟CameraView的拍照、录像代码一结合，很快就能实现跟前面一样的效果了。</p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p><strong>图片分析</strong></p>
+<p>CameraX还提供了图像分析功能，它提供了可供 CPU 访问以执行图像处理、计算机视觉或机器学习推断的图像，可以无缝的访问缓冲区，一般用不到但功能很强大。创建一个图片分析器然后绑定声明周期即可。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> mImageAnalysis = <span class="hljs-keyword">new</span> ImageAnalysis.Builder()</span><br><span class="line">                .setTargetAspectRatio(screenAspectRatio)</span><br><span class="line">                .setTargetRotation(rotation)</span><br><span class="line">                .build();</span><br><span class="line">        mImageAnalysis.setAnalyzer(mExecutorService, <span class="hljs-keyword">new</span> ImageAnalysis.Analyzer() &#123;</span><br><span class="line">            <span class="hljs-meta">@Override</span></span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">analyze</span><span class="hljs-params">(@NonNull ImageProxy image)</span> </span>&#123;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">cameraProvider.bindToLifecycle(CameraActivity.<span class="hljs-keyword">this</span>,</span><br><span class="line">               cameraSelector,mPreview,mImageCapture,mVideoCapture,mImageAnalysis);</span><br></pre></td></tr></table></figure></p>
+<p><strong>供应商扩展</strong></p>
+<p>供应商扩展程序：CameraX提供了外部扩展的API，可以直接对接手机产商，如果该手机厂商实现了CameraX的扩展程序，就可以使用VamerX的扩展API直接调用这些效果比如：美颜、DHR、夜间、自动等模式。</p>
+<p>因为不是所有的手机厂商都支持扩展程序，所以在使用扩展的时候需要判断一下该手机是否支持，支持才添加。</p>
+<p>给预览界面设置外部扩展，需要<code>Preview.Builder</code>和<code>CameraSelector cameraSelector)</code>两个参数<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPreviewExtender</span><span class="hljs-params">(Preview.Builder builder, CameraSelector cameraSelector)</span> </span>&#123;</span><br><span class="line">      AutoPreviewExtender extender = AutoPreviewExtender.create(builder);</span><br><span class="line">      <span class="hljs-keyword">if</span>(extender.isExtensionAvailable(cameraSelector))&#123;</span><br><span class="line">          extender.enableExtension(cameraSelector);</span><br><span class="line">      &#125;</span><br><span class="line">      BokehPreviewExtender bokehPreviewExtender = BokehPreviewExtender.create(builder);</span><br><span class="line">      <span class="hljs-keyword">if</span>(bokehPreviewExtender.isExtensionAvailable(cameraSelector))&#123;</span><br><span class="line">          bokehPreviewExtender.enableExtension(cameraSelector);</span><br><span class="line">      &#125;</span><br><span class="line">      HdrPreviewExtender hdrPreviewExtender = HdrPreviewExtender.create(builder);</span><br><span class="line">      <span class="hljs-keyword">if</span>(hdrPreviewExtender.isExtensionAvailable(cameraSelector))&#123;</span><br><span class="line">          hdrPreviewExtender.enableExtension(cameraSelector);</span><br><span class="line">      &#125;</span><br><span class="line">      BeautyPreviewExtender beautyPreviewExtender = BeautyPreviewExtender.create(builder);</span><br><span class="line">      <span class="hljs-keyword">if</span>(beautyPreviewExtender.isExtensionAvailable(cameraSelector))&#123;</span><br><span class="line">          beautyPreviewExtender.enableExtension(cameraSelector);</span><br><span class="line">      &#125;</span><br><span class="line">      NightPreviewExtender nightPreviewExtender = NightPreviewExtender.create(builder);</span><br><span class="line">      <span class="hljs-keyword">if</span>(nightPreviewExtender.isExtensionAvailable(cameraSelector))&#123;</span><br><span class="line">          nightPreviewExtender.enableExtension(cameraSelector);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>给拍摄的图片设置外部扩展，，需要<code>ImageCapture.Builder</code>和<code>CameraSelector cameraSelector)</code>两个参数<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setImageCaptureExtender</span><span class="hljs-params">(ImageCapture.Builder builder, CameraSelector cameraSelector)</span> </span>&#123;</span><br><span class="line">        AutoImageCaptureExtender autoImageCaptureExtender = AutoImageCaptureExtender.create(builder);</span><br><span class="line">        <span class="hljs-keyword">if</span> (autoImageCaptureExtender.isExtensionAvailable(cameraSelector)) &#123;</span><br><span class="line">            autoImageCaptureExtender.enableExtension(cameraSelector);</span><br><span class="line">        &#125;</span><br><span class="line">        BokehImageCaptureExtender bokehImageCaptureExtender = BokehImageCaptureExtender.create(builder);</span><br><span class="line">        <span class="hljs-keyword">if</span>(bokehImageCaptureExtender.isExtensionAvailable(cameraSelector))&#123;</span><br><span class="line">            bokehImageCaptureExtender.enableExtension(cameraSelector);</span><br><span class="line">        &#125;</span><br><span class="line">        HdrImageCaptureExtender hdrImageCaptureExtender = HdrImageCaptureExtender.create(builder);</span><br><span class="line">        <span class="hljs-keyword">if</span>(hdrImageCaptureExtender.isExtensionAvailable(cameraSelector))&#123;</span><br><span class="line">            hdrImageCaptureExtender.enableExtension(cameraSelector);</span><br><span class="line">        &#125;</span><br><span class="line">        BeautyImageCaptureExtender beautyImageCaptureExtender = BeautyImageCaptureExtender.create(builder);</span><br><span class="line">        <span class="hljs-keyword">if</span>(beautyImageCaptureExtender.isExtensionAvailable(cameraSelector))&#123;</span><br><span class="line">            beautyImageCaptureExtender.enableExtension(cameraSelector);</span><br><span class="line">        &#125;</span><br><span class="line">        NightImageCaptureExtender nightImageCaptureExtender = NightImageCaptureExtender.create(builder);</span><br><span class="line">        <span class="hljs-keyword">if</span>(nightImageCaptureExtender.isExtensionAvailable(cameraSelector))&#123;</span><br><span class="line">            nightImageCaptureExtender.enableExtension(cameraSelector);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>demo地址：<a href="https://github.com/chsmy/AndroidDailyText/tree/master/app_jetpack/src/main/java/com/chs/app_jetpack/ui/camera" target="_blank" rel="noopener">地址链接</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/jetpack/">jetpack</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/07/21/technology/JetPack之Paging3-0/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">JetPack之Paging3.0</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/04/19/technology/Jetpack之自定义Navigation/">
+                <span class="level-item">Jetpack之自定义Navigation</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">コメント</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/';
+        this.page.identifier = '2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="CHS">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        CHS
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        只要坚持，终会有收获
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        投稿
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        74
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        カテゴリ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        16
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        タグ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        11
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
+                フォローする</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/chsmy">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="weibo" href="http://weibo.com/2504847694/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="csdn" href="https://blog.csdn.net/mingyunxiaohai">
+                
+                <i class="fab fa-wordpress"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="简书" href="https://www.jianshu.com/u/6ab3e65ba7b5">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            リンク
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="http://www.wanandroid.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">玩Android</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wanandroid.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                カテゴリ
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">61</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Android/UI/">
+            <span class="level-start">
+                <span class="level-item">UI</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/c-c/">
+            <span class="level-start">
+                <span class="level-item">c/c++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/jetpack/">
+            <span class="level-start">
+                <span class="level-item">jetpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/kotlin/">
+            <span class="level-start">
+                <span class="level-item">kotlin</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">16</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/测试和性能优化/">
+            <span class="level-start">
+                <span class="level-item">测试和性能优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/源码/">
+            <span class="level-start">
+                <span class="level-item">源码</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/资料/">
+            <span class="level-start">
+                <span class="level-item">资料</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/设计模式/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/人生/">
+            <span class="level-start">
+                <span class="level-item">人生</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/人生/感悟/">
+            <span class="level-start">
+                <span class="level-item">感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/人生/读书/">
+            <span class="level-start">
+                <span class="level-item">读书</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/跨平台/">
+            <span class="level-start">
+                <span class="level-item">跨平台</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/跨平台/flutter/">
+            <span class="level-start">
+                <span class="level-item">flutter</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            タグクラウド
+        </h3>
+        <a href="/tags/Flutter/" style="font-size: 11.25px;">Flutter</a> <a href="/tags/UI/" style="font-size: 18.75px;">UI</a> <a href="/tags/c-c/" style="font-size: 16.25px;">c/c++</a> <a href="/tags/jetpack/" style="font-size: 16.25px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 13.75px;">感悟</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/测试和性能优化/" style="font-size: 15px;">测试和性能优化</a> <a href="/tags/设计模式/" style="font-size: 11.25px;">设计模式</a> <a href="/tags/读书/" style="font-size: 12.5px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 17.5px;">进阶</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="JetPack之使用CameraX完成拍照和拍视频" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '投稿',
+                PAGES: 'Pages',
+                CATEGORIES: 'カテゴリ',
+                TAGS: 'タグ',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

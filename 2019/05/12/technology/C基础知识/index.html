@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>C基础知识 - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="C基础知识">
+<meta name="keywords" content="c&#x2F;c++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C基础知识">
+<meta property="og:url" content="https://chsmy.github.io/2019/05/12/technology/C基础知识/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="C基础知识">
+<meta property="og:locale" content="CHS">
+<meta property="og:updated_time" content="2019-05-19T12:19:33.199Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C基础知识">
+<meta name="twitter:description" content="C基础知识">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="C基础知识" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="カタログ" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-12T12:17:16.000Z">2019-05-12</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/c-c/">c/c++</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    24 minutes read (About 3574 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                C基础知识
+            
+        </h1>
+        <div class="content">
+            <p>C基础知识</p>
+<a id="more"></a>
+<h4 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h4><p>从hello wrld开始<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">printf</span>(<span class="hljs-string">"hello world\n"</span>);	</span><br><span class="line">system(<span class="hljs-string">"pause"</span>);</span><br></pre></td></tr></table></figure></p>
+<h4 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h4><p>物理角度：内存是计算机中必不可少的一部分，是跟CPU沟通的桥梁，计算机中所有的程序都是运行在内存中。</p>
+<p>逻辑角度：内存是一块具备随机访问能力，支持读、写操作，用来存放程序运行中产生的数据的区域。</p>
+<p>内存：位（bit），字节（1byte=8bit），KB（1KB=1024字节）MB（1MB=1024KB）</p>
+<p>内存编址：计算机中内存按字节编址，每个地址的存储单元可以存放一个字节（8bit）的数据，CPU通过内存地址回去指令和数据，并不关心这个地址所代表的控件具体在什么位置，怎么分布，因为硬件的设计保证一个地址对应着一个具体的空间。</p>
+<p>内存地址：通常使用16进制的数值表示，指向内存中某一个区域。</p>
+<h4 id="动态内存分配"><a href="#动态内存分配" class="headerlink" title="动态内存分配"></a>动态内存分配</h4><p>静态内存分配<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> a[<span class="hljs-number">1024</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">10</span>];</span><br></pre></td></tr></table></figure></p>
+<p>C的内存组成：</p>
+<ul>
+<li>运行时系统分配空间：栈，堆</li>
+<li>编译时编译器分配的空间：BSS段（存放全局的成员变量），数据段（一段数据），代码段（转化后的汇编指令）</li>
+</ul>
+<p>c语言的内存分配</p>
+<ol>
+<li>栈区(stack)自动分配释放（比如window中一般2    M）</li>
+<li>堆区 (heap)手动分配释放（可以占用操作系统%80内存）</li>
+<li>全局区或者静态区</li>
+<li>字符常量区</li>
+<li>程序代码区</li>
+</ol>
+<p>动态内存分配<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//栈内存</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">stackFun</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> a[<span class="hljs-number">1024</span>]</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//堆内存</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">heapFun</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    <span class="hljs-comment">//申请内存空间</span></span><br><span class="line">    <span class="hljs-keyword">int</span> *p = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">1024</span>*<span class="hljs-number">1024</span>*<span class="hljs-number">4</span>)</span><br><span class="line">    <span class="hljs-comment">//释放内存</span></span><br><span class="line">    <span class="hljs-built_in">free</span>(p)</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//动态内存分配（相当于java中的集合）</span></span><br><span class="line"><span class="hljs-keyword">int</span> len = <span class="hljs-number">5</span>;</span><br><span class="line"><span class="hljs-comment">//申请内存，申请完之后，p就变成一个数组</span></span><br><span class="line"><span class="hljs-keyword">int</span> *p = <span class="hljs-built_in">malloc</span>(len*<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>));</span><br><span class="line"><span class="hljs-comment">//也可以用calloc(len,sizeof(int));</span></span><br><span class="line"><span class="hljs-comment">//给数组赋值</span></span><br><span class="line"><span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;</span><br><span class="line"><span class="hljs-keyword">for</span>(; i&lt;len<span class="hljs-number">-1</span> ;i++)&#123;</span><br><span class="line">    p[i] = rand()%<span class="hljs-number">100</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//释放内存</span></span><br><span class="line"><span class="hljs-built_in">free</span>(p);</span><br><span class="line">p=<span class="hljs-literal">NULL</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//使用realloc 重新分配内存</span></span><br><span class="line"><span class="hljs-comment">//第一个参数：原来指针的内存指针</span></span><br><span class="line"><span class="hljs-comment">//第二个参数：内存扩大之后的总大小</span></span><br><span class="line"><span class="hljs-keyword">int</span> addLen = <span class="hljs-number">5</span>;</span><br><span class="line"><span class="hljs-keyword">int</span>* p2 = <span class="hljs-built_in">realloc</span>(p, <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) * (len + addLen));</span><br></pre></td></tr></table></figure></p>
+<p>重新分配内存的两种情况</p>
+<ol>
+<li>缩小内存，缩小的那一部分会丢失</li>
+<li>扩大内存，如果当前内存段后面有需要的内存空间，直接扩展这段内存空间，realloc返回原指针</li>
+<li>扩大内存，如果当前内存段后面空闲不够，那么就从堆中找到第一个可以满足内存需求的一块内存，把原来的数据复制过来，并释放原来的内存，返回新的地址</li>
+<li>扩大内存，如果申请失败，返回NULL，原来的指针仍然有效。</li>
+</ol>
+<p>内存分配需要注意的几个细节</p>
+<ol>
+<li>不能多次释放</li>
+<li>释放完成之后，给指针置NULL，标志释放完成</li>
+<li>如果不是使用realloc重新赋值而是malloc给p重新赋值之后，在free，并没有真正的释放，会造成内存泄漏。</li>
+</ol>
+<figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    <span class="hljs-comment">//给p1赋值</span></span><br><span class="line">	<span class="hljs-keyword">int</span>* p1 = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">1024</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">10</span> * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>));</span><br><span class="line">	<span class="hljs-comment">//先释放内存</span></span><br><span class="line">	<span class="hljs-built_in">free</span>(p1);</span><br><span class="line">	<span class="hljs-comment">//打印一下可以看到，释放后p1并不为空</span></span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%#x\n"</span>,p1);</span><br><span class="line">	p1 = <span class="hljs-literal">NULL</span>;</span><br><span class="line">    <span class="hljs-comment">//在给p1重新赋值</span></span><br><span class="line">	p1 = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">1024</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">10</span> * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) * <span class="hljs-number">2</span>);</span><br><span class="line">	<span class="hljs-built_in">free</span>(p1);</span><br><span class="line">	p1 = <span class="hljs-literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h4><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> %d               字节数：<span class="hljs-number">4</span></span><br><span class="line"><span class="hljs-keyword">short</span> %d             字节数：<span class="hljs-number">2</span></span><br><span class="line"><span class="hljs-keyword">long</span> %ld             字节数：<span class="hljs-number">4</span>（跟java不一样）</span><br><span class="line"><span class="hljs-keyword">float</span> %f             字节数：<span class="hljs-number">4</span></span><br><span class="line"><span class="hljs-keyword">double</span> %lf           字节数：<span class="hljs-number">8</span></span><br><span class="line"><span class="hljs-keyword">char</span> %c              字节数：<span class="hljs-number">1</span></span><br><span class="line">%x 十六进制           </span><br><span class="line">%<span class="hljs-number">0</span> 八进制             </span><br><span class="line">%s 字符串</span><br></pre></td></tr></table></figure>
+<h4 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h4><p>指针存储的是变量的内存地址</p>
+<p>指针有类型，地址没有类型</p>
+<p>比如int类型的指针不能赋值为double类型的指针，因为指针只是指向一个地址的首位。具体走多少需要看类型。<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">int</span> i = <span class="hljs-number">100</span>;</span><br><span class="line">	<span class="hljs-comment">//p是int类型的指针，代表这个int类型的值的内存地址</span></span><br><span class="line">	<span class="hljs-keyword">int</span> *p = &amp;i;</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%#x\n"</span>, p);</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%#x\n"</span>, &amp;p);</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%#x\n"</span>, &amp;i);</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%#x\n"</span>, i);</span><br><span class="line">    <span class="hljs-comment">//p是指针，*p代表取地址的值</span></span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="多级指针"><a href="#多级指针" class="headerlink" title="多级指针"></a>多级指针</h4><p>指针保存的是变量的地址，它保存的这个地址变量也可以使一个指针变量。<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">   <span class="hljs-keyword">int</span> a = <span class="hljs-number">50</span>;</span><br><span class="line"><span class="hljs-comment">//p1上保存的a的地址</span></span><br><span class="line"><span class="hljs-keyword">int</span>* p1 = &amp;a;</span><br><span class="line"><span class="hljs-comment">//p2上保存的p1的地址</span></span><br><span class="line"><span class="hljs-keyword">int</span>** p2 = &amp;p1;</span><br><span class="line"><span class="hljs-comment">//通过二级指针改变a的值</span></span><br><span class="line">**p2 = <span class="hljs-number">100</span>;</span><br></pre></td></tr></table></figure></p>
+<h4 id="指针的运算"><a href="#指针的运算" class="headerlink" title="指针的运算"></a>指针的运算</h4><p>一般用在数组遍历，指针加一，就是向前移动一个数据类型的字节。比如是int类型的，移动4位，double类型的移动8位<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">   <span class="hljs-comment">//数组在内存中是连续存储的</span></span><br><span class="line"><span class="hljs-keyword">int</span> ids[] = &#123; <span class="hljs-number">78</span>, <span class="hljs-number">90</span>, <span class="hljs-number">23</span>, <span class="hljs-number">65</span>, <span class="hljs-number">19</span> &#125;;</span><br><span class="line"><span class="hljs-comment">//数组变量名：ids就是数组的首地址</span></span><br><span class="line"><span class="hljs-comment">//ids,&amp;ids,&amp;ids[0]的值是一样的</span></span><br><span class="line"><span class="hljs-built_in">printf</span>(<span class="hljs-string">"%#x\n"</span>,ids);</span><br><span class="line"><span class="hljs-built_in">printf</span>(<span class="hljs-string">"%#x\n"</span>,&amp;ids);</span><br><span class="line"><span class="hljs-built_in">printf</span>(<span class="hljs-string">"%#x\n"</span>,&amp;ids[<span class="hljs-number">0</span>]);</span><br><span class="line"><span class="hljs-comment">//指针变量</span></span><br><span class="line"><span class="hljs-keyword">int</span> *p = ids;</span><br><span class="line"><span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d\n"</span>,*p);</span><br><span class="line"><span class="hljs-comment">//指针的加法</span></span><br><span class="line"><span class="hljs-comment">//p++向前移动sizeof(数据类型)个字节</span></span><br><span class="line">p++; </span><br><span class="line"><span class="hljs-built_in">printf</span>(<span class="hljs-string">"p的值:%#x\n"</span>, p);</span><br><span class="line"><span class="hljs-comment">//p--;</span></span><br><span class="line"><span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d\n"</span>, *p);</span><br></pre></td></tr></table></figure></p>
+<p>通过指针给数组赋值<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> arr[<span class="hljs-number">5</span>];</span><br><span class="line">   <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;</span><br><span class="line"><span class="hljs-keyword">for</span> (; i &lt; <span class="hljs-number">5</span>; i++)&#123;</span><br><span class="line">	arr[i] = i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>指针数组</strong>  (数组里面存放的是指针)</p>
+<figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> *p[<span class="hljs-number">3</span>];</span><br></pre></td></tr></table></figure>
+<p><strong>数组指针</strong>（行指针）</p>
+<figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> (*p)[n]</span><br></pre></td></tr></table></figure>
+<p>优先级：()&gt;[]&gt;* ，所以首先p是一个指针，指向一个整型数组，这个数组的长度是n，也可以说是p的步长，也就是说执行p+1的时候，p要跨过n个整型的长度。</p>
+<p>当浏览一个图片的时候，可以使用数组指针来读取。<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> a[<span class="hljs-number">3</span>][<span class="hljs-number">4</span>]<span class="hljs-comment">//定义一个3行4列的二维数组</span></span><br><span class="line"><span class="hljs-keyword">int</span> (*p)[<span class="hljs-number">4</span>]<span class="hljs-comment">//指针数组指向含有4个元素的以为数组</span></span><br><span class="line">p=a<span class="hljs-comment">//将该二维数组的首地址赋值为p，也就是a[0]或者a[0][0]</span></span><br><span class="line">p++ <span class="hljs-comment">//执行该语句之后，跨过一行比如从a[0][]指向a[1][]</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="变量名"><a href="#变量名" class="headerlink" title="变量名"></a>变量名</h4><p>变量名是对内存空间上的一段数据的抽象，我们可以对p存的内存地址的变量进行操作</p>
+<p>也可以定义一个方法，参数就是一个变量的指针，调用方法的时候，传入指针，就可改变这个变量的值。<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">change</span><span class="hljs-params">(<span class="hljs-keyword">int</span>* p)</span></span>&#123;</span><br><span class="line">	*p = <span class="hljs-number">300</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">int</span> i = <span class="hljs-number">100</span>;</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"i的值为：%d\n"</span>, i);</span><br><span class="line">	<span class="hljs-comment">//p是i的指针</span></span><br><span class="line">	<span class="hljs-keyword">int</span> *p = &amp;i;</span><br><span class="line">	<span class="hljs-comment">//通过指针赋值</span></span><br><span class="line">	*p = <span class="hljs-number">200</span>;</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"i的值为：%d\n"</span>, i);</span><br><span class="line">    <span class="hljs-comment">//change(p);</span></span><br><span class="line">	change(&amp;i); </span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h4><p>指针函数<strong>是一个函数</strong>，返回一个指针<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//void 是无符号类型，类比于java中的Object</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span>* <span class="hljs-title">int_add_func</span><span class="hljs-params">(<span class="hljs-keyword">void</span>* wParam)</span> </span>&#123;</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"指针函数\n"</span>);</span><br><span class="line">	<span class="hljs-keyword">int</span> b = <span class="hljs-number">10</span>;</span><br><span class="line">	<span class="hljs-keyword">int</span> *p = &amp;b;</span><br><span class="line">	<span class="hljs-comment">//指针函数返回一个指针</span></span><br><span class="line">	<span class="hljs-keyword">return</span> p;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">int</span> a = <span class="hljs-number">10</span>;</span><br><span class="line">	int_add_func(&amp;a);</span><br><span class="line"></span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>函数指针<strong>是一个变量</strong>，是一个指向函数的指针变量。</p>
+<p>回调的时候经常用到</p>
+<figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//(*funcp)要用括号括起来，括号代表优先级</span></span><br><span class="line"><span class="hljs-keyword">void</span>(*funcp)(<span class="hljs-keyword">int</span>* a, <span class="hljs-keyword">int</span>* b);</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">point_func</span><span class="hljs-params">(<span class="hljs-keyword">int</span>* a, <span class="hljs-keyword">int</span>* b)</span> </span>&#123;</span><br><span class="line">	*a = <span class="hljs-number">200</span>;</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"函数指针\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//main函数中，给这个函数指针赋值，</span></span><br><span class="line"><span class="hljs-comment">//**然后就可以通过它调用这个函数了**。</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">int</span> b = <span class="hljs-number">20</span>;</span><br><span class="line">	funcp = point_func;</span><br><span class="line">	funcp(&amp;a, &amp;b);</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"a值 %d"</span>, a);</span><br><span class="line"></span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line">&#125;</span><br><span class="line">-----------------------------------</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a,<span class="hljs-keyword">int</span> b)</span></span>&#123;</span><br><span class="line">	<span class="hljs-keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">minus</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a,<span class="hljs-keyword">int</span> b)</span></span>&#123;</span><br><span class="line">	<span class="hljs-keyword">return</span> a - b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">msg</span><span class="hljs-params">(<span class="hljs-keyword">int</span>(*func_p)(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b), <span class="hljs-keyword">int</span> m, <span class="hljs-keyword">int</span> n)</span></span>&#123;</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"执行一段代码...\n"</span>);</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"执行回调函数...\n"</span>);</span><br><span class="line">	<span class="hljs-keyword">int</span> r = func_p(m, n);</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"执行结果：%d\n"</span>,r);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">	<span class="hljs-comment">//加法</span></span><br><span class="line">	<span class="hljs-comment">//msg(add,50,10);</span></span><br><span class="line">	<span class="hljs-comment">//减法</span></span><br><span class="line">	<span class="hljs-comment">//msg(minus,50,10);</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//定义两个方法 add,minus。msg这个方法中，需要传入一个</span></span><br><span class="line"><span class="hljs-comment">//函数指针int(*func_p)(int a, int b)和两个值</span></span><br><span class="line"><span class="hljs-comment">//只要是返回int值，传入两个参数的这种方法，</span></span><br><span class="line"><span class="hljs-comment">//都可以传入到msg方法中计算。</span></span><br></pre></td></tr></table></figure>
+<h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><p>使用字符数组来存储字符串<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//'\0'代表结束</span></span><br><span class="line"><span class="hljs-keyword">char</span> str[] = &#123;<span class="hljs-string">'a'</span>,<span class="hljs-string">'b'</span>,<span class="hljs-string">'c'</span>,<span class="hljs-string">'d'</span>,<span class="hljs-string">'e'</span>,<span class="hljs-string">'\0'</span>&#125;;</span><br><span class="line"><span class="hljs-keyword">char</span> str[<span class="hljs-number">6</span>] = &#123;<span class="hljs-string">'a'</span>,<span class="hljs-string">'b'</span>,<span class="hljs-string">'c'</span>,<span class="hljs-string">'d'</span>,<span class="hljs-string">'e'</span>&#125;;</span><br><span class="line"><span class="hljs-keyword">char</span> str[<span class="hljs-number">10</span>]=<span class="hljs-string">"china"</span>;</span><br><span class="line">str[<span class="hljs-number">0</span>] = <span class="hljs-string">'s'</span>;</span><br></pre></td></tr></table></figure></p>
+<h4 id="字符指针"><a href="#字符指针" class="headerlink" title="字符指针"></a>字符指针</h4><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//内存连续排列</span></span><br><span class="line"><span class="hljs-keyword">char</span> *str = <span class="hljs-string">"hello world"</span>;</span><br><span class="line"><span class="hljs-comment">//不能修改，下一行代码会报错</span></span><br><span class="line">str[<span class="hljs-number">0</span>] = <span class="hljs-string">'s'</span>;</span><br><span class="line"><span class="hljs-comment">//使用指针加法，截取字符串</span></span><br><span class="line">	str += <span class="hljs-number">3</span>;</span><br><span class="line">	<span class="hljs-keyword">while</span> (*str)&#123;</span><br><span class="line">		<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%c"</span>,*str);</span><br><span class="line">		str++;</span><br><span class="line">	&#125;</span><br><span class="line"><span class="hljs-comment">//字符串拼接</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>&#123;</span><br><span class="line">	<span class="hljs-keyword">char</span> dest[<span class="hljs-number">50</span>];	</span><br><span class="line">	<span class="hljs-keyword">char</span> *a = <span class="hljs-string">"china"</span>;</span><br><span class="line">	<span class="hljs-keyword">char</span> *b = <span class="hljs-string">" is powerful!"</span>;</span><br><span class="line">	<span class="hljs-built_in">strcpy</span>(dest, a);</span><br><span class="line">	<span class="hljs-built_in">strcat</span>(dest, b);</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%s\n"</span>, dest);</span><br><span class="line"></span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//查找一个字符的位置</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>&#123;</span><br><span class="line">	<span class="hljs-keyword">char</span> *str = <span class="hljs-string">"I want go to USA!"</span>;</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%#x\n"</span>, str);</span><br><span class="line">	<span class="hljs-comment">//U元素的指针</span></span><br><span class="line">	<span class="hljs-comment">//str+3</span></span><br><span class="line">	<span class="hljs-keyword">char</span>* p = <span class="hljs-built_in">strchr</span>(str, <span class="hljs-string">'w'</span>);</span><br><span class="line">	<span class="hljs-keyword">if</span> (p)&#123;</span><br><span class="line">		<span class="hljs-built_in">printf</span>(<span class="hljs-string">"索引位置：%d\n"</span>, p - str);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-keyword">else</span>&#123;</span><br><span class="line">		<span class="hljs-built_in">printf</span>(<span class="hljs-string">"没有找到"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>操作字符串的在线API文档：<a href="http://www.kuqin.com/clib/string/strcpy.html" target="_blank" rel="noopener">http://www.kuqin.com/clib/string/strcpy.html</a></p>
+<h4 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h4><p>相当于java中的类。把不同的数据类型整合起来</p>
+<p>几种结构体的写法<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Man</span> &#123;</span></span><br><span class="line">	<span class="hljs-keyword">char</span> name[<span class="hljs-number">20</span>];</span><br><span class="line">	<span class="hljs-keyword">int</span> age;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-comment">//s1 s2是结构体的变量名</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> &#123;</span></span><br><span class="line">	<span class="hljs-keyword">char</span> name[<span class="hljs-number">20</span>];</span><br><span class="line">	<span class="hljs-keyword">int</span> age;</span><br><span class="line">&#125; s1 ,s2;</span><br><span class="line"><span class="hljs-comment">//匿名结构体  相当于单例</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span></span><br><span class="line">	<span class="hljs-keyword">char</span> name[<span class="hljs-number">20</span>];</span><br><span class="line">	<span class="hljs-keyword">int</span> age;</span><br><span class="line">&#125; m1;</span><br><span class="line"><span class="hljs-comment">//赋值方式如下</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Man</span> <span class="hljs-title">man</span>;</span></span><br><span class="line">	man.age = <span class="hljs-number">10</span>;</span><br><span class="line">	<span class="hljs-built_in">strcpy</span>(man.name,<span class="hljs-string">"chs"</span>);</span><br><span class="line">	</span><br><span class="line">	s1.age = <span class="hljs-number">11</span>;</span><br><span class="line">	<span class="hljs-built_in">strcpy</span>(s1.name, <span class="hljs-string">"lr"</span>);</span><br><span class="line"></span><br><span class="line">	m1.age = <span class="hljs-number">12</span>;</span><br><span class="line">	<span class="hljs-built_in">strcpy</span>(m1.name, <span class="hljs-string">"czg"</span>);</span><br><span class="line"></span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结构体嵌套</p>
+<figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//第一种写法</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> &#123;</span></span><br><span class="line">	<span class="hljs-keyword">char</span> name[<span class="hljs-number">20</span>];</span><br><span class="line">	<span class="hljs-keyword">int</span> age;</span><br><span class="line">&#125; s1 ,s2;</span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">teacher</span> &#123;</span></span><br><span class="line">	<span class="hljs-keyword">char</span> name[<span class="hljs-number">20</span>];</span><br><span class="line">	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> <span class="hljs-title">s</span>;</span></span><br><span class="line">&#125; t;</span><br><span class="line"><span class="hljs-comment">//第二种写法</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">teacher</span> &#123;</span></span><br><span class="line">	<span class="hljs-keyword">char</span> name[<span class="hljs-number">20</span>];</span><br><span class="line">	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> &#123;</span></span><br><span class="line">		<span class="hljs-keyword">char</span> name[<span class="hljs-number">20</span>];</span><br><span class="line">		<span class="hljs-keyword">int</span> age;</span><br><span class="line">	&#125; s;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-comment">//赋值方式</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">	<span class="hljs-built_in">strcpy</span>(t.name, <span class="hljs-string">"czg"</span>);</span><br><span class="line">	t.s.age = <span class="hljs-number">13</span>;</span><br><span class="line">	<span class="hljs-built_in">strcpy</span>(t.s.name, <span class="hljs-string">"cxh"</span>);</span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结构体指针<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> &#123;</span></span><br><span class="line">	<span class="hljs-keyword">char</span> name[<span class="hljs-number">20</span>];</span><br><span class="line">	<span class="hljs-keyword">int</span> age;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> <span class="hljs-title">s</span> = &#123;</span><span class="hljs-string">"czl"</span>,<span class="hljs-number">12</span>&#125;;</span><br><span class="line">	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> *<span class="hljs-title">p</span> = &amp;<span class="hljs-title">s</span>;</span></span><br><span class="line">	<span class="hljs-comment">//使用指针赋值</span></span><br><span class="line">	p-&gt;age = <span class="hljs-number">20</span>;</span><br><span class="line">	<span class="hljs-built_in">strcpy</span>(p-&gt;name, <span class="hljs-string">"xc"</span>);</span><br><span class="line">	<span class="hljs-comment">//使用变量赋值</span></span><br><span class="line">	s.age = <span class="hljs-number">20</span>;</span><br><span class="line">	<span class="hljs-built_in">strcpy</span>(s.name, <span class="hljs-string">"xc"</span>);</span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结构体数组和指针<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> &#123;</span></span><br><span class="line">	<span class="hljs-keyword">char</span> name[<span class="hljs-number">20</span>];</span><br><span class="line">	<span class="hljs-keyword">int</span> age;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> <span class="hljs-title">stus</span>[] = &#123;</span> &#123;<span class="hljs-string">"Jack"</span>,<span class="hljs-number">20</span>&#125;, &#123;<span class="hljs-string">"Rose"</span>, <span class="hljs-number">19</span>&#125; &#125;;</span><br><span class="line">	<span class="hljs-comment">//遍历结构体数组</span></span><br><span class="line">	<span class="hljs-comment">//第一种方式,使用指针</span></span><br><span class="line">	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">student</span> *<span class="hljs-title">p</span> = <span class="hljs-title">stus</span>;</span></span><br><span class="line">	<span class="hljs-keyword">for</span> (; p&lt; stus + <span class="hljs-number">2</span>;p++) &#123;</span><br><span class="line">		<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%s,%d\n"</span>, p-&gt;name, p-&gt;age);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-comment">//第二种方式，使用变量</span></span><br><span class="line">	<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;</span><br><span class="line">	<span class="hljs-keyword">for</span> (; i &lt; <span class="hljs-keyword">sizeof</span>(stus) / <span class="hljs-keyword">sizeof</span>(struct student); i++) &#123;</span><br><span class="line">		<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%s,%d\n"</span>, stus[i].age, stus[i].name);</span><br><span class="line">	&#125;</span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结构体的大小<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Man</span>&#123;</span></span><br><span class="line">	<span class="hljs-keyword">int</span> age;</span><br><span class="line">	<span class="hljs-keyword">double</span> weight;	</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Man</span> <span class="hljs-title">m1</span> = &#123;</span><span class="hljs-number">20</span>,<span class="hljs-number">55.0</span>&#125;;</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%#x,%d\n"</span>, &amp;m1,<span class="hljs-keyword">sizeof</span>(m1));</span><br><span class="line">	getchar();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的结构体有两个变量一个int类型一个double类型，通过打印可以看到，该结构体的大小是16。</p>
+<p>这就是结构体的内存对齐，结构体的大小，是其内部最大数据类型的整数倍，如果在加一个int类型的变量，那大小就是24。这样做的原因是为了提升效率，以空间换时间。</p>
+<h4 id="结构体动态内存分配"><a href="#结构体动态内存分配" class="headerlink" title="结构体动态内存分配"></a>结构体动态内存分配</h4><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Man</span> &#123;</span></span><br><span class="line">	<span class="hljs-keyword">int</span> age;</span><br><span class="line">	<span class="hljs-keyword">char</span> *name;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    <span class="hljs-comment">//开辟一块内存</span></span><br><span class="line">	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Man</span> *<span class="hljs-title">p</span> = (<span class="hljs-title">struct</span> <span class="hljs-title">Man</span>*)<span class="hljs-title">malloc</span>(<span class="hljs-title">sizeof</span>(<span class="hljs-title">struct</span> <span class="hljs-title">Man</span>) * 10);</span></span><br><span class="line">	<span class="hljs-comment">//赋值</span></span><br><span class="line">	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Man</span> *<span class="hljs-title">mp</span> = <span class="hljs-title">p</span>;</span></span><br><span class="line">	mp-&gt;age = <span class="hljs-number">18</span>;</span><br><span class="line">	mp-&gt;name = <span class="hljs-string">"lily"</span>;</span><br><span class="line">	<span class="hljs-comment">//循环遍历</span></span><br><span class="line">	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Man</span> *<span class="hljs-title">lop</span> = <span class="hljs-title">p</span>;</span></span><br><span class="line">	<span class="hljs-keyword">for</span> (; lop &lt; p + <span class="hljs-number">2</span>;lop++) &#123;</span><br><span class="line">		<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%s,%d\n"</span>, lop-&gt;name, lop-&gt;age);</span><br><span class="line">	&#125;</span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="typedef-类型取别名"><a href="#typedef-类型取别名" class="headerlink" title="typedef 类型取别名"></a>typedef 类型取别名</h4><p>取别名好处：让代码简洁，不同情况下使用不同的别名，不同的名称代表干不同的事情<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//Age int类型指针的别名</span></span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">int</span> Age;</span><br><span class="line"><span class="hljs-comment">//Age int类型指针的别名</span></span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">int</span>* Ap;</span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Man</span>&#123;</span></span><br><span class="line">	<span class="hljs-keyword">char</span> name[<span class="hljs-number">20</span>];</span><br><span class="line">	<span class="hljs-keyword">int</span> age;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-comment">//给结构体取别名</span></span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Man</span> <span class="hljs-title">M</span>;</span></span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Man</span>* <span class="hljs-title">MP</span>;</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">	<span class="hljs-keyword">int</span> i = <span class="hljs-number">5</span>;</span><br><span class="line">	Ap p = &amp;i;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-comment">//结构体变量</span></span><br><span class="line">	M m1 = &#123;<span class="hljs-string">"Rose"</span>,<span class="hljs-number">20</span>&#125;;</span><br><span class="line">	<span class="hljs-comment">//结构体指针</span></span><br><span class="line">	MP mp1 = &amp;w1;</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%s,%d\n"</span>, m1.name, m1.age);</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%s,%d\n"</span>, mp1-&gt;name, mp1-&gt;age);</span><br><span class="line"></span><br><span class="line">	getchar();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="结构体函数指针成员"><a href="#结构体函数指针成员" class="headerlink" title="结构体函数指针成员"></a>结构体函数指针成员</h4><p>Girl了类似于java中的类，sayHi类似于java中的方法。<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Girl</span>&#123;</span></span><br><span class="line">	<span class="hljs-keyword">char</span> *name;</span><br><span class="line">	<span class="hljs-keyword">int</span> age;</span><br><span class="line">	<span class="hljs-comment">//函数指针</span></span><br><span class="line">	<span class="hljs-keyword">void</span>(*sayHi)(<span class="hljs-keyword">char</span>*);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Girl</span> &#123;</span></span><br><span class="line">	<span class="hljs-keyword">char</span> *name;</span><br><span class="line">	<span class="hljs-keyword">int</span> age;</span><br><span class="line">	<span class="hljs-comment">//函数指针</span></span><br><span class="line">	<span class="hljs-keyword">void</span>(*sayHi)(<span class="hljs-keyword">char</span>*);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sayHi</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *text)</span> </span>&#123;</span><br><span class="line">	<span class="hljs-built_in">printf</span>(text);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Girl</span> <span class="hljs-title">gl</span>;</span></span><br><span class="line">	gl.age = <span class="hljs-number">18</span>;</span><br><span class="line">	gl.name = <span class="hljs-string">"lily"</span>;</span><br><span class="line">	gl.sayHi = sayHi;</span><br><span class="line"></span><br><span class="line">	gl.sayHi(<span class="hljs-string">"hello"</span>);</span><br><span class="line">	</span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>给Gril类取别名。在c中大多数情况下都是操作的指针<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Girl</span> &#123;</span></span><br><span class="line">	<span class="hljs-keyword">char</span> *name;</span><br><span class="line">	<span class="hljs-keyword">int</span> age;</span><br><span class="line">	<span class="hljs-comment">//函数指针</span></span><br><span class="line">	<span class="hljs-keyword">void</span>(*sayHi)(<span class="hljs-keyword">char</span>*);</span><br><span class="line">&#125; Girl;</span><br><span class="line"><span class="hljs-comment">//定义一个Girl的指针类型</span></span><br><span class="line"><span class="hljs-keyword">typedef</span> Girl *GirlP;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sayHi</span><span class="hljs-params">(<span class="hljs-keyword">char</span> *text)</span> </span>&#123;</span><br><span class="line">	<span class="hljs-built_in">printf</span>(text);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//改名方法需要传入指针类型</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">rename</span><span class="hljs-params">(GirlP gp1)</span> </span>&#123;</span><br><span class="line">	gp1-&gt;name = <span class="hljs-string">"Lily"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    Girl gl;</span><br><span class="line">	gl.age = <span class="hljs-number">18</span>;</span><br><span class="line">	gl.name = <span class="hljs-string">"lily"</span>;</span><br><span class="line">	gl.sayHi = sayHi;</span><br><span class="line"></span><br><span class="line">	gl.sayHi(<span class="hljs-string">"hello"</span>);</span><br><span class="line">	<span class="hljs-comment">//拿到指针</span></span><br><span class="line">	GirlP gpl = &amp;gl;</span><br><span class="line">	<span class="hljs-comment">//传入指针改名。使用变量是无法改名的。</span></span><br><span class="line">	rename(gpl);</span><br><span class="line"></span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="共用体（联合体）"><a href="#共用体（联合体）" class="headerlink" title="共用体（联合体）"></a>共用体（联合体）</h4><p>共用体是一种特殊的数据类型，允许相同的内存位置存储不同的数据类型，比如定义一个多成员的共用体，它同一个时间只能有一个成员有值。</p>
+<p>目的就是为了节省内存，共用体的大小取决于最大的类型的大小。<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">union</span>  MyValue&#123;</span><br><span class="line">	<span class="hljs-keyword">int</span> x;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">short</span> y;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">double</span> z;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">union</span> MyValue d1;</span><br><span class="line"></span><br><span class="line">	d1.x = <span class="hljs-number">90</span>;</span><br><span class="line"></span><br><span class="line">	d1.y = <span class="hljs-number">100</span>; </span><br><span class="line"></span><br><span class="line">	d1.z = <span class="hljs-number">23.8</span>;<span class="hljs-comment">//最后一次赋值有效</span></span><br><span class="line"></span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d,%d,%lf\n"</span>, d1.x, d1.y, d1.z);</span><br><span class="line"></span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的例子通过打印之后看到，只有最后一个d1.z有值。</p>
+<h4 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h4><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">enum</span> Day</span><br><span class="line">&#123;</span><br><span class="line">	Monday,</span><br><span class="line">	Tuesday,</span><br><span class="line">	Wednesday,</span><br><span class="line">	Thursday,</span><br><span class="line">	Friday,</span><br><span class="line">	Saturday,</span><br><span class="line">	Sunday</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="hljs-comment">//枚举的值，必须是括号中的值</span></span><br><span class="line">	<span class="hljs-keyword">enum</span> Day d = Monday;</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%#x,%d\n"</span>, &amp;d, d);</span><br><span class="line">	getchar();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="c中的文件操作"><a href="#c中的文件操作" class="headerlink" title="c中的文件操作"></a>c中的文件操作</h4><p>读取文件<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">char</span> *path = <span class="hljs-string">"C:\\Users\\83734\\Desktop\\2.1.txt"</span>;</span><br><span class="line">	<span class="hljs-comment">//r代表只读</span></span><br><span class="line">	FILE *fp = fopen(path, <span class="hljs-string">"r"</span>);</span><br><span class="line">	<span class="hljs-keyword">if</span> (fp == <span class="hljs-literal">NULL</span>) &#123;</span><br><span class="line">		<span class="hljs-built_in">printf</span>(<span class="hljs-string">"文件打开失败..."</span>);</span><br><span class="line">		<span class="hljs-keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-comment">//缓冲</span></span><br><span class="line">	<span class="hljs-keyword">char</span> buff[<span class="hljs-number">50</span>];</span><br><span class="line">	<span class="hljs-keyword">while</span> (fgets(buff, <span class="hljs-number">50</span>, fp)) &#123;</span><br><span class="line">		<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%s"</span>, buff);</span><br><span class="line">	&#125;</span><br><span class="line">	fclose(fp);</span><br><span class="line"></span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>写入文件<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">char</span> *path = <span class="hljs-string">"C:\\Users\\83734\\Desktop\\3.1.txt"</span>;</span><br><span class="line">	<span class="hljs-comment">//打开  w代表写</span></span><br><span class="line">	FILE *fp = fopen(path, <span class="hljs-string">"w"</span>);</span><br><span class="line">	<span class="hljs-keyword">char</span> *text = <span class="hljs-string">"你好 世界"</span>;</span><br><span class="line">	<span class="hljs-built_in">fputs</span>(text, fp);</span><br><span class="line"></span><br><span class="line">	<span class="hljs-comment">//关闭流</span></span><br><span class="line">	fclose(fp);</span><br><span class="line"></span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>读取二进制文件并复制<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">char</span> *path = <span class="hljs-string">"C:\\Users\\83734\\Desktop\\color_filter.jpg"</span>;</span><br><span class="line">	<span class="hljs-keyword">char</span> *path_new = <span class="hljs-string">"C:\\Users\\83734\\Desktop\\color_filter_new.jpg"</span>;</span><br><span class="line">	<span class="hljs-comment">//读的指针 rb代表读取二进制</span></span><br><span class="line">	FILE *read_fp = fopen(path, <span class="hljs-string">"rb"</span>);</span><br><span class="line">	<span class="hljs-comment">//写的指针 wb代表写入二进制</span></span><br><span class="line">	FILE *write_fp = fopen(path_new, <span class="hljs-string">"wb"</span>);</span><br><span class="line">    <span class="hljs-comment">//缓冲区</span></span><br><span class="line">	<span class="hljs-keyword">int</span> buff[<span class="hljs-number">50</span>];</span><br><span class="line">	<span class="hljs-comment">//每次读取到的数据的长度</span></span><br><span class="line">	<span class="hljs-keyword">int</span> len = <span class="hljs-number">0</span>;</span><br><span class="line">	<span class="hljs-keyword">while</span> ((len = fread(buff,<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),<span class="hljs-number">50</span>,read_fp))!=<span class="hljs-number">0</span>) &#123;</span><br><span class="line">		fwrite(buff,<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),len,write_fp);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-comment">//关闭流</span></span><br><span class="line">	fclose(read_fp);</span><br><span class="line">	fclose(write_fp);</span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>c读写文本文件和二进制文件的差别，只在回车换行符上面，写文本的时候每遇到一个\n就会将其转换成\r\n，读文本的时候，每遇到一个\r\n就会将其转换成\n。</p>
+<p>获取一个文件的大小,可以通过fseek和ftell<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">char</span> *path = <span class="hljs-string">"C:\\Users\\83734\\Desktop\\color_filter.jpg"</span>;</span><br><span class="line">	<span class="hljs-comment">//读的指针 rb代表读取二进制</span></span><br><span class="line">	FILE *read_fp = fopen(path, <span class="hljs-string">"rb"</span>);</span><br><span class="line">	<span class="hljs-comment">//重新定位文件指针</span></span><br><span class="line">	<span class="hljs-comment">//SEEK_END文件末尾，0偏移量</span></span><br><span class="line">	fseek(read_fp, <span class="hljs-number">0</span>, SEEK_END);</span><br><span class="line">	<span class="hljs-comment">//返回当前的文件指针，相对于文件开头的位移量</span></span><br><span class="line">	<span class="hljs-keyword">long</span> filesize = ftell(read_fp);</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d\n"</span>, filesize);</span><br><span class="line">	fclose(read_fp);</span><br><span class="line">	system(<span class="hljs-string">"pause"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>文件的加解密</p>
+<p>可以读取每个文件的字符，然后给每个字符做异或运算，解密的时候在做一次异或运算<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//加密</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">crpypt</span><span class="hljs-params">(<span class="hljs-keyword">char</span> normal_path[], <span class="hljs-keyword">char</span> crpypt_path[])</span> </span>&#123;</span><br><span class="line">	<span class="hljs-comment">//打开文件</span></span><br><span class="line">	FILE *normal_fp = fopen(normal_path, <span class="hljs-string">"r"</span>);</span><br><span class="line">	FILE *crypt_fp = fopen(crpypt_path, <span class="hljs-string">"w"</span>);</span><br><span class="line">	<span class="hljs-comment">//一次读取一个字符</span></span><br><span class="line">	<span class="hljs-keyword">int</span> ch;</span><br><span class="line">	<span class="hljs-keyword">while</span> ((ch = fgetc(normal_fp)) != EOF) &#123; <span class="hljs-comment">//End of File</span></span><br><span class="line">		<span class="hljs-comment">//写入（异或运算）</span></span><br><span class="line">		fputc(ch ^ <span class="hljs-number">3</span>, crypt_fp);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-comment">//关闭</span></span><br><span class="line">	fclose(crypt_fp);</span><br><span class="line">	fclose(normal_fp);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//解密</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">decrpypt</span><span class="hljs-params">(<span class="hljs-keyword">char</span> crpypt_path[], <span class="hljs-keyword">char</span> decrpypt_path[])</span> </span>&#123;</span><br><span class="line">	<span class="hljs-comment">//打开文件</span></span><br><span class="line">	FILE *normal_fp = fopen(crpypt_path, <span class="hljs-string">"r"</span>);</span><br><span class="line">	FILE *crypt_fp = fopen(decrpypt_path, <span class="hljs-string">"w"</span>);</span><br><span class="line">	<span class="hljs-comment">//一次读取一个字符</span></span><br><span class="line">	<span class="hljs-keyword">int</span> ch;</span><br><span class="line">	<span class="hljs-keyword">while</span> ((ch = fgetc(normal_fp)) != EOF) &#123; <span class="hljs-comment">//End of File</span></span><br><span class="line">		<span class="hljs-comment">//写入（异或运算）</span></span><br><span class="line">		fputc(ch ^ <span class="hljs-number">3</span>, crypt_fp);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-comment">//关闭</span></span><br><span class="line">	fclose(crypt_fp);</span><br><span class="line">	fclose(normal_fp);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">char</span> *path = <span class="hljs-string">"C:\\Users\\83734\\Desktop\\2.1.txt"</span>;</span><br><span class="line">	<span class="hljs-keyword">char</span> *path_c = <span class="hljs-string">"C:\\Users\\83734\\Desktop\\2.1.1.txt"</span>;</span><br><span class="line">	<span class="hljs-keyword">char</span> *path_de = <span class="hljs-string">"C:\\Users\\83734\\Desktop\\2.1.2.txt"</span>;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-comment">//crpypt(path,path_c);</span></span><br><span class="line">	decrpypt(path_c, path_de);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>前面的加解密都是跟一个3异或，有时候我们可以使用一个字符串作为密码比如“abcd”,读取到的每一个字符循环跟字符串中的字符异或。<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//加密</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">crpypt</span><span class="hljs-params">(<span class="hljs-keyword">char</span> normal_path[], <span class="hljs-keyword">char</span> crypt_path[],<span class="hljs-keyword">char</span> password[])</span></span>&#123;</span><br><span class="line">	<span class="hljs-comment">//打开文件</span></span><br><span class="line">	FILE *normal_fp = fopen(normal_path, <span class="hljs-string">"rb"</span>);</span><br><span class="line">	FILE *crypt_fp = fopen(crypt_path, <span class="hljs-string">"wb"</span>);</span><br><span class="line">	<span class="hljs-comment">//一次读取一个字符</span></span><br><span class="line">	<span class="hljs-keyword">int</span> ch;</span><br><span class="line">	<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; <span class="hljs-comment">//循环使用密码中的字母进行异或运算</span></span><br><span class="line">	<span class="hljs-keyword">int</span> pwd_len = <span class="hljs-built_in">strlen</span>(password); <span class="hljs-comment">//密码的长度</span></span><br><span class="line">	<span class="hljs-keyword">while</span> ((ch = fgetc(normal_fp)) != EOF)&#123; <span class="hljs-comment">//End of File</span></span><br><span class="line">		<span class="hljs-comment">//写入（异或运算）</span></span><br><span class="line">		fputc(ch ^ password[i % pwd_len], crypt_fp);</span><br><span class="line">		i++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-comment">//关闭</span></span><br><span class="line">	fclose(crypt_fp);</span><br><span class="line">	fclose(normal_fp);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//解密</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">decrpypt</span><span class="hljs-params">(<span class="hljs-keyword">char</span> crypt_path[], <span class="hljs-keyword">char</span> decrypt_path[],<span class="hljs-keyword">char</span> password[])</span></span>&#123;</span><br><span class="line">	<span class="hljs-comment">//打开文件</span></span><br><span class="line">	FILE *normal_fp = fopen(crypt_path, <span class="hljs-string">"rb"</span>);</span><br><span class="line">	FILE *crypt_fp = fopen(decrypt_path, <span class="hljs-string">"wb"</span>);</span><br><span class="line">	<span class="hljs-comment">//一次读取一个字符</span></span><br><span class="line">	<span class="hljs-keyword">int</span> ch;</span><br><span class="line">	<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; <span class="hljs-comment">//循环使用密码中的字母进行异或运算</span></span><br><span class="line">	<span class="hljs-keyword">int</span> pwd_len = <span class="hljs-built_in">strlen</span>(password); <span class="hljs-comment">//密码的长度</span></span><br><span class="line">	<span class="hljs-keyword">while</span> ((ch = fgetc(normal_fp)) != EOF)&#123; <span class="hljs-comment">//End of File</span></span><br><span class="line">		<span class="hljs-comment">//写入（异或运算）</span></span><br><span class="line">		fputc(ch ^ password[i % pwd_len], crypt_fp);</span><br><span class="line">		i++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-comment">//关闭</span></span><br><span class="line">	fclose(crypt_fp);</span><br><span class="line">	fclose(normal_fp);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">	<span class="hljs-keyword">char</span> *normal_path = <span class="hljs-string">"C:\\Users\\83734\\Desktop\\color_filter.jpg"</span>;</span><br><span class="line">	<span class="hljs-keyword">char</span> *crypt_path = <span class="hljs-string">"C:\\Users\\83734\\Desktop\\color_filter_c.jpg"</span>;</span><br><span class="line">	<span class="hljs-keyword">char</span> *decrypt_path = <span class="hljs-string">"C:\\Users\\83734\\Desktop\\color_filter_de.jpg"</span>;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-comment">//crpypt(normal_path, crypt_path,"abcd");</span></span><br><span class="line">	</span><br><span class="line">	decrpypt(crypt_path, decrypt_path,<span class="hljs-string">"abcd"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="C语言的执行流程"><a href="#C语言的执行流程" class="headerlink" title="C语言的执行流程"></a>C语言的执行流程</h4><ol>
+<li>编译：形成目标代码（.obj）</li>
+<li>连接：将目标代码与c函数库连接合并，形成最终的可执行文件</li>
+<li>执行</li>
+</ol>
+<p>预编译阶段，主要为编译做准备工作，完成代码的替换。头文件告诉编译器有这么一个函数，连接器负责到代码中找到这个函数</p>
+<h4 id="define-宏定义、宏替换-、预编译指令"><a href="#define-宏定义、宏替换-、预编译指令" class="headerlink" title="define(宏定义、宏替换 、预编译指令)"></a>define(宏定义、宏替换 、预编译指令)</h4><p>define指令</p>
+<ol>
+<li>定义标示（#ifdef __cplusplus 标识支持C++语法）</li>
+<li>定义常数（#define MAX 100）</li>
+<li>定义宏函数，简化比较麻烦的函数<figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dn_com_jni_read</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"read\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dn_com_jni_write</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"write\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//定义宏函数    NAME是参数</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> jni(NAME) dn_com_jni_##NAME();</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">    <span class="hljs-comment">//直接调用定义的宏函数</span></span><br><span class="line">	jni(write);<span class="hljs-comment">//替换：dn_com_jni_write();</span></span><br><span class="line">	getchar();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="c中的库"><a href="#c中的库" class="headerlink" title="c中的库"></a>c中的库</h4><p>库可以通过gcc命令编译</p>
+<figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//动态库</span></span><br><span class="line">gcc -shared -fPIC -o libtest.so test.c </span><br><span class="line"><span class="hljs-comment">//静态库</span></span><br><span class="line">gcc -<span class="hljs-keyword">static</span> -fPIC -o libtest.so test.c</span><br></pre></td></tr></table></figure>
+<p>动态库：.so/.dll</p>
+<p>静态库：.a/.lib</p>
+<p>动态库类似于android中的.jar文件</p>
+<p>静态库类似于andorid中的.arr文件</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/c-c/">c/c++</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/05/12/technology/JNI基础知识/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">JNI基础知识</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/04/27/technology/事件总线LiveDataBus/">
+                <span class="level-item">事件总线LiveDataBus</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">コメント</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/05/12/technology/C基础知识/';
+        this.page.identifier = '2019/05/12/technology/C基础知识/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                カタログ
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#Hello-World">
+        <span class="has-mr-6">1</span>
+        <span>Hello World</span>
+        </a></li><li>
+        <a class="is-flex" href="#内存">
+        <span class="has-mr-6">2</span>
+        <span>内存</span>
+        </a></li><li>
+        <a class="is-flex" href="#动态内存分配">
+        <span class="has-mr-6">3</span>
+        <span>动态内存分配</span>
+        </a></li><li>
+        <a class="is-flex" href="#基本数据类型">
+        <span class="has-mr-6">4</span>
+        <span>基本数据类型</span>
+        </a></li><li>
+        <a class="is-flex" href="#指针">
+        <span class="has-mr-6">5</span>
+        <span>指针</span>
+        </a></li><li>
+        <a class="is-flex" href="#多级指针">
+        <span class="has-mr-6">6</span>
+        <span>多级指针</span>
+        </a></li><li>
+        <a class="is-flex" href="#指针的运算">
+        <span class="has-mr-6">7</span>
+        <span>指针的运算</span>
+        </a></li><li>
+        <a class="is-flex" href="#变量名">
+        <span class="has-mr-6">8</span>
+        <span>变量名</span>
+        </a></li><li>
+        <a class="is-flex" href="#函数">
+        <span class="has-mr-6">9</span>
+        <span>函数</span>
+        </a></li><li>
+        <a class="is-flex" href="#字符串">
+        <span class="has-mr-6">10</span>
+        <span>字符串</span>
+        </a></li><li>
+        <a class="is-flex" href="#字符指针">
+        <span class="has-mr-6">11</span>
+        <span>字符指针</span>
+        </a></li><li>
+        <a class="is-flex" href="#结构体">
+        <span class="has-mr-6">12</span>
+        <span>结构体</span>
+        </a></li><li>
+        <a class="is-flex" href="#结构体动态内存分配">
+        <span class="has-mr-6">13</span>
+        <span>结构体动态内存分配</span>
+        </a></li><li>
+        <a class="is-flex" href="#typedef-类型取别名">
+        <span class="has-mr-6">14</span>
+        <span>typedef 类型取别名</span>
+        </a></li><li>
+        <a class="is-flex" href="#结构体函数指针成员">
+        <span class="has-mr-6">15</span>
+        <span>结构体函数指针成员</span>
+        </a></li><li>
+        <a class="is-flex" href="#共用体（联合体）">
+        <span class="has-mr-6">16</span>
+        <span>共用体（联合体）</span>
+        </a></li><li>
+        <a class="is-flex" href="#枚举">
+        <span class="has-mr-6">17</span>
+        <span>枚举</span>
+        </a></li><li>
+        <a class="is-flex" href="#c中的文件操作">
+        <span class="has-mr-6">18</span>
+        <span>c中的文件操作</span>
+        </a></li><li>
+        <a class="is-flex" href="#C语言的执行流程">
+        <span class="has-mr-6">19</span>
+        <span>C语言的执行流程</span>
+        </a></li><li>
+        <a class="is-flex" href="#define-宏定义、宏替换-、预编译指令">
+        <span class="has-mr-6">20</span>
+        <span>define(宏定义、宏替换 、预编译指令)</span>
+        </a></li><li>
+        <a class="is-flex" href="#c中的库">
+        <span class="has-mr-6">21</span>
+        <span>c中的库</span>
+        </a></li></ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="C基础知识" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '投稿',
+                PAGES: 'Pages',
+                CATEGORIES: 'カテゴリ',
+                TAGS: 'タグ',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

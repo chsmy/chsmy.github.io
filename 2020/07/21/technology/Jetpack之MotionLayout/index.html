@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Jetpack之MotionLayout - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="Jetpack之MotionLayout">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jetpack之MotionLayout">
+<meta property="og:url" content="https://chsmy.github.io/2020/07/21/technology/Jetpack之MotionLayout/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="Jetpack之MotionLayout">
+<meta property="og:locale" content="CHS">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/7/21/1737171c8bd3eebd?w=1039&h=358&f=png&s=30949">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/7/21/1737172e3cfbc15b?w=312&h=139&f=gif&s=42944">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/7/21/1737174807bc3fa5?w=312&h=139&f=gif&s=11924">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/7/21/17371751eb7641cf?w=312&h=139&f=gif&s=39428">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/7/21/17371755b55de75e?w=312&h=390&f=gif&s=39269">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/7/21/173717b078e3eb30?w=312&h=650&f=gif&s=47686">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/7/21/17371804c8730fde?w=312&h=610&f=gif&s=50844">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/7/21/1737189fb948d23e?w=312&h=147&f=gif&s=47330">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/7/21/1737193ab532669f?w=312&h=298&f=gif&s=101317">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/7/21/173719a40186abbc?w=312&h=573&f=gif&s=605284">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/7/21/17371a310a388c2e?w=312&h=675&f=gif&s=207489">
+<meta property="og:updated_time" content="2020-07-21T15:08:08.965Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jetpack之MotionLayout">
+<meta name="twitter:description" content="Jetpack之MotionLayout">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2020/7/21/1737171c8bd3eebd?w=1039&h=358&f=png&s=30949">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Jetpack之MotionLayout" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    18 minutes read (About 2732 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Jetpack之MotionLayout
+            
+        </h1>
+        <div class="content">
+            <p>Jetpack之MotionLayout</p>
+<a id="more"></a>
+<p>MotionLayout 继承自 ConstraintLayout ，用来管理布局中元素的运动轨迹和动画。可向后兼容到API 14。</p>
+<p>MotionLayout 可以让布局转换和复杂运动更加简单，提供了<a href="https://developer.android.google.cn/guide/topics/graphics/prop-animation?hl=zh_cn" target="_blank" rel="noopener">属性动画</a>，<a href="https://developer.android.google.cn/training/transitions?hl=zh_cn" target="_blank" rel="noopener">TransitionManager</a>和和 <a href="https://developer.android.google.cn/reference/androidx/coordinatorlayout/widget/CoordinatorLayout?hl=zh_cn" target="_blank" rel="noopener">CoordinatorLayout</a>的各种能力。</p>
+<p>先来个简单的效果试试水</p>
+<p>一个MotionLayout的布局有<strong>两部分组成</strong>，一个是我们的正常的xml文件，另一个是与之对应的在目录<strong>res/xml</strong>/文件夹下面对应的一个xml文件用来描述动画场景的文件，<strong>下面我们就称之为场景动画文件</strong>。</p>
+<p>新建一个Activity，名为MotionLayoutActivity，这个时候系统已经为我们创建好了一个默认的布局文件，根布局为ConstraintLayout， AndoridStudio中可以快速创建<strong>res/xml</strong>文件夹下面的文件，如下图，布局文件切换到全预览界面，找到ConstraintLayout ,右击选择convert to MotionLayout，就会看到res目录下面已经创建了一个xml目录和一个跟我们当前布局对应的场景动画xml文件。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/7/21/1737171c8bd3eebd?w=1039&amp;h=358&amp;f=png&amp;s=30949" alt></p>
+<p>首先在布局文件中添加一个ImageView，该布局中MotionLayout的<code>app:layoutDescription</code>引用了该布局所引用的场景动画的文件<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">androidx.constraintlayout.motion.widget.MotionLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">xmlns:tools</span>=<span class="hljs-string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/iv_3"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">app:layoutDescription</span>=<span class="hljs-string">"@xml/activity_motion_layout_scene"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">tools:context</span>=<span class="hljs-string">".ui.motionlayout.MotionLayoutActivity"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">ImageView</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/imageView"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"50dp"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"50dp"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:layout_constraintEnd_toEndOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:layout_constraintStart_toStartOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:srcCompat</span>=<span class="hljs-string">"@drawable/expression_3"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">tools:layout_editor_absoluteY</span>=<span class="hljs-string">"74dp"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">androidx.constraintlayout.motion.widget.MotionLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>然后在场景动画文件中添加动画<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">MotionScene</span> </span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">xmlns:motion</span>=<span class="hljs-string">"http://schemas.android.com/apk/res-auto"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">Transition</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:constraintSetEnd</span>=<span class="hljs-string">"@+id/end"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:constraintSetStart</span>=<span class="hljs-string">"@id/start"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:duration</span>=<span class="hljs-string">"1000"</span>&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;<span class="hljs-name">KeyFrameSet</span>&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;/<span class="hljs-name">KeyFrameSet</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">OnClick</span> <span class="hljs-attr">motion:targetId</span>=<span class="hljs-string">"@id/imageView"</span> /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">Transition</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">ConstraintSet</span> <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/start"</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">Constraint</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"50dp"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintStart_toStartOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintTop_toTopOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintEnd_toEndOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"50dp"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/imageView"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintHorizontal_bias</span>=<span class="hljs-string">"0.052"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintBottom_toBottomOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:rotation</span>=<span class="hljs-string">"0"</span></span></span><br><span class="line"><span class="hljs-tag">             /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">ConstraintSet</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">ConstraintSet</span> <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/end"</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">Constraint</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"50dp"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintStart_toStartOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintEnd_toEndOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"50dp"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/imageView"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintHorizontal_bias</span>=<span class="hljs-string">"0.915"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintBottom_toBottomOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintTop_toTopOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_editor_absoluteY</span>=<span class="hljs-string">"43dp"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:rotation</span>=<span class="hljs-string">"360"</span> /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">ConstraintSet</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">MotionScene</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这样一个简单的ImageView从屏幕左边滑动到屏幕右边的动画就完成了。效果如下</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/7/21/1737172e3cfbc15b?w=312&amp;h=139&amp;f=gif&amp;s=42944" alt></p>
+<p><strong>注意：AndoridStudio4.0以后对于MotionLayout动画的编辑功能非常强大，在AndroidStudio中通过编辑器可以很快的完成这个动画，并自动生成上面的代码，所以有时候编辑器跟代码结合使用会更快捷，用编辑器迅速拖拽出大体的实现，</strong>然后通过代码修改细节<em>**</em></p>
+<p>下面先来了解一下场景动画文件中这些标签代表的啥，然后在玩后面的例子。下面的标签只是列出了一些重要的属性，所有属性请点击查看<a href="https://developer.android.google.cn/reference/androidx/constraintlayout/motion/widget/MotionLayout?hl=en" target="_blank" rel="noopener">属性文档</a></p>
+<p><strong><motionscene></motionscene></strong></p>
+<p>场景动画文件的根元素，包含一个或多个的<code>&lt;Transition&gt;</code>元素，每个元素用来定义动画的开始和结束状态以及这两种状态之间的转换</p>
+<p><code>&lt;Transition&gt;</code>标签是必须要有的，<code>&lt;ConstraintSet&gt;</code>标签是可以有的。</p>
+<p><code>&lt;MotionScene&gt;</code>标签有个属性defaultDuration，这个是设置其所有子元素在没有设置过渡时间的时候的默认过渡时间，单位为毫秒。</p>
+<p><strong><transition></transition></strong></p>
+<p>指定一个运动序列的起始和结束状态，还有中间状态和触发该运动的方式，比如点击触发或者滑动触发</p>
+<p>重要属性：</p>
+<ul>
+<li>motion:constraintSetStart：运动序列的初始状态。可以是 <code>&lt;ConstraintSet&gt;</code> 的 ID，也可以是布局。如需指定 <code>&lt;ConstraintSet&gt;</code>，请将此属性设置为 “@+id/constraintSetId”。如需指定布局，请设置为 “@layout/layoutState”。</li>
+<li>motion:constraintSetEnd：运动序列的最终状态，设置方式跟start状态一样</li>
+<li>motion:duration：运动序列的时长，以毫秒为单位。如果未指定，则使用 <code>&lt;MotionScene&gt;</code> 元素的 defaultDuration。</li>
+<li>motionInterpolator：插值器效果跟属性动画中的插值器一样，取值有：linear线性、bounce弹簧、easeIn淡入、easeOut淡出、easeInOut淡入淡出。</li>
+</ul>
+<p>其内部可以有3中子标签</p>
+<ul>
+<li><code>&lt;onClick&gt;</code> ：表示用户通过点击触发动画</li>
+<li><code>&lt;onSwipe&gt;</code> ：表示用户通过滑动触发动画</li>
+<li><code>&lt;KeyFrameSet&gt;</code>：关键帧，用于处理一个动画序列中的中间位置，比如曲线运动，折线运动等，他是一个关键帧的集合，内部包含<code>&lt;KeyPosition/&gt;</code>和<code>&lt;KeyAttribute&gt;</code>这两个标签，用来控制各种中间状态。这俩哥们的属性都比较多，具体属性可以查看文档<a href="https://developer.android.google.cn/training/constraint-layout/motionlayout/ref/keyposition?hl=zh_cn" target="_blank" rel="noopener">KeyPosition属性文档</a>，<a href="https://developer.android.google.cn/training/constraint-layout/motionlayout/ref/keyattribute?hl=zh_cn" target="_blank" rel="noopener">KeyAttribute属性文档</a></li>
+</ul>
+<p><strong><constraintset></constraintset></strong></p>
+<p>这个标签用来指定所有界面元素在某个状态下在页面上的位置，一般是两个一个起始位置，一个结束位置，<code>&lt;Transition&gt;</code>标签的constraintSetEnd和constraintSetStart属性通过id指自定义的向定义的<code>&lt;ConstraintSet&gt;</code></p>
+<p> <code>&lt;ConstraintSet&gt;</code>是一个约束标签的集合，其内部必须包含一个或者多个约束标签<code>&lt;Constraint&gt;</code>，这个约束标签跟我们的主布局文件中的控件是通过id一一对应的，比如主布局中有一个ImageView，这边就有一个与之对应的<code>&lt;Constraint&gt;</code>标签，然后把控制ImageView位置的属性放到该标签下面。</p>
+<p>OK 一些主要的标签的意思都知道啦，下面来尝试使用这些标签来做一些动画</p>
+<p>先看下面这个给一个View设置颜色过渡</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/7/21/1737174807bc3fa5?w=312&amp;h=139&amp;f=gif&amp;s=11924" alt><br>源文件<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">androidx.constraintlayout.motion.widget.MotionLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">xmlns:tools</span>=<span class="hljs-string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">app:layoutDescription</span>=<span class="hljs-string">"@xml/activity_motion_layout1_scene"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">View</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/btn_view"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"50dp"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"50dp"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_marginEnd</span>=<span class="hljs-string">"411dp"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_marginBottom</span>=<span class="hljs-string">"731dp"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:background</span>=<span class="hljs-string">"@color/colorAccent"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:layout_constraintBottom_toBottomOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:layout_constraintEnd_toEndOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:layout_constraintStart_toStartOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">app:layout_constraintTop_toTopOf</span>=<span class="hljs-string">"parent"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">androidx.constraintlayout.motion.widget.MotionLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>场景动画文件<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">MotionScene</span> </span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">xmlns:motion</span>=<span class="hljs-string">"http://schemas.android.com/apk/res-auto"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">Transition</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:constraintSetEnd</span>=<span class="hljs-string">"@+id/end"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:constraintSetStart</span>=<span class="hljs-string">"@id/start"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:duration</span>=<span class="hljs-string">"1000"</span>&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;<span class="hljs-name">KeyFrameSet</span>&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;/<span class="hljs-name">KeyFrameSet</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">OnSwipe</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:touchAnchorId</span>=<span class="hljs-string">"@id/btn_view"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:dragDirection</span>=<span class="hljs-string">"dragRight"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:touchAnchorSide</span>=<span class="hljs-string">"right"</span></span></span><br><span class="line"><span class="hljs-tag">            /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">Transition</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">ConstraintSet</span> <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/start"</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">Constraint</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"50dp"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"50dp"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintTop_toTopOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/btn_view"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintBottom_toBottomOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintLeft_toLeftOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">            &gt;</span></span><br><span class="line">            <span class="hljs-tag">&lt;<span class="hljs-name">CustomAttribute</span></span></span><br><span class="line"><span class="hljs-tag">                <span class="hljs-attr">motion:attributeName</span>=<span class="hljs-string">"BackgroundColor"</span></span></span><br><span class="line"><span class="hljs-tag">                <span class="hljs-attr">motion:customColorValue</span>=<span class="hljs-string">"@color/colorPrimary"</span> /&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;/<span class="hljs-name">Constraint</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">ConstraintSet</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">ConstraintSet</span> <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/end"</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">Constraint</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"50dp"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"50dp"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintTop_toTopOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/btn_view"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintBottom_toBottomOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintRight_toRightOf</span>=<span class="hljs-string">"parent"</span> &gt;</span></span><br><span class="line">            <span class="hljs-tag">&lt;<span class="hljs-name">CustomAttribute</span></span></span><br><span class="line"><span class="hljs-tag">                <span class="hljs-attr">motion:attributeName</span>=<span class="hljs-string">"BackgroundColor"</span></span></span><br><span class="line"><span class="hljs-tag">                <span class="hljs-attr">motion:customColorValue</span>=<span class="hljs-string">"@color/colorAccent"</span> /&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;/<span class="hljs-name">Constraint</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">ConstraintSet</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">MotionScene</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这次使用的是<code>&lt;OnSwipe/&gt;</code>标签，在手指滑动的时候来触发动画，例子中<code>motion:touchAnchorId</code>代表动画控制的View的id，<code>motion:dragDirection</code>代表手指向右滑动，<code>motion:touchAnchorSide</code>代表最后停在右边。</p>
+<p>在看下面这个动画，让ImageView沿着Y轴旋转60度，这个很简单，在第一个动画的基础上，在加一个<code>rotationY</code>属性即可，在开始状态rotationY属性设置为0，结束状态rotationY属性设置为60就实现啦。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/7/21/17371751eb7641cf?w=312&amp;h=139&amp;f=gif&amp;s=39428" alt></p>
+<p>下一个~~</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/7/21/17371755b55de75e?w=312&amp;h=390&amp;f=gif&amp;s=39269" alt></p>
+<p>这个动画实现起来也非常简单，首先给ImageView设置起始位置和终止位置，然后使用了<code>&lt;Transition/&gt;</code>标签中的pathMotionArc这个属性，属性值设置为startVertical就完成了，该属性还有几个别的值，比如startHorizontal就是先往下在往上，练习的时候一试就知道啦。</p>
+<p>下一个~~</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/7/21/173717b078e3eb30?w=312&amp;h=650&amp;f=gif&amp;s=47686" alt></p>
+<p>这个效果虽然看起来跟上一个很像，不过实现过程是不一样的，上一个通过pathMotionArc这个属性实现的，但是它的值只有那几个，无法定制化，而这个效果是通过KeyFrameSet关键帧集合中的KeyPosition来实现的<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">Transition</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">motion:constraintSetEnd</span>=<span class="hljs-string">"@+id/end"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">motion:constraintSetStart</span>=<span class="hljs-string">"@id/start"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">motion:duration</span>=<span class="hljs-string">"1000"</span>&gt;</span></span><br><span class="line">   <span class="hljs-tag">&lt;<span class="hljs-name">KeyFrameSet</span>&gt;</span></span><br><span class="line">       <span class="hljs-tag">&lt;<span class="hljs-name">KeyPosition</span></span></span><br><span class="line"><span class="hljs-tag">           <span class="hljs-attr">motion:motionTarget</span>=<span class="hljs-string">"@+id/imageView"</span></span></span><br><span class="line"><span class="hljs-tag">           <span class="hljs-attr">motion:framePosition</span>=<span class="hljs-string">"46"</span></span></span><br><span class="line"><span class="hljs-tag">           <span class="hljs-attr">motion:keyPositionType</span>=<span class="hljs-string">"pathRelative"</span></span></span><br><span class="line"><span class="hljs-tag">           <span class="hljs-attr">motion:percentY</span>=<span class="hljs-string">"0.255"</span> /&gt;</span></span><br><span class="line">   <span class="hljs-tag">&lt;/<span class="hljs-name">KeyFrameSet</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">OnClick</span> <span class="hljs-attr">motion:targetId</span>=<span class="hljs-string">"@id/imageView"</span> /&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">Transition</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>我们可以通过调整percentY属性的值，来调整这个运动曲线的弧度。</p>
+<p>下一个~~</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/7/21/17371804c8730fde?w=312&amp;h=610&amp;f=gif&amp;s=50844" alt></p>
+<p>这个动画使用了<code>&lt;Transition/&gt;</code>标签中的KeyCycle来实现<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">Transition</span></span></span><br><span class="line"><span class="hljs-tag">      <span class="hljs-attr">motion:constraintSetEnd</span>=<span class="hljs-string">"@+id/end"</span></span></span><br><span class="line"><span class="hljs-tag">      <span class="hljs-attr">motion:constraintSetStart</span>=<span class="hljs-string">"@id/start"</span></span></span><br><span class="line"><span class="hljs-tag">      <span class="hljs-attr">motion:duration</span>=<span class="hljs-string">"1000"</span>&gt;</span></span><br><span class="line">     <span class="hljs-tag">&lt;<span class="hljs-name">KeyFrameSet</span>&gt;</span></span><br><span class="line">         <span class="hljs-tag">&lt;<span class="hljs-name">KeyPosition</span> /&gt;</span></span><br><span class="line">         <span class="hljs-tag">&lt;<span class="hljs-name">KeyCycle</span></span></span><br><span class="line"><span class="hljs-tag">             <span class="hljs-attr">motion:motionTarget</span>=<span class="hljs-string">"@+id/imageView"</span></span></span><br><span class="line"><span class="hljs-tag">             <span class="hljs-attr">motion:framePosition</span>=<span class="hljs-string">"99"</span></span></span><br><span class="line"><span class="hljs-tag">             <span class="hljs-attr">motion:wavePeriod</span>=<span class="hljs-string">"1"</span></span></span><br><span class="line"><span class="hljs-tag">             <span class="hljs-attr">android:translationX</span>=<span class="hljs-string">"70dp"</span></span></span><br><span class="line"><span class="hljs-tag">             <span class="hljs-attr">motion:waveShape</span>=<span class="hljs-string">"sin"</span> /&gt;</span></span><br><span class="line">     <span class="hljs-tag">&lt;/<span class="hljs-name">KeyFrameSet</span>&gt;</span></span><br><span class="line">      <span class="hljs-tag">&lt;<span class="hljs-name">OnClick</span> <span class="hljs-attr">motion:targetId</span>=<span class="hljs-string">"@id/imageView"</span> /&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;/<span class="hljs-name">Transition</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><code>framePosition</code>：1-99的整数 用于指定在运动序列中视图何时具有该 <keyattribute> 指定的属性</keyattribute></li>
+<li><code>wavePeriod</code>: 在这个区域内循环震荡的次数，值越大震荡的越快</li>
+<li><code>translationX</code>： 在X轴上震荡的距离</li>
+<li><code>waveShape</code> ：震荡曲线的样式，系统提供了很多样式   sin|square|triangle|sawtooth|reverseSawtooth|cos|bounce</li>
+</ul>
+<p>下一个~~</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/7/21/1737189fb948d23e?w=312&amp;h=147&amp;f=gif&amp;s=47330" alt></p>
+<p>这个gif录制的问题，实际的效果是这个ImageView迅速的旋转3600度</p>
+<p>这个实现起来非常简单，起始位置跟结束位置不变，在结束位置那添加一个<code>android:rotation=&quot;3600&quot;</code>属性就能实现这个效果了。</p>
+<p>实现这个的目的是为了说明，我们不仅可以在xml实现这个动画，<strong>还能在代码中动态的改变动画的属性</strong>，这就给编码带来了很大的灵活性，比如下面<br><figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">val</span> constraintSet = motionlayout.getConstraintSet(R.id.end)</span><br><span class="line">constraintSet.setRotation(R.id.imageView,<span class="hljs-number">7200f</span>)</span><br><span class="line">motionlayout.updateState(R.id.end,constraintSet)</span><br></pre></td></tr></table></figure></p>
+<p>我们通过id拿到ConstraintSet，然后改变其属性，最后在更新state就可以了，比如上面的把之前的3600度改为7200度</p>
+<p>下一个~~</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/7/21/1737193ab532669f?w=312&amp;h=298&amp;f=gif&amp;s=101317" alt></p>
+<p>很久以前要实现这个效果，需要自定义一个ViewGroup，然后计算各种位置和实现动画</p>
+<p>现在通过motionlayout可以很快的实现，首先在主xml文件中添加5个ImageView。在场景动画的xml文件中，让他们起始位置都一样，结束位置让他们摆放在一个圆弧的不同位置，这个ConstraintLayout本身就支持，分别使用<code>layout_constraintCircle</code>,<code>layout_constraintCircleRadius</code>,<code>layout_constraintCircleAngle</code>这是哪个属性定位就可以啦。比如下面其中一个的代码<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">Constraint</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_editor_absoluteY</span>=<span class="hljs-string">"651dp"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"50dp"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintStart_toStartOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintCircle</span>=<span class="hljs-string">"@id/imageView"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintCircleRadius</span>=<span class="hljs-string">"180dp"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintCircleAngle</span>=<span class="hljs-string">"60"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">motion:layout_constraintEnd_toEndOf</span>=<span class="hljs-string">"parent"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"50dp"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:rotation</span>=<span class="hljs-string">"360"</span></span></span><br><span class="line"><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/imageView2"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>我们还可以给<code>&lt;Transition/&gt;</code>标签添加插值器motionInterpolator，让它有回弹效果或者淡入淡出效果等</p>
+<p>下一个~~ </p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/7/21/173719a40186abbc?w=312&amp;h=573&amp;f=gif&amp;s=605284" alt></p>
+<p>这个动画实现起来也简单，当点击某个IngeView的时候，就让它移动到中间位置，并将其X轴和Y轴都缩放两倍，其余的ImageView的alph值都设置为0变透明就可以啦。</p>
+<p>因为点击不同的ImageView会有不同的效果，这时候就需要设置4个Transition和4个ConstraintSet来对应每一种状态了，比如Transition的代码<br><figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">Transition</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:constraintSetEnd</span>=<span class="hljs-string">"@+id/end"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:constraintSetStart</span>=<span class="hljs-string">"@id/start"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:duration</span>=<span class="hljs-string">"500"</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">OnClick</span> <span class="hljs-attr">motion:targetId</span>=<span class="hljs-string">"@id/imageView4"</span> /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">Transition</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">Transition</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/action1"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:constraintSetStart</span>=<span class="hljs-string">"@+id/start"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:constraintSetEnd</span>=<span class="hljs-string">"@+id/end1"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:duration</span>=<span class="hljs-string">"500"</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">OnClick</span> <span class="hljs-attr">motion:targetId</span>=<span class="hljs-string">"@id/imageView2"</span> /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">Transition</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">Transition</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/action2"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:constraintSetStart</span>=<span class="hljs-string">"@+id/start"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:constraintSetEnd</span>=<span class="hljs-string">"@+id/end2"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:duration</span>=<span class="hljs-string">"500"</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">OnClick</span> <span class="hljs-attr">motion:targetId</span>=<span class="hljs-string">"@id/imageView"</span> /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">Transition</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">Transition</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/action3"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:constraintSetStart</span>=<span class="hljs-string">"@+id/start"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:constraintSetEnd</span>=<span class="hljs-string">"@+id/end3"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">motion:duration</span>=<span class="hljs-string">"500"</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">OnClick</span> <span class="hljs-attr">motion:targetId</span>=<span class="hljs-string">"@id/imageView3"</span> /&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">Transition</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>MotionLayout动画可以给我们带来无限的想象力，仅官方demo中就有好多炫酷的效果实现，比如下面这个官方demo中的视差动画</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/7/21/17371a310a388c2e?w=312&amp;h=675&amp;f=gif&amp;s=207489" alt></p>
+<p>鼠标滑动的时候不灵敏就点击了，滑动ViewPager的时候动画也会同步执行。</p>
+<p>最上面是一个自定义的MotionLayout，中间是TabLayout，最下面是ViewPager</p>
+<p>设置小车，树，山的起始位置和终止位置，自定义MotionLayout的目的就是监听ViewPager的滑动事件，在滑动事件中设置当前动画的进度就可以了。</p>
+<figure class="highlight kotlin hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ViewpagerHeader</span> <span class="hljs-meta">@JvmOverloads</span> <span class="hljs-keyword">constructor</span></span>(</span><br><span class="line">        context: Context, attrs: AttributeSet? = <span class="hljs-literal">null</span>, defStyleAttr: <span class="hljs-built_in">Int</span> = <span class="hljs-number">0</span></span><br><span class="line">) : MotionLayout(context, attrs, defStyleAttr), ViewPager.OnPageChangeListener &#123;</span><br><span class="line">    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onPageScrollStateChanged</span><span class="hljs-params">(state: <span class="hljs-type">Int</span>)</span></span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onPageScrolled</span><span class="hljs-params">(position: <span class="hljs-type">Int</span>, positionOffset: <span class="hljs-type">Float</span>, positionOffsetPixels: <span class="hljs-type">Int</span>)</span></span> &#123;</span><br><span class="line">        <span class="hljs-keyword">val</span> numPages = <span class="hljs-number">3</span></span><br><span class="line">        progress = (position + positionOffset) / (numPages - <span class="hljs-number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">onPageSelected</span><span class="hljs-params">(position: <span class="hljs-type">Int</span>)</span></span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>官方demo还有很多有趣的实现，大家可以下载来运行看看<a href="https://github.com/android/views-widgets-samples/tree/master/ConstraintLayoutExamples" target="_blank" rel="noopener">官方demo</a> ， <a href="https://github.com/chsmy/AndroidDailyText/tree/master/app_jetpack" target="_blank" rel="noopener">我的demo</a></p>
+<p>MotionLayout可以很方便的实现一些复杂炫酷的动画，当设计师小姐姐拿来一个很炫酷的动画的时候，可以首先想想使用MotionLayout来实现，说不定可以迅速完成节省很多时间。</p>
+
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/07/21/technology/JetPack之Paging3-0/">
+                <span class="level-item">JetPack之Paging3.0</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">コメント</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2020/07/21/technology/Jetpack之MotionLayout/';
+        this.page.identifier = '2020/07/21/technology/Jetpack之MotionLayout/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="CHS">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        CHS
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        只要坚持，终会有收获
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        投稿
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        74
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        カテゴリ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        16
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        タグ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        11
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
+                フォローする</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/chsmy">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="weibo" href="http://weibo.com/2504847694/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="csdn" href="https://blog.csdn.net/mingyunxiaohai">
+                
+                <i class="fab fa-wordpress"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="简书" href="https://www.jianshu.com/u/6ab3e65ba7b5">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            リンク
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="http://www.wanandroid.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">玩Android</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wanandroid.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                カテゴリ
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">61</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Android/UI/">
+            <span class="level-start">
+                <span class="level-item">UI</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/c-c/">
+            <span class="level-start">
+                <span class="level-item">c/c++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/jetpack/">
+            <span class="level-start">
+                <span class="level-item">jetpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/kotlin/">
+            <span class="level-start">
+                <span class="level-item">kotlin</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">16</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/测试和性能优化/">
+            <span class="level-start">
+                <span class="level-item">测试和性能优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/源码/">
+            <span class="level-start">
+                <span class="level-item">源码</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/资料/">
+            <span class="level-start">
+                <span class="level-item">资料</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/设计模式/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/人生/">
+            <span class="level-start">
+                <span class="level-item">人生</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/人生/感悟/">
+            <span class="level-start">
+                <span class="level-item">感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/人生/读书/">
+            <span class="level-start">
+                <span class="level-item">读书</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/跨平台/">
+            <span class="level-start">
+                <span class="level-item">跨平台</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/跨平台/flutter/">
+            <span class="level-start">
+                <span class="level-item">flutter</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            タグクラウド
+        </h3>
+        <a href="/tags/Flutter/" style="font-size: 11.25px;">Flutter</a> <a href="/tags/UI/" style="font-size: 18.75px;">UI</a> <a href="/tags/c-c/" style="font-size: 16.25px;">c/c++</a> <a href="/tags/jetpack/" style="font-size: 16.25px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 13.75px;">感悟</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/测试和性能优化/" style="font-size: 15px;">测试和性能优化</a> <a href="/tags/设计模式/" style="font-size: 11.25px;">设计模式</a> <a href="/tags/读书/" style="font-size: 12.5px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 17.5px;">进阶</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Jetpack之MotionLayout" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '投稿',
+                PAGES: 'Pages',
+                CATEGORIES: 'カテゴリ',
+                TAGS: 'タグ',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

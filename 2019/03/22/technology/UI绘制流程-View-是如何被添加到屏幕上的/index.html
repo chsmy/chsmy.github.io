@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>UI绘制流程--View是如何被添加到屏幕上的 - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="我们平时打开一个activity的时候，设置我们的视图都是在onCreate的setContentView方法开始，那我们就从这个方法开始看源码。">
+<meta name="keywords" content="进阶">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UI绘制流程--View是如何被添加到屏幕上的">
+<meta property="og:url" content="https://chsmy.github.io/2019/03/22/technology/UI绘制流程-View-是如何被添加到屏幕上的/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="我们平时打开一个activity的时候，设置我们的视图都是在onCreate的setContentView方法开始，那我们就从这个方法开始看源码。">
+<meta property="og:locale" content="CHS">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/view_add.png">
+<meta property="og:updated_time" content="2019-04-02T13:05:26.950Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UI绘制流程--View是如何被添加到屏幕上的">
+<meta name="twitter:description" content="我们平时打开一个activity的时候，设置我们的视图都是在onCreate的setContentView方法开始，那我们就从这个方法开始看源码。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/view_add.png">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="UI绘制流程--View是如何被添加到屏幕上的" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-03-22T12:43:14.000Z">2019-03-22</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/源码/">源码</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    15 minutes read (About 2302 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                UI绘制流程--View是如何被添加到屏幕上的
+            
+        </h1>
+        <div class="content">
+            <p>我们平时打开一个activity的时候，设置我们的视图都是在onCreate的setContentView方法开始，那我们就从这个方法开始看源码。</p>
+<a id="more"></a>
+<p>这里我们继承的是AppCompatActivity</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setContentView</span><span class="hljs-params">(@LayoutRes <span class="hljs-keyword">int</span> layoutResID)</span> </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">this</span>.getDelegate().setContentView(layoutResID);</span><br><span class="line">   &#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setContentView</span><span class="hljs-params">(View view)</span> </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">this</span>.getDelegate().setContentView(view);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setContentView</span><span class="hljs-params">(View view, LayoutParams params)</span> </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">this</span>.getDelegate().setContentView(view, params);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>这里有三个重载的方法，原理都一样，我们平时最常用的就是放入一个xml文件了，所以从第一个往下看。调用了getDelegate()的setContentView方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> AppCompatDelegate <span class="hljs-title">getDelegate</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.mDelegate == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">         <span class="hljs-keyword">this</span>.mDelegate = AppCompatDelegate.create(<span class="hljs-keyword">this</span>, <span class="hljs-keyword">this</span>);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.mDelegate;</span><br><span class="line"> &#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> AppCompatDelegate <span class="hljs-title">create</span><span class="hljs-params">(Activity activity, AppCompatCallback callback)</span> </span>&#123;</span><br><span class="line">     <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> AppCompatDelegateImpl(activity, activity.getWindow(), callback);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到getDelegate最后返回了AppCompatDelegateImpl实例传入了activity window和callback，所以也就是调用了它的setContentView方法。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setContentView</span><span class="hljs-params">(<span class="hljs-keyword">int</span> resId)</span> </span>&#123;</span><br><span class="line">      <span class="hljs-comment">//确保mSubDecor已经创建</span></span><br><span class="line">      <span class="hljs-keyword">this</span>.ensureSubDecor();</span><br><span class="line">      <span class="hljs-comment">//找到contentParent</span></span><br><span class="line">      ViewGroup contentParent = (ViewGroup)<span class="hljs-keyword">this</span>.mSubDecor.findViewById(android.R.id.content);</span><br><span class="line">      contentParent.removeAllViews();</span><br><span class="line">      <span class="hljs-comment">//把我们的view放入contentParent中</span></span><br><span class="line">      LayoutInflater.from(<span class="hljs-keyword">this</span>.mContext).inflate(resId, contentParent);</span><br><span class="line">      <span class="hljs-keyword">this</span>.mOriginalWindowCallback.onContentChanged();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>首先调用了ensureSubDecor()方法，从名字来看感觉是确保某个view已经创建。然后从mSubDecor这个ViewGroup中通过id找到contentParent,可以猜测这个mSubDecor应该就是从前面的方法中创建的。然后把我们的view放进去。先看ensureSubDecor()方法。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ensureSubDecor</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">     <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.mSubDecorInstalled) &#123;</span><br><span class="line">     <span class="hljs-comment">//果然是从这里创建的</span></span><br><span class="line">         <span class="hljs-keyword">this</span>.mSubDecor = <span class="hljs-keyword">this</span>.createSubDecor();</span><br><span class="line">         CharSequence title = <span class="hljs-keyword">this</span>.getTitle();</span><br><span class="line">         <span class="hljs-keyword">if</span> (!TextUtils.isEmpty(title)) &#123;</span><br><span class="line">             <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.mDecorContentParent != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                 <span class="hljs-keyword">this</span>.mDecorContentParent.setWindowTitle(title);</span><br><span class="line">             &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.peekSupportActionBar() != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                 <span class="hljs-keyword">this</span>.peekSupportActionBar().setWindowTitle(title);</span><br><span class="line">             &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.mTitleView != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                 <span class="hljs-keyword">this</span>.mTitleView.setText(title);</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         <span class="hljs-keyword">this</span>.applyFixedSizeWindow();</span><br><span class="line">         <span class="hljs-comment">//回调此view</span></span><br><span class="line">         <span class="hljs-keyword">this</span>.onSubDecorInstalled(<span class="hljs-keyword">this</span>.mSubDecor);</span><br><span class="line">         <span class="hljs-comment">//标记已经创建完</span></span><br><span class="line">         <span class="hljs-keyword">this</span>.mSubDecorInstalled = <span class="hljs-keyword">true</span>;</span><br><span class="line">         AppCompatDelegateImpl.PanelFeatureState st = <span class="hljs-keyword">this</span>.getPanelState(<span class="hljs-number">0</span>, <span class="hljs-keyword">false</span>);</span><br><span class="line">         <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.mIsDestroyed &amp;&amp; (st == <span class="hljs-keyword">null</span> || st.menu == <span class="hljs-keyword">null</span>)) &#123;</span><br><span class="line">             <span class="hljs-keyword">this</span>.invalidatePanelMenu(<span class="hljs-number">108</span>);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面这段代码主要就是调用了createSubDecor()方法创建了mSubDecor这个ViewGroup,并回调和标记已创建。所以createSubDecor()是个关键方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> ViewGroup <span class="hljs-title">createSubDecor</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">//获取属性</span></span><br><span class="line">        TypedArray a = <span class="hljs-keyword">this</span>.mContext.obtainStyledAttributes(styleable.AppCompatTheme);</span><br><span class="line">        <span class="hljs-keyword">if</span> (!a.hasValue(styleable.AppCompatTheme_windowActionBar)) &#123;</span><br><span class="line">            a.recycle();</span><br><span class="line">            <span class="hljs-comment">//如果不设置AppCompat相关的主题就报错</span></span><br><span class="line">            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"You need to use a Theme.AppCompat theme (or descendant) with this activity."</span>);</span><br><span class="line">        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            <span class="hljs-comment">//根据拿到的主题属性来设置相应的主题风格</span></span><br><span class="line">            <span class="hljs-keyword">if</span> (a.getBoolean(styleable.AppCompatTheme_windowNoTitle, <span class="hljs-keyword">false</span>)) &#123;</span><br><span class="line">                <span class="hljs-keyword">this</span>.requestWindowFeature(Window.FEATURE_NO_TITLE);</span><br><span class="line">            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (a.getBoolean(styleable.AppCompatTheme_windowActionBar, <span class="hljs-keyword">false</span>)) &#123;</span><br><span class="line">                <span class="hljs-keyword">this</span>.requestWindowFeature(FEATURE_SUPPORT_ACTION_BAR);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">if</span> (a.getBoolean(styleable.AppCompatTheme_windowActionBarOverlay, <span class="hljs-keyword">false</span>)) &#123;</span><br><span class="line">                <span class="hljs-keyword">this</span>.requestWindowFeature(FEATURE_SUPPORT_ACTION_BAR_OVERLAY);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">if</span> (a.getBoolean(styleable.AppCompatTheme_windowActionModeOverlay, <span class="hljs-keyword">false</span>)) &#123;</span><br><span class="line">                <span class="hljs-keyword">this</span>.requestWindowFeature(FEATURE_ACTION_MODE_OVERLAY);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">this</span>.mIsFloating = a.getBoolean(styleable.AppCompatTheme_android_windowIsFloating, <span class="hljs-keyword">false</span>);</span><br><span class="line">            a.recycle();</span><br><span class="line">            <span class="hljs-comment">//获取DecorView</span></span><br><span class="line">            <span class="hljs-keyword">this</span>.mWindow.getDecorView();</span><br><span class="line">            LayoutInflater inflater = LayoutInflater.from(<span class="hljs-keyword">this</span>.mContext);</span><br><span class="line">            <span class="hljs-comment">//</span></span><br><span class="line">            ViewGroup subDecor = <span class="hljs-keyword">null</span>;</span><br><span class="line">            <span class="hljs-comment">//根据前面设置的不同的主题风格性创建出subDecor，比如FEATURE_NO_TITLE，FEATURE_SUPPORT_ACTION_BAR_OVERLAY</span></span><br><span class="line">            <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.mWindowNoTitle) &#123;</span><br><span class="line">                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.mIsFloating) &#123;</span><br><span class="line">                    subDecor = (ViewGroup)inflater.inflate(layout.abc_dialog_title_material, (ViewGroup)<span class="hljs-keyword">null</span>);</span><br><span class="line">                    <span class="hljs-keyword">this</span>.mHasActionBar = <span class="hljs-keyword">this</span>.mOverlayActionBar = <span class="hljs-keyword">false</span>;</span><br><span class="line">                &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.mHasActionBar) &#123;</span><br><span class="line">                    TypedValue outValue = <span class="hljs-keyword">new</span> TypedValue();</span><br><span class="line">                    <span class="hljs-keyword">this</span>.mContext.getTheme().resolveAttribute(attr.actionBarTheme, outValue, <span class="hljs-keyword">true</span>);</span><br><span class="line">                    Object themedContext;</span><br><span class="line">                    <span class="hljs-keyword">if</span> (outValue.resourceId != <span class="hljs-number">0</span>) &#123;</span><br><span class="line">                        themedContext = <span class="hljs-keyword">new</span> ContextThemeWrapper(<span class="hljs-keyword">this</span>.mContext, outValue.resourceId);</span><br><span class="line">                    &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                        themedContext = <span class="hljs-keyword">this</span>.mContext;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    subDecor = (ViewGroup)LayoutInflater.from((Context)themedContext).inflate(layout.abc_screen_toolbar, (ViewGroup)<span class="hljs-keyword">null</span>);</span><br><span class="line">                    <span class="hljs-keyword">this</span>.mDecorContentParent = (DecorContentParent)subDecor.findViewById(id.decor_content_parent);</span><br><span class="line">                    <span class="hljs-keyword">this</span>.mDecorContentParent.setWindowCallback(<span class="hljs-keyword">this</span>.getWindowCallback());</span><br><span class="line">                    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.mOverlayActionBar) &#123;</span><br><span class="line">                        <span class="hljs-keyword">this</span>.mDecorContentParent.initFeature(<span class="hljs-number">109</span>);</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.mFeatureProgress) &#123;</span><br><span class="line">                        <span class="hljs-keyword">this</span>.mDecorContentParent.initFeature(<span class="hljs-number">2</span>);</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.mFeatureIndeterminateProgress) &#123;</span><br><span class="line">                        <span class="hljs-keyword">this</span>.mDecorContentParent.initFeature(<span class="hljs-number">5</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.mOverlayActionMode) &#123;</span><br><span class="line">                    subDecor = (ViewGroup)inflater.inflate(layout.abc_screen_simple_overlay_action_mode, (ViewGroup)<span class="hljs-keyword">null</span>);</span><br><span class="line">                &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                    subDecor = (ViewGroup)inflater.inflate(layout.abc_screen_simple, (ViewGroup)<span class="hljs-keyword">null</span>);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="hljs-keyword">if</span> (VERSION.SDK_INT &gt;= <span class="hljs-number">21</span>) &#123;</span><br><span class="line">                    ViewCompat.setOnApplyWindowInsetsListener(subDecor, <span class="hljs-keyword">new</span> OnApplyWindowInsetsListener() &#123;</span><br><span class="line">                        <span class="hljs-function"><span class="hljs-keyword">public</span> WindowInsetsCompat <span class="hljs-title">onApplyWindowInsets</span><span class="hljs-params">(View v, WindowInsetsCompat insets)</span> </span>&#123;</span><br><span class="line">                            <span class="hljs-keyword">int</span> top = insets.getSystemWindowInsetTop();</span><br><span class="line">                            <span class="hljs-keyword">int</span> newTop = AppCompatDelegateImpl.<span class="hljs-keyword">this</span>.updateStatusGuard(top);</span><br><span class="line">                            <span class="hljs-keyword">if</span> (top != newTop) &#123;</span><br><span class="line">                                insets = insets.replaceSystemWindowInsets(insets.getSystemWindowInsetLeft(), newTop, insets.getSystemWindowInsetRight(), insets.getSystemWindowInsetBottom());</span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                            <span class="hljs-keyword">return</span> ViewCompat.onApplyWindowInsets(v, insets);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                    ((FitWindowsViewGroup)subDecor).setOnFitSystemWindowsListener(<span class="hljs-keyword">new</span> OnFitSystemWindowsListener() &#123;</span><br><span class="line">                        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onFitSystemWindows</span><span class="hljs-params">(Rect insets)</span> </span>&#123;</span><br><span class="line">                            insets.top = AppCompatDelegateImpl.<span class="hljs-keyword">this</span>.updateStatusGuard(insets.top);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">if</span> (subDecor == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"AppCompat does not support the current theme features: &#123; windowActionBar: "</span> + <span class="hljs-keyword">this</span>.mHasActionBar + <span class="hljs-string">", windowActionBarOverlay: "</span> + <span class="hljs-keyword">this</span>.mOverlayActionBar + <span class="hljs-string">", android:windowIsFloating: "</span> + <span class="hljs-keyword">this</span>.mIsFloating + <span class="hljs-string">", windowActionModeOverlay: "</span> + <span class="hljs-keyword">this</span>.mOverlayActionMode + <span class="hljs-string">", windowNoTitle: "</span> + <span class="hljs-keyword">this</span>.mWindowNoTitle + <span class="hljs-string">" &#125;"</span>);</span><br><span class="line">            &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.mDecorContentParent == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                    <span class="hljs-keyword">this</span>.mTitleView = (TextView)subDecor.findViewById(id.title);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="hljs-comment">//选择适合系统窗口的装饰</span></span><br><span class="line">                ViewUtils.makeOptionalFitsSystemWindows(subDecor);</span><br><span class="line">                <span class="hljs-comment">//获取布局的父容器中的ContentFrameLayout</span></span><br><span class="line">                ContentFrameLayout contentView = (ContentFrameLayout)subDecor.findViewById( R.id.action_bar_activity_content);</span><br><span class="line">                <span class="hljs-comment">//找到PhoneWindow中的ContentView 如果看activity中的setContentView方法我们知道android.R.id.content就是我们设置的view的父view</span></span><br><span class="line">                ViewGroup windowContentView = (ViewGroup)<span class="hljs-keyword">this</span>.mWindow.findViewById(android.R.id.content);</span><br><span class="line">                <span class="hljs-keyword">if</span> (windowContentView != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                    <span class="hljs-keyword">while</span>(windowContentView.getChildCount() &gt; <span class="hljs-number">0</span>) &#123;</span><br><span class="line">                        View child = windowContentView.getChildAt(<span class="hljs-number">0</span>);</span><br><span class="line">                        windowContentView.removeViewAt(<span class="hljs-number">0</span>);</span><br><span class="line">                        contentView.addView(child);</span><br><span class="line">                    &#125;</span><br><span class="line">                   <span class="hljs-comment">//把PhoneWindow中的ContentView设置成没有id</span></span><br><span class="line">                    windowContentView.setId(View.NO_ID);</span><br><span class="line">                    <span class="hljs-comment">//把从我们的主题xml中找到的contentView的id设置成android.R.id.content，其实就是以前的PhoneWindow中的ContentView中的id</span></span><br><span class="line">                    contentView.setId(android.R.id.content);</span><br><span class="line">                    <span class="hljs-keyword">if</span> (windowContentView <span class="hljs-keyword">instanceof</span> FrameLayout) &#123;</span><br><span class="line">                        ((FrameLayout)windowContentView).setForeground((Drawable)<span class="hljs-keyword">null</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="hljs-comment">//把subDecor设置给window，mWindow是个Window对象，它只有一个子类就是PhoneWindow</span></span><br><span class="line">                <span class="hljs-keyword">this</span>.mWindow.setContentView(subDecor);</span><br><span class="line">                contentView.setAttachListener(<span class="hljs-keyword">new</span> OnAttachListener() &#123;</span><br><span class="line">                    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAttachedFromWindow</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onDetachedFromWindow</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">                        AppCompatDelegateImpl.<span class="hljs-keyword">this</span>.dismissPopups();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">                <span class="hljs-keyword">return</span> subDecor;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过上面的源码我们可以知道，通过不同的主题创建出不同的subDecor这个ViewGroup容器，然后把从PhoneWindow中通过android.R.id.content找出原来的contentview然后把它设置成没有id，然后把subDecor中通过R.id.action_bar_activity_content找到的这个view的id重新设置为android.R.id.content来个偷天换日，最后把这个subDecor设置回PhoneWindow中。</p>
+<p>我们知道subDecor是通过inflate一个布局文件创建出来的，下面先来看看这个subDecor的布局文件长啥样，源码位置</p>
+<p>/frameworks/support/v7/appcompat/res/layout/abc_screen_simple.xml<br><figure class="highlight hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;androidx.appcompat.widget.FitWindowsLinearLayout</span><br><span class="line"><span class="hljs-number">18</span>    xmlns:android=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line"><span class="hljs-number">19</span>    android:id=<span class="hljs-string">"@+id/action_bar_root"</span></span><br><span class="line"><span class="hljs-number">20</span>    android:layout_width=<span class="hljs-string">"match_parent"</span></span><br><span class="line"><span class="hljs-number">21</span>    android:layout_height=<span class="hljs-string">"match_parent"</span></span><br><span class="line"><span class="hljs-number">22</span>    android:orientation=<span class="hljs-string">"vertical"</span></span><br><span class="line"><span class="hljs-number">23</span>    android:fitsSystemWindows=<span class="hljs-string">"true"</span>&gt;</span><br><span class="line"><span class="hljs-number">24</span></span><br><span class="line"><span class="hljs-number">25</span>    &lt;androidx.appcompat.widget.ViewStubCompat</span><br><span class="line"><span class="hljs-number">26</span>        android:id=<span class="hljs-string">"@+id/action_mode_bar_stub"</span></span><br><span class="line"><span class="hljs-number">27</span>        android:inflatedId=<span class="hljs-string">"@+id/action_mode_bar"</span></span><br><span class="line"><span class="hljs-number">28</span>        android:layout=<span class="hljs-string">"@layout/abc_action_mode_bar"</span></span><br><span class="line"><span class="hljs-number">29</span>        android:layout_width=<span class="hljs-string">"match_parent"</span></span><br><span class="line"><span class="hljs-number">30</span>        android:layout_height=<span class="hljs-string">"wrap_content"</span> /&gt;</span><br><span class="line"><span class="hljs-number">31</span></span><br><span class="line"><span class="hljs-number">32</span>    &lt;include layout=<span class="hljs-string">"@layout/abc_screen_content_include"</span> /&gt;</span><br><span class="line"><span class="hljs-number">33</span></span><br><span class="line">34&lt;/androidx.appcompat.widget.FitWindowsLinearLayout&gt;</span><br><span class="line"><span class="hljs-comment">//abc_screen_content_include</span></span><br><span class="line">&lt;merge xmlns:android=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span>&gt;</span><br><span class="line"><span class="hljs-number">18</span></span><br><span class="line"><span class="hljs-number">19</span>    &lt;androidx.appcompat.widget.ContentFrameLayout</span><br><span class="line"><span class="hljs-number">20</span>            android:id=<span class="hljs-string">"@id/action_bar_activity_content"</span></span><br><span class="line"><span class="hljs-number">21</span>            android:layout_width=<span class="hljs-string">"match_parent"</span></span><br><span class="line"><span class="hljs-number">22</span>            android:layout_height=<span class="hljs-string">"match_parent"</span></span><br><span class="line"><span class="hljs-number">23</span>            android:foregroundGravity=<span class="hljs-string">"fill_horizontal|top"</span></span><br><span class="line"><span class="hljs-number">24</span>            android:foreground=<span class="hljs-string">"?android:attr/windowContentOverlay"</span> /&gt;</span><br><span class="line"><span class="hljs-number">25</span></span><br><span class="line">26&lt;/merge&gt;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到subDecor其实是个FitWindowsLinearLayout。</p>
+<p>小插曲：requestWindowFeature，我们以前都用过这个方法， requestWindowFeature(Window.FEATURE_NO_TITLE);用的时候要求我们要放到setContentView()方法之前，为什么呢，前面的代码中我们看到了requestWindowFeature这个方法，跟进去之后，看到调用了<code>this.throwFeatureRequestIfSubDecorInstalled();</code>这个方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">throwFeatureRequestIfSubDecorInstalled</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.mSubDecorInstalled) &#123;</span><br><span class="line">          <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> AndroidRuntimeException(<span class="hljs-string">"Window feature must be requested before adding content"</span>);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果mSubDecorInstalled为true就报错，而mSubDecorInstalled这个标志位我们前面的ensureSubDecor()方法中就给他设置为true了。所以此方法要在setContentView()方法之前调用。</p>
+<p>OK前面我们很多次提到了mWindow这个成员变量，最终subDecor也是被设置到mWindow中，前面createSubDecor()方法中有两个很重要的指令<code>mWindow.getDecorView();</code>和<code>mWindow.setContentView(subDecor);</code></p>
+<p>进入Window类，它是一个抽象类，看类上面的注释，可以知道它只有一个子类PhoneWindow，所以上面的两个方法都是在PhoneWindow中实现的。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> View <span class="hljs-title">getDecorView</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">     <span class="hljs-keyword">if</span> (mDecor == <span class="hljs-keyword">null</span> || mForceDecorInstall) &#123;</span><br><span class="line">         installDecor();</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="hljs-keyword">return</span> mDecor;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>如果mDecor是空就创建一个，最后返回mDecor。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">installDecor</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">      mForceDecorInstall = <span class="hljs-keyword">false</span>;</span><br><span class="line">        <span class="hljs-keyword">if</span> (mDecor == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            mDecor = generateDecor(-<span class="hljs-number">1</span>);</span><br><span class="line">            ...</span><br><span class="line">        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            mDecor.setWindow(<span class="hljs-keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">      <span class="hljs-keyword">if</span> (mContentParent == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            mContentParent = generateLayout(mDecor);</span><br><span class="line">          ...</span><br><span class="line">      &#125;</span><br><span class="line">      ...  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个类很长，只看主要的，如果mDecor为null就调用generateDecor方法创建，否则就直接把当前window对象设置为mDecor，mDecor这个成员变量点过去可以看到是DecorView对象。mContentParent这个成员变量点过去可以看到它是一个ViewGroup，如果是null就创建，传入了mDecor。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">protected</span> DecorView <span class="hljs-title">generateDecor</span><span class="hljs-params">(<span class="hljs-keyword">int</span> featureId)</span> </span>&#123;</span><br><span class="line">      Context context;</span><br><span class="line">      <span class="hljs-keyword">if</span> (mUseDecorContext) &#123;</span><br><span class="line">          Context applicationContext = getContext().getApplicationContext();</span><br><span class="line">          <span class="hljs-keyword">if</span> (applicationContext == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">              context = getContext();</span><br><span class="line">          &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">              context = <span class="hljs-keyword">new</span> DecorContext(applicationContext, getContext());</span><br><span class="line">              <span class="hljs-keyword">if</span> (mTheme != -<span class="hljs-number">1</span>) &#123;</span><br><span class="line">                  context.setTheme(mTheme);</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">          context = getContext();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> DecorView(context, featureId, <span class="hljs-keyword">this</span>, getAttributes());</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面看一下DecorView<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DecorView</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">FrameLayout</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">RootViewSurfaceTaker</span>, <span class="hljs-title">WindowCallbacks</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到它就是一个FrameLayout，然后在看一下 generateLayout(mDecor)<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">protected</span> ViewGroup <span class="hljs-title">generateLayout</span><span class="hljs-params">(DecorView decor)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">//获取属性数组</span></span><br><span class="line">    TypedArray a = getWindowStyle();</span><br><span class="line">    ...</span><br><span class="line">    <span class="hljs-comment">//是不是悬浮</span></span><br><span class="line">    mIsFloating = a.getBoolean(R.styleable.Window_windowIsFloating, <span class="hljs-keyword">false</span>);</span><br><span class="line">    ...</span><br><span class="line">    <span class="hljs-comment">//设置一堆标志位，通过TypedArray获取各种属性</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="hljs-comment">//给窗口充气</span></span><br><span class="line">    <span class="hljs-keyword">int</span> layoutResource;</span><br><span class="line">    <span class="hljs-keyword">int</span> features = getLocalFeatures();</span><br><span class="line">    <span class="hljs-comment">//根据不同的标志位选择不同的布局文件 </span></span><br><span class="line">    <span class="hljs-comment">//布局文件位置/frameworks/base/core/res/res/layout/</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="hljs-comment">//开始更新decor</span></span><br><span class="line">    mDecor.startChanging();</span><br><span class="line">    <span class="hljs-comment">//加载 layoutResource 到 decor 中</span></span><br><span class="line">    mDecor.onResourcesLoaded(mLayoutInflater, layoutResource);</span><br><span class="line">    <span class="hljs-comment">//ID_ANDROID_CONTENT就是R.id.content</span></span><br><span class="line">    ViewGroup contentParent = (ViewGroup)findViewById(ID_ANDROID_CONTENT);</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">    <span class="hljs-comment">//getContainer()返回的是一个Window对象，它是父activity中的window</span></span><br><span class="line">        <span class="hljs-keyword">if</span> (getContainer() == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">final</span> Drawable background;</span><br><span class="line">            <span class="hljs-keyword">if</span> (mBackgroundResource != <span class="hljs-number">0</span>) &#123;</span><br><span class="line">                background = getContext().getDrawable(mBackgroundResource);</span><br><span class="line">            &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                background = mBackgroundDrawable;</span><br><span class="line">            &#125;</span><br><span class="line">            mDecor.setWindowBackground(background);</span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">final</span> Drawable frame;</span><br><span class="line">            <span class="hljs-keyword">if</span> (mFrameResource != <span class="hljs-number">0</span>) &#123;</span><br><span class="line">                frame = getContext().getDrawable(mFrameResource);</span><br><span class="line">            &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                frame = <span class="hljs-keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            mDecor.setWindowFrame(frame);</span><br><span class="line"></span><br><span class="line">            mDecor.setElevation(mElevation);</span><br><span class="line">            mDecor.setClipToOutline(mClipToOutline);</span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">if</span> (mTitle != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                setTitle(mTitle);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">if</span> (mTitleColor == <span class="hljs-number">0</span>) &#123;</span><br><span class="line">                mTitleColor = mTextColor;</span><br><span class="line">            &#125;</span><br><span class="line">            setTitleColor(mTitleColor);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="hljs-comment">//结束更新</span></span><br><span class="line">    mDecor.finishChanging();</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">return</span> contentParent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的代码中根据不同的风格加载不同的布局，这些布局中都有一个id为@android:id/content的控件，比如screen_simple.xml。布局源码位置在/frameworks/base/core/res/res/layout/。然后把加载出来的布局放到mDecor中。</p>
+<p>OK到这里<code>mWindow.getDecorView()</code>我们就看完了，它就是创建一个DecorView，然后根据不同的风格加载不同的布局文件，把这些布局文件放到DecorView中。下面我们看一下<code>mWindow.setContentView(subDecor)</code>前面我们知道mWindow就是PhoneWindow所以调用了PhoneWindow中的setContentView方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setContentView</span><span class="hljs-params">(View view)</span> </span>&#123;</span><br><span class="line">    setContentView(view, <span class="hljs-keyword">new</span> ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));</span><br><span class="line">&#125;</span><br><span class="line"> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setContentView</span><span class="hljs-params">(View view, ViewGroup.LayoutParams params)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">//mContentParent在mWindow.getDecorView()已经创建了</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (mContentParent == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">        installDecor();</span><br><span class="line">    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!hasFeature(FEATURE_CONTENT_TRANSITIONS)) &#123;</span><br><span class="line">        mContentParent.removeAllViews();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-comment">//是否有转场动画 transitions</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (hasFeature(FEATURE_CONTENT_TRANSITIONS)) &#123;</span><br><span class="line">        view.setLayoutParams(params);</span><br><span class="line">        <span class="hljs-keyword">final</span> Scene newScene = <span class="hljs-keyword">new</span> Scene(mContentParent, view);</span><br><span class="line">        transitionTo(newScene);</span><br><span class="line">    &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">    <span class="hljs-comment">//  把subDecor也就是前面的FitWindowsLinearLayout添加到mContentParent中</span></span><br><span class="line">        mContentParent.addView(view, params);</span><br><span class="line">    &#125;</span><br><span class="line">    mContentParent.requestApplyInsets();</span><br><span class="line">    <span class="hljs-keyword">final</span> Callback cb = getCallback();</span><br><span class="line">    <span class="hljs-keyword">if</span> (cb != <span class="hljs-keyword">null</span> &amp;&amp; !isDestroyed()) &#123;</span><br><span class="line">        cb.onContentChanged();</span><br><span class="line">    &#125;</span><br><span class="line">    mContentParentExplicitlySet = <span class="hljs-keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>mWindow.getDecorView()创建了DecorView和mContentParent，上面的代码吧subDecor放入mContentParent中。最后回到AppCompatDelegateImpl中，找到R.id.content这个容器，把我们的view放到这个容器中。这时候我们可以知道整个activity的布局从外到内：AppCompatActivity-&gt;PhoneWindow-&gt;DecorView-&gt;LinearLayout-&gt;FitWindowLinearLayout-&gt;ViewStubCompat-&gt;ConentFramLayout-&gt;我们的view。</p>
+<p>最后一张奇丑无比的图来镇楼</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/technology/view_add.png" alt></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/进阶/">进阶</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/03/24/technology/UI绘制流程-View的绘制流程/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">UI绘制流程--View的绘制流程</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/03/11/life/娱乐和节制/">
+                <span class="level-item">娱乐和节制</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">コメント</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/03/22/technology/UI绘制流程-View-是如何被添加到屏幕上的/';
+        this.page.identifier = '2019/03/22/technology/UI绘制流程-View-是如何被添加到屏幕上的/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="CHS">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        CHS
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        只要坚持，终会有收获
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        投稿
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        74
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        カテゴリ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        16
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        タグ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        11
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
+                フォローする</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/chsmy">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="weibo" href="http://weibo.com/2504847694/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="csdn" href="https://blog.csdn.net/mingyunxiaohai">
+                
+                <i class="fab fa-wordpress"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="简书" href="https://www.jianshu.com/u/6ab3e65ba7b5">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            リンク
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="http://www.wanandroid.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">玩Android</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wanandroid.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                カテゴリ
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">61</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Android/UI/">
+            <span class="level-start">
+                <span class="level-item">UI</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/c-c/">
+            <span class="level-start">
+                <span class="level-item">c/c++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/jetpack/">
+            <span class="level-start">
+                <span class="level-item">jetpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/kotlin/">
+            <span class="level-start">
+                <span class="level-item">kotlin</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">16</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/测试和性能优化/">
+            <span class="level-start">
+                <span class="level-item">测试和性能优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/源码/">
+            <span class="level-start">
+                <span class="level-item">源码</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/资料/">
+            <span class="level-start">
+                <span class="level-item">资料</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/设计模式/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/人生/">
+            <span class="level-start">
+                <span class="level-item">人生</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/人生/感悟/">
+            <span class="level-start">
+                <span class="level-item">感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/人生/读书/">
+            <span class="level-start">
+                <span class="level-item">读书</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/跨平台/">
+            <span class="level-start">
+                <span class="level-item">跨平台</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/跨平台/flutter/">
+            <span class="level-start">
+                <span class="level-item">flutter</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            タグクラウド
+        </h3>
+        <a href="/tags/Flutter/" style="font-size: 11.25px;">Flutter</a> <a href="/tags/UI/" style="font-size: 18.75px;">UI</a> <a href="/tags/c-c/" style="font-size: 16.25px;">c/c++</a> <a href="/tags/jetpack/" style="font-size: 16.25px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 13.75px;">感悟</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/测试和性能优化/" style="font-size: 15px;">测试和性能优化</a> <a href="/tags/设计模式/" style="font-size: 11.25px;">设计模式</a> <a href="/tags/读书/" style="font-size: 12.5px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 17.5px;">进阶</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="UI绘制流程--View是如何被添加到屏幕上的" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '投稿',
+                PAGES: 'Pages',
+                CATEGORIES: 'カテゴリ',
+                TAGS: 'タグ',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

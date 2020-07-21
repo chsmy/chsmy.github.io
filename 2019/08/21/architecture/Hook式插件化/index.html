@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Hook式插件化 - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="Hook式插件化">
+<meta name="keywords" content="架构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hook式插件化">
+<meta property="og:url" content="https://chsmy.github.io/2019/08/21/architecture/Hook式插件化/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="Hook式插件化">
+<meta property="og:locale" content="CHS">
+<meta property="og:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/plugin_8.gif">
+<meta property="og:updated_time" content="2019-08-21T12:40:08.617Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hook式插件化">
+<meta name="twitter:description" content="Hook式插件化">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/plugin_8.gif">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Hook式插件化" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-08-21T12:38:15.000Z">2019-08-21</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/架构/">架构</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    18 minutes read (About 2770 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Hook式插件化
+            
+        </h1>
+        <div class="content">
+            <p>Hook式插件化</p>
+<a id="more"></a>
+<p>上一篇文章中，通过Hook系统源码实现了不经过AndroidManifest注册也能跳转到对应Activity的功能。这一篇来分析一下怎么通过Hook的方式来实现插件化</p>
+<p>从Android类加载的源码开始分析 本文是按照Android9.0源码来，不同系统可能不一样</p>
+<p>我们平时跳转Activity的时候比如从MainActivity跳转到LoginActivity中，都是这么写<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="hljs-keyword">new</span> Intent(<span class="hljs-keyword">this</span>,LoginActivity.class);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure></p>
+<p>其实还有一种方法，也是可以成功跳转的<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="hljs-keyword">new</span> Intent();</span><br><span class="line">intent.setComponent(<span class="hljs-keyword">new</span> ComponentName(<span class="hljs-string">"com.hsm.hookplugin"</span>,<span class="hljs-string">"com.hsm.hookplugin.LoginActivity"</span>));</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure></p>
+<p>上一篇文章Hook进阶中我们已经实现了不经过AndroidManfiest注册就能正常跳转的功能，那如果我们直接传入一个插件包中的包名和类名可以可以完成跳转呢，直接写当然不行，因为我们不知道插件包在哪里，不过我们可以写一下，看看错误信息，然后根据错误信息继续分析</p>
+<p>直接写插件包中的包名和全类名</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="hljs-keyword">new</span> Intent();</span><br><span class="line">      intent.setComponent(<span class="hljs-keyword">new</span> ComponentName(<span class="hljs-string">"com.hsm.plugin_package"</span>,<span class="hljs-string">"com.hsm.plugin_package.PluginMainActivity"</span>));</span><br><span class="line">      startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>错误信息如下<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">java.lang.RuntimeException: Unable to instantiate activity</span><br><span class="line">ComponentInfo&#123;com.hsm.plugin_package/com.hsm.plugin_package.PluginMainActivity&#125;:</span><br><span class="line">java.lang.ClassNotFoundException: Didn<span class="hljs-string">'t find class</span></span><br><span class="line"><span class="hljs-string">"com.hsm.plugin_package.PluginMainActivity" on path: DexPathList[[zip file</span></span><br><span class="line"><span class="hljs-string">"/data/app/com.hsm.hookplugin-6IZNq_xfampALDCZjZ6YZw==/base.apk"],nativeLibraryDirec</span></span><br><span class="line"><span class="hljs-string">tories=[/data/app/com.hsm.hookplugin-6IZNq_xfampALDCZjZ6YZw==/lib/x86, /system/lib]]</span></span><br><span class="line"><span class="hljs-string">at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:134)</span></span><br><span class="line"><span class="hljs-string">  at java.lang.ClassLoader.loadClass(ClassLoader.java:379)</span></span><br><span class="line"><span class="hljs-string">at java.lang.ClassLoader.loadClass(ClassLoader.java:312)</span></span><br><span class="line"><span class="hljs-string">at android.app.AppComponentFactory.instantiateActivity(AppComponentFactory.java:69)</span></span><br><span class="line"><span class="hljs-string">at android.app.Instrumentation.newActivity(Instrumentation.java:1215)</span></span><br><span class="line"><span class="hljs-string">at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:28 1)</span></span><br></pre></td></tr></table></figure></p>
+<p>说是在DexPathList这个集合中找不到要跳转的Activity的实例，ClassNotFoundException也就是说在实例化这个Activity的时候找不到它，那我们需要去找一下Activity到底是在哪里实例化的，这就得看一下Activity的启动流程了。（报错信息中已经提示了在BaseDexClassLoader的第134行，不过我们还需要了解到底怎么走到这里，和为啥报错）</p>
+<p>Activity的启动流程可以看之前的两篇文章<a href="https://blog.csdn.net/mingyunxiaohai/article/details/88232546" target="_blank" rel="noopener">Activity启动流程（上）</a>和<a href="https://blog.csdn.net/mingyunxiaohai/article/details/88232680" target="_blank" rel="noopener">Activity启动流程（下）</a></p>
+<p>最终会走到ActivityThread中的performLaunchActivity<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> Activity <span class="hljs-title">performLaunchActivity</span><span class="hljs-params">(ActivityClientRecord r, Intent customIntent)</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">   <span class="hljs-comment">//ContextImpl类继承自Context抽象类,</span></span><br><span class="line">    ContextImpl appContext = createBaseContextForActivity(r);</span><br><span class="line">        Activity activity = <span class="hljs-keyword">null</span>;</span><br><span class="line">        <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">            java.lang.ClassLoader cl = appContext.getClassLoader();</span><br><span class="line">            activity = mInstrumentation.newActivity(</span><br><span class="line">                    cl, component.getClassName(), r.intent);</span><br><span class="line">            StrictMode.incrementExpectedActivityCount(activity.getClass());</span><br><span class="line">            r.intent.setExtrasClassLoader(cl);</span><br><span class="line">            r.intent.prepareToEnterProcess();</span><br><span class="line">            <span class="hljs-keyword">if</span> (r.state != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                r.state.setClassLoader(cl);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;...&#125;</span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里就能看到拿到ClassLoader然后交给mInstrumentation去创建Activity实例并返回,<strong>newActivity方法</strong>中传入了ClassLoader，ClassName和intent。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> <span class="hljs-meta">@Override</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> ClassLoader <span class="hljs-title">getClassLoader</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> mClassLoader != <span class="hljs-keyword">null</span> ? mClassLoader : (mPackageInfo != <span class="hljs-keyword">null</span> ? mPackageInfo.getClassLoader() : ClassLoader.getSystemClassLoader());</span><br><span class="line">    &#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> ClassLoader <span class="hljs-title">getSystemClassLoader</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> SystemClassLoader.loader;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">private</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SystemClassLoader</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> ClassLoader loader = ClassLoader.createSystemClassLoader();</span><br><span class="line">    &#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ClassLoader <span class="hljs-title">createSystemClassLoader</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        String classPath = System.getProperty(<span class="hljs-string">"java.class.path"</span>, <span class="hljs-string">"."</span>);</span><br><span class="line">        String librarySearchPath = System.getProperty(<span class="hljs-string">"java.library.path"</span>, <span class="hljs-string">""</span>);</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> PathClassLoader(classPath, librarySearchPath, BootClassLoader.getInstance());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>通过跟踪源码，可以知道这个ClassLoader是一个<strong>PathClassLoader</strong></p>
+<p>这时候我们需要了解一下Android中的ClassLoader了，Andorid中的ClassLoader主要有三种</p>
+<ul>
+<li>BootClassLoader：继承自ClassLoader 主要用来加载FrameWork层的dex文件</li>
+<li>BaseDexClassLoader：继承自ClassLoader</li>
+<li>PathClassLoader：继承自BaseDexClassLoader，用来加载已经安装到系统中的apk中的dex文件</li>
+<li>DexClassLoader：继承自BaseDexClassLoader，用来加载指定的目录中的dex文件（.apk,.zip）</li>
+</ul>
+<p>然后在看newActivity这个方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> Activity <span class="hljs-title">newActivity</span><span class="hljs-params">(ClassLoader cl, String className,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            Intent intent)</span></span></span><br><span class="line"><span class="hljs-function">            <span class="hljs-keyword">throws</span> InstantiationException, IllegalAccessException,</span></span><br><span class="line"><span class="hljs-function">            ClassNotFoundException </span>&#123;</span><br><span class="line">        String pkg = intent != <span class="hljs-keyword">null</span> &amp;&amp; intent.getComponent() != <span class="hljs-keyword">null</span></span><br><span class="line">                ? intent.getComponent().getPackageName() : <span class="hljs-keyword">null</span>;</span><br><span class="line">        <span class="hljs-keyword">return</span> getFactory(pkg).instantiateActivity(cl, className, intent);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="hljs-comment">//className就是我们最开始通过Intent传过来的</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-meta">@NonNull</span> <span class="hljs-function">Activity <span class="hljs-title">instantiateActivity</span><span class="hljs-params">(@NonNull ClassLoader cl, @NonNull String className,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">            @Nullable Intent intent)</span></span></span><br><span class="line"><span class="hljs-function">            <span class="hljs-keyword">throws</span> InstantiationException, IllegalAccessException, ClassNotFoundException </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> (Activity) cl.loadClass(className).newInstance();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后通过<code>cl.loadClass(className).newInstance()</code>方法来实例化Activity，cl前面也知道了它就是一个PathClassLoader。className就是我们最开始的时候通过Intent传过来的插件包中的Activity的全类名，因为插件包中的这个类找不到所以就会报前面的错误啦。</p>
+<p>继续跟下去看看会进入到ClassLoader类中</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> Class&lt;?&gt; loadClass(String name) <span class="hljs-keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> loadClass(name, <span class="hljs-keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="hljs-keyword">public</span> Class&lt;?&gt; loadClass(String name) <span class="hljs-keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> loadClass(name, <span class="hljs-keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">protected</span> Class&lt;?&gt; loadClass(String name, <span class="hljs-keyword">boolean</span> resolve)</span><br><span class="line">        <span class="hljs-keyword">throws</span> ClassNotFoundException</span><br><span class="line">    &#123;</span><br><span class="line">            <span class="hljs-comment">// First, check if the class has already been loaded</span></span><br><span class="line">            Class&lt;?&gt; c = findLoadedClass(name);</span><br><span class="line">            <span class="hljs-keyword">if</span> (c == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">                    <span class="hljs-keyword">if</span> (parent != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                        c = parent.loadClass(name, <span class="hljs-keyword">false</span>);</span><br><span class="line">                    &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                        c = findBootstrapClassOrNull(name);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">                    <span class="hljs-comment">// ClassNotFoundException thrown if class not found</span></span><br><span class="line">                    <span class="hljs-comment">// from the non-null parent class loader</span></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="hljs-keyword">if</span> (c == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                    <span class="hljs-comment">// If still not found, then invoke findClass in order</span></span><br><span class="line">                    <span class="hljs-comment">// to find the class.</span></span><br><span class="line">                    c = findClass(name);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">return</span> c;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这里面使用了双亲委托模式</p>
+<ul>
+<li>findLoadedClass(name)检查这个类是否被加载过，最终执行到native方法去查找</li>
+<li>如果没有并且其父类不为空，执行父类的loadClass()方法</li>
+<li>如果最终还是没有找到，就执行findClass(name)方法自己去加载这个类。</li>
+</ul>
+<p>前面创建PathClassLoader的方法中传入了<code>BootClassLoader.getInstance()</code>这个就是给parent赋值，我们知道BootClassLoader是用来加载系统FrameWork的文件，这里加载我们Activty返回空，最终会走到最后的findClass方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">protected</span> Class&lt;?&gt; findClass(String name) <span class="hljs-keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ClassNotFoundException(name);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>是一个空方法，最终交给子类BaseDexClassLoader来实现,BaseDexClassLoader在AndroidStudio中看的不全，可以在 <a href="https://www.androidos.net.cn/android/9.0.0_r8/xref/libcore/dalvik/src/main/java/dalvik/system/BaseDexClassLoader.java" target="_blank" rel="noopener">https://www.androidos.net.cn/android/9.0.0_r8/xref/libcore/dalvik/src/main/java/dalvik/system/BaseDexClassLoader.java</a> 这里看到全部代码，而BaseDexClassLoader的两个子类PathClassLoader和DexClassLoader两个子类都只有构造方法。可以在 <a href="https://www.androidos.net.cn/android/9.0.0_r8/xref/libcore/dalvik/src/main/java/dalvik/system/PathClassLoader.java" target="_blank" rel="noopener">https://www.androidos.net.cn/android/9.0.0_r8/xref/libcore/dalvik/src/main/java/dalvik/system/PathClassLoader.java</a> 和 <a href="https://www.androidos.net.cn/android/9.0.0_r8/xref/libcore/dalvik/src/main/java/dalvik/system/DexClassLoader.java" target="_blank" rel="noopener">https://www.androidos.net.cn/android/9.0.0_r8/xref/libcore/dalvik/src/main/java/dalvik/system/DexClassLoader.java</a> 中看到。所以最终就是执行的BaseDexClassLoader中的findClass方法。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Override</span></span><br><span class="line"> <span class="hljs-keyword">protected</span> Class&lt;?&gt; findClass(String name) <span class="hljs-keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">     List&lt;Throwable&gt; suppressedExceptions = <span class="hljs-keyword">new</span> ArrayList&lt;Throwable&gt;();</span><br><span class="line">     Class c = pathList.findClass(name, suppressedExceptions);</span><br><span class="line">     <span class="hljs-keyword">if</span> (c == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">         ClassNotFoundException cnfe = <span class="hljs-keyword">new</span> ClassNotFoundException(</span><br><span class="line">                 <span class="hljs-string">"Didn't find class \""</span> + name + <span class="hljs-string">"\" on path: "</span> + pathList);</span><br><span class="line">         <span class="hljs-keyword">for</span> (Throwable t : suppressedExceptions) &#123;</span><br><span class="line">             cnfe.addSuppressed(t);</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="hljs-keyword">throw</span> cnfe;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="hljs-keyword">return</span> c;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>到这里就可以看到最开始的报错信息了，当c==null的时候抛出这个错误。也就是pathList.findClass方法返回null，pathList变量是DexPathList，所以去DexPathList中看一下findClass方法</p>
+<p><a href="https://www.androidos.net.cn/android/9.0.0_r8/xref/libcore/dalvik/src/main/java/dalvik/system/BaseDexClassLoader.java" target="_blank" rel="noopener">https://www.androidos.net.cn/android/9.0.0_r8/xref/libcore/dalvik/src/main/java/dalvik/system/BaseDexClassLoader.java</a><br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> Class&lt;?&gt; findClass(String name, List&lt;Throwable&gt; suppressed) &#123;</span><br><span class="line">       <span class="hljs-keyword">for</span> (Element element : dexElements) &#123;</span><br><span class="line">           Class&lt;?&gt; clazz = element.findClass(name, definingContext, suppressed);</span><br><span class="line">           <span class="hljs-keyword">if</span> (clazz != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">               <span class="hljs-keyword">return</span> clazz;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="hljs-keyword">if</span> (dexElementsSuppressedExceptions != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">           suppressed.addAll(Arrays.asList(dexElementsSuppressedExceptions));</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>Element是DexPathList的静态内部类，<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> Class&lt;?&gt; findClass(String name, ClassLoader definingContext,</span><br><span class="line">                List&lt;Throwable&gt; suppressed) &#123;</span><br><span class="line">            <span class="hljs-keyword">return</span> dexFile != <span class="hljs-keyword">null</span> ? dexFile.loadClassBinaryName(name, definingContext, suppressed)</span><br><span class="line">                    : <span class="hljs-keyword">null</span>;</span><br></pre></td></tr></table></figure></p>
+<p>当dexFile不为null的时候才会调用它的loadClassBinaryName方法，否则直接返回null。loadClassBinaryName方法最终会执行到native中。</p>
+<p>在DexPathList类中可以看到<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">this</span>.dexElements = makeDexElements(splitDexPath(dexPath), optimizedDirectory,</span><br><span class="line">                                           suppressedExceptions, definingContext, isTrusted);</span><br><span class="line">                                           </span><br><span class="line"> <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Element[] makeDexElements(List&lt;File&gt; files, File optimizedDirectory,</span><br><span class="line">            List&lt;IOException&gt; suppressedExceptions, ClassLoader loader, <span class="hljs-keyword">boolean</span> isTrusted) &#123;</span><br><span class="line">      Element[] elements = <span class="hljs-keyword">new</span> Element[files.size()];</span><br><span class="line">      <span class="hljs-keyword">int</span> elementsPos = <span class="hljs-number">0</span>;</span><br><span class="line">      <span class="hljs-comment">/*</span></span><br><span class="line"><span class="hljs-comment">       * Open all files and load the (direct or contained) dex files up front.</span></span><br><span class="line"><span class="hljs-comment">       */</span></span><br><span class="line">      <span class="hljs-keyword">for</span> (File file : files) &#123;</span><br><span class="line">          <span class="hljs-keyword">if</span> (file.isDirectory()) &#123;</span><br><span class="line">              elements[elementsPos++] = <span class="hljs-keyword">new</span> Element(file);</span><br><span class="line">          &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (file.isFile()) &#123;</span><br><span class="line">              String name = file.getName();</span><br><span class="line"></span><br><span class="line">              DexFile dex = <span class="hljs-keyword">null</span>;</span><br><span class="line">              <span class="hljs-keyword">if</span> (name.endsWith(DEX_SUFFIX)) &#123;</span><br><span class="line">                  <span class="hljs-comment">// Raw dex file (not inside a zip/jar).</span></span><br><span class="line">                  <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">                      dex = loadDexFile(file, optimizedDirectory, loader, elements);</span><br><span class="line">                      <span class="hljs-keyword">if</span> (dex != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                          elements[elementsPos++] = <span class="hljs-keyword">new</span> Element(dex, <span class="hljs-keyword">null</span>);</span><br><span class="line">                      &#125;</span><br><span class="line">                  &#125; <span class="hljs-keyword">catch</span> (IOException suppressed) &#123;</span><br><span class="line">                      System.logE(<span class="hljs-string">"Unable to load dex file: "</span> + file, suppressed);</span><br><span class="line">                      suppressedExceptions.add(suppressed);</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                  <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">                      dex = loadDexFile(file, optimizedDirectory, loader, elements);</span><br><span class="line">                  &#125; <span class="hljs-keyword">catch</span> (IOException suppressed) &#123;</span><br><span class="line">                      suppressedExceptions.add(suppressed);</span><br><span class="line">                  &#125;</span><br><span class="line"></span><br><span class="line">                  <span class="hljs-keyword">if</span> (dex == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                      elements[elementsPos++] = <span class="hljs-keyword">new</span> Element(file);</span><br><span class="line">                  &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                      elements[elementsPos++] = <span class="hljs-keyword">new</span> Element(dex, file);</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="hljs-keyword">if</span> (dex != <span class="hljs-keyword">null</span> &amp;&amp; isTrusted) &#123;</span><br><span class="line">                dex.setTrusted();</span><br><span class="line">              &#125;</span><br><span class="line">          &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">              System.logW(<span class="hljs-string">"ClassLoader referenced unknown path: "</span> + file);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="hljs-keyword">if</span> (elementsPos != elements.length) &#123;</span><br><span class="line">          elements = Arrays.copyOf(elements, elementsPos);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="hljs-keyword">return</span> elements;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>dexElements数组是通过传入的一个dexPath的路径来获得的。这时候我们需要分析一下我们的apk文件，直接使用AndroidStudio打开一个apk文件可以看到如图：</p>
+<p>这里可以看到一个classes.dex文件，如果我们的应用做了分包处理，这里会看到很多.dex文件，他们的路径会传到上面的代码中，最终解析成为一个Element数组。</p>
+<p>这时候我们就知道了，它现在解析的只是当前应用apk下面的.dex文件，而插件apk下面的.dex文件不在这里面，所以上面代码中的返回的Element数组中也就不包含插件中对应的的Element，最终循环完找不到就返回null了。</p>
+<p>所以我们可以有这样一个方案，自己解析出插件apk中的Element数组，然后通过反射拿到宿主中的Element数组，把他们两个合成一个在设置回宿主中去，这样宿主中就可以找到对应的类了。</p>
+<p>这里还会用到上一篇 Andorid Hook进阶中的一些代码，因为插件中的Activity是在宿主中没有注册的，加载的时候需要绕过AMS的检查。所以可以接着上一篇的代码继续来。</p>
+<p>在Application中在添加一个融合Element的方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">    * 插件中的Element融入到宿主中</span></span><br><span class="line"><span class="hljs-comment">    */</span></span><br><span class="line">   <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">pluginToAppAction</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;</span><br><span class="line">       <span class="hljs-comment">//1. 找到宿主中的dexElements数组</span></span><br><span class="line">       PathClassLoader pathClassLoader = (PathClassLoader) getClassLoader();</span><br><span class="line">       Class&lt;?&gt; baseDexClassLoaderClass = Class.forName(<span class="hljs-string">"dalvik.system.BaseDexClassLoader"</span>);</span><br><span class="line">       Field pathListField = baseDexClassLoaderClass.getDeclaredField(<span class="hljs-string">"pathList"</span>);</span><br><span class="line">       pathListField.setAccessible(<span class="hljs-keyword">true</span>);</span><br><span class="line">       Object dexPathList = pathListField.get(pathClassLoader);</span><br><span class="line"></span><br><span class="line">       Field dexElementsField = dexPathList.getClass().getDeclaredField(<span class="hljs-string">"dexElements"</span>);</span><br><span class="line">       dexElementsField.setAccessible(<span class="hljs-keyword">true</span>);</span><br><span class="line">       Object appDexElements = dexElementsField.get(dexPathList);</span><br><span class="line">       <span class="hljs-comment">//2.  找到插件中的dexElements数组</span></span><br><span class="line">       File pluginFile = <span class="hljs-keyword">new</span> File(Environment.getExternalStorageDirectory() + File.separator + <span class="hljs-string">"p.apk"</span>);</span><br><span class="line">       <span class="hljs-keyword">if</span> (!pluginFile.exists()) &#123;</span><br><span class="line">           Log.i(TAG,<span class="hljs-string">"插件包不存在"</span>);</span><br><span class="line">           <span class="hljs-keyword">return</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       String pluginPath = pluginFile.getAbsolutePath();</span><br><span class="line">       File pluginDir = <span class="hljs-keyword">this</span>.getDir(<span class="hljs-string">"pluginDir"</span>,MODE_PRIVATE);</span><br><span class="line">       DexClassLoader dexClassLoader = <span class="hljs-keyword">new</span> DexClassLoader(pluginPath,pluginDir.getAbsolutePath(),<span class="hljs-keyword">null</span>,getClassLoader());</span><br><span class="line"></span><br><span class="line">       Class&lt;?&gt; pluginBaseDexClassLoaderClass = Class.forName(<span class="hljs-string">"dalvik.system.BaseDexClassLoader"</span>);</span><br><span class="line">       Field pluginPathListField = pluginBaseDexClassLoaderClass.getDeclaredField(<span class="hljs-string">"pathList"</span>);</span><br><span class="line">       pluginPathListField.setAccessible(<span class="hljs-keyword">true</span>);</span><br><span class="line">       Object pluginDexPathList = pluginPathListField.get(dexClassLoader);</span><br><span class="line">       Field dexElementsFieldPlugin = pluginDexPathList.getClass().getDeclaredField(<span class="hljs-string">"dexElements"</span>);</span><br><span class="line">       dexElementsFieldPlugin.setAccessible(<span class="hljs-keyword">true</span>);</span><br><span class="line">       Object pluginDexElements = dexElementsFieldPlugin.get(pluginDexPathList);</span><br><span class="line"></span><br><span class="line">       <span class="hljs-comment">//3. 把两个数组合并成一个新的数组 newElement</span></span><br><span class="line">       <span class="hljs-keyword">int</span> appLength = Array.getLength(appDexElements);</span><br><span class="line">       <span class="hljs-keyword">int</span> pluginLength = Array.getLength(pluginDexElements);</span><br><span class="line">       <span class="hljs-keyword">int</span> sum = appLength+pluginLength;</span><br><span class="line">       <span class="hljs-comment">//创建一个新的数组 两个参数，一个是类型  一个是长度</span></span><br><span class="line">       Object newDexElement = Array.newInstance(appDexElements.getClass().getComponentType(), sum);</span><br><span class="line">       <span class="hljs-comment">//进行融合</span></span><br><span class="line">       <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; sum; i++) &#123;</span><br><span class="line">           <span class="hljs-keyword">if</span>(i&lt;appLength)&#123;</span><br><span class="line">               Array.set(newDexElement,i,Array.get(appDexElements,i));</span><br><span class="line">           &#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">               Array.set(newDexElement,i,Array.get(pluginDexElements,i-appLength));</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="hljs-comment">//4. 把新的数组设置回宿主中</span></span><br><span class="line">       dexElementsField.set(dexPathList,newDexElement);</span><br><span class="line"></span><br><span class="line">       <span class="hljs-comment">//5. 处理布局文件</span></span><br><span class="line">       handlePluginLayout();</span><br><span class="line">   &#125;</span><br><span class="line">       <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handlePluginLayout</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;</span><br><span class="line">       assetManager = AssetManager.class.newInstance();</span><br><span class="line"></span><br><span class="line">       <span class="hljs-comment">// 把插件的路径 给 AssetManager</span></span><br><span class="line">       File pluginFile = <span class="hljs-keyword">new</span> File(Environment.getExternalStorageDirectory() + File.separator + <span class="hljs-string">"p.apk"</span>);</span><br><span class="line">       <span class="hljs-keyword">if</span> (!pluginFile.exists()) &#123;</span><br><span class="line">           Log.i(TAG,<span class="hljs-string">"插件包不存在"</span>);</span><br><span class="line">           <span class="hljs-keyword">return</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       String pluginPath = pluginFile.getAbsolutePath();</span><br><span class="line"></span><br><span class="line">       <span class="hljs-comment">//执行addAssetPath方法吧路径添加进去 assetManager才能加载资源</span></span><br><span class="line">       Method addAssetPathMethod = assetManager.getClass().getDeclaredMethod(<span class="hljs-string">"addAssetPath"</span>,String.class);</span><br><span class="line">       addAssetPathMethod.setAccessible(<span class="hljs-keyword">true</span>);</span><br><span class="line">       addAssetPathMethod.invoke(assetManager,pluginPath);</span><br><span class="line"></span><br><span class="line">       <span class="hljs-comment">//宿主的Resources</span></span><br><span class="line">       Resources r = getResources();</span><br><span class="line">       <span class="hljs-comment">//创建新的resources用来加载插件中的资源</span></span><br><span class="line">       resources = <span class="hljs-keyword">new</span> Resources(assetManager,r.getDisplayMetrics(),r.getConfiguration());</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="hljs-keyword">private</span> Resources resources;</span><br><span class="line">   <span class="hljs-keyword">private</span> AssetManager assetManager;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">   <span class="hljs-function"><span class="hljs-keyword">public</span> Resources <span class="hljs-title">getResources</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">return</span> resources == <span class="hljs-keyword">null</span> ? <span class="hljs-keyword">super</span>.getResources() : resources;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="hljs-meta">@Override</span></span><br><span class="line">   <span class="hljs-function"><span class="hljs-keyword">public</span> AssetManager <span class="hljs-title">getAssets</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">return</span> assetManager == <span class="hljs-keyword">null</span> ? <span class="hljs-keyword">super</span>.getAssets() : assetManager;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>全部代码就在上面了目的很明确</p>
+<ol>
+<li>找到宿主中的dexElements数组 通过PathClassLoader寻找</li>
+<li>找到插件中的dexElements数组 通过DexClassLoader寻找</li>
+<li>把两个数组合并成一个新的数组 newElement</li>
+<li>把新的数组设置回宿主中</li>
+<li>处理布局文件，我们需要创建自己的Resources和AssetManager来加载插件的布局文件</li>
+<li>创建完之后，重写系统的getResources和getAssets方法，如果自己创建的不为空就使用自己创建的来加载。</li>
+</ol>
+<p>将插件打包成apk放到根目录下，运行宿主app</p>
+<p>效果：</p>
+<p><img src="https://raw.githubusercontent.com/chsmy/chsmy.github.io/master/gallery/architecture/plugin_8.gif" alt></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/架构/">架构</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/09/22/flutter/Flutter基础-状态管理/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Flutter基础--状态管理</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/08/16/architecture/Andorid-Hook进阶/">
+                <span class="level-item">Andorid Hook进阶</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">コメント</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/08/21/architecture/Hook式插件化/';
+        this.page.identifier = '2019/08/21/architecture/Hook式插件化/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="CHS">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        CHS
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        只要坚持，终会有收获
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        投稿
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        74
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        カテゴリ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        16
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        タグ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        11
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
+                フォローする</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/chsmy">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="weibo" href="http://weibo.com/2504847694/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="csdn" href="https://blog.csdn.net/mingyunxiaohai">
+                
+                <i class="fab fa-wordpress"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="简书" href="https://www.jianshu.com/u/6ab3e65ba7b5">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            リンク
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="http://www.wanandroid.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">玩Android</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wanandroid.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                カテゴリ
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">61</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Android/UI/">
+            <span class="level-start">
+                <span class="level-item">UI</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/c-c/">
+            <span class="level-start">
+                <span class="level-item">c/c++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/jetpack/">
+            <span class="level-start">
+                <span class="level-item">jetpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/kotlin/">
+            <span class="level-start">
+                <span class="level-item">kotlin</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">16</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/测试和性能优化/">
+            <span class="level-start">
+                <span class="level-item">测试和性能优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/源码/">
+            <span class="level-start">
+                <span class="level-item">源码</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/资料/">
+            <span class="level-start">
+                <span class="level-item">资料</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/设计模式/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/人生/">
+            <span class="level-start">
+                <span class="level-item">人生</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/人生/感悟/">
+            <span class="level-start">
+                <span class="level-item">感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/人生/读书/">
+            <span class="level-start">
+                <span class="level-item">读书</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/跨平台/">
+            <span class="level-start">
+                <span class="level-item">跨平台</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/跨平台/flutter/">
+            <span class="level-start">
+                <span class="level-item">flutter</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            タグクラウド
+        </h3>
+        <a href="/tags/Flutter/" style="font-size: 11.25px;">Flutter</a> <a href="/tags/UI/" style="font-size: 18.75px;">UI</a> <a href="/tags/c-c/" style="font-size: 16.25px;">c/c++</a> <a href="/tags/jetpack/" style="font-size: 16.25px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 13.75px;">感悟</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/测试和性能优化/" style="font-size: 15px;">测试和性能优化</a> <a href="/tags/设计模式/" style="font-size: 11.25px;">设计模式</a> <a href="/tags/读书/" style="font-size: 12.5px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 17.5px;">进阶</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Hook式插件化" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '投稿',
+                PAGES: 'Pages',
+                CATEGORIES: 'カテゴリ',
+                TAGS: 'タグ',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

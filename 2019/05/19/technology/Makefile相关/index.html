@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Makefile相关 - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="Makefile相关">
+<meta name="keywords" content="c&#x2F;c++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Makefile相关">
+<meta property="og:url" content="https://chsmy.github.io/2019/05/19/technology/Makefile相关/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="Makefile相关">
+<meta property="og:locale" content="CHS">
+<meta property="og:updated_time" content="2019-05-19T12:26:45.737Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Makefile相关">
+<meta name="twitter:description" content="Makefile相关">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Makefile相关" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="カタログ" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-19T12:15:44.000Z">2019-05-19</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/c-c/">c/c++</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    36 minutes read (About 5344 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Makefile相关
+            
+        </h1>
+        <div class="content">
+            <p>Makefile相关</p>
+<a id="more"></a>
+<h4 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h4><p>编译过程分为四大过程：</p>
+<ol>
+<li>预处理：完成宏替换，文件引入，除去空行、注释等，为下一步编译做准备。使用,命令<code>gcc -E test.c -o test.i</code>-E指gcc在预处理完成后停止后序的操作，-o指定输出的文件。</li>
+<li>编译：将预处理后的代码编译成汇编代码，在这个阶段中，首先要检查代码的规范性、是否有语法错误等，检查无误后把代码翻译成汇编语言；编译程序执行的时候，会先分析语法，词法语义生成中间代码，最后对代码优化。大多数编译程序会直接产生可执行的机器码，有些是先产生汇编语言一级符号代码文件，在调用汇编程序加工处理产生机器可执行的目标文件。使用命令<code>gcc -S test.i -o test.s</code> -S表示gcc在编译后停止后面的操作</li>
+<li>汇编：把编译阶段生成的.s文件转成二进制目标代码也就是机器码（01序列）。使用命令<code>gcc -c test.s -o test.o</code> -c表示gcc在汇编处理后停止后面的链接操作</li>
+<li>连接：将多个目标文件以及所需的库文件连接生成可执行目标文件的过程。使用命令<code>gcc text.o -o test</code>最后生成可执行文件test</li>
+</ol>
+<p>最后执行./test即可执行该文件</p>
+<p>例子：</p>
+<p>现在linux中的一个文件夹下面有一个test.c的源文件，里面就一个输出hello world的方法<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@cdh-master test]# ls</span><br><span class="line">test.c</span><br><span class="line">---------------------------</span><br><span class="line">[root@cdh-master test]# cat test.c</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()&#123;</span><br><span class="line">	printf(&quot;hello world&quot;);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>第一步：执行预处理使用命令<code>gcc -E test.c -o test.i</code>会输出一个test.i文件<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@cdh-master test]# gcc -E test.c -o test.i</span><br><span class="line">[root@cdh-master test]# ls</span><br><span class="line">test.c  test.i</span><br></pre></td></tr></table></figure></p>
+<p>第二步：执行编译命令<code>gcc -S test.i -o test.s</code><br>会输出一个test.s文件<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@cdh-master test]# gcc -S test.i -o test.s</span><br><span class="line">[root@cdh-master test]# ls</span><br><span class="line">test.c  test.i  test.s</span><br></pre></td></tr></table></figure></p>
+<p>第三步：执行汇编命令<code>gcc -c test.s -o test.o</code><br>会输出一个test.o文件。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@cdh-master test]# gcc -c test.s -o test.o</span><br><span class="line">[root@cdh-master test]# ls</span><br><span class="line">test.c  test.i  test.o  test.s</span><br></pre></td></tr></table></figure></p>
+<p>第四步：执行链接命令<code>gcc test.o -o test</code>生成一个名为test的可执行文件。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@cdh-master test]# gcc test.o -o test</span><br><span class="line">[root@cdh-master test]# ls</span><br><span class="line">test  test.c  test.i  test.o  test.s</span><br></pre></td></tr></table></figure></p>
+<p>最后通过<code>./test</code>执行文件，输出hello world<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@cdh-master test]# ./test</span><br><span class="line">hello world</span><br></pre></td></tr></table></figure></p>
+<p>上面的步骤是分开来做的，我们可以通过<code>gcc -o test test.c</code>命令直接生成一个test可执行文件</p>
+<h4 id="静态库和动态库"><a href="#静态库和动态库" class="headerlink" title="静态库和动态库"></a>静态库和动态库</h4><p>静态库：</p>
+<ul>
+<li>静态库就是一些目标文件（一般以.o结尾）的集合，静态库一般以.a结尾，只用于生成可执行文件阶段。</li>
+<li>在链接步骤中，连接器将从库文件中取得所需代码，复制到可执行文件中。这种库就是静态库。</li>
+<li>特点是可执行文件中包含了库代码的一份完整的拷贝，在编译过程中被载入程序中。</li>
+<li>缺点就是多次使用就会有多分冗余的拷贝，并且对程序的更新、部署、和发布带来麻烦，比如静态库有更新，那么所有使用它的程序都需要重新编译发布。</li>
+</ul>
+<p>动态库：</p>
+<ul>
+<li>在链接阶段没有被复制到程序中，而是在程序运行时，由系统动态加载到内存中供程序调用。</li>
+<li>系统只需载入一次动态库，不同程序就可以得到内存总相同动态库的副本，因此节省了很多内存</li>
+</ul>
+<p>例子：编译静态库，先定义3个源文件too.h,tool.c,main.c用来求一个数组中的最大值</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@cdh-master test]# ls</span><br><span class="line">main.c  tool.c  tool.h</span><br></pre></td></tr></table></figure>
+<p>tool.h<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">find_max</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arr[],<span class="hljs-keyword">int</span> n)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>tool,c<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">"tool.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">find_max</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arr[], <span class="hljs-keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">int</span> max = arr[<span class="hljs-number">0</span>];</span><br><span class="line">	<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;</span><br><span class="line">	<span class="hljs-keyword">for</span> (; i &lt; n; i++) &#123;</span><br><span class="line">		<span class="hljs-keyword">if</span> (arr[i]&gt;max) &#123;</span><br><span class="line">			max = arr[i];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-keyword">return</span> max;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>main.c<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">"tool.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">int</span> arr[] = &#123;<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">6</span>,<span class="hljs-number">8</span>,<span class="hljs-number">5</span>,<span class="hljs-number">7</span>,<span class="hljs-number">9</span>&#125;;</span><br><span class="line">	<span class="hljs-keyword">int</span> max = find_max(arr,<span class="hljs-number">7</span>);</span><br><span class="line">	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"max=%d\n"</span>,max);</span><br><span class="line">	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>开始编译静态库：</strong></p>
+<p>第一步：使用<code>gcc -c tool.c</code>可以生成一个tool.o文件<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@cdh-master test]# ls</span><br><span class="line">main.c  tool.c  tool.h  tool.o</span><br></pre></td></tr></table></figure></p>
+<p>第二步：使用命令<code>ar rcs libtool.a tool.o</code>生成静态库文件tool.a文件<br><figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@cdh-master test]<span class="hljs-meta"># ar rcs libtool.a tool.o</span></span><br><span class="line">[root@cdh-master test]<span class="hljs-meta"># ls</span></span><br><span class="line">libtool.a  main.c  tool.c  tool.h  tool.o</span><br></pre></td></tr></table></figure></p>
+<p>第三步：编译可执行文件，并连接静态库，使用命令<code>gcc -o main main.c -L. -ltool</code>-l执行要链接的库，-L表示去目标目录寻找文件，这里使用<code>.</code>表示当前文件夹<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@cdh-master test]# gcc -o main main.c -L. -ltool</span><br><span class="line">[root@cdh-master test]# ls</span><br><span class="line">libtool.a  main  main.c  tool.c  tool.h  tool.o</span><br></pre></td></tr></table></figure></p>
+<p>最后执行main文件<code>./main</code><br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@cdh-master test]# ./main</span><br><span class="line">max=9</span><br></pre></td></tr></table></figure></p>
+<p><strong>开始编译动态库：</strong><br>第一步跟生成.o文件，跟前面一样<br>第一步：使用<code>gcc -c tool.c</code>可以生成一个tool.o文件(目标文件)<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@cdh-master test]# ls</span><br><span class="line">main.c  tool.c  tool.h  tool.o</span><br></pre></td></tr></table></figure></p>
+<p>第二步：使用命令<code>gcc -shared -fPIC -o libtool.so tool.o</code> 生成libtool.so文件<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@cdh-master test]# gcc -shared -fPIC -o libtool.so tool.o</span><br><span class="line">[root@cdh-master test]# ls</span><br><span class="line">libtool.a  libtool.so  main  main.c  tool.c  tool.h  tool.o</span><br></pre></td></tr></table></figure></p>
+<p>第三步：编译可执行文件并连接动态库，跟前面的链接静态库一样<code>gcc -o main main.c -L. -ltool</code>,如果当前目录有同名的静态库和动态库比如现在<code>libtool.a  libtool.so</code>虚拟机会先加载动态库，最后生成main可执行文件</p>
+<p>第四步：<code>./main</code>执行文件<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@cdh-master test]# ./main</span><br><span class="line">./main: error while loading shared libraries: libtool.so: cannot open shared object file: No such file or directory</span><br></pre></td></tr></table></figure></p>
+<p>报错，找不到共享的libraries，可以通过ldd命令查看main文件依赖了那些库<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@cdh-master test]# ldd main</span><br><span class="line">	linux-vdso.so.1 =&gt;  (0x00007fff24348000)</span><br><span class="line">	libtool.so =&gt; not found</span><br><span class="line">	libc.so.6 =&gt; /lib64/libc.so.6 (0x00007f6ec319f000)</span><br><span class="line">	/lib64/ld-linux-x86-64.so.2 (0x00007f6ec3569000)</span><br></pre></td></tr></table></figure></p>
+<p>可以看到<code>libtool.so =&gt; not found</code>找不到，因为它会默认到系统默认路径下寻找，这里没有配置环境变量，所以找不到，我们需要给他执行加载目录。这里使用<code>.</code>指定当前目录<code>LD_LIBRARY_PATH=. ./main</code><br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@cdh-master test]# LD_LIBRARY_PATH=. ./main</span><br><span class="line">max=9</span><br></pre></td></tr></table></figure></p>
+<p>动态库和静态库的区别：</p>
+<ol>
+<li>静态库在程序编译时链接到代码中，程序运行的时候不在需要静态库，因此体积比较大，每次编译都需要从新载入静态代码，内存开销大。</li>
+<li>动态库在程序编译期间不会链接到目标代码中，而是在程序运行时才被载入，因此体积比较小，不过运行的时候需要指定动态库的路径。系统每次只需载入一次动态库，不同程序可以得到内存中相同的动态库的副本，内存开销比较小。</li>
+</ol>
+<h4 id="Makefile"><a href="#Makefile" class="headerlink" title="Makefile"></a>Makefile</h4><p>为什么要写Makefile文件？当项目非常庞大时，让构建过程，自动化，简单</p>
+<ul>
+<li>Makefile 定义了一系列的规则来指定哪些文件需要优先编译，哪些文件需要重新编译，以及如何进行链接操作。</li>
+<li>Makefile就是“自动化编译”告诉make命令如何编译和链接。</li>
+</ul>
+<p>Makefile包含以下五个部分：</p>
+<ul>
+<li>显示规则：如何生成一个或多个目标文件</li>
+<li>隐晦规则：自动推导功能</li>
+<li>变量定义：一般是字符串</li>
+<li>文件指示：1 一个Makefile中引用另一个Makefile 2  根据某些情况执行有效部分 3 定义多行</li>
+<li>注释：使用#</li>
+</ul>
+<p>规则：</p>
+<ul>
+<li>target：目标文件可以是Object File 也可以是执行文件，还可以是标签</li>
+<li>prerequistites：依赖文件，即要成成的那个target所需要的文件或者其他target</li>
+<li>command：make需要执行的命令</li>
+</ul>
+<p>Makefile是如何工作的：</p>
+<p>默认情况下，输入make命令后会执行下面步骤：</p>
+<ol>
+<li>make会在当前目录下寻找名字叫Makefile或者makefile的文件</li>
+<li>如果找到了，它会找文件中第一个目标文件（target），并把这个target作为最终目标文件。比如前面例子中的main文件</li>
+<li>如果找不到main文件或者main多以来的.o文件的修改时间比main文件要新，那么它会执行后面定义的命令来生成main文件</li>
+<li>如果main所依赖的.o文件也存在，那么make会在当前文件夹中找目标为.o的文件的依赖，若找到则根据规则生成.o文件</li>
+<li>make再用.o文件声明make的终极任务，也就是执行文件main</li>
+</ol>
+<p>环境变量MAKEFILES:</p>
+<p>如果当前环境中定义了环境变量MAKEFILES,那么make会把这个变量中的值做一个类似于include的动作。这个变量中的值是其他的Makefile，用空格分割。只是它和include不同的是，从这个环境变量中引入的Makefile的目标不会起作用，如果环境变量中定义的文件发现错误，make也不会理会。</p>
+<p>不过建议不要使用这个环境变量，因为只要这个变量一被定义，那么当你使用make的时候，所有的Makefile都会收到它的影响。</p>
+<p>Makefile中的预定义变量</p>
+<table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CC</td>
+<td>C语言编译器名称</td>
+<td>cc</td>
+</tr>
+<tr>
+<td>CPP</td>
+<td>C语言预处理器的名称</td>
+<td>$(CC)-E</td>
+</tr>
+<tr>
+<td>CXX</td>
+<td>C++语言编译器名称</td>
+<td>g++</td>
+</tr>
+<tr>
+<td>RM</td>
+<td>删除文件程序的名称</td>
+<td>rm -f</td>
+</tr>
+<tr>
+<td>CFLAGS</td>
+<td>C语言编译器的编译选项</td>
+<td>无</td>
+</tr>
+<tr>
+<td>CPPFLAGS</td>
+<td>C语言预处理器的编译选项</td>
+<td>无</td>
+</tr>
+<tr>
+<td>CXXFLAGS</td>
+<td>C++语言编译器的编译选项</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
+<p>Makefile中的自动变量</p>
+<table>
+<thead>
+<tr>
+<th>自动变量</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$*</td>
+<td>目标文件的名称，不包含扩展名</td>
+</tr>
+<tr>
+<td>$@</td>
+<td>目标文件的名称，包含扩展名</td>
+</tr>
+<tr>
+<td>$+</td>
+<td>所有的依赖文件，以空格隔开，可能含有重复的文件</td>
+</tr>
+<tr>
+<td>$^</td>
+<td>所有的依赖文件，以空格隔开，不重复</td>
+</tr>
+<tr>
+<td>$&lt;</td>
+<td>依赖项中第一个依赖文件的名称</td>
+</tr>
+<tr>
+<td>$?</td>
+<td>依赖项中所有比目标文件新的依赖文件</td>
+</tr>
+</tbody>
+</table>
+<p>Makefile中的函数</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 不带参数</span><br><span class="line">define FUNC</span><br><span class="line">$(info echo &quot;hello&quot;)</span><br><span class="line">endef</span><br><span class="line"></span><br><span class="line">#调用</span><br><span class="line">$(call FUNC)</span><br><span class="line">------------</span><br><span class="line">输出：hello</span><br><span class="line"></span><br><span class="line">#带参数</span><br><span class="line">define FUNC1</span><br><span class="line">$(info echo $(1)$(2))</span><br><span class="line">endef</span><br><span class="line">#调用</span><br><span class="line">$(call FUNC1,hello,world)</span><br><span class="line">----------</span><br><span class="line">输出：hello world</span><br></pre></td></tr></table></figure>
+<p>使用Makefile的例子：</p>
+<p>还是使用前面的几个源文件，tool.h,tool.c,main.c<br>。文件少的时候我们可以一个命令一个命令的去敲去编译，文件多的时候，就会非常麻烦，所以把命令都在在Makefile文件中，使用的时候直接make就完事。</p>
+<p>在上面三个文件所在目录执行<code>vim Makefile</code>命令创建一个Makefile文件并编辑<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#main是最终目标，第一行是最终目标</span><br><span class="line">#:后的文件都是它的依赖</span><br><span class="line">#下一行用TAB键开头 写上需要生成目标文件需要执行的命令</span><br><span class="line">main:main.o tool.o</span><br><span class="line">        gcc main.o tool.o -o main</span><br><span class="line">#main.o是二级目标</span><br><span class="line">#main.c是main.o的依赖</span><br><span class="line">#gcc -c main.c是需要执行的命令</span><br><span class="line">main.o:main.c</span><br><span class="line">        gcc -c main.c</span><br><span class="line">tool.o:tool.c</span><br><span class="line">        gcc -c tool.c</span><br><span class="line">#PHONY关键字代表为目标</span><br><span class="line">.PHONY:clean</span><br><span class="line">#clean清除所有的.o结尾的文件和执行文件</span><br><span class="line">clean:</span><br><span class="line">        rm -f *.o</span><br><span class="line">        rm -f main</span><br></pre></td></tr></table></figure></p>
+<p>编辑完成之后，执行make命令，就会直接生成main.o,tool.o,main这些文件。</p>
+<p>第一行是最终目标，和它所需要的依赖，如果它的依赖也需要别的依赖来生成，就从下面按照相同的格式在写一行，以此类推。</p>
+<p>.PHONY关键字代表为目标。比如上面例子中标记clean，如果我们源文件的目录中有个叫clean的文件，如果没有用.PHONY标记，就会去编译clean文件。这里用它标记了，那么clean就只能执行下面定义的删除方法了。</p>
+<p>前面的Makefile文件已经可以简化我们的命令的了，但是如果文件多了还是比较麻烦，我们可以继续简化。<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">OBJECT=main.o tool.o</span><br><span class="line">main:$(OBJECT)</span><br><span class="line">	gcc $^ -o $@</span><br><span class="line">%.o:%.c</span><br><span class="line">	gcc -c $^ -o $@</span><br><span class="line">.PHONY:clean</span><br><span class="line">clean:</span><br><span class="line">	rm -f *.o</span><br><span class="line">	rm -f main</span><br></pre></td></tr></table></figure></p>
+<p>定义一个OBJECT变量来保存依赖文件<br>$^表示所有依赖，$@表示目标，%.o:%.c是使用通配符来表示所有的.o文件有所有的.c文件生成。执行make之后效果跟前面的一样。</p>
+<p>我们发现虽然定义了一个OBJECT变量，后面需要依赖的文件还得手动写，如果文件很多还是很麻烦的，还可以继续优化</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SOURCES=$(wildcard *.c)</span><br><span class="line">OBJECT=$(patsubst %.c,%.o,$(SOURCES))</span><br><span class="line">main:$(OBJECT)</span><br><span class="line">	gcc $^ -o $@</span><br><span class="line">%.o:%.c</span><br><span class="line">	gcc -c $^ -o $@</span><br><span class="line">.PHONY:clean</span><br><span class="line">clean:</span><br><span class="line">	rm -f *.o</span><br><span class="line">	rm -f main</span><br></pre></td></tr></table></figure>
+<p>使用SOURCES关键字定义资源。wildcard关键字是找出该目录下所有的.c源文件。patsubst关键字是把所有的.c替换成.o。执行之后效果跟前面一样。</p>
+<p>Makefile中使用函数：</p>
+<p>无参函数</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">define func</span><br><span class="line">$(info &quot;hello world&quot;)</span><br><span class="line">endef</span><br><span class="line">//调用</span><br><span class="line">$(call func)</span><br></pre></td></tr></table></figure>
+<p>使用define 定义一个名叫func的函数，使用<code>$(call func)</code>调用。保存之后，回到文件夹中执行make命令，会看到输出hello world。</p>
+<p>有参函数<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">define func1</span><br><span class="line">$(info $(1) $(2))</span><br><span class="line">endef</span><br><span class="line"></span><br><span class="line">$(call func1,hello,world)</span><br></pre></td></tr></table></figure></p>
+<p>使用define 定义一个名叫func1的函数， $(1) $(2)代表要输入的参数，最后通过call调用函数，保存回到文件夹中执行make命令，会看到输出hello world。</p>
+<p>make的工作流程</p>
+<p>GNU的make工作步骤如下:</p>
+<ol>
+<li>读入所有的Makefile</li>
+<li>读入被include的其他的Makefile</li>
+<li>初始化文件中的变量</li>
+<li>推导隐晦规则，并法分析所有的规则</li>
+<li>为所有的目标文件创建依赖关系链</li>
+<li>根据依赖关系，决定哪些目标要重新生成</li>
+<li>执行生成命令</li>
+</ol>
+<h4 id="Android-mak"><a href="#Android-mak" class="headerlink" title="Android.mak"></a>Android.mak</h4><p>Android.mk是一个向Android NDK构建系统描述NDK项目的GNU makefile 片段。主要用来编译生成以下几种：</p>
+<ol>
+<li>APK程序：一般的Android应用程序，系统级别的直接push</li>
+<li>Java库：JAVA类库，编译打包生成JAR文件</li>
+<li>C/C++应用程序：可执行的C/C++应用程序</li>
+<li>C/C++静态库：编译生成C/C++静态库，并打包成.a文件。</li>
+<li>C/C++共享库：编译生成共享库，并打包成.so文件</li>
+</ol>
+<p>一个简单的Android.mk文件样例<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#定义模块当前的路径（必须定义在文件开头，只需要定义一次）</span><br><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line"></span><br><span class="line">#Makefile中可以引入其他的Makefile文件</span><br><span class="line">#编译模块时，清空当前环境变量（LOCAL_PATH除外）</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line"></span><br><span class="line">#当前模块名（这里会生成libhello-jni）</span><br><span class="line">LOCAL_MODULE :=hello-jni</span><br><span class="line"></span><br><span class="line">#编译所需要的源文件 多个文件以空格隔开</span><br><span class="line">LOCAL_SRC_FILES :=hello-jni.c</span><br><span class="line"></span><br><span class="line">#需要的头文件</span><br><span class="line">LOCAL_C_INCLUDES</span><br><span class="line">#编译需要的动态库</span><br><span class="line">LOCAL_SHARED_LIBRARIES</span><br><span class="line">#表示当前模块将要被编译成一个共享库</span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br></pre></td></tr></table></figure></p>
+<p>一个Android.mk可能编译产生多个共享库模块，比如下面代码会产生libmodeule1.so和libmodule2.so两个动态库<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line"></span><br><span class="line">#模块1</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line">LOCAL_MODULE :=module1</span><br><span class="line">LOCAL_SRC_FILES :=module1.c</span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br><span class="line"></span><br><span class="line">#模块2</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line">OCAL_MODULE :=module2</span><br><span class="line">LOCAL_SRC_FILES :=module2.c</span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br></pre></td></tr></table></figure></p>
+<p><strong>编译静态库</strong></p>
+<p>Android应用程序不能直接使用静态库，不过可以使用静态库来编译动态库。比如在把第三方代码添加到原生项目中时，可以不用直接把第三方源码放入原生项目中，而是将第三方源码编译成静态库，然后并入共享库。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line"></span><br><span class="line">#第三方AVI库</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line">OCAL_MODULE :=avilib</span><br><span class="line">LOCAL_SRC_FILES :=abilib.c platfrom_posix.c</span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br><span class="line"></span><br><span class="line">#原生模块</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line">LOCAL_MODULE :=module</span><br><span class="line">LOCAL_SRC_FILES :=module.c</span><br><span class="line">#将静态模块添加到LOCAL_STATIC_LIBRARIES变量</span><br><span class="line">LOCAL_STATIC_LIBRARIES :avilib</span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br></pre></td></tr></table></figure>
+<p><strong>使用共享库共享通用模块</strong></p>
+<p>静态库可以保证源代码模块化，但是当静态库与共享库相连时，它就变成了共享库的一部分。</p>
+<p>在多个共享库与静态库相连接时，需要将通用模块的多个副本与不同的共享库重复相连，这样就会增大APP的大小。这时候可以将通过用模块作为共享库,不过这样必须是一个NDK项目<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line"></span><br><span class="line">#第三方AVI库</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line">LOCAL_MODULE :=avilib</span><br><span class="line">LOCAL_SRC_FILES :=abilib.c platfrom_posix.c</span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br><span class="line"></span><br><span class="line">#原生模块1</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line">OCAL_MODULE :=module1</span><br><span class="line">LOCAL_SRC_FILES :=module1.c</span><br><span class="line">LOCAL_SHARED_LIBRARIES :avilib</span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br><span class="line"></span><br><span class="line">#原生模块2</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line">OCAL_MODULE :=module2</span><br><span class="line">LOCAL_SRC_FILES :=module2.c</span><br><span class="line">LOCAL_SHARED_LIBRARIES :avilib</span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br></pre></td></tr></table></figure></p>
+<p><strong>多个NDK项目之间共享模块</strong></p>
+<ol>
+<li>首先先将avilib源码移动到NDK项目以外的位置，比如C:\android\shared-modules\transcode\avilib</li>
+<li>作为共享模块，avilib需要有自己的Android.mk文件</li>
+<li>以transcode/avilib为参数调用函数宏import-module添加到NDK项目的Android.mk文档末尾。</li>
+</ol>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">#avilib模块自己的Android.mk文件</span><br><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line">LOCAL_MODULE :=avilib</span><br><span class="line">LOCAL_SRC_FILES :=abilib.c platfrom_posix.c</span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br><span class="line"></span><br><span class="line">----------------------------</span><br><span class="line">#使用共享模块的NDK项目1的Android.mk文件</span><br><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line">OCAL_MODULE :=module1</span><br><span class="line">LOCAL_SRC_FILES :=module1.c</span><br><span class="line">LOCAL_SHARED_LIBRARIES :avilib</span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br><span class="line">$(call import-module,transcode/avilib)</span><br><span class="line">----------------------------</span><br><span class="line">#使用共享模块的NDK项目2的Android.mk文件</span><br><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line">OCAL_MODULE :=module2</span><br><span class="line">LOCAL_SRC_FILES :=module2.c</span><br><span class="line">LOCAL_SHARED_LIBRARIES :avilib</span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br><span class="line">$(call import-module,transcode/avilib)</span><br></pre></td></tr></table></figure>
+<p><strong>使用预编译库</strong></p>
+<p>如果想在不发布代码的情况下将模块发布给他人或者想使用共享模块的预编译版本来急速编译过程<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#预编译共享模块的Android.mk文件</span><br><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line">#第三方预编译库</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line">LOCAL_MODULE :=avilib</span><br><span class="line">LOCAL_SRC_FILES :=libavilib.so</span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br></pre></td></tr></table></figure></p>
+<p><strong>编译独立的可执行文件</strong></p>
+<p>为了方便测试和进行快速开发，可以编译成可执行文件。不用打包成APK就可以复制到Andorid设备上执行</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#独立可执行模块的Android.mk文件</span><br><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line">OCAL_MODULE :=module</span><br><span class="line">LOCAL_SRC_FILES :=module.c</span><br><span class="line">LOCAL_SHARED_LIBRARIES :avilib</span><br><span class="line">include $(BUILD_EXECUTABLE)</span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li>如果我们本地库libhello-jni.so依赖于libTest.so(可以使用NDK下的ndk-depends查看so的依赖关系)</li>
+<li>在Android6.0版本之前，需要在加载本地库钱先加载被依赖的so库</li>
+<li>在Android6.0版本之后，不能再使用预编译的动态库（静态库没问题）</li>
+</ul>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#Android 6.0版本之前</span><br><span class="line">System.loadLibrary(&quot;Test&quot;);</span><br><span class="line">Systen.loadLibrary(&quot;hello-jni&quot;);</span><br><span class="line">#Android 6.0版本之后</span><br><span class="line">System.loadLibrary(&quot;hello-jni&quot;)</span><br></pre></td></tr></table></figure>
+<h4 id="Andorid-mk的简单使用"><a href="#Andorid-mk的简单使用" class="headerlink" title="Andorid.mk的简单使用"></a>Andorid.mk的简单使用</h4><p>使用AndroidStudio新建一个空项目。</p>
+<p>在MainActivity中定义native方法nativeTest</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public static native int nativeTest();</span><br></pre></td></tr></table></figure>
+<p>在main文件夹的同级新建一个ndkbuild目录，里面创建两个文件”hello-jni.c”和”Andorid.mk”</p>
+<figure class="highlight c hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;jni.h&gt;</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">test</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-number">123456</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function">jint <span class="hljs-title">Java_com_chs_ndktest_MainActivity_nativeTest</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">   <span class="hljs-keyword">return</span> test();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#定义模块当前的路径（必须定义在文件开头，只需要定义一次）</span><br><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line"></span><br><span class="line">#Makefile中可以引入其他的Makefile文件</span><br><span class="line">#编译模块时，清空当前环境变量（LOCAL_PATH除外）</span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line"></span><br><span class="line">#当前模块名（这里会生成libhello-jni）</span><br><span class="line">LOCAL_MODULE :=hello-jni</span><br><span class="line"></span><br><span class="line">#编译所需要的源文件 多个文件以空格隔开</span><br><span class="line">LOCAL_SRC_FILES :=hello-jni.c</span><br><span class="line"></span><br><span class="line">#表示当前模块将要被编译成一个共享库</span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br></pre></td></tr></table></figure>
+<p>修改gradle文件，配置支持的cup和Android.mk的路径<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">defaultConfig &#123;</span><br><span class="line">     applicationId &quot;com.chs.ndktest&quot;</span><br><span class="line">     minSdkVersion 15</span><br><span class="line">     targetSdkVersion 28</span><br><span class="line">     versionCode 1</span><br><span class="line">     versionName &quot;1.0&quot;</span><br><span class="line">     testInstrumentationRunner &quot;android.support.test.runner.AndroidJUnitRunner&quot;</span><br><span class="line">     externalNativeBuild&#123;</span><br><span class="line">         ndkBuild&#123;</span><br><span class="line">         //例子使用模拟器测试，所以编译x86的，现在主流手机都是arm-v7a的</span><br><span class="line">             abiFilters &quot;x86&quot;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> externalNativeBuild&#123;</span><br><span class="line">     ndkBuild&#123;</span><br><span class="line">         path &quot;src/main/ndkbuild/Android.mk&quot;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这时候build工程，查看生成的apk文件，在lib目录下就可以看到一个hello-jni.so的文件</p>
+<p>最后在MainActivity中加载hello-jni.so动态库，并调用方法显示在TextView上<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">      System.loadLibrary(&quot;hello-jni&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  @Override</span><br><span class="line">  protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">      super.onCreate(savedInstanceState);</span><br><span class="line">      setContentView(R.layout.activity_main);</span><br><span class="line">      TextView textView = findViewById(R.id.tv_test);</span><br><span class="line">      textView.setText(&quot;hello&quot;+nativeTest());</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行在模拟器上就会看到TextView上会显示hello12346，成功。</p>
+<p>如今AndroidStudio对Makefile的支持基本上不支持了。现在都用CMake语法，不过HIA有一些老项目会用到，所以Makefile还要了解一下。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/c-c/">c/c++</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/05/25/technology/shell语法练习/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">shell语法练习</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/05/19/technology/C-基础知识/">
+                <span class="level-item">C++基础知识</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">コメント</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/05/19/technology/Makefile相关/';
+        this.page.identifier = '2019/05/19/technology/Makefile相关/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                カタログ
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#编译过程">
+        <span class="has-mr-6">1</span>
+        <span>编译过程</span>
+        </a></li><li>
+        <a class="is-flex" href="#静态库和动态库">
+        <span class="has-mr-6">2</span>
+        <span>静态库和动态库</span>
+        </a></li><li>
+        <a class="is-flex" href="#Makefile">
+        <span class="has-mr-6">3</span>
+        <span>Makefile</span>
+        </a></li><li>
+        <a class="is-flex" href="#Android-mak">
+        <span class="has-mr-6">4</span>
+        <span>Android.mak</span>
+        </a></li><li>
+        <a class="is-flex" href="#Andorid-mk的简单使用">
+        <span class="has-mr-6">5</span>
+        <span>Andorid.mk的简单使用</span>
+        </a></li></ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Makefile相关" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '投稿',
+                PAGES: 'Pages',
+                CATEGORIES: 'カテゴリ',
+                TAGS: 'タグ',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

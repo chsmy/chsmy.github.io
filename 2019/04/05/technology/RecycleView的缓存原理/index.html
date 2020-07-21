@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>RecycleView的缓存原理 - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="RecycleView的缓存原理">
+<meta name="keywords" content="进阶">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RecycleView的缓存原理">
+<meta property="og:url" content="https://chsmy.github.io/2019/04/05/technology/RecycleView的缓存原理/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="RecycleView的缓存原理">
+<meta property="og:locale" content="CHS">
+<meta property="og:updated_time" content="2019-04-05T04:07:09.695Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RecycleView的缓存原理">
+<meta name="twitter:description" content="RecycleView的缓存原理">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="RecycleView的缓存原理" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-04-05T03:00:16.000Z">2019-04-05</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/源码/">源码</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    18 minutes read (About 2730 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                RecycleView的缓存原理
+            
+        </h1>
+        <div class="content">
+            <p>RecycleView的缓存原理</p>
+<a id="more"></a>
+<p>上一篇文章<a href="https://chsmy.github.io/2019/04/05/technology/RecycleView%E7%9A%84%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B/">RecycleView的绘制流程</a>，当我们走到子View的布局流程的layoutChunk方法的时候，通过<code>View view = layoutState.next(recycler);</code>方法获取将要布局的子View，然后进行后续操作，现在来看一下这个子View是怎么获取的。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">View <span class="hljs-title">next</span><span class="hljs-params">(RecyclerView.Recycler recycler)</span> </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">if</span> (mScrapList != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">           <span class="hljs-keyword">return</span> nextViewFromScrapList();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="hljs-keyword">final</span> View view = recycler.getViewForPosition(mCurrentPosition);</span><br><span class="line">       mCurrentPosition += mItemDirection;</span><br><span class="line">       <span class="hljs-keyword">return</span> view;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到是通过recycler.getViewForPosition这个方法获取的<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> View <span class="hljs-title">getViewForPosition</span><span class="hljs-params">(<span class="hljs-keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">          <span class="hljs-keyword">return</span> getViewForPosition(position, <span class="hljs-keyword">false</span>);</span><br><span class="line">      &#125;</span><br><span class="line"><span class="hljs-function">View <span class="hljs-title">getViewForPosition</span><span class="hljs-params">(<span class="hljs-keyword">int</span> position, <span class="hljs-keyword">boolean</span> dryRun)</span> </span>&#123;</span><br><span class="line">          <span class="hljs-keyword">return</span> tryGetViewHolderForPositionByDeadline(position, dryRun, FOREVER_NS).itemView;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure></p>
+<p>tryGetViewHolderForPositionByDeadline方法返回的是一个ViewHolder对象，然后直接返回ViewHolder的成员变量itemView，也就是当前将要布局的子view。</p>
+<p>到这里还没有涉及到缓存的代码，我们也可以猜测，RecycleView的缓存，不只是对View缓存，是对ViewHolder的缓存。</p>
+<p>tryGetViewHolderForPositionByDeadline这个方法是真正的缓存机制的入口，它是RecycleView.Recycler中的方法，按照我们正常的思维想想里面肯定是先从缓存中去，取不到在新建一个，那么这个缓存是啥呢，在进入tryGetViewHolderForPositionByDeadline方法之前我们先看几个Recycler中的成员变量方便看下面的代码<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Recycler</span> </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">final</span> ArrayList&lt;ViewHolder&gt; mAttachedScrap = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">       ArrayList&lt;ViewHolder&gt; mChangedScrap = <span class="hljs-keyword">null</span>;</span><br><span class="line"></span><br><span class="line">       <span class="hljs-keyword">final</span> ArrayList&lt;ViewHolder&gt; mCachedViews = <span class="hljs-keyword">new</span> ArrayList&lt;ViewHolder&gt;();</span><br><span class="line"></span><br><span class="line">       <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;ViewHolder&gt;</span><br><span class="line">               mUnmodifiableAttachedScrap = Collections.unmodifiableList(mAttachedScrap);</span><br><span class="line"></span><br><span class="line">       <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> mRequestedCacheMax = DEFAULT_CACHE_SIZE;</span><br><span class="line">       <span class="hljs-keyword">int</span> mViewCacheMax = DEFAULT_CACHE_SIZE;</span><br><span class="line"></span><br><span class="line">       RecycledViewPool mRecyclerPool;</span><br><span class="line"></span><br><span class="line">       <span class="hljs-keyword">private</span> ViewCacheExtension mViewCacheExtension;</span><br><span class="line"></span><br><span class="line">       <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> DEFAULT_CACHE_SIZE = <span class="hljs-number">2</span>;</span><br><span class="line">   ......</span><br></pre></td></tr></table></figure></p>
+<p>这几个就是用来缓存的List了</p>
+<ul>
+<li>mAttachedScrap：<strong>不参与复用</strong>，只保存在重新布局的时候，从RecycleView中剥离的当前在显示的ViewHolder列表。比如当我们插入一条或者删除一条数据，这时候需要重新布局，怎么办呢，办法就是把当前屏幕上显示的view先拿下来保存到一个列表中，然后在重新布局上去。这个列表就是mAttachedScrap。所以它只是存储重新布局前从RecycleView上剥离出的ViewHolder，并不参与复用</li>
+<li>mUnmodifiableAttachedScrap：通过Collections.unmodifiableList(mAttachedScrap)，把mAttachedScrap放进去，返回一个不可更改的列表，共外部获取</li>
+<li>mChangedScrap：<strong>不参与复用</strong> 从新布局的时候要修改的放到这里面，其余的放到mAttachedScrap</li>
+<li>mCachedViews：从名字就能看出来这就是参与缓存的list</li>
+<li>mRecyclerPool：参与缓存，并且它里面的ViewHolder的信息都会被重置，相当于一个新建的ViewHolder，供后面使用</li>
+<li>mViewCacheExtension：这个是让我们自己扩展自己的缓存策略，一般情况下我们不会自己写这东西的。</li>
+</ul>
+<p>所以，mCachedViews ，mRecyclerPool ， mViewCacheExtension 这三个组成了一个三级缓存，当RecyclerView要拿一个复用的ViewHolder的时候，查找的顺序是mCachedViews-&gt;mViewCacheExtension-&gt;mRecyclerPool。因为一般情况下我们不会写mViewCacheExtension，所以一般情况就两级缓存mCachedViews-&gt;mRecyclerPool</p>
+<p>实际上mCachedViews是不参与真正的回收的，mCachedViews的作用是保存最新被移除的ViewHolder，通过removeAndRecycleView(view, recycler)方法，它的作用是，当需要更新ViewHoder的时候，精确的匹配是不是刚才移除那个，如果是直接拿出来让RecycleView布局，如果不是，即使它中存在ViewHolder，也不会返回，而是去mRecyclerPool中找一个新的ViewHolder然后重新赋值。mAttachedScrap中也是精确匹配步骤跟mCachedViews一样。</p>
+<p>OK下面我们进入tryGetViewHolderForPositionByDeadline方法中看看到底是怎么取的吧</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">ViewHolder <span class="hljs-title">tryGetViewHolderForPositionByDeadline</span><span class="hljs-params">(<span class="hljs-keyword">int</span> position,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">                <span class="hljs-keyword">boolean</span> dryRun, <span class="hljs-keyword">long</span> deadlineNs)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">if</span> (position &lt; <span class="hljs-number">0</span> || position &gt;= mState.getItemCount()) &#123;</span><br><span class="line">                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IndexOutOfBoundsException(<span class="hljs-string">"Invalid item position "</span> + position</span><br><span class="line">                        + <span class="hljs-string">"("</span> + position + <span class="hljs-string">"). Item count:"</span> + mState.getItemCount()</span><br><span class="line">                        + exceptionLabel());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">boolean</span> fromScrapOrHiddenOrCache = <span class="hljs-keyword">false</span>;</span><br><span class="line">            ViewHolder holder = <span class="hljs-keyword">null</span>;</span><br><span class="line">            <span class="hljs-comment">// 0) 是否处于布局前的状态 去mChangedScrap中找，布局前的状态也就是重新布局的时候</span></span><br><span class="line">            <span class="hljs-keyword">if</span> (mState.isPreLayout()) &#123;</span><br><span class="line">                holder = getChangedScrapViewForPosition(position);</span><br><span class="line">                fromScrapOrHiddenOrCache = holder != <span class="hljs-keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-comment">// 1) 先从mAttachedScrap中找，找不到在去mCachedViews中查找</span></span><br><span class="line">            <span class="hljs-keyword">if</span> (holder == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                holder = getScrapOrHiddenOrCachedHolderForPosition(position, dryRun);</span><br><span class="line">                <span class="hljs-keyword">if</span> (holder != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                    <span class="hljs-keyword">if</span> (!validateViewHolderForOffsetPosition(holder)) &#123;</span><br><span class="line">                        <span class="hljs-comment">// 检查是不是我们要查找的viewholder，如果不是移除</span></span><br><span class="line">                        <span class="hljs-keyword">if</span> (!dryRun) &#123;</span><br><span class="line">                            <span class="hljs-comment">// we would like to recycle this but need to make sure it is not used by</span></span><br><span class="line">                            <span class="hljs-comment">// animation logic etc.</span></span><br><span class="line">                            holder.addFlags(ViewHolder.FLAG_INVALID);</span><br><span class="line">                            <span class="hljs-keyword">if</span> (holder.isScrap()) &#123;</span><br><span class="line">                                removeDetachedView(holder.itemView, <span class="hljs-keyword">false</span>);</span><br><span class="line">                                holder.unScrap();</span><br><span class="line">                            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (holder.wasReturnedFromScrap()) &#123;</span><br><span class="line">                                holder.clearReturnedFromScrapFlag();</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="hljs-comment">//回收这个holder 放到mCachedViews或者mRecyclerPool中</span></span><br><span class="line">                            recycleViewHolderInternal(holder);</span><br><span class="line">                        &#125;</span><br><span class="line">                        holder = <span class="hljs-keyword">null</span>;</span><br><span class="line">                    &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                        fromScrapOrHiddenOrCache = <span class="hljs-keyword">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">if</span> (holder == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> offsetPosition = mAdapterHelper.findPositionOffset(position);</span><br><span class="line">                <span class="hljs-keyword">if</span> (offsetPosition &lt; <span class="hljs-number">0</span> || offsetPosition &gt;= mAdapter.getItemCount()) &#123;</span><br><span class="line">                    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IndexOutOfBoundsException(<span class="hljs-string">"Inconsistency detected. Invalid item "</span></span><br><span class="line">                            + <span class="hljs-string">"position "</span> + position + <span class="hljs-string">"(offset:"</span> + offsetPosition + <span class="hljs-string">")."</span></span><br><span class="line">                            + <span class="hljs-string">"state:"</span> + mState.getItemCount() + exceptionLabel());</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> type = mAdapter.getItemViewType(offsetPosition);</span><br><span class="line">                <span class="hljs-comment">// 2)通过id精确的从mAttachedScrap中查找</span></span><br><span class="line">                <span class="hljs-keyword">if</span> (mAdapter.hasStableIds()) &#123;</span><br><span class="line">                    holder = getScrapOrCachedViewForId(mAdapter.getItemId(offsetPosition),</span><br><span class="line">                            type, dryRun);</span><br><span class="line">                    <span class="hljs-keyword">if</span> (holder != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                        <span class="hljs-comment">// update position</span></span><br><span class="line">                        holder.mPosition = offsetPosition;</span><br><span class="line">                        fromScrapOrHiddenOrCache = <span class="hljs-keyword">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="hljs-comment">//如果我们自定义了缓存策略</span></span><br><span class="line">                <span class="hljs-keyword">if</span> (holder == <span class="hljs-keyword">null</span> &amp;&amp; mViewCacheExtension != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                    <span class="hljs-comment">// We are NOT sending the offsetPosition because LayoutManager does not</span></span><br><span class="line">                    <span class="hljs-comment">// know it.</span></span><br><span class="line">                    <span class="hljs-keyword">final</span> View view = mViewCacheExtension</span><br><span class="line">                            .getViewForPositionAndType(<span class="hljs-keyword">this</span>, position, type);</span><br><span class="line">                    <span class="hljs-keyword">if</span> (view != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                        holder = getChildViewHolder(view);</span><br><span class="line">                        <span class="hljs-keyword">if</span> (holder == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"getViewForPositionAndType returned"</span></span><br><span class="line">                                    + <span class="hljs-string">" a view which does not have a ViewHolder"</span></span><br><span class="line">                                    + exceptionLabel());</span><br><span class="line">                        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (holder.shouldIgnore()) &#123;</span><br><span class="line">                            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"getViewForPositionAndType returned"</span></span><br><span class="line">                                    + <span class="hljs-string">" a view that is ignored. You must call stopIgnoring before"</span></span><br><span class="line">                                    + <span class="hljs-string">" returning this view."</span> + exceptionLabel());</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="hljs-keyword">if</span> (holder == <span class="hljs-keyword">null</span>) &#123; <span class="hljs-comment">// fallback to pool</span></span><br><span class="line">                    <span class="hljs-keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                        Log.d(TAG, <span class="hljs-string">"tryGetViewHolderForPositionByDeadline("</span></span><br><span class="line">                                + position + <span class="hljs-string">") fetching from shared pool"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="hljs-comment">//去mRecyclerPool中查找  根据不同的type拿到不同的holder，</span></span><br><span class="line">                    <span class="hljs-comment">//type就是我们在adapter中写的getItemViewType</span></span><br><span class="line">                    holder = getRecycledViewPool().getRecycledView(type);</span><br><span class="line">                    <span class="hljs-keyword">if</span> (holder != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                        holder.resetInternal();</span><br><span class="line">                        <span class="hljs-keyword">if</span> (FORCE_INVALIDATE_DISPLAY_LIST) &#123;</span><br><span class="line">                            invalidateDisplayListInt(holder);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="hljs-keyword">if</span> (holder == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                    <span class="hljs-keyword">long</span> start = getNanoTime();</span><br><span class="line">                    <span class="hljs-keyword">if</span> (deadlineNs != FOREVER_NS</span><br><span class="line">                            &amp;&amp; !mRecyclerPool.willCreateInTime(type, start, deadlineNs)) &#123;</span><br><span class="line">                        <span class="hljs-comment">// abort - we have a deadline we can't meet</span></span><br><span class="line">                        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="hljs-comment">//缓存中找不到调用createViewHolder创建</span></span><br><span class="line">                    holder = mAdapter.createViewHolder(RecyclerView.<span class="hljs-keyword">this</span>, type);</span><br><span class="line">                    <span class="hljs-keyword">if</span> (ALLOW_THREAD_GAP_WORK) &#123;</span><br><span class="line">                        <span class="hljs-comment">// only bother finding nested RV if prefetching</span></span><br><span class="line">                        RecyclerView innerView = findNestedRecyclerView(holder.itemView);</span><br><span class="line">                        <span class="hljs-keyword">if</span> (innerView != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                            holder.mNestedRecyclerView = <span class="hljs-keyword">new</span> WeakReference&lt;&gt;(innerView);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="hljs-keyword">long</span> end = getNanoTime();</span><br><span class="line">                    mRecyclerPool.factorInCreateTime(type, end - start);</span><br><span class="line">                    <span class="hljs-keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                        Log.d(TAG, <span class="hljs-string">"tryGetViewHolderForPositionByDeadline created new ViewHolder"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-comment">// This is very ugly but the only place we can grab this information</span></span><br><span class="line">            <span class="hljs-comment">// before the View is rebound and returned to the LayoutManager for post layout ops.</span></span><br><span class="line">            <span class="hljs-comment">// We don't need this in pre-layout since the VH is not updated by the LM.</span></span><br><span class="line">            <span class="hljs-keyword">if</span> (fromScrapOrHiddenOrCache &amp;&amp; !mState.isPreLayout() &amp;&amp; holder</span><br><span class="line">                    .hasAnyOfTheFlags(ViewHolder.FLAG_BOUNCED_FROM_HIDDEN_LIST)) &#123;</span><br><span class="line">                holder.setFlags(<span class="hljs-number">0</span>, ViewHolder.FLAG_BOUNCED_FROM_HIDDEN_LIST);</span><br><span class="line">                <span class="hljs-keyword">if</span> (mState.mRunSimpleAnimations) &#123;</span><br><span class="line">                    <span class="hljs-keyword">int</span> changeFlags = ItemAnimator</span><br><span class="line">                            .buildAdapterChangeFlagsForAnimations(holder);</span><br><span class="line">                    changeFlags |= ItemAnimator.FLAG_APPEARED_IN_PRE_LAYOUT;</span><br><span class="line">                    <span class="hljs-keyword">final</span> ItemHolderInfo info = mItemAnimator.recordPreLayoutInformation(mState,</span><br><span class="line">                            holder, changeFlags, holder.getUnmodifiedPayloads());</span><br><span class="line">                    recordAnimationInfoIfBouncedHiddenView(holder, info);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">boolean</span> bound = <span class="hljs-keyword">false</span>;</span><br><span class="line">            <span class="hljs-keyword">if</span> (mState.isPreLayout() &amp;&amp; holder.isBound()) &#123;</span><br><span class="line">                <span class="hljs-comment">// do not update unless we absolutely have to.</span></span><br><span class="line">                holder.mPreLayoutPosition = position;</span><br><span class="line">            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!holder.isBound() || holder.needsUpdate() || holder.isInvalid()) &#123;<span class="hljs-comment">//如果没有绑定数据</span></span><br><span class="line">                <span class="hljs-keyword">if</span> (DEBUG &amp;&amp; holder.isRemoved()) &#123;</span><br><span class="line">                    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"Removed holder should be bound and it should"</span></span><br><span class="line">                            + <span class="hljs-string">" come here only in pre-layout. Holder: "</span> + holder</span><br><span class="line">                            + exceptionLabel());</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> offsetPosition = mAdapterHelper.findPositionOffset(position);</span><br><span class="line">                <span class="hljs-comment">//调用bindViewHolder</span></span><br><span class="line">                bound = tryBindViewHolderByDeadline(holder, offsetPosition, position, deadlineNs);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-comment">//给holder中的itemView设置LayoutParams</span></span><br><span class="line">            <span class="hljs-keyword">final</span> ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();</span><br><span class="line">            <span class="hljs-keyword">final</span> LayoutParams rvLayoutParams;</span><br><span class="line">            <span class="hljs-keyword">if</span> (lp == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                rvLayoutParams = (LayoutParams) generateDefaultLayoutParams();</span><br><span class="line">                holder.itemView.setLayoutParams(rvLayoutParams);</span><br><span class="line">            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!checkLayoutParams(lp)) &#123;</span><br><span class="line">                rvLayoutParams = (LayoutParams) generateLayoutParams(lp);</span><br><span class="line">                holder.itemView.setLayoutParams(rvLayoutParams);</span><br><span class="line">            &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                rvLayoutParams = (LayoutParams) lp;</span><br><span class="line">            &#125;</span><br><span class="line">            rvLayoutParams.mViewHolder = holder;</span><br><span class="line">            rvLayoutParams.mPendingInvalidate = fromScrapOrHiddenOrCache &amp;&amp; bound;</span><br><span class="line">            <span class="hljs-keyword">return</span> holder;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>从上面源码可以总结一下的流程，先去mAttachedScrap中找。是要是看看View是不是刚刚剥离的，如果是直接返回如果不是，去mCachedViews中查找，mCachedViews中是精确查找，如果找到返回，找不到或者匹配不上就去mRecyclerPool中查找，找到了返回一个全新的ViewHolder，找不到的话只能调用onCreateViewHolder新建一个了。</p>
+<p>mAttachedScrap和mCachedViews都是精确查找，找到的ViewHolder都是已经绑定好数据的，不会再调用onBindViewHolder重新绑定数据，mRecyclerPool中的ViewHolder都是清理干净的空白的ViewHolder，找到之后需要调用onBindViewHolder重新绑定数据，这点我们可以从上面代码中的第二步那跟进去看看getScrapOrCachedViewForId方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">ViewHolder <span class="hljs-title">getScrapOrCachedViewForId</span><span class="hljs-params">(<span class="hljs-keyword">long</span> id, <span class="hljs-keyword">int</span> type, <span class="hljs-keyword">boolean</span> dryRun)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-comment">// Look in our attached views first</span></span><br><span class="line">            <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> count = mAttachedScrap.size();</span><br><span class="line">            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = count - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) &#123;</span><br><span class="line">                <span class="hljs-keyword">final</span> ViewHolder holder = mAttachedScrap.get(i);</span><br><span class="line">                <span class="hljs-comment">//判断id是否一致 是不是从Scrap中返回</span></span><br><span class="line">                <span class="hljs-comment">//是才返回，不是去mCachedViews中找</span></span><br><span class="line">                <span class="hljs-keyword">if</span> (holder.getItemId() == id &amp;&amp; !holder.wasReturnedFromScrap()) &#123;</span><br><span class="line">                    <span class="hljs-keyword">if</span> (type == holder.getItemViewType()) &#123;</span><br><span class="line">                        holder.addFlags(ViewHolder.FLAG_RETURNED_FROM_SCRAP);</span><br><span class="line">                        <span class="hljs-keyword">if</span> (holder.isRemoved()) &#123;</span><br><span class="line">                            <span class="hljs-keyword">if</span> (!mState.isPreLayout()) &#123;</span><br><span class="line">                                holder.setFlags(ViewHolder.FLAG_UPDATE, ViewHolder.FLAG_UPDATE</span><br><span class="line">                                        | ViewHolder.FLAG_INVALID | ViewHolder.FLAG_REMOVED);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="hljs-keyword">return</span> holder;</span><br><span class="line">                    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!dryRun) &#123;</span><br><span class="line">                        mAttachedScrap.remove(i);</span><br><span class="line">                        removeDetachedView(holder.itemView, <span class="hljs-keyword">false</span>);</span><br><span class="line">                        quickRecycleScrapView(holder.itemView);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-comment">// Search the first-level cache</span></span><br><span class="line">            <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> cacheSize = mCachedViews.size();</span><br><span class="line">            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = cacheSize - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) &#123;</span><br><span class="line">                <span class="hljs-keyword">final</span> ViewHolder holder = mCachedViews.get(i);</span><br><span class="line">                <span class="hljs-comment">//判断id是否一致，是才返回不是放入mRecyclerPool中并从mCachedViews中移除</span></span><br><span class="line">                <span class="hljs-keyword">if</span> (holder.getItemId() == id) &#123;</span><br><span class="line">                    <span class="hljs-keyword">if</span> (type == holder.getItemViewType()) &#123;</span><br><span class="line">                        <span class="hljs-keyword">if</span> (!dryRun) &#123;</span><br><span class="line">                            mCachedViews.remove(i);</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="hljs-keyword">return</span> holder;</span><br><span class="line">                    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!dryRun) &#123;</span><br><span class="line">                        recycleCachedViewAt(i);</span><br><span class="line">                        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到上面的代码中，从对应的缓存中找到holder之后，都会判断一下是不是想要的那个holder，是的话才会返回。</p>
+<p>那RecycleView到底是怎么复用的呢？入口很多比如通过Recycler中的recycleView方法（recycler.recycleView）进去看看<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">recycleView</span><span class="hljs-params">(View view)</span> </span>&#123;</span><br><span class="line">       <span class="hljs-comment">// This public recycle method tries to make view recycle-able since layout manager</span></span><br><span class="line">       <span class="hljs-comment">// intended to recycle this view (e.g. even if it is in scrap or change cache)</span></span><br><span class="line">       ViewHolder holder = getChildViewHolderInt(view);</span><br><span class="line">       <span class="hljs-keyword">if</span> (holder.isTmpDetached()) &#123;</span><br><span class="line">           removeDetachedView(view, <span class="hljs-keyword">false</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="hljs-keyword">if</span> (holder.isScrap()) &#123;</span><br><span class="line">           holder.unScrap();</span><br><span class="line">       &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (holder.wasReturnedFromScrap()) &#123;</span><br><span class="line">           holder.clearReturnedFromScrapFlag();</span><br><span class="line">       &#125;</span><br><span class="line">       recycleViewHolderInternal(holder);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个方法用于回收分离的视图和把指定的视图放到缓存池中用于重新绑定和复用。最后调用了recycleViewHolderInternal方法，recycleViewHolderInternal这个方法时最终的回收方法，有的入口直接调用了这个方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">recycleViewHolderInternal</span><span class="hljs-params">(ViewHolder holder)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            ......</span><br><span class="line">            </span><br><span class="line">            <span class="hljs-keyword">boolean</span> cached = <span class="hljs-keyword">false</span>;</span><br><span class="line">            <span class="hljs-keyword">boolean</span> recycled = <span class="hljs-keyword">false</span>;</span><br><span class="line">            <span class="hljs-keyword">if</span> (DEBUG &amp;&amp; mCachedViews.contains(holder)) &#123;</span><br><span class="line">                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"cached view received recycle internal? "</span></span><br><span class="line">                        + holder + exceptionLabel());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">if</span> (forceRecycle || holder.isRecyclable()) &#123;</span><br><span class="line">                <span class="hljs-keyword">if</span> (mViewCacheMax &gt; <span class="hljs-number">0</span></span><br><span class="line">                        &amp;&amp; !holder.hasAnyOfTheFlags(ViewHolder.FLAG_INVALID</span><br><span class="line">                        | ViewHolder.FLAG_REMOVED</span><br><span class="line">                        | ViewHolder.FLAG_UPDATE</span><br><span class="line">                        | ViewHolder.FLAG_ADAPTER_POSITION_UNKNOWN)) &#123;</span><br><span class="line">                    <span class="hljs-comment">// Retire oldest cached view</span></span><br><span class="line">                    <span class="hljs-keyword">int</span> cachedViewSize = mCachedViews.size();</span><br><span class="line">                    <span class="hljs-comment">//mViewCacheMax的值是2，所以mCachedViews中最多缓存两条数据</span></span><br><span class="line">                    <span class="hljs-keyword">if</span> (cachedViewSize &gt;= mViewCacheMax &amp;&amp; cachedViewSize &gt; <span class="hljs-number">0</span>) &#123;</span><br><span class="line">                    <span class="hljs-comment">//根据先进先出原则，把最老的从mCachedViews中放到mRecyclerPool中</span></span><br><span class="line">                        recycleCachedViewAt(<span class="hljs-number">0</span>);</span><br><span class="line">                        cachedViewSize--;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="hljs-keyword">int</span> targetCacheIndex = cachedViewSize;</span><br><span class="line">                    <span class="hljs-keyword">if</span> (ALLOW_THREAD_GAP_WORK</span><br><span class="line">                            &amp;&amp; cachedViewSize &gt; <span class="hljs-number">0</span></span><br><span class="line">                            &amp;&amp; !mPrefetchRegistry.lastPrefetchIncludedPosition(holder.mPosition)) &#123;</span><br><span class="line">                        <span class="hljs-comment">// when adding the view, skip past most recently prefetched views</span></span><br><span class="line">                        <span class="hljs-keyword">int</span> cacheIndex = cachedViewSize - <span class="hljs-number">1</span>;</span><br><span class="line">                        <span class="hljs-keyword">while</span> (cacheIndex &gt;= <span class="hljs-number">0</span>) &#123;</span><br><span class="line">                            <span class="hljs-keyword">int</span> cachedPos = mCachedViews.get(cacheIndex).mPosition;</span><br><span class="line">                            <span class="hljs-keyword">if</span> (!mPrefetchRegistry.lastPrefetchIncludedPosition(cachedPos)) &#123;</span><br><span class="line">                                <span class="hljs-keyword">break</span>;</span><br><span class="line">                            &#125;</span><br><span class="line">                            cacheIndex--;</span><br><span class="line">                        &#125;</span><br><span class="line">                        targetCacheIndex = cacheIndex + <span class="hljs-number">1</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="hljs-comment">//将最近刚刚回收的ViewHolder放在mCachedViews里 </span></span><br><span class="line">                    mCachedViews.add(targetCacheIndex, holder);</span><br><span class="line">                    cached = <span class="hljs-keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="hljs-comment">//如果不设置往mCachedViews中放，就放入mRecyclerPool</span></span><br><span class="line">                <span class="hljs-keyword">if</span> (!cached) &#123;</span><br><span class="line">                    addViewHolderToRecycledViewPool(holder, <span class="hljs-keyword">true</span>);</span><br><span class="line">                    recycled = <span class="hljs-keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">                <span class="hljs-comment">// <span class="hljs-doctag">NOTE:</span> A view can fail to be recycled when it is scrolled off while an animation</span></span><br><span class="line">                <span class="hljs-comment">// runs. In this case, the item is eventually recycled by</span></span><br><span class="line">                <span class="hljs-comment">// ItemAnimatorRestoreListener#onAnimationFinished.</span></span><br><span class="line"></span><br><span class="line">                <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> consider cancelling an animation when an item is removed scrollBy,</span></span><br><span class="line">                <span class="hljs-comment">// to return it to the pool faster</span></span><br><span class="line">                <span class="hljs-keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                    Log.d(TAG, <span class="hljs-string">"trying to recycle a non-recycleable holder. Hopefully, it will "</span></span><br><span class="line">                            + <span class="hljs-string">"re-visit here. We are still removing it from animation lists"</span></span><br><span class="line">                            + exceptionLabel());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-comment">// even if the holder is not removed, we still call this method so that it is removed</span></span><br><span class="line">            <span class="hljs-comment">// from view holder lists.</span></span><br><span class="line">            mViewInfoStore.removeViewHolder(holder);</span><br><span class="line">            <span class="hljs-keyword">if</span> (!cached &amp;&amp; !recycled &amp;&amp; transientStatePreventsRecycling) &#123;</span><br><span class="line">                holder.mOwnerRecyclerView = <span class="hljs-keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>从这里面我们看到了熟悉的mCachedViews和mRecyclerPool，这也说明了RecycleView的回收机制跟mAttachedScrap是没有关系的。</p>
+<p>那这个回收到底是从哪里调用的呢？第一个地方就是在LayoutManager的onLayoutChildren方法中调用的detachAndScrapAttachedViews(recycler);，另一个就是Recyclerview滑动的时候调用removeAndRecycleView方法。</p>
+<p>detachAndScrapAttachedViews仅用于布局之前，将所有的子view剥离，放在mAttachedScrap中供后面重新布局的时候使用。</p>
+<p>removeAndRecycleView在滚动的时候，把ViewHolder标记为removed，先缓存在mCachedViews中，mCachedViews的最大容量为2，如果mCachedViews中存满了，把最先缓存进来的拿出来放到mRecyclerPool，mRecyclerPool中默认缓存5个。然后把最新的放入mCachedViews中缓存。</p>
+<p>OK，结束。</p>
+<p>参考：</p>
+<p><a href="https://www.cnblogs.com/dasusu/p/7746946.html" target="_blank" rel="noopener">https://www.cnblogs.com/dasusu/p/7746946.html</a></p>
+<p><a href="https://www.jianshu.com/p/504e87089589" target="_blank" rel="noopener">https://www.jianshu.com/p/504e87089589</a></p>
+<p><a href="https://blog.csdn.net/harvic880925/article/details/84866486" target="_blank" rel="noopener">https://blog.csdn.net/harvic880925/article/details/84866486</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/进阶/">进阶</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/04/13/technology/自定义ViewGroup练习之流式布局/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">自定义ViewGroup练习之流式布局</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/04/05/technology/RecycleView的绘制流程/">
+                <span class="level-item">RecycleView的绘制流程</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">コメント</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2019/04/05/technology/RecycleView的缓存原理/';
+        this.page.identifier = '2019/04/05/technology/RecycleView的缓存原理/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="CHS">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        CHS
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        只要坚持，终会有收获
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        投稿
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        74
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        カテゴリ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        16
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        タグ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        11
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
+                フォローする</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/chsmy">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="weibo" href="http://weibo.com/2504847694/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="csdn" href="https://blog.csdn.net/mingyunxiaohai">
+                
+                <i class="fab fa-wordpress"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="简书" href="https://www.jianshu.com/u/6ab3e65ba7b5">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            リンク
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="http://www.wanandroid.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">玩Android</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wanandroid.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                カテゴリ
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">61</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Android/UI/">
+            <span class="level-start">
+                <span class="level-item">UI</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/c-c/">
+            <span class="level-start">
+                <span class="level-item">c/c++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/jetpack/">
+            <span class="level-start">
+                <span class="level-item">jetpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/kotlin/">
+            <span class="level-start">
+                <span class="level-item">kotlin</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">16</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/测试和性能优化/">
+            <span class="level-start">
+                <span class="level-item">测试和性能优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/源码/">
+            <span class="level-start">
+                <span class="level-item">源码</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/资料/">
+            <span class="level-start">
+                <span class="level-item">资料</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/设计模式/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/人生/">
+            <span class="level-start">
+                <span class="level-item">人生</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/人生/感悟/">
+            <span class="level-start">
+                <span class="level-item">感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/人生/读书/">
+            <span class="level-start">
+                <span class="level-item">读书</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/跨平台/">
+            <span class="level-start">
+                <span class="level-item">跨平台</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/跨平台/flutter/">
+            <span class="level-start">
+                <span class="level-item">flutter</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            タグクラウド
+        </h3>
+        <a href="/tags/Flutter/" style="font-size: 11.25px;">Flutter</a> <a href="/tags/UI/" style="font-size: 18.75px;">UI</a> <a href="/tags/c-c/" style="font-size: 16.25px;">c/c++</a> <a href="/tags/jetpack/" style="font-size: 16.25px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 13.75px;">感悟</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/测试和性能优化/" style="font-size: 15px;">测试和性能优化</a> <a href="/tags/设计模式/" style="font-size: 11.25px;">设计模式</a> <a href="/tags/读书/" style="font-size: 12.5px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 17.5px;">进阶</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="RecycleView的缓存原理" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '投稿',
+                PAGES: 'Pages',
+                CATEGORIES: 'カテゴリ',
+                TAGS: 'タグ',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

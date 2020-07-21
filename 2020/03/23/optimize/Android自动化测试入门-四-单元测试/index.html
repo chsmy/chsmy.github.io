@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="CH">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Android自动化测试入门(四)单元测试 - 小草喔</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="Android自动化测试入门(四)单元测试">
+<meta name="keywords" content="测试和性能优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android自动化测试入门(四)单元测试">
+<meta property="og:url" content="https://chsmy.github.io/2020/03/23/optimize/Android自动化测试入门-四-单元测试/index.html">
+<meta property="og:site_name" content="小草喔">
+<meta property="og:description" content="Android自动化测试入门(四)单元测试">
+<meta property="og:locale" content="CHS">
+<meta property="og:updated_time" content="2020-03-23T03:30:17.981Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android自动化测试入门(四)单元测试">
+<meta name="twitter:description" content="Android自动化测试入门(四)单元测试">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/darcula.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72437521-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72437521-5');
+</script>
+
+
+    
+    
+    
+    
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1067642,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Android自动化测试入门(四)单元测试" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">首页</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    26 minutes read (About 3829 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Android自动化测试入门(四)单元测试
+            
+        </h1>
+        <div class="content">
+            <p>Android自动化测试入门(四)单元测试</p>
+<a id="more"></a>
+<p>单元测试一般分两类：</p>
+<ul>
+<li>本地测试：运行在本地的计算机上，这些测试编译之后可以直接运行在本地的Java虚拟机上（JVM）。可以最大限度的缩短执行的时间。如果测试中用到了Android框架中的对象，那么谷歌推荐使用Robolectric来模拟对象。</li>
+<li>插桩测试：在Android设备或者模拟器上运行的测试，这些测试可以访问插桩测试信息，比如被测设备的Context，使用此方法可以运行具有复杂Android依赖的单元测试。前两篇中的Espresso 和 UI Automator就是这类测试，Espresso一般用来测试单个界面，UI Automator一般用来测试多界面交互。它们运行的比本地测试慢很多，所以谷歌建议最好是必须针对设备测试的时候才使用。</li>
+</ul>
+<p>本地单元测试在Android自动化测试中是比重最大的一环，主要针对某个类中的某个方法。谷歌建议在所有的测试中，单元测试要占到70%的比重，为啥它就这么重要呢？</p>
+<ul>
+<li>本地单元测试相比于前面几篇中的UI测试执行效率高，前面的UI测试是需要运行在手机上的，所以想要运行测试就需要执行代码的编译、打包、安装、运行，这是非常耗时的，特别是工程很大的时候，运行一次可能需要很长的时间。如果我们只是改变了代码中的一个方法，使用单元测试可以快速验证该方法的正确性。</li>
+<li>提高写代码的抽象和封装能力，比如刚入行的时候，我们可能在一个按钮的OnClickListener方法中写一大坨代码，如果了解单元测试就会知道这样写对测试非常不友好，把这一坨提取封装会更利于测试，也就能更快的验证代码的正确性。</li>
+<li>因为单元测试是独立的单个方法的测试，那么当测试结果与预期不一致的时候，可以迅速定位bug。</li>
+<li>提高代码的稳定性，和易维护性，写代码的时候能确保正确开发，在修改代码之后，保证功能不被破坏，其实编写单元测试的过程也是对代自己写的代码的Code Review，是对代码持续重构的开始。</li>
+</ul>
+<p>本部分会用到四个小东西，Junit，Mockito，PowerMockito，Robolectric。Junit是单元测试框架，Mockito和Robolectric都是用来产生模拟对象的，Mockito在Java中用的多，PowerMockito是Mockito的增强版可以模拟final,static,private等Mockito不能mock的方法，Robolectric可以模拟更多的Andorid框架中的对象。</p>
+<ul>
+<li>如果要构建的本地单元测试对Android框架依赖小，可以选择<a href="https://github.com/mockito/mockito" target="_blank" rel="noopener">mockito</a>，速度更快。</li>
+<li>如果要构建的本地单元测试对Android框架有很大的依赖性，可以选择<a href="https://github.com/robolectric/robolectric" target="_blank" rel="noopener">Robolectric</a></li>
+</ul>
+<h4 id="Junit"><a href="#Junit" class="headerlink" title="Junit"></a>Junit</h4><p>Junit是java中非常有名的测试框架，让测试变得很容易。假如下面我们有一个toNumber的方法要测试<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Utils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Integer <span class="hljs-title">toNumber</span><span class="hljs-params">(String num)</span></span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span>(num == <span class="hljs-keyword">null</span> || num.isEmpty())&#123;</span><br><span class="line">             <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Integer integer;</span><br><span class="line">        <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">            integer = Integer.parseInt(num.trim());</span><br><span class="line">        &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            integer = <span class="hljs-keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> integer;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>为了保证测试的全面性，我们可能需要设计下面的几个测试用例</p>
+<ul>
+<li>如果传入的是null，那么应该返回null</li>
+<li>如果传入的全是数字比如”12321”，那么应该返回整数12321</li>
+<li>如果传入的字符串左边或者右边，或者两边都有空格比如”123   “，”  123”，” 123 “，那么应该返回正确的整数123</li>
+<li>如果传入的字符串中间有空格，或者有字母比如””12 3”，”12ab”，这时候会发生崩溃，我们不让他崩溃，让他返回null</li>
+</ul>
+<p>测试代码如下<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleUnitTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Test</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testToNumber_NotNullOrEmpty</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">        Utils utils = <span class="hljs-keyword">new</span> Utils();</span><br><span class="line">       assertNull(utils.toNumber(<span class="hljs-keyword">null</span>));</span><br><span class="line">       assertNull(utils.toNumber(<span class="hljs-string">""</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-meta">@Test</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testToNumber_hasSpace</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">        Utils utils = <span class="hljs-keyword">new</span> Utils();</span><br><span class="line">        assertEquals(<span class="hljs-keyword">new</span> Integer(<span class="hljs-string">"123"</span>),utils.toNumber(<span class="hljs-string">"123"</span>));</span><br><span class="line">        assertEquals(<span class="hljs-keyword">new</span> Integer(<span class="hljs-string">"123"</span>),utils.toNumber(<span class="hljs-string">"123 "</span>));</span><br><span class="line">        assertEquals(<span class="hljs-keyword">new</span> Integer(<span class="hljs-string">"123"</span>),utils.toNumber(<span class="hljs-string">" 123 "</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-meta">@Test</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testToNumber_hasMiddleSpace</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">        Utils utils = <span class="hljs-keyword">new</span> Utils();</span><br><span class="line">        assertNull(utils.toNumber(<span class="hljs-string">"12 3"</span>));</span><br><span class="line">        assertNull(utils.toNumber(<span class="hljs-string">"12a3"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>其实写单元测试也是对自己代码的一次检查和重构</strong>，比如上面的toNumber方法，第一次写的时候可能有很多问题都没有想到直接返回一个<code>Integer.parseInt()</code>就完事了，随着单元测试写完并且测试用例都通过之后，这个方法也会变的更加健壮，变成了前面代码中所写的那样。</p>
+<h4 id="mockito"><a href="#mockito" class="headerlink" title="mockito"></a>mockito</h4><p>Junit已经能完成单元测试了，为啥要使用Mockito或者Robolectric？</p>
+<p>我们需要明确单元测试的目的：单元测试的目的是为了测试我们自己写的代码的正确性，它不需要测试外部的各种依赖，所以当我们遇到一个方法中有很多别的对象的依赖的时候，比如操作数据库，连接网络，读写文件等等，需要给它解依赖。</p>
+<p>怎么解依赖呢？其实就是弄一些假对象，比如代码中是我们从网络获取一段json数据，转化成一个对象传入到我们的测试方法中。那么就可以直接new一个假的对象，并给它设置我们期望的返回值传给要测试的方法就好了，不需要再去请求网络获取数据。这个过程称之为mock</p>
+<p>直接手动去new一个对象，然后去设置各种数据是比较麻烦的，而Mockito这类的框架就是用来简化我们手动mock的。使用他们来创建一个虚拟对象设置返回值等操作会变得非常简单。</p>
+<p>下面开始练习，测试代码写在 src/main/test/java文件夹下面</p>
+<p>先练习使用mockito，引入依赖库<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">testImplementation &apos;org.mockito:mockito-core:3.0.0&apos;</span><br></pre></td></tr></table></figure></p>
+<p>新建一个MockitoTest类，在类上添加注解@RunWith(MockitoJUnitRunner.class)表示Junit要把测试方法运行在MockitoJUnitRunner上<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@RunWith</span>(MockitoJUnitRunner.class)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MockitoTest</span> </span>&#123;......&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>例子1：</strong> 结果验证，测试某些结果是否正确，使用when和thenReturn表示当调用某个方法的时候指定返回值。最后通过assertEquals判断返回值是否正确<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Test</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testMockitoResult</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        Person person = mock(Person.class);</span><br><span class="line">        <span class="hljs-comment">//当调用person.getAge()方法的时候，给它返回一个18</span></span><br><span class="line">        when(person.getAge()).thenReturn(<span class="hljs-number">18</span>);</span><br><span class="line">        <span class="hljs-comment">//当调用person.getName()方法的时候，给它返回一个Lily</span></span><br><span class="line">        when(person.getName()).thenReturn(<span class="hljs-string">"Lily"</span>);</span><br><span class="line">        <span class="hljs-comment">//判断返回跟预期是否一样</span></span><br><span class="line">        assertEquals(<span class="hljs-number">18</span>, person.getAge());</span><br><span class="line">        assertEquals(<span class="hljs-string">"Lily"</span>, person.getName());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>例子2：</strong> 验证行为，有时候会测试某些行为是否被执行过，通过verify方法可以验证某个方法是否执行过，执行的次数<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Test</span></span><br><span class="line">   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testMockitoBehavior</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">       Person person = mock(Person.class);</span><br><span class="line">       <span class="hljs-keyword">int</span> age = person.getAge();</span><br><span class="line">       <span class="hljs-comment">//验证getAge动作有没有发生</span></span><br><span class="line">       verify(person).getAge();</span><br><span class="line">       <span class="hljs-comment">//验证person.getName()是不是没有调用</span></span><br><span class="line">       verify(person, never()).getName();</span><br><span class="line">       <span class="hljs-comment">//验证是否最少调用过一次person.getAge</span></span><br><span class="line">       verify(person, atLeast(<span class="hljs-number">1</span>)).getAge();</span><br><span class="line">       <span class="hljs-comment">//验证getAge动作是否被调用了2次，前面只用了一次所以这里会报错</span></span><br><span class="line">       verify(person, times(<span class="hljs-number">2</span>)).getAge();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>例子3：</strong> 通过Mockito mock一个Person对象，那么这个对象的name属性是默认为null的，如果我们不想让它为null，默认为空字符串可以使用RETURNS_SMART_NULLS<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Test</span></span><br><span class="line"> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testNotNull</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">     Person person = mock(Person.class);</span><br><span class="line">     System.out.println(person.getName());</span><br><span class="line">     Person person1 = mock(Person.class,RETURNS_SMART_NULLS);</span><br><span class="line">     System.out.println(person1.getName());</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>例子4：</strong> 可以使用@Mock注解来mock一个对象比如<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Mock</span></span><br><span class="line">   List&lt;Integer&gt; mList;</span><br><span class="line">   <span class="hljs-meta">@Test</span></span><br><span class="line">   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testAnnotationMock</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">       mList.add(<span class="hljs-number">0</span>);</span><br><span class="line">       verify(mList).add(<span class="hljs-number">0</span>);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>例子5：</strong> 可以验证是否执行了某个参数的方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Test</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testParameter</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">        Person person = mock(Person.class);</span><br><span class="line">        when(person.getDuty(<span class="hljs-number">1</span>)).thenReturn(<span class="hljs-string">"医生"</span>);</span><br><span class="line">        System.out.println(person.getDuty(<span class="hljs-number">1</span>));</span><br><span class="line">        <span class="hljs-comment">//anyInt任何Int值，此外还有anyString，anyFloat等</span></span><br><span class="line">        when(person.getDuty(anyInt())).thenReturn(<span class="hljs-string">"护士"</span>);</span><br><span class="line">        System.out.println(person.getDuty(anyInt()));</span><br><span class="line">        <span class="hljs-comment">//验证person.getDuty(1)方法有没有调用</span></span><br><span class="line">        verify(person).getDuty(ArgumentMatchers.eq(<span class="hljs-number">1</span>));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>例子6：</strong> mock出来的对象都是虚拟的对象，我们可以验证其执行次数，状态等，如果一个对象是真实的，那怎么验证呢 可以使用spy包装一下</p>
+<p>spy对象的方法默认调用真实的逻辑，mock对象的方法默认什么都不做，或直接返回默认值。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Test</span></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testSpy</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">      Person person = getPerson();</span><br><span class="line">      Person spy = spy(person);</span><br><span class="line">      when(spy.getName()).thenReturn(<span class="hljs-string">"Lily"</span>);</span><br><span class="line">      System.out.println(spy.getName());</span><br><span class="line">      verify(spy).getName();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">private</span> Person <span class="hljs-title">getPerson</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Person();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>Mockito虽然好用但是也有些不足，比如不能mock static、final、private等对象，使用PowerMock就可以实现了</p>
+<h4 id="powermock"><a href="#powermock" class="headerlink" title="powermock"></a>powermock</h4><p><a href="https://github.com/powermock/powermock" target="_blank" rel="noopener">powermock官网</a></p>
+<p>首先添加依赖<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">testImplementation &apos;org.powermock:powermock-module-junit4:2.0.2&apos;</span><br><span class="line">testImplementation &apos;org.powermock:powermock-api-mockito2:2.0.2&apos;</span><br></pre></td></tr></table></figure></p>
+<p>创建一个PowerMockTest类，在类上添加注解<code>@RunWith(PowerMockRunner.class)</code>，通知Junit该类的测试方法运行在PowerMockRunner中。在添加注解<code>@PrepareForTest(Utils.class)</code>表示要测试的方法所在的类，这里是一个自定义的Utils.class</p>
+<p><strong>例子1：</strong> 测试static方法</p>
+<p>目标方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isEmpty</span><span class="hljs-params">(@Nullable CharSequence str)</span> </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">return</span> str == <span class="hljs-keyword">null</span> || str.length() == <span class="hljs-number">0</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Test</span></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testStatic</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">      PowerMockito.mockStatic(Utils.class);</span><br><span class="line">      PowerMockito.when(Utils.isEmpty(<span class="hljs-string">"abc"</span>)).thenReturn(<span class="hljs-keyword">false</span>);</span><br><span class="line">      assertFalse(Utils.isEmpty(<span class="hljs-string">"abc"</span>));</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>例子2：</strong> 测试private方法 替换私有变量</p>
+<p>目标方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">changeName</span><span class="hljs-params">(String name)</span> </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">return</span> <span class="hljs-string">"ABC"</span> + name;</span><br><span class="line">   &#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">return</span> name;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Test</span></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testPrivate</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;</span><br><span class="line">      Utils util = <span class="hljs-keyword">new</span> Utils();</span><br><span class="line">      <span class="hljs-comment">//调用私有方法</span></span><br><span class="line">      String res = Whitebox.invokeMethod(util, <span class="hljs-string">"changeName"</span>, <span class="hljs-string">"Lily"</span>);</span><br><span class="line">      assertEquals(<span class="hljs-string">"ABCLily"</span>,res);</span><br><span class="line">      <span class="hljs-comment">//替换私有变量  也可以使用MemberModifier来修改</span></span><br><span class="line">      Whitebox.setInternalState(util,<span class="hljs-string">"name"</span>,<span class="hljs-string">"Lily"</span>);</span><br><span class="line">      assertEquals(<span class="hljs-string">"Lily"</span>,util.getName());</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>例子3：</strong> 测试mock new关键字</p>
+<p>目标方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getPersonName</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">       Person person = <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"Lily"</span>);</span><br><span class="line">       <span class="hljs-keyword">return</span> person.getName();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Test</span></span><br><span class="line">   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testNew</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;</span><br><span class="line">       Person person = PowerMockito.mock(Person.class);</span><br><span class="line">       Utils util = <span class="hljs-keyword">new</span> Utils();</span><br><span class="line">       <span class="hljs-comment">//当new一个Person对象并传入Lily的时候，返回person</span></span><br><span class="line">       PowerMockito.whenNew(Person.class).withArguments(<span class="hljs-string">"Lily"</span>).thenReturn(person);</span><br><span class="line">       PowerMockito.when(util.getPersonName()).thenReturn(<span class="hljs-string">"Diavd"</span>);</span><br><span class="line">       assertEquals(<span class="hljs-string">"Diavd"</span>,util.getPersonName());</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>目标方法getPersonName中new了一个Person，直接调用getPersonName方法会报错，所以我们自己创建一个Person，并指定当当new一个Person对象并传入Lily的时候，返回当前创建的person对象。然后在调用getPersonName方法就不会报错了。</p>
+<h4 id="Robolectric"><a href="#Robolectric" class="headerlink" title="Robolectric"></a>Robolectric</h4><p>前面测试的类和依赖都是原生Java代码，可以直接运行在JVM上，当我们测试Android的时候，需要依赖Android SDK中的android.jar包，android.jar底层没有具体的代码实现，因为它运行在Andorid系统中，Android系统中有默认的实现。</p>
+<p>Mockito和PowerMockito都直接运行在JVM上，JVM上没有Android源码相关的实现，那么在做有Adroid相关的依赖的测试的时候，就会报错，这时候就要用到Robolectric啦，当我们去调用android相关的代码的时候，它会拦截并去执行自己对相关代码的实现。</p>
+<p><a href="http://robolectric.org/" target="_blank" rel="noopener">Robolectric官网</a></p>
+<p>添加依赖<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">testImplementation &apos;androidx.test:core:1.2.0&apos;</span><br><span class="line">testImplementation &apos;org.robolectric:robolectric:4.3.1&apos;</span><br></pre></td></tr></table></figure></p>
+<p>Robolectric 4.0以上需要Android Gradle插件/ Android Studio 3.2或更高版本。</p>
+<p>在build.gradle中的android闭包下面添加下面代码，目前版本最高支持andorid sdk 28<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion 28</span><br><span class="line">    testOptions.unitTests.includeAndroidResources = true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在gradle.properties文件中添加下面代码<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android.enableUnitTestBinaryResources=true</span><br></pre></td></tr></table></figure></p>
+<p>第一次运行的时候会下载相关jar包，网速不好可能要等很久</p>
+<p>首先创建一个测试类RobolectricTest，添加注解<code>@RunWith(RobolectricTestRunner.class)</code>通知Junit框架该类中的测试方法运行在RobolectricTestRunner中。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@RunWith</span>(RobolectricTestRunner.class)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RobolectricTest</span> </span>&#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>例子1：</strong> 点击button，改变TextView上的文字，判断改变之后的文字是不是预期的</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">    <span class="hljs-meta">@Test</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">clickingButtonShouldChangeMessage</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">//默认会调用Activity的onCreate()、onStart()、onResume()</span></span><br><span class="line"><span class="hljs-comment">//        MainActivity activity = Robolectric.setupActivity(MainActivity.class);</span></span><br><span class="line"><span class="hljs-comment">//        TextView textView = activity.findViewById(R.id.tv_text);</span></span><br><span class="line"><span class="hljs-comment">//        Button button = activity.findViewById(R.id.btn_click);</span></span><br><span class="line"><span class="hljs-comment">//        button.performClick();</span></span><br><span class="line"><span class="hljs-comment">//        assertThat(textView.getText().toString(), equalTo("Hello Espresso!"));</span></span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">//Robolectric.setupActivity显示过时了，使用ActivityScenario来代替</span></span><br><span class="line">        <span class="hljs-comment">//ActivityScenario提供api来启动和驱动Activity的生命周期状态以进行测试,</span></span><br><span class="line">        <span class="hljs-comment">// 适用于任意Activity，并能在不同版本的Android上一致工作</span></span><br><span class="line">        <span class="hljs-comment">//通过scenario.moveToState来控制生命周期比如  scenario.moveToState(Lifecycle.State.CREATED)</span></span><br><span class="line">        ActivityScenario&lt;MainActivity&gt; scenario = ActivityScenario.launch(MainActivity.class);</span><br><span class="line">        scenario.onActivity(activity -&gt; &#123;</span><br><span class="line">            TextView textView = activity.findViewById(R.id.tv_text);</span><br><span class="line">            Button button = activity.findViewById(R.id.btn_click);</span><br><span class="line">            button.performClick();</span><br><span class="line">            assertThat(textView.getText().toString(), equalTo(<span class="hljs-string">"Hello Espresso!"</span>));</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>使用Robolectric.setupActivity可以启动一个Activity，不过使用的时候显示该方法已过期，最新的可以使用ActivityScenario来启动一个Activity</p>
+<p>ActivityScenario提供api来启动和驱动Activity的生命周期状态以进行测试,适用于任意Activity，并能在不同版本的Android上一致工作，通过scenario.moveToState来控制生命周期比如  <code>scenario.moveToState(Lifecycle.State.CREATED)</code></p>
+<p><strong>例子2：</strong>  点击按钮从MainActivity到UnitTestActivity,Robolectric是运行在JVM上的测试框架，并不会真正的启动UnitTestActivity，但是可以检查MainActivity是不是触发了真正的意图</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">  <span class="hljs-comment">//Application用的比较多，可以初始换一个全局的</span></span><br><span class="line">  <span class="hljs-keyword">private</span> Application context;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-meta">@Before</span></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;</span><br><span class="line">      context = ApplicationProvider.getApplicationContext();</span><br><span class="line">  &#125;</span><br><span class="line"><span class="hljs-meta">@Test</span></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testClickButtonToPicking</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">      ActivityScenario&lt;MainActivity&gt; scenario = ActivityScenario.launch(MainActivity.class);</span><br><span class="line">      scenario.onActivity(activity -&gt; &#123;</span><br><span class="line">          Button button = activity.findViewById(R.id.btn_go_to_unit);</span><br><span class="line">          button.performClick();</span><br><span class="line">          <span class="hljs-comment">//期望的intent</span></span><br><span class="line">          Intent expectedIntent = <span class="hljs-keyword">new</span> Intent(activity, UnitTestActivity.class);</span><br><span class="line">          <span class="hljs-comment">//真实的intent</span></span><br><span class="line">          Intent actual = shadowOf(context)</span><br><span class="line">                  .getNextStartedActivity();</span><br><span class="line">          assertEquals(expectedIntent.getComponent(),actual.getComponent());</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>例子3：</strong> Shadow是Robolectric的核心，Robolectric中内置了很多Android SDK中的类的影子，比如ShadowCompoundButton,ShadowTextView,ShadowActivity …..</p>
+<p>当一个android.jar中的某个类被调用的时候，Robolectric会尝试寻找该类的影子，调用影子中的方法，通过shadowOf可以很方便的拿到对应类的影子类</p>
+<p>测试Toast显示<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Test</span></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testToast</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">      ActivityScenario&lt;MainActivity&gt; scenario = ActivityScenario.launch(MainActivity.class);</span><br><span class="line">      scenario.onActivity(activity -&gt; &#123;</span><br><span class="line">          Button button = activity.findViewById(R.id.btn_show_toast);</span><br><span class="line">          button.performClick();</span><br><span class="line"></span><br><span class="line">          Toast latestToast = ShadowToast.getLatestToast();</span><br><span class="line">          assertNotNull(latestToast);</span><br><span class="line">          assertEquals(<span class="hljs-string">"测试Toast"</span>, ShadowToast.getTextOfLatestToast());</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>更多例子可查看源码 <a href="https://github.com/robolectric/robolectric" target="_blank" rel="noopener">Robolectric</a></p>
+<p>本篇对本地单元测试的一些常用的库做了一些练习，练习完成就算是入门了，之后写单元测试哪里不熟悉就直接去查文档了。<strong>而通过本篇练习本篇最主要的收获就是，以后写代码的时候要时刻有测试意识，尽最大努力写出可测试易维护的代码</strong>。</p>
+<p>参考：</p>
+<p><a href="https://developer.android.google.cn/training/testing/unit-testing/instrumented-unit-tests" target="_blank" rel="noopener">Android 官网测试文档</a></p>
+<p><a href="https://blog.dreamtobe.cn/2016/05/15/android_test/" target="_blank" rel="noopener">Android单元测试与模拟测试</a></p>
+<p><a href="https://www.jianshu.com/p/f6e3ab9719b9" target="_blank" rel="noopener">使用强大的 Mockito 来测试你的代码</a></p>
+<p><a href="https://www.jianshu.com/p/0a8bbfe6cba2" target="_blank" rel="noopener">Android单元测试（一）</a></p>
+<p><a href="https://www.jianshu.com/p/23000c9a765a" target="_blank" rel="noopener">Android单元测试（二）</a></p>
+<p><a href="https://juejin.im/post/5be7eaf26fb9a049d4415278#heading-1" target="_blank" rel="noopener">Mockito与PowerMock的使用基础教程</a></p>
+<p><a href="https://www.cnblogs.com/Ming8006/p/6297333.html#c2.1" target="_blank" rel="noopener">Mockito教程</a></p>
+<p><a href="https://juejin.im/post/5e153164f265da5d701ee34e#heading-31" target="_blank" rel="noopener">一文全面了解Android单元测试</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/测试和性能优化/">测试和性能优化</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/04/19/technology/Jetpack之自定义Navigation/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Jetpack之自定义Navigation</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/09/optimize/Android自动化测试入门-三-Espresso/">
+                <span class="level-item">Android自动化测试入门(三)Espresso</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">コメント</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://chsmy.github.io/2020/03/23/optimize/Android自动化测试入门-四-单元测试/';
+        this.page.identifier = '2020/03/23/optimize/Android自动化测试入门-四-单元测试/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'hexo-theme-icarus' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="CHS">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        CHS
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        只要坚持，终会有收获
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>北京</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        投稿
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        74
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        カテゴリ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        16
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        タグ
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        11
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/chsmy">
+                フォローする</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/chsmy">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="weibo" href="http://weibo.com/2504847694/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="csdn" href="https://blog.csdn.net/mingyunxiaohai">
+                
+                <i class="fab fa-wordpress"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="简书" href="https://www.jianshu.com/u/6ab3e65ba7b5">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            リンク
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="http://www.wanandroid.com/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">玩Android</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.wanandroid.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                カテゴリ
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">61</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Android/UI/">
+            <span class="level-start">
+                <span class="level-item">UI</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/c-c/">
+            <span class="level-start">
+                <span class="level-item">c/c++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/jetpack/">
+            <span class="level-start">
+                <span class="level-item">jetpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/kotlin/">
+            <span class="level-start">
+                <span class="level-item">kotlin</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/架构/">
+            <span class="level-start">
+                <span class="level-item">架构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">16</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/测试和性能优化/">
+            <span class="level-start">
+                <span class="level-item">测试和性能优化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/源码/">
+            <span class="level-start">
+                <span class="level-item">源码</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Android/资料/">
+            <span class="level-start">
+                <span class="level-item">资料</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Java/设计模式/">
+            <span class="level-start">
+                <span class="level-item">设计模式</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/人生/">
+            <span class="level-start">
+                <span class="level-item">人生</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/人生/感悟/">
+            <span class="level-start">
+                <span class="level-item">感悟</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/人生/读书/">
+            <span class="level-start">
+                <span class="level-item">读书</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/跨平台/">
+            <span class="level-start">
+                <span class="level-item">跨平台</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/跨平台/flutter/">
+            <span class="level-start">
+                <span class="level-item">flutter</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            タグクラウド
+        </h3>
+        <a href="/tags/Flutter/" style="font-size: 11.25px;">Flutter</a> <a href="/tags/UI/" style="font-size: 18.75px;">UI</a> <a href="/tags/c-c/" style="font-size: 16.25px;">c/c++</a> <a href="/tags/jetpack/" style="font-size: 16.25px;">jetpack</a> <a href="/tags/感悟/" style="font-size: 13.75px;">感悟</a> <a href="/tags/架构/" style="font-size: 20px;">架构</a> <a href="/tags/测试和性能优化/" style="font-size: 15px;">测试和性能优化</a> <a href="/tags/设计模式/" style="font-size: 11.25px;">设计模式</a> <a href="/tags/读书/" style="font-size: 12.5px;">读书</a> <a href="/tags/资料/" style="font-size: 10px;">资料</a> <a href="/tags/进阶/" style="font-size: 17.5px;">进阶</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最近の記事
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之MotionLayout">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:33.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/Jetpack之MotionLayout/" class="has-link-black-ter is-size-6">Jetpack之MotionLayout</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之Paging3.0">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-21T15:05:21.000Z">2020-07-21</time></div>
+                    <a href="/2020/07/21/technology/JetPack之Paging3-0/" class="has-link-black-ter is-size-6">JetPack之Paging3.0</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="JetPack之使用CameraX完成拍照和拍视频">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-31T07:31:08.000Z">2020-05-31</time></div>
+                    <a href="/2020/05/31/technology/JetPack之使用CameraX完成拍照和拍视频/" class="has-link-black-ter is-size-6">JetPack之使用CameraX完成拍照和拍视频</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Jetpack之自定义Navigation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-19T07:43:37.000Z">2020-04-19</time></div>
+                    <a href="/2020/04/19/technology/Jetpack之自定义Navigation/" class="has-link-black-ter is-size-6">Jetpack之自定义Navigation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/jetpack/">jetpack</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android自动化测试入门(四)单元测试">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-23T03:26:50.000Z">2020-03-23</time></div>
+                    <a href="/2020/03/23/optimize/Android自动化测试入门-四-单元测试/" class="has-link-black-ter is-size-6">Android自动化测试入门(四)单元测试</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a> / <a class="has-link-grey -link" href="/categories/Android/测试和性能优化/">测试和性能优化</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            アーカイブ
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">December 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">October 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">August 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">March 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">11</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                タグ
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Flutter/">
+                        <span class="tag">Flutter</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/UI/">
+                        <span class="tag">UI</span>
+                        <span class="tag is-grey">11</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/c-c/">
+                        <span class="tag">c/c++</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/jetpack/">
+                        <span class="tag">jetpack</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/感悟/">
+                        <span class="tag">感悟</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/架构/">
+                        <span class="tag">架构</span>
+                        <span class="tag is-grey">16</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/测试和性能优化/">
+                        <span class="tag">测试和性能优化</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/设计模式/">
+                        <span class="tag">设计模式</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/读书/">
+                        <span class="tag">读书</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/资料/">
+                        <span class="tag">资料</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/进阶/">
+                        <span class="tag">进阶</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Android自动化测试入门(四)单元测试" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 John Doe&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/chsmy">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("CHS");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '投稿',
+                PAGES: 'Pages',
+                CATEGORIES: 'カテゴリ',
+                TAGS: 'タグ',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
